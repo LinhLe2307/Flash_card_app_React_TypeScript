@@ -4,7 +4,7 @@ import AddCard from '../../features/FlashCard/pages/AddCard/AddCard'
 const Home = () => {
   return (
     <>
-        <AddCard />
+        Homepage
     </>
   )
 }

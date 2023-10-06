@@ -1,13 +1,11 @@
-import { Container } from 'react-bootstrap'
-import FormTitle from '../Form/FormInput'
-import FormTextarea from '../Form/FormTextarea'
+import FormInput from "../Form/FormInput"
 
 const TitleCard = () => {
   return (
-    <Container>
-        <FormTitle title="Title" type="input" />
-        <FormTextarea title="Description"/>
-    </Container>
+    <>
+        <FormInput title="title" defaultValue="Enter a title"/>
+        <FormInput title="description" defaultValue="Add a description..."/>
+    </>
   )
 }
 
