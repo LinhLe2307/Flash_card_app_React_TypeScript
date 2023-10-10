@@ -1,12 +1,14 @@
 import './UsersList.css'
 import { UsersListProps } from '../../shared/constants/type'
 import UserItem from './UserItem'
-
+import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
 const UsersList = ({items}: UsersListProps) => {
     if (items.length === 0) {
         return <div className='center'>
-            <h2>No users found</h2>
+            <CardAvatar className=''>
+                <h2>No users found</h2>
+            </CardAvatar>
         </div>
     }
   return (
