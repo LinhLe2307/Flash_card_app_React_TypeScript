@@ -1,20 +1,16 @@
 import { ReactNode } from "react"
 
-export interface UserProps {
+interface BaseProps {
     id: string
     image: string
     name: string
+}
+
+export interface UserProps extends BaseProps {
     cards: number
 }
 
-export interface UsersListProps {
-    items: UserProps[] 
-}
-
-export interface UserItemProps {
-    id: string
-    image: string
-    name: string
+export interface UserItemProps extends BaseProps {
     cardCount: number
 }
 

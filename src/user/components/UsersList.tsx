@@ -1,9 +1,11 @@
 import './UsersList.css'
-import { UsersListProps } from '../../shared/constants/type'
+import { UserProps } from '../types/userTypes'
 import UserItem from './UserItem'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
-const UsersList = ({items}: UsersListProps) => {
+import { ListResponse } from '../../shared/types/shared/sharedTypes'
+
+const UsersList = ({items}: ListResponse<UserProps>) => {
     if (items.length === 0) {
         return <div className='center'>
             <CardAvatar className=''>

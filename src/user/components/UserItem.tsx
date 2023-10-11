@@ -1,10 +1,10 @@
 import './UserItem.css'
 import Avatar from '../../shared/components/UIElements/Avatar'
-import { UserItemProps } from '../../shared/constants/type'
+import { UserItemProps } from '../types/userTypes'
 import { Link } from 'react-router-dom'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
-const UserItem = ({id, image, name, cardCount}: UserItemProps) => {
+const UserItem = ({id, image, name, cardCount}: UserItemProps ) => {
   return (
     <li className='user-item'>
       <CardAvatar className='user-item__content'>
