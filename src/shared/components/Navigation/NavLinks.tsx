@@ -11,7 +11,7 @@ const NavLinks = () => {
             <NavLink to="/u1/cards">MY CARDS</NavLink>
         </li>
         <li>
-            <NavLink to="/cards/new">ADD CARD</NavLink>
+            <NavLink to="/card/new">ADD CARD</NavLink>
         </li>
         <li>
             <NavLink to="/auth">AUTHENTICATE</NavLink>
