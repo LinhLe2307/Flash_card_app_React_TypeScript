@@ -1,19 +1,27 @@
 // useReducer
-export enum CountActionKind {
-    CHANGE = 'CHANGE'
+export enum ValueActionKind {
+    CHANGE = 'CHANGE',
+    TOUCH = 'TOUCH'
+}
+
+export type ValidatorProps = {
+    type: string
+    val?: string
 }
 
 // An interface for our actions
-export interface CountAction {
-    type: CountActionKind;
-    payload?: number,
+export interface ValueAction {
     val: string
+    type: string,
+    payload?: number,
+    validators: ValidatorProps[]
 }
 
 // An interface for our state
-export interface CountState {
-    value: string
+export interface ValueState {
+    value: string 
     isValid: boolean
+    isTouched: boolean
 }
 
 // Interface for our state
@@ -23,7 +31,7 @@ export interface LoadingState {
     error: Error | null;
   }
 
-export type InputReducerProps = (state: CountState, action: CountAction) => CountState
+export type InputReducerProps = (state: ValueState, action: ValueAction) => ValueState
 
 // Input props
 
@@ -35,7 +43,7 @@ export interface InputProps {
         placeholder?: string
         rows?: number
         errorText: string
-        validators: object
+        validators: ValidatorProps[]
 }
     
 export type changeHandlerProps = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void

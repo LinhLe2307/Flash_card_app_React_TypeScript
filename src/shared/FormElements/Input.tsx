@@ -1,50 +1,68 @@
-import { useReducer } from 'react'
-import { CountActionKind, CountState, InputProps, InputReducerProps, changeHandlerProps, LoadingState } from '../types/formElementsType/inputTypes'
-import './Input.css'
+import { useReducer } from 'react';
+import { ValueActionKind, InputProps, InputReducerProps, changeHandlerProps } from '../types/formElementsType/inputTypes';
+import { validate } from '../util/validators';
+import './Input.css';
 
 const inputReducer:InputReducerProps = (state, action) => {
-    const { type, val } = action;
+    const { type, val, validators } = action;
     switch(type) {
-        case CountActionKind.CHANGE: 
+        case ValueActionKind.CHANGE: 
             return {
                 ...state,
                 value: val,
-                isValid: true
+                isValid: validate(val, validators)
+            }
+        case ValueActionKind.TOUCH:
+            return {
+                ...state,
+                isTouched: true
             }
         default:
             return state
     }
 }
 
-const Input = ({id, label, element, type, placeholder, rows, errorText}: InputProps) => {
-    const [inputState, dispatch] = useReducer(inputReducer, {value: '', isValid: false})
+const Input = ({id, label, element, type, placeholder, rows, errorText, validators}: InputProps) => {
+    const [inputState, dispatch] = useReducer(inputReducer, {value: '', isValid: false, isTouched: false})
 
     const changeHandler: changeHandlerProps  = (event) => {
         dispatch({
-            type: CountActionKind.CHANGE,
-            val: event.target.value
+            type: ValueActionKind.CHANGE,
+            val: event.target.value,
+            validators: validators
         })
     }
+
+    const touchHandler: changeHandlerProps = (event) => {
+        dispatch({
+            type: ValueActionKind.TOUCH,
+            val: event.target.value,
+            validators: validators
+        })
+    }
+
     const elemenInput = element === "input" 
         ? <input 
             id={id} 
             type={type} 
             placeholder={placeholder} 
             onChange={changeHandler}
+            onBlur={touchHandler}
             value={inputState.value}
             /> 
-        : <textarea 
+            : <textarea 
             id={id} 
             rows={rows || 3} 
             onChange={changeHandler}
+            onBlur={touchHandler}
             value={inputState.value}
             />
 
   return (
-    <div className={`form-control`}>
+    <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
         <label htmlFor={id}>{label}</label>
         {elemenInput}
-        {!inputState.isValid && <p>{errorText}</p>}
+        {!inputState.isValid && inputState.isTouched && <p>{errorText}</p>}
     </div>
   )
 }
