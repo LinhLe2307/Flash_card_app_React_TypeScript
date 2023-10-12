@@ -6,7 +6,7 @@ export enum ValueActionKind {
 
 export type ValidatorProps = {
     type: string
-    val?: string
+    val?:  string | number
 }
 
 // An interface for our actions
@@ -19,7 +19,7 @@ export interface ValueAction {
 
 // An interface for our state
 export interface ValueState {
-    value: string 
+    value:  string 
     isValid: boolean
     isTouched: boolean
 }
@@ -35,8 +35,10 @@ export type InputReducerProps = (state: ValueState, action: ValueAction) => Valu
 
 // Input props
 
+export type TermInputHandlerProps = (value:  string,isValid: boolean, id: string) => void 
+
 export interface InputProps {
-        id?: string
+        id: string
         label: string
         element: string
         type: string
@@ -44,6 +46,7 @@ export interface InputProps {
         rows?: number
         errorText: string
         validators: ValidatorProps[]
+        onInput: TermInputHandlerProps
 }
     
 export type changeHandlerProps = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
