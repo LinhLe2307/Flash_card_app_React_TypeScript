@@ -1,63 +1,36 @@
-import { useCallback, useReducer } from 'react'
-import Input from '../../shared/FormElements/Input'
-import { TermInputHandlerProps } from '../../shared/types/formElementsType/inputTypes'
-import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../shared/util/validators'
-import './NewCard.css'
-import { FormAction, InputKindProps, FormState, FormInputsProps } from '../types/newCardTypes'
 
-const formReducer = (state: FormState, action: FormAction) => {
-  switch(action.type) {
-    case InputKindProps.INPUT_CHANGE:
-      let formIsValid = true
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId as keyof typeof FormInputsProps].isValid
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: {value: action.value, isValid: action.isValid}
-        },
-        isValid: formIsValid
-      }
-    default: 
-      return state
-  }
-}
+import Button from '../../shared/components/FormElements/Button'
+import Input from '../../shared/components/FormElements/Input'
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
+
+import { useForm } from '../../shared/hooks/form-hook'
+import './CardForm.css'
+import { FormHandlerProps } from '../../shared/types/formTypes'
 
 const NewCard = () => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
-      term: {
-        value: '',
-        isValid: false
-      },
-      definition: {
-        value: '',
-        isValid: false
-      }
+  const [formState, inputHandler] = useForm({
+    term: {
+      value: '',
+      isValid: false
     },
-    isValid: false
-  })
+    definition: {
+      value: '',
+      isValid: false
+    }
+  }, false)
+  console.log(formState)
 
-  const termInputHandler:TermInputHandlerProps = useCallback((value, isValid, id) => {
-    dispatch({
-      type: InputKindProps.INPUT_CHANGE,
-      value: value,
-      isValid: isValid,
-      inputId: id
-    })
-  }, [dispatch])
+  const cardSubmitHandler:FormHandlerProps = event => {
+    event.preventDefault()
+    console.log(formState.inputs) // send this to backend
+  }
+
   return (
-    <form className='card-form'>
+    <form className='card-form' onSubmit={cardSubmitHandler}>
       <Input 
         id="term"
         type="text" 
-        label="Title" 
+        label="Term" 
         element="input"
         validators={
           [
@@ -65,21 +38,22 @@ const NewCard = () => {
           ]
         }
         errorText="Please enter a valid term"
-        onInput = {termInputHandler}
+        onInput = {inputHandler}
       />
       <Input 
         id="definition"
         type="text" 
-        label="Title" 
-        element="input"
+        label="Definition" 
+        element="textarea"
         validators={
           [
             VALIDATOR_MINLENGTH(5)
           ]
         }
         errorText="Please enter a valid definition (at least 5 characters)."
-        onInput = {termInputHandler}
+        onInput = {inputHandler}
       />
+      <Button type="submit" disabled={!formState.isValid}>ADD CARD</Button>
     </form>
   )
 }

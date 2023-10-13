@@ -1,18 +1,19 @@
-import { useReducer, useEffect } from 'react';
-import { ValueActionKind, InputProps, InputReducerProps, changeHandlerProps } from '../types/formElementsType/inputTypes';
-import { validate } from '../util/validators';
+import { useEffect, useReducer } from 'react';
+import { InputAction, InputProps, InputState, InputValueProps } from '../../types/formTypes';
+import { EventHandler } from '../../types/formTypes';
+import { validate } from '../../util/validators';
 import './Input.css';
 
-const inputReducer:InputReducerProps = (state, action) => {
+const inputReducer = (state:InputState, action: InputAction) => {
     const { type, val, validators } = action;
     switch(type) {
-        case ValueActionKind.CHANGE: 
+        case InputValueProps.CHANGE: 
             return {
                 ...state,
                 value: val,
                 isValid: validate(val, validators)
             }
-        case ValueActionKind.TOUCH:
+        case InputValueProps.TOUCH:
             return {
                 ...state,
                 isTouched: true
@@ -22,25 +23,26 @@ const inputReducer:InputReducerProps = (state, action) => {
     }
 }
 
-const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput}: InputProps) => {
-    const [inputState, dispatch] = useReducer(inputReducer, {value: '', isValid: false, isTouched: false})
+const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid}:InputProps) => {
+    const [inputState, dispatch] = useReducer(inputReducer, {value: initialValue || '', isValid: initialIsValid || false, isTouched: false})
 
     const { value, isValid } = inputState
+    
     useEffect(() => {
         onInput(inputState.value, inputState.isValid, id)
     }, [id, onInput, value, isValid])
 
-    const changeHandler: changeHandlerProps  = (event) => {
+    const changeHandler:EventHandler = (event) => {
         dispatch({
-            type: ValueActionKind.CHANGE,
+            type: InputValueProps.CHANGE,
             val: event.target.value,
             validators: validators
         })
     }
 
-    const touchHandler: changeHandlerProps = (event) => {
+    const touchHandler:EventHandler = (event) => {
         dispatch({
-            type: ValueActionKind.TOUCH,
+            type: InputValueProps.TOUCH,
             val: event.target.value,
             validators: validators
         })
@@ -53,14 +55,14 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             placeholder={placeholder} 
             onChange={changeHandler}
             onBlur={touchHandler}
-            value={inputState.value}
+            value={String(inputState.value)}
             /> 
             : <textarea 
             id={id} 
             rows={rows || 3} 
             onChange={changeHandler}
             onBlur={touchHandler}
-            value={inputState.value}
+            value={String(inputState.value)}
             />
 
   return (

@@ -1,5 +1,5 @@
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import { ListResponse } from '../../shared/types/shared/sharedTypes'
+import { ListResponse } from '../../shared/types/sharedTypes'
 import { CardProps } from '../types/cardTypes'
 import CardItem from './CardItem'
 import './CardList.css'

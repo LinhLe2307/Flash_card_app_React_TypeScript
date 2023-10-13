@@ -3,7 +3,7 @@ import { UserProps } from '../types/userTypes'
 import UserItem from './UserItem'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
-import { ListResponse } from '../../shared/types/shared/sharedTypes'
+import { ListResponse } from '../../shared/types/sharedTypes'
 
 const UsersList = ({items}: ListResponse<UserProps>) => {
     if (items.length === 0) {

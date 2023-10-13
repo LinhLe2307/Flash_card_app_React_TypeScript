@@ -1,6 +1,6 @@
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import { CardItemProps } from '../types/cardTypes'
-import Button from '../../shared/FormElements/Button'
+import Button from '../../shared/components/FormElements/Button'
 import React, { useState } from 'react'
 import Modal from '../../shared/components/UIElements/Modal'
 
@@ -39,7 +39,7 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                 </div>
                 <div className='card-item__actions'>
                     <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
-                    <Button to={`/places/${id}`}>EDIT</Button>
+                    <Button to={`/card/${id}`}>EDIT</Button>
                     <Button danger>DELETE</Button>
                 </div>
             </CardAvatar>

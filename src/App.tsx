@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import AddCard from "./flashcard/pages/AddCard/AddCard"
 import Home from "./shared/components/Home/Home"
 import MainPage from "./shared/components/MainPage/MainPage"
 import MainNavigation from "./shared/components/Navigation/MainNavigation"
 
-import UserCards from "./flashcard/pages/UserCards"
 import NewCard from "./flashcard/pages/NewCard"
+import UpdateCard from "./flashcard/pages/UpdateCard"
+import UserCards from "./flashcard/pages/UserCards"
 
 function App() {
 
@@ -21,6 +21,7 @@ function App() {
               {/* <Route path="/add-card" element={<AddCard />}/> */}
               <Route path="/:userId/cards" element={<UserCards />}/>
               <Route path="/card/new" element={<NewCard/>}/>
+              <Route path="/card/:cardId" element={<UpdateCard/>}/>
             </Route>
         </Routes>
       </main>

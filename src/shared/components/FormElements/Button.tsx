@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { ButtonProps } from '../types/formElementsType/buttonTypes';
+import { ButtonProps } from '../../types/buttonTypes';
 import './Button.css';
 
 const Button = (props: ButtonProps) => {
