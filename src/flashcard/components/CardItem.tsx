@@ -6,12 +6,24 @@ import Modal from '../../shared/components/UIElements/Modal'
 
 const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
     const [showPreview, setShowPreview] = useState(false)
+    const [showConfirmModal, setShowConfirmModal] = useState(false)
 
     const openPreviewHandler = () => {
         setShowPreview(true)
     }
     const closePreviewHandler = () => {
         setShowPreview(false)
+    }
+
+    const showDeleteWarningHandler = () => {
+        setShowConfirmModal(true)
+    }
+    const cancelDeleteHandler = () => {
+        setShowConfirmModal(false)
+    }
+    const confirmDeleteHandler = () => {
+        setShowConfirmModal(false)
+        console.log('DELETE')
     }
 
   return (
@@ -28,6 +40,21 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                 The map
             </div>
         </Modal>
+        <Modal
+            show={showConfirmModal}
+            onCancel={cancelDeleteHandler}
+            header="Are you sure?"
+            contentClass='card-item__modal-content'
+            footerClass="place-item__modal-actions"
+            footer={
+                <React.Fragment>
+                    <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
+                    <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+                </React.Fragment>
+            }
+        >
+            <p>Do you want to proceed and delete this place? Please note that it can't be undone thereafter</p>
+        </Modal>
         <li className="card-item">
             <CardAvatar className="card-item__content">
                 <div className='card-item__image'>
@@ -40,7 +67,7 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                 <div className='card-item__actions'>
                     <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
                     <Button to={`/card/${id}`}>EDIT</Button>
-                    <Button danger>DELETE</Button>
+                    <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                 </div>
             </CardAvatar>
         </li>

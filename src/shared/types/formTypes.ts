@@ -60,7 +60,7 @@ export enum FormInputsProps {
 
 type InitialInputsProps = {
     [inputId in keyof typeof FormInputsProps]: {
-        value:  string,
+        value: string,
         isValid: boolean
     }
 }

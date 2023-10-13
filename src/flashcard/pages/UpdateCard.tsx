@@ -5,6 +5,8 @@ import { useForm } from "../../shared/hooks/form-hook"
 import { FormHandlerProps } from "../../shared/types/formTypes"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './CardForm.css'
+import { useEffect, useState } from "react"
+import CardAvatar from "../../shared/components/UIElements/CardAvatar"
 const DUMMY_PLACES = [
     {
       id: 'p1',
@@ -22,8 +24,8 @@ const DUMMY_PLACES = [
     }, 
   ]
 const UpdateCard = () => {
+    const [isLoading, setIsLoading] = useState(true)    
     const cardId = useParams().cardId
-    
     
     const [formState, inputHandler, setFormData] = useForm({
         term: {
@@ -34,21 +36,46 @@ const UpdateCard = () => {
             value: '',
             isValid : false
         }
+        
     }, false)
 
     const identifiedCard = DUMMY_PLACES.find(card => card.id === cardId)
 
-    if (!identifiedCard) {
-        return <div className="center">
-            <h2>Could not find place!</h2>
-        </div>
-    }
-
+    
+    
     const updateCardSubmitHandler:FormHandlerProps = (event) => {
         event.preventDefault()
         console.log(formState.inputs)
     }
-
+    
+    useEffect(() => {
+        if (identifiedCard) {
+            setFormData({
+                term: {
+                    value: identifiedCard.term,
+                    isValid : true
+                },
+                definition: {
+                    value: identifiedCard.definition,
+                    isValid : true
+                }
+            }, true)
+            setIsLoading(false)
+        }
+    }, [setFormData, identifiedCard])
+    
+    if (!identifiedCard) {
+        return <div className="center">
+            <CardAvatar>
+                <h2>Could not find place!</h2>
+            </CardAvatar>
+        </div>
+    }
+    if (isLoading) {
+        return <div className="center">
+            <h1>Loading...</h1>
+        </div>
+    }
   return (
     <form className='card-form' onSubmit={updateCardSubmitHandler}>
         <Input 

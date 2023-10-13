@@ -1,3 +1,4 @@
+import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import { ListResponse } from '../../shared/types/sharedTypes'
 import { CardProps } from '../types/cardTypes'
@@ -9,7 +10,7 @@ const CardList = ({ items }: ListResponse<CardProps>) => {
         return <div className='card-list center'>
             <CardAvatar>
                 <h2>No card found. Maybe create one?</h2>
-                <button>Share Card</button>
+                <Button to="/card/new">Share Card</Button>
             </CardAvatar>
         </div>
     }
