@@ -1,15 +1,20 @@
 import { useCallback, useReducer } from 'react';
-import { FormAction, UserFormHandler, FormActionProps, InputHandlerProps, FormState, SetFormDataProps, FormInputsProps } from '../types/formTypes';
+import {FormAction, UserFormHandler, FormActionProps, InputHandlerProps, FormState, SetFormDataProps, FormInputsProps } from '../types/formTypes';
 
 const formReducer = (state: FormState, action: FormAction) => {
     switch(action.type) {
       case FormActionProps.INPUT_CHANGE:
         let formIsValid = true
         for (const inputId in state.inputs) {
-          if (inputId === action.inputId) {
-            formIsValid = formIsValid && action.isValid
+          if (!state.inputs[inputId]) {
+            continue
           } else {
-            formIsValid = formIsValid && state.inputs[inputId as keyof typeof FormInputsProps].isValid
+              if (inputId === action.inputId) {
+                formIsValid = formIsValid && action.isValid
+              } else {
+                formIsValid = formIsValid && state.inputs[inputId]!.isValid
+              }
+            
           }
         }
         return {
@@ -18,7 +23,7 @@ const formReducer = (state: FormState, action: FormAction) => {
             ...state.inputs,
             [action.inputId]: {value: action.value, isValid: action.isValid}
           },
-          isValid: formIsValid
+          isValid: formIsValid && formIsValid
         }
 
         case FormActionProps.SET_DATA:
