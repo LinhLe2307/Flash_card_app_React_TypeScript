@@ -3,6 +3,11 @@ export enum InputValueProps {
     TOUCH = 'TOUCH'
 }
 
+interface ValueAndTypeProps {
+    value: string
+    isValid: boolean
+}
+
 export interface ValidatorsProps {
     type: string
     val?:  string | number
@@ -15,9 +20,7 @@ export interface InputAction {
     validators: ValidatorsProps[]
 }
 
-export interface InputState {
-    value: string
-    isValid: boolean
+export interface InputState extends ValueAndTypeProps {
     isTouched: boolean
 }
 
@@ -53,22 +56,31 @@ export enum FormActionProps {
     SET_DATA = "SET_DATA"
 }
 
-export enum FormInputsProps {
+export enum FormInputsProps  {
     term,
-    definition
+    definition,
 }
 
+export enum AuthProps {
+    email,
+    password,
+    name
+}
+
+type NewProps = FormInputsProps | AuthProps
+
+// type InitialInputsProps = {
+//     [inputId in keyof NewProps]: ValueAndTypeProps
+// }
 type InitialInputsProps = {
-    [inputId in keyof typeof FormInputsProps]: {
-        value: string,
-        isValid: boolean
-    }
+    [inputId in keyof typeof FormInputsProps]: ValueAndTypeProps
+} | {
+    [inputId in keyof typeof AuthProps]: ValueAndTypeProps | undefined
 }
 
 export interface SetFormDataProps {
     (inputData: InitialInputsProps, formValidity: boolean) : void
 }
-
 
 export type FormAction = {
     type: 'INPUT_CHANGE'
@@ -78,14 +90,14 @@ export type FormAction = {
 } | {
     type: 'SET_DATA',
     inputs: InitialInputsProps,
-    formIsValid: boolean
+    formIsValid: boolean | undefined
+
 }
 
 export interface FormState {
     inputs: InitialInputsProps,
-    isValid: boolean
+    isValid: boolean | undefined
 }
-
 
 export interface UserFormHandler {
     (initialInputs: InitialInputsProps, initialFormValidity: boolean) : [

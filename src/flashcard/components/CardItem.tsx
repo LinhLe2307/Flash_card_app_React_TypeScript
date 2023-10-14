@@ -1,10 +1,12 @@
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import { CardItemProps } from '../types/cardTypes'
 import Button from '../../shared/components/FormElements/Button'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Modal from '../../shared/components/UIElements/Modal'
+import { AuthContext } from '../../shared/context/auth-context'
 
 const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
+    const auth = useContext(AuthContext)
     const [showPreview, setShowPreview] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
@@ -66,8 +68,12 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                 </div>
                 <div className='card-item__actions'>
                     <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
-                    <Button to={`/card/${id}`}>EDIT</Button>
-                    <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                    {
+                        auth.isLoggedIn && <>
+                            <Button to={`/card/${id}`}>EDIT</Button>
+                            <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                        </>
+                    }           
                 </div>
             </CardAvatar>
         </li>

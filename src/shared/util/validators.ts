@@ -1,4 +1,4 @@
-import { BaseValueProps, ValidatorProps } from "../types/forTypes";
+import { ValidatorsProps } from "../types/formTypes";
 
 
 const VALIDATOR_TYPE_REQUIRE = 'REQUIRE';
@@ -23,7 +23,7 @@ export const VALIDATOR_MIN = (val: number ) => ({ type: VALIDATOR_TYPE_MIN, val:
 export const VALIDATOR_MAX = (val: number ) => ({ type: VALIDATOR_TYPE_MAX, val: val });
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL });
 
-export const validate = (valueValid:  string, validators: ValidatorProps[]) => {
+export const validate = (valueValid:  string, validators: ValidatorsProps[]) => {
    let value = String(valueValid)
   let isValid = true;
   for (const validator of validators) {
