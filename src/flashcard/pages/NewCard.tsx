@@ -37,6 +37,17 @@ let initialValue: FormInputsProps = {
     value: '',
     isValid: false
   }, 
+  one: {
+    value: {
+      term: {
+        value: '',
+        isValid: false
+      }, definition: {
+        value: '',
+        isValid: false
+      }
+    }, 
+  }
 }
 
 // DEFAULT_CARDS.map(card => initialValue[`${card}`] = {
@@ -56,8 +67,8 @@ const formReducer = (state: FormState, action: FormAction) => {
   switch(action.type) {
     case FormActionProps.INPUT_CHANGE:
       let newProps = {...state}
-      console.log("action", action)
       console.log("state", state)
+      console.log("newProps", newProps)
       let formIsValid = true
       for (const inputId in state.inputs) {
         if (!state.inputs[inputId]) {
@@ -71,7 +82,15 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
-              newProps.inputs[action.inputId].value[action.nameId] = action.value[action.nameId]
+              // newProps.inputs[action.inputId].value[action.nameId] = action.value[action.nameId]
+              newProps.inputs[action.inputId] = {
+                ...newProps.inputs[action.inputId],
+                value: {
+                  ...newProps.inputs[action.inputId].value,
+                  [action.nameId]: action.value[action.nameId]
+                },
+                isValid: true
+              }
             }
           } else {
             if (["title", "description", "email", "password", "name"].find(card => card === action.inputId) !== undefined) {
@@ -81,9 +100,11 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
+              console.log("action.value", action.value)
               newProps.inputs[action.inputId] = {
                 ...newProps.inputs[action.inputId],
                 value: {
+                  ...newProps.inputs[action.inputId]?.value,
                   [action.nameId]: action.value[action.nameId]
                 },
                 isValid: true
