@@ -1,3 +1,5 @@
+import { InputHandlerProps } from "../../shared/types/formTypes"
+
 interface BaseProps {
     id: string
     term: string
@@ -11,4 +13,11 @@ export interface CardProps extends BaseProps {
 export interface CardItemProps extends BaseProps {
     image: string
     creatorId: string | undefined
+}
+
+export interface TermFlashcardProps {
+    cardId: string, 
+    flashCardInputHandler: (event:React.ChangeEvent<HTMLInputElement>) => void, 
+    // inputHandler: InputHandlerProps,
+    removeSubCardHandler:((cardId:string)=>void)
 }

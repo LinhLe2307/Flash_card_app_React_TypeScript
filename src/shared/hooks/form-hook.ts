@@ -9,10 +9,20 @@ const formReducer = (state: FormState, action: FormAction) => {
           if (!state.inputs[inputId]) {
             continue
           } else {
-              if (inputId === action.inputId) {
-                formIsValid = formIsValid && action.isValid
+            if (inputId === action.inputId) {
+              console.log("a", action)
+                if (["title", "description", "email", "password", "name"].find(card => card === action.inputId) !== undefined) {
+                  formIsValid = formIsValid && action.isValid      
+                } else {
+                  formIsValid = formIsValid && action[inputId].term.isValid && action.definition.isValid
+                }
               } else {
-                formIsValid = formIsValid && state.inputs[inputId]!.isValid
+                if (["title", "description", "email", "password", "name"].find(card => card === action.inputId) !== undefined) {
+                  formIsValid = formIsValid && state.inputs[inputId]!.isValid
+                } else {
+                  console.log("n", state.inputs[inputId])
+                  formIsValid = formIsValid && state.inputs[inputId].term.isValid && state.inputs[inputId].definition.isValid
+                }
               }
             
           }
@@ -36,11 +46,47 @@ const formReducer = (state: FormState, action: FormAction) => {
     }
   }
 
+// const formReducer = (state: FormState, action: FormAction) => {
+//     switch(action.type) {
+//       case FormActionProps.INPUT_CHANGE:
+//         let formIsValid = true
+//         for (const inputId in state.inputs) {
+//           if (!state.inputs[inputId]) {
+//             continue
+//           } else {
+//               if (inputId === action.inputId) {
+//                 formIsValid = formIsValid && action.isValid
+//               } else {
+//                 formIsValid = formIsValid && state.inputs[inputId]!.isValid
+//               }
+            
+//           }
+//         }
+//         return {
+//           ...state,
+//           inputs: {
+//             ...state.inputs,
+//             [action.inputId]: {value: action.value, isValid: action.isValid}
+//           },
+//           isValid: formIsValid && formIsValid
+//         }
+
+//         case FormActionProps.SET_DATA:
+//             return {
+//                 inputs: action.inputs,
+//                 isValid: action.formIsValid
+//             }
+//       default: 
+//         return state
+//     }
+//   }
+
 
 
 export const useForm:UserFormHandler = function(initialInputs, initialFormValidity) {
 // export function useForm (initialInputs: InitialInputsProps, initialFormValidity: boolean):(FormState & InputHandlerProps)[] {
-    const [formState, dispatch] = useReducer(formReducer, {
+  // console.log("initialInputs", initialInputs)  
+  const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: initialFormValidity
       })
@@ -53,7 +99,6 @@ export const useForm:UserFormHandler = function(initialInputs, initialFormValidi
           inputId: id
         })
     }, [dispatch])
-
 
     const setFormData:SetFormDataProps = useCallback((inputData , formValidity) => {
         dispatch({

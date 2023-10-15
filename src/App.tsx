@@ -38,6 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />}>
           <Route index element={<Home />}/>
+          <Route path="/card/new" element={<NewCard/>}/>
           <Route path="/:userId/cards" element={<UserCards />}/>
           <Route path="/auth" element={<Auth/>}/>
           <Route path="/*" element={ <Navigate to="/auth" /> } />

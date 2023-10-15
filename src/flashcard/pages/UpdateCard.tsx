@@ -28,11 +28,11 @@ const UpdateCard = () => {
     const cardId = useParams().cardId
     
     const [formState, inputHandler, setFormData] = useForm({
-        term: {
+        title: {
             value: '',
             isValid : false
         },
-        definition: {
+        description: {
             value: '',
             isValid : false
         }
@@ -51,11 +51,11 @@ const UpdateCard = () => {
     useEffect(() => {
         if (identifiedCard) {
             setFormData({
-                term: {
+                title: {
                     value: identifiedCard.term,
                     isValid : true
                 },
-                definition: {
+                description: {
                     value: identifiedCard.definition,
                     isValid : true
                 }
@@ -90,8 +90,8 @@ const UpdateCard = () => {
               }
             errorText="Please enter a valid text"
             onInput={inputHandler}
-            initialValue={formState.inputs.term.value}
-            initialIsValid={formState.inputs.term.isValid}
+            initialValue={formState.inputs.title.value}
+            initialIsValid={formState.inputs.title.isValid}
             />
         <Input 
             id="definition" 
@@ -101,8 +101,8 @@ const UpdateCard = () => {
             validators={[VALIDATOR_MINLENGTH(5)]}
             errorText="Please enter a valid definition (min. 5 characters)."
             onInput={inputHandler}
-            initialValue={formState.inputs.definition.value}
-            initialIsValid={formState.inputs.definition.isValid}
+            initialValue={formState.inputs.description.value}
+            initialIsValid={formState.inputs.description.isValid}
             />
         <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button>
     </form>

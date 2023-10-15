@@ -6,6 +6,7 @@ import './Input.css';
 
 const inputReducer = (state:InputState, action: InputAction) => {
     const { type, val, validators } = action;
+
     switch(type) {
         case InputValueProps.CHANGE: 
             return {
@@ -23,14 +24,15 @@ const inputReducer = (state:InputState, action: InputAction) => {
     }
 }
 
-const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid}:InputProps) => {
+const Input = ({nameId, id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid}:InputProps) => {
     const [inputState, dispatch] = useReducer(inputReducer, {value: initialValue || '', isValid: initialIsValid || false, isTouched: false})
 
     const { value, isValid } = inputState
     
     useEffect(() => {
-        onInput(inputState.value, inputState.isValid, id)
-    }, [id, onInput, value, isValid])
+        console.log("inputState", inputState)
+        onInput(inputState.value, inputState.isValid, id, nameId)
+    }, [id, onInput, value, isValid, nameId])
 
     const changeHandler:EventHandler = (event) => {
         dispatch({
@@ -50,6 +52,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
 
     const elemenInput = element === "input" 
         ? <input 
+            name={nameId}
             id={id} 
             type={type} 
             placeholder={placeholder} 
@@ -58,6 +61,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             value={String(inputState.value)}
             /> 
             : <textarea 
+            name={nameId}
             id={id} 
             rows={rows || 3} 
             onChange={changeHandler}

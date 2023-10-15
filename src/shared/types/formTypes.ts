@@ -3,7 +3,7 @@ export enum InputValueProps {
     TOUCH = 'TOUCH'
 }
 
-interface ValueAndTypeProps {
+interface ValueAndValidProps {
     value: string
     isValid: boolean
 }
@@ -20,12 +20,12 @@ export interface InputAction {
     validators: ValidatorsProps[]
 }
 
-export interface InputState extends ValueAndTypeProps {
+export interface InputState extends ValueAndValidProps {
     isTouched: boolean
 }
 
 export interface InputHandlerProps {
-    (value: string, isValid: boolean, id: string) : void
+    (value: string, isValid: boolean, id: string, nameId: string) : void
 }
 
 interface UpdateCardInputProps {
@@ -34,6 +34,7 @@ interface UpdateCardInputProps {
 }
 
 export interface InputProps extends UpdateCardInputProps {
+    nameId: string
     id: string
     element: string
     type: string
@@ -51,62 +52,112 @@ export interface EventHandler {
 
 
 // ----- FORM ------
+ 
 export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
     SET_DATA = "SET_DATA"
 }
 
-export enum FormInputsProps  {
-    term,
-    definition,
-}
-
-export enum AuthProps {
-    email,
-    password,
-    name
-}
-
-type NewProps = FormInputsProps | AuthProps
-
-// type InitialInputsProps = {
-//     [inputId in keyof NewProps]: ValueAndTypeProps
+// export type FormInputsProps = {
+//     [inputId: string]: ValueAndValidProps
 // }
-type InitialInputsProps = {
-    [inputId in keyof typeof FormInputsProps]: ValueAndTypeProps
-} | {
-    [inputId in keyof typeof AuthProps]: ValueAndTypeProps | undefined
-}
+
+// export type FormInputsProps = {
+//     [inputId: string]: ValueAndValidProps
+// }
+
+
+export type FormInputsProps = {
+    [key: string]: {
+      [name in "term" | "definition"]: {
+        value: string,
+        isValid: boolean
+      };
+    } | {
+      value: string,
+      isValid: boolean
+    }
+  }
+
+// export type FormInputsProps = {
+//     [prop in "title" | "description" | "email" | "password" | "name"] : ValueAndValidProps;
+// }  | {
+//     [inputId: string]: {
+//         term: ValueAndValidProps,
+//         definition: ValueAndValidProps
+//     } | ValueAndValidProps,
+// }
 
 export interface SetFormDataProps {
-    (inputData: InitialInputsProps, formValidity: boolean) : void
+    (inputData: FormInputsProps, formValidity: boolean) : void
 }
 
 export type FormAction = {
     type: 'INPUT_CHANGE'
     inputId: string
     isValid: boolean
-    value: string
+    value: {
+        term: {
+            value: string,
+            isValid: boolean
+          },
+          definition: {
+            value: string,
+            isValid: boolean
+          };
+    }
+    nameId: string 
+    // value: {
+    //     [termDefinition:string]: ValueAndValidProps
+    // } 
 } | {
     type: 'SET_DATA',
-    inputs: InitialInputsProps,
+    inputs: FormInputsProps,
     formIsValid: boolean | undefined
+}
 
+export type NewInputAction = {
+    type: 'CHANGE'
+    inputId: string
+    isValid: boolean
+    value: {
+        term: {
+            value: string,
+            isValid: boolean
+          },
+          definition: {
+            value: string,
+            isValid: boolean
+          };
+    }
+    nameId: string 
+    // value: {
+    //     [termDefinition:string]: ValueAndValidProps
+    // } 
 }
 
 export interface FormState {
-    inputs: InitialInputsProps,
+    inputs: FormInputsProps,
     isValid: boolean | undefined
 }
 
+
 export interface UserFormHandler {
-    (initialInputs: InitialInputsProps, initialFormValidity: boolean) : [
+    (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
         formState: FormState,
-        inputHandler: InputHandlerProps,
+        inputHandler: (event:React.ChangeEvent<HTMLInputElement>)=>void,
         setFormData: SetFormDataProps
     ]
 }
+// export interface UserFormHandler {
+//     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
+//         formState: FormState,
+//         inputHandler: InputHandlerProps,
+//         setFormData: SetFormDataProps
+//     ]
+// }
 
 export interface FormHandlerProps{
     (event: React.FormEvent<HTMLFormElement>): void
 } 
+
