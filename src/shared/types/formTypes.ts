@@ -3,32 +3,22 @@ export enum InputValueProps {
     TOUCH = 'TOUCH'
 }
 
-export type FormInputsProps = {
-    [key: string]: {
-        value: {
-            [nameId in "term" | "definition"]: ValueAndValidProps
-        } | string,
-        isValid: boolean
-    } 
-  }
-
-export type NewFormInputsProps = {
-    title: ValueAndValidProps, 
-    description: ValueAndValidProps,
-}
- | {   
-    [key: string]: {
-        value: {
-            [nameId in "term" | "definition"]: ValueAndValidProps
-        },
-        isValid: boolean
-    }
-}
-
-interface ValueAndValidProps {
+export interface ValueAndValidProps {
     value: string
     isValid: boolean
 }
+
+export interface FormValueObjectProps {
+    [nameId: string]: ValueAndValidProps
+}
+
+export type FormInputsProps = {
+    [key: string]: {
+        value: FormValueObjectProps| string,
+        isValid: boolean
+    }
+  }
+
 
 export interface ValidatorsProps {
     type: string
@@ -83,15 +73,6 @@ export enum FormActionProps {
     ADD_CARD="ADD_CARD"
 }
 
-// export type FormInputsProps = {
-//     [inputId: string]: ValueAndValidProps
-// }
-
-// export type FormInputsProps = {
-//     [inputId: string]: ValueAndValidProps
-// }
-
-
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
 }
@@ -101,9 +82,7 @@ export type FormAction = {
     inputId: string
     isValid: boolean
     nameId: string 
-    value: {
-        [nameId in "term" | "definition"]: ValueAndValidProps;
-      } | string
+    value: FormValueObjectProps | string
 } | {
     type: 'SET_DATA',
     inputs: FormInputsProps,
@@ -120,39 +99,15 @@ export interface FormState {
     isValid: boolean | undefined
 }
 
-// type FlashCardInput = {
-//     [key: string]: {
-//       value: {
-//         term: {
-//           value: string,
-//           isValid: boolean
-//         },
-//         definition: {
-//           value: string,
-//           isValid: boolean
-//         };
-//       }
-//     } | {
-//       value: string,
-//       isValid: boolean
-//     }
-//   }
-
 export interface UserFormHandler {
     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
         formState: FormState,
+        removeSubCardHandler: ((cardId:string)=>void),
         inputHandler: InputHandlerProps,
+        addMoreCardHandler: ()=>void,
         setFormData: SetFormDataProps,
-        removeSubCardHandler: ((cardId:string)=>void)
     ]
 }
-// export interface UserFormHandler {
-//     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
-//         formState: FormState,
-//         inputHandler: InputHandlerProps,
-//         setFormData: SetFormDataProps
-//     ]
-// }
 
 export interface FormHandlerProps{
     (event: React.FormEvent<HTMLFormElement>): void

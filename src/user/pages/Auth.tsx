@@ -11,7 +11,7 @@ import './Auth.css'
 const Auth = () => {
     const auth = useContext(AuthContext)
     const [isLoginMode, setIsLoginMode] = useState(false)
-    const [formState, inputHandler, setFormData] = useForm({
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
         email: {
             value: '',
             isValid: false

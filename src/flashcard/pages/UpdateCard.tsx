@@ -56,7 +56,6 @@ const UpdateCard = () => {
     
     useEffect(() => {
         if (identifiedCard) {
-            console.log("identifiedCard", identifiedCard)
             setFormData({
                 title: {
                     value: identifiedCard.title,
@@ -94,11 +93,6 @@ const UpdateCard = () => {
             setIsLoading(false)
         }
     }, [setFormData, identifiedCard])
-
-    useEffect(() => {
-        console.log(formState)
-    }, [formState])
-    
     
     if (!identifiedCard) {
         return <div className="center">

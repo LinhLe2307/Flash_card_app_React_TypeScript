@@ -1,5 +1,5 @@
 import { useCallback, useReducer } from 'react';
-import { FormAction, FormActionProps, FormState, InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
+import { FormAction, FormActionProps, FormInputsProps, FormState, FormValueObjectProps, InputHandlerProps, SetFormDataProps, UserFormHandler, ValueAndValidProps } from '../types/formTypes';
 
 const formReducer = (state: FormState, action: FormAction) => {
   switch(action.type) {
@@ -18,15 +18,18 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
-              // newProps.inputs[action.inputId].value[action.nameId] = action.value[action.nameId]
-              newProps.inputs[action.inputId] = {
-                ...newProps.inputs[action.inputId],
-                value: {
-                  ...(newProps.inputs[action.inputId].value as object),
-                  [action.nameId]: action.value[action.nameId]
-                },
-                isValid: true
+              if (typeof newProps.inputs[action.inputId]?.value === 'object' && typeof action.value === "object") {
+                const inputValue = newProps.inputs[action.inputId].value as FormValueObjectProps;
+                newProps.inputs[action.inputId] = {
+                  ...newProps.inputs[action.inputId],
+                  value : {
+                    ...inputValue,
+                    [action.nameId]: action.value?.[action.nameId]
+                  },
+                  isValid: true
+                }
               }
+              
             }
           } else {
             if (["title", "description", "email", "password", "name"].find(card => card === action.inputId) !== undefined) {
@@ -36,13 +39,16 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
-              newProps.inputs[action.inputId] = {
-                ...newProps.inputs[action.inputId],
-                value: {
-                  ...(newProps.inputs[action.inputId]?.value as object),
-                  [action.nameId]: action.value[action.nameId]
-                },
-                isValid: true
+              if (typeof newProps.inputs[action.inputId]?.value === 'object' && typeof action.value === "object") {
+                const inputValue = newProps.inputs[action.inputId].value as FormValueObjectProps;
+                newProps.inputs[action.inputId] = {
+                  ...newProps.inputs[action.inputId],
+                  value: {
+                    ...inputValue,
+                    [action.nameId]: action.value?.[action.nameId]
+                  },
+                  isValid: true
+                }
               }
             }
           }
@@ -85,8 +91,6 @@ const formReducer = (state: FormState, action: FormAction) => {
 
 
 export const useForm:UserFormHandler = function(initialInputs, initialFormValidity) {
-// export function useForm (initialInputs: InitialInputsProps, initialFormValidity: boolean):(FormState & InputHandlerProps)[] {
-  // console.log("initialInputs", initialInputs)  
   const [formState, dispatch] = useReducer(formReducer, {
         inputs: initialInputs,
         isValid: initialFormValidity

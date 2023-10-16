@@ -5,10 +5,9 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 
 import { DEFAULT_CARDS } from '../../shared/constants/global'
 import { useForm } from '../../shared/hooks/form-hook'
-import { FormActionProps, FormHandlerProps, FormInputsProps } from '../../shared/types/formTypes'
-import TermFlashcard from './TermFlashcard'
+import { FormHandlerProps, FormInputsProps } from '../../shared/types/formTypes'
 import './CardForm.css'
-import { useCallback, useEffect, useState } from 'react'
+import TermFlashcard from './TermFlashcard'
 
 let initialValue: FormInputsProps = {
   title: {
@@ -19,34 +18,7 @@ let initialValue: FormInputsProps = {
     value: '',
     isValid: false
   },
-  // one: {
-  //   value: {
-  //     term: {
-  //       value: '',
-  //       isValid: false
-  //     },
-  //     definition: {
-  //       value: '',
-  //       isValid: false
-  //     }
-  //   }, isValid: false
-  // }
 }
-
-// DEFAULT_CARDS.map(card => initialValue[card] = {
-//   [card]: {
-//     value: {
-//       term: {
-//         value: '',
-//         isValid: false
-//       },
-//       definition: {
-//         value: '',
-//         isValid: false
-//       }
-//     }, isValid: false
-//   }
-// })
 
 const NewCard = () => {
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
@@ -55,10 +27,7 @@ const NewCard = () => {
     // console.log(formState.inputs) // send this to backend
   }
 
-  useEffect(() => {
-    console.log("formState", formState)
-  }, [formState])
-
+  console.log("formState", formState)
   return (
     <form onSubmit={cardSubmitHandler}>
       <Input 
@@ -101,8 +70,7 @@ const NewCard = () => {
         }
         <Button onClick={addMoreCardHandler}>ADD MORE CARD</Button>
       </div>
-      <Button type="submit">SUBMIT</Button>
-      {/* <Button type="submit" disabled={!formState.isValid}>ADD CARD</Button> */}
+      <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
     </form>
   )
 }
