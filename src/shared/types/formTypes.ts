@@ -3,6 +3,28 @@ export enum InputValueProps {
     TOUCH = 'TOUCH'
 }
 
+export type FormInputsProps = {
+    [key: string]: {
+        value: {
+            [nameId in "term" | "definition"]: ValueAndValidProps
+        } | string,
+        isValid: boolean
+    } 
+  }
+
+export type NewFormInputsProps = {
+    title: ValueAndValidProps, 
+    description: ValueAndValidProps,
+}
+ | {   
+    [key: string]: {
+        value: {
+            [nameId in "term" | "definition"]: ValueAndValidProps
+        },
+        isValid: boolean
+    }
+}
+
 interface ValueAndValidProps {
     value: string
     isValid: boolean
@@ -56,7 +78,9 @@ export interface EventHandler {
  
 export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
-    SET_DATA = "SET_DATA"
+    SET_DATA = "SET_DATA",
+    REMOVE_CARD = "REMOVE_CARD",
+    ADD_CARD="ADD_CARD"
 }
 
 // export type FormInputsProps = {
@@ -67,15 +91,6 @@ export enum FormActionProps {
 //     [inputId: string]: ValueAndValidProps
 // }
 
-
-export type FormInputsProps = {
-    [key: string]: {
-        value: {
-            [nameId:string]: ValueAndValidProps
-        } | string,
-        isValid: boolean
-    } 
-  }
 
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
@@ -87,12 +102,17 @@ export type FormAction = {
     isValid: boolean
     nameId: string 
     value: {
-        [nameId:string]: ValueAndValidProps;
+        [nameId in "term" | "definition"]: ValueAndValidProps;
       } | string
 } | {
     type: 'SET_DATA',
     inputs: FormInputsProps,
     formIsValid: boolean | undefined
+} | {
+    type: 'REMOVE_CARD',
+    inputId: string
+} | {
+    type: 'ADD_CARD',
 }
 
 export interface FormState {
@@ -122,7 +142,8 @@ export interface UserFormHandler {
     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
         formState: FormState,
         inputHandler: InputHandlerProps,
-        setFormData: SetFormDataProps
+        setFormData: SetFormDataProps,
+        removeSubCardHandler: ((cardId:string)=>void)
     ]
 }
 // export interface UserFormHandler {

@@ -55,6 +55,7 @@ const Auth = () => {
         <h2>Login Required</h2>
         <form onSubmit={authSubmitHandler}>
             {!isLoginMode && <Input
+                nameId="name"
                 element="input"
                 id="name"
                 type="text"
@@ -66,6 +67,7 @@ const Auth = () => {
                 onInput={inputHandler}
             />}
             <Input 
+                nameId="email"
                 id="email"
                 element="input"
                 type="text"
@@ -80,6 +82,7 @@ const Auth = () => {
                 errorText="Please enter a valid email"
                 />
             <Input 
+                nameId="password"
                 id="password"
                 element="input"
                 type="text"

@@ -40,6 +40,7 @@ function App() {
           <Route index element={<Home />}/>
           <Route path="/card/new" element={<NewCard/>}/>
           <Route path="/:userId/cards" element={<UserCards />}/>
+          <Route path="/card/:cardId" element={<UpdateCard/>}/>
           <Route path="/auth" element={<Auth/>}/>
           <Route path="/*" element={ <Navigate to="/auth" /> } />
         </Route>

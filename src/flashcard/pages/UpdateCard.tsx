@@ -1,33 +1,40 @@
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
+import CardAvatar from "../../shared/components/UIElements/CardAvatar"
 import { useForm } from "../../shared/hooks/form-hook"
 import { FormHandlerProps } from "../../shared/types/formTypes"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './CardForm.css'
-import { useEffect, useState } from "react"
-import CardAvatar from "../../shared/components/UIElements/CardAvatar"
+import TermFlashcard from "./TermFlashcard"
 const DUMMY_PLACES = [
     {
-      id: 'p1',
-      term: 'kissa',
-      definition: 'cat',
-      imageUrl: 'https://images.unsplash.com/photo-1662715555387-cd3311fab6d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2lzc2F8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
-      creator: 'u1'
-    }, 
-    {
-      id: 'p2',
-      term: 'koira',
-      definition: 'dog',
-      imageUrl: 'https://images.unsplash.com/photo-1601727104149-3fd7e50ec590?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8a29pcmF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
-      creator: 'u2'
-    }, 
+        id: 'p1',
+        title: "hello",
+        description: 'this is finnish',
+        one: {
+            value: {
+                term: "newkiss", 
+                definition: "newkiss"
+                }, 
+            },
+        two: {
+            value: {
+                term: "newkiss2",
+                definition: "newkiss2"
+            }
+        },
+        imageUrl: 'https://images.unsplash.com/photo-1662715555387-cd3311fab6d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2lzc2F8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
+        creator: 'u1'
+    },
+ 
   ]
 const UpdateCard = () => {
     const [isLoading, setIsLoading] = useState(true)    
     const cardId = useParams().cardId
     
-    const [formState, inputHandler, setFormData] = useForm({
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
         title: {
             value: '',
             isValid : false
@@ -42,7 +49,6 @@ const UpdateCard = () => {
     const identifiedCard = DUMMY_PLACES.find(card => card.id === cardId)
 
     
-    
     const updateCardSubmitHandler:FormHandlerProps = (event) => {
         event.preventDefault()
         console.log(formState.inputs)
@@ -50,19 +56,49 @@ const UpdateCard = () => {
     
     useEffect(() => {
         if (identifiedCard) {
+            console.log("identifiedCard", identifiedCard)
             setFormData({
                 title: {
-                    value: identifiedCard.term,
+                    value: identifiedCard.title,
                     isValid : true
                 },
                 description: {
-                    value: identifiedCard.definition,
+                    value: identifiedCard.description,
                     isValid : true
-                }
+                },
+                one: {
+                    value: {
+                        term: {
+                            value: identifiedCard.one.value.term,
+                            isValid: true
+                        }, definition:  {
+                            value: identifiedCard.one.value.definition,
+                            isValid: true
+                        }
+                    },
+                    isValid: true
+                },
+                two: {
+                    value: {
+                        term: {
+                            value: identifiedCard.two.value.term,
+                            isValid: true
+                        }, definition:  {
+                            value: identifiedCard.two.value.definition,
+                            isValid: true
+                        }
+                    },
+                    isValid: true
+                },
             }, true)
             setIsLoading(false)
         }
     }, [setFormData, identifiedCard])
+
+    useEffect(() => {
+        console.log(formState)
+    }, [formState])
+    
     
     if (!identifiedCard) {
         return <div className="center">
@@ -79,10 +115,11 @@ const UpdateCard = () => {
   return (
     <form className='card-form' onSubmit={updateCardSubmitHandler}>
         <Input 
-            id="term" 
+            nameId="title"
+            id="title" 
             element="input"
             type="text"
-            label="Term"
+            label="Title"
             validators={
                 [
                   VALIDATOR_REQUIRE()
@@ -90,20 +127,33 @@ const UpdateCard = () => {
               }
             errorText="Please enter a valid text"
             onInput={inputHandler}
-            initialValue={formState.inputs.title.value}
+            initialValue={String(formState.inputs.title.value)}
             initialIsValid={formState.inputs.title.isValid}
             />
         <Input 
-            id="definition" 
+            nameId="description"
+            id="description" 
             element="textarea"
             type="text"
-            label="Definition"
+            label="Description"
             validators={[VALIDATOR_MINLENGTH(5)]}
             errorText="Please enter a valid definition (min. 5 characters)."
             onInput={inputHandler}
-            initialValue={formState.inputs.description.value}
+            initialValue={String(formState.inputs.description.value)}
             initialIsValid={formState.inputs.description.isValid}
             />
+        <div className='card-form' >
+        {
+          ["one", "two"].map(card => <TermFlashcard 
+            cardId={String(card)}
+            removeSubCardHandler={removeSubCardHandler}
+            formState={formState}
+            inputHandler={inputHandler}
+            key={card}
+          />)
+        }
+        <Button onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+      </div>
         <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button>
     </form>
   )
