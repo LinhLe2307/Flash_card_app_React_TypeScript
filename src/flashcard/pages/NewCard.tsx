@@ -27,7 +27,6 @@ const NewCard = () => {
     // console.log(formState.inputs) // send this to backend
   }
 
-  console.log("formState", formState)
   return (
     <form onSubmit={cardSubmitHandler}>
       <Input 

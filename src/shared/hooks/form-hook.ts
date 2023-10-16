@@ -1,5 +1,5 @@
 import { useCallback, useReducer } from 'react';
-import { FormAction, FormActionProps, FormInputsProps, FormState, FormValueObjectProps, InputHandlerProps, SetFormDataProps, UserFormHandler, ValueAndValidProps } from '../types/formTypes';
+import { FormAction, FormActionProps, FormState, FormValueObjectProps, InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
 
 const formReducer = (state: FormState, action: FormAction) => {
   switch(action.type) {
