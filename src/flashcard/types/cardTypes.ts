@@ -17,7 +17,6 @@ export interface CardItemProps extends BaseProps {
 
 export interface TermFlashcardProps {
     cardId: string, 
-    flashCardInputHandler: (event:React.ChangeEvent<HTMLInputElement>) => void, 
-    // inputHandler: InputHandlerProps,
+    inputHandler: InputHandlerProps,
     removeSubCardHandler:((cardId:string)=>void)
 }

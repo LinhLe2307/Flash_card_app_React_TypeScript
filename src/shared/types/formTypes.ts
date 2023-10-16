@@ -17,7 +17,8 @@ export interface InputAction {
     val: string
     type: keyof typeof InputValueProps,
     payload?: number,
-    validators: ValidatorsProps[]
+    validators: ValidatorsProps[],
+    nameId: string
 }
 
 export interface InputState extends ValueAndValidProps {
@@ -69,24 +70,12 @@ export enum FormActionProps {
 
 export type FormInputsProps = {
     [key: string]: {
-      [name in "term" | "definition"]: {
-        value: string,
+        value: {
+            [nameId:string]: ValueAndValidProps
+        } | string,
         isValid: boolean
-      };
-    } | {
-      value: string,
-      isValid: boolean
-    }
+    } 
   }
-
-// export type FormInputsProps = {
-//     [prop in "title" | "description" | "email" | "password" | "name"] : ValueAndValidProps;
-// }  | {
-//     [inputId: string]: {
-//         term: ValueAndValidProps,
-//         definition: ValueAndValidProps
-//     } | ValueAndValidProps,
-// }
 
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
@@ -96,44 +85,14 @@ export type FormAction = {
     type: 'INPUT_CHANGE'
     inputId: string
     isValid: boolean
-    value: {
-        term: {
-            value: string,
-            isValid: boolean
-          },
-          definition: {
-            value: string,
-            isValid: boolean
-          };
-    }
     nameId: string 
-    // value: {
-    //     [termDefinition:string]: ValueAndValidProps
-    // } 
+    value: {
+        [nameId:string]: ValueAndValidProps;
+      } | string
 } | {
     type: 'SET_DATA',
     inputs: FormInputsProps,
     formIsValid: boolean | undefined
-}
-
-export type NewInputAction = {
-    type: 'CHANGE'
-    inputId: string
-    isValid: boolean
-    value: {
-        term: {
-            value: string,
-            isValid: boolean
-          },
-          definition: {
-            value: string,
-            isValid: boolean
-          };
-    }
-    nameId: string 
-    // value: {
-    //     [termDefinition:string]: ValueAndValidProps
-    // } 
 }
 
 export interface FormState {
@@ -141,11 +100,28 @@ export interface FormState {
     isValid: boolean | undefined
 }
 
+// type FlashCardInput = {
+//     [key: string]: {
+//       value: {
+//         term: {
+//           value: string,
+//           isValid: boolean
+//         },
+//         definition: {
+//           value: string,
+//           isValid: boolean
+//         };
+//       }
+//     } | {
+//       value: string,
+//       isValid: boolean
+//     }
+//   }
 
 export interface UserFormHandler {
     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
         formState: FormState,
-        inputHandler: (event:React.ChangeEvent<HTMLInputElement>)=>void,
+        inputHandler: InputHandlerProps,
         setFormData: SetFormDataProps
     ]
 }

@@ -5,14 +5,15 @@ import { validate } from '../../util/validators';
 import './Input.css';
 
 const inputReducer = (state:InputState, action: InputAction) => {
-    const { type, val, validators } = action;
+    const { type, val, validators, nameId } = action;
 
     switch(type) {
         case InputValueProps.CHANGE: 
             return {
                 ...state,
                 value: val,
-                isValid: validate(val, validators)
+                isValid: validate(val, validators),
+                nameId: nameId
             }
         case InputValueProps.TOUCH:
             return {
@@ -24,21 +25,21 @@ const inputReducer = (state:InputState, action: InputAction) => {
     }
 }
 
-const Input = ({nameId, id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid}:InputProps) => {
+const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid, nameId}:InputProps) => {
     const [inputState, dispatch] = useReducer(inputReducer, {value: initialValue || '', isValid: initialIsValid || false, isTouched: false})
 
     const { value, isValid } = inputState
     
     useEffect(() => {
-        console.log("inputState", inputState)
         onInput(inputState.value, inputState.isValid, id, nameId)
-    }, [id, onInput, value, isValid, nameId])
-
+    }, [id, value, isValid, nameId])
+    
     const changeHandler:EventHandler = (event) => {
         dispatch({
             type: InputValueProps.CHANGE,
             val: event.target.value,
-            validators: validators
+            validators: validators,
+            nameId: event.target.name
         })
     }
 
@@ -46,7 +47,8 @@ const Input = ({nameId, id, label, element, type, placeholder, rows, errorText, 
         dispatch({
             type: InputValueProps.TOUCH,
             val: event.target.value,
-            validators: validators
+            validators: validators,
+            nameId: event.target.name
         })
     }
 

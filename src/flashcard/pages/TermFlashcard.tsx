@@ -5,11 +5,12 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 import Button from '../../shared/components/FormElements/Button'
 import { TermFlashcardProps } from '../types/cardTypes'
 
-const TermFlashcard = ({cardId, flashCardInputHandler, removeSubCardHandler}:TermFlashcardProps) => {
+const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler}:TermFlashcardProps) => {
   return (
     <React.Fragment>
-        {/* <Input 
-        id={`${cardId}-term`}
+        <Input 
+        nameId="term"
+        id={`${cardId}`}
         type="text" 
         label="Term" 
         element="input"
@@ -22,7 +23,8 @@ const TermFlashcard = ({cardId, flashCardInputHandler, removeSubCardHandler}:Ter
         onInput = {inputHandler}
       />
       <Input 
-        id = {`${cardId}-definition`}
+        nameId="definition"
+        id = {`${cardId}`}
         type="text" 
         label="Definition" 
         element="textarea"
@@ -33,8 +35,8 @@ const TermFlashcard = ({cardId, flashCardInputHandler, removeSubCardHandler}:Ter
         }
         errorText="Please enter a valid definition (at least 5 characters)."
         onInput = {inputHandler}
-      /> */}
-      <input 
+      />
+      {/* <input 
             id={cardId}
             onChange={flashCardInputHandler}
             name="term"
@@ -44,7 +46,7 @@ const TermFlashcard = ({cardId, flashCardInputHandler, removeSubCardHandler}:Ter
             id={cardId}
             onChange={flashCardInputHandler}
             name="definition"
-            /> 
+            />  */}
       
       <Button onClick={() => removeSubCardHandler(cardId)}>Remove</Button>
     </React.Fragment>
