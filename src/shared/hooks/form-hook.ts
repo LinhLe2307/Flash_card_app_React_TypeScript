@@ -18,7 +18,7 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
-              if (typeof newProps.inputs[action.inputId]?.value === 'object' && typeof action.value === "object") {
+              if (typeof action.value === "object") {
                 const inputValue = newProps.inputs[action.inputId].value as FormValueObjectProps;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
@@ -39,8 +39,8 @@ const formReducer = (state: FormState, action: FormAction) => {
                 isValid: action.isValid
               }
             } else {
-              if (typeof newProps.inputs[action.inputId]?.value === 'object' && typeof action.value === "object") {
-                const inputValue = newProps.inputs[action.inputId].value as FormValueObjectProps;
+              if (typeof action.value === "object") {
+                const inputValue = newProps.inputs[action.inputId]?.value as FormValueObjectProps;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
                   value: {
@@ -54,6 +54,7 @@ const formReducer = (state: FormState, action: FormAction) => {
           }
         }
       }
+      console.log(newProps)
        return newProps
 
     case FormActionProps.REMOVE_CARD:

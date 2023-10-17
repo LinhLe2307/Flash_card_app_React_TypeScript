@@ -58,9 +58,9 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
         </Modal>
         <li className="card-item">
             <CardAvatar className="card-item__content">
-                <div className='card-item__image'>
+                {/* <div className='card-item__image'>
                     <img src={image} alt={term}/>
-                </div>
+                </div> */}
                 <div className='card-item__info'>
                     <h2>{term}</h2>
                     <h2>{definition}</h2>

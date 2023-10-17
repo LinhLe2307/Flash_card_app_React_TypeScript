@@ -41,6 +41,20 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             errorText="Please enter a valid definition (at least 5 characters)."
             onInput = {inputHandler}
           />
+          <Input 
+            nameId="imageUrl"
+            id = {`${cardId}`}
+            type="text" 
+            label="ImageUrl" 
+            element="input"
+            validators={
+              [
+                VALIDATOR_MINLENGTH(5)
+              ]
+            }
+            errorText="Please enter a valid definition (at least 5 characters)."
+            onInput = {inputHandler}
+          />
         </> 
         }
         {
@@ -70,6 +84,22 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             type="text" 
             label="Definition" 
             element="textarea"
+            validators={
+              [
+                VALIDATOR_MINLENGTH(5)
+              ]
+            }
+            errorText="Please enter a valid definition (at least 5 characters)."
+            onInput = {inputHandler}
+            initialValue={termValue.definition.value}
+            initialIsValid={termValue.definition.isValid}
+          />
+          <Input 
+            nameId="imageUrl"
+            id = {`${cardId}`}
+            type="text" 
+            label="ImageUrl" 
+            element="input"
             validators={
               [
                 VALIDATOR_MINLENGTH(5)
