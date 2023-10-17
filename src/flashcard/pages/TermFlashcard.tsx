@@ -1,19 +1,18 @@
-import React from 'react'
 import Input from '../../shared/components/FormElements/Input'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 
 import Button from '../../shared/components/FormElements/Button'
 import { TermFlashcardProps } from '../types/cardTypes'
+import './TermFlashcard.css'
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:TermFlashcardProps) => {
   const termValue = formState && formState.inputs[cardId].value;
 
   return (
-    <React.Fragment>
+    <div className="flashcard">
       {
         typeof termValue !== "string" && !termValue
         && <>
-          <div>{cardId}</div>
             <Input 
             nameId="term"
             id={`${cardId}`}
@@ -85,7 +84,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
       }
           
       <Button type="button" onClick={() => removeSubCardHandler(cardId)}>Remove</Button>
-    </React.Fragment>
+    </div>
   )
 }
 

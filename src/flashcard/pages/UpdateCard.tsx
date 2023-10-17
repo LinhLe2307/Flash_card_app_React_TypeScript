@@ -14,16 +14,12 @@ const DUMMY_PLACES = [
         title: "hello",
         description: 'this is finnish',
         one: {
-            value: {
-                term: "newkiss", 
-                definition: "newkiss"
-                }, 
-            },
+            term: "newkiss", 
+            definition: "newkiss",
+        },
         two: {
-            value: {
-                term: "newkiss2",
-                definition: "newkiss2"
-            }
+            term: "newkiss2",
+            definition: "newkiss2",
         },
         imageUrl: 'https://images.unsplash.com/photo-1662715555387-cd3311fab6d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2lzc2F8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
         creator: 'u1'
@@ -68,10 +64,10 @@ const UpdateCard = () => {
                 one: {
                     value: {
                         term: {
-                            value: identifiedCard.one.value.term,
+                            value: identifiedCard.one.term,
                             isValid: true
                         }, definition:  {
-                            value: identifiedCard.one.value.definition,
+                            value: identifiedCard.one.definition,
                             isValid: true
                         }
                     },
@@ -80,10 +76,10 @@ const UpdateCard = () => {
                 two: {
                     value: {
                         term: {
-                            value: identifiedCard.two.value.term,
+                            value: identifiedCard.two.term,
                             isValid: true
                         }, definition:  {
-                            value: identifiedCard.two.value.definition,
+                            value: identifiedCard.two.term,
                             isValid: true
                         }
                     },

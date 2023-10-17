@@ -28,7 +28,7 @@ const NewCard = () => {
   }
 
   return (
-    <form onSubmit={cardSubmitHandler}>
+    <form className='card-form' onSubmit={cardSubmitHandler}>
       <Input 
         id="title"
         type="text" 
@@ -58,7 +58,7 @@ const NewCard = () => {
         nameId="description"
       />
 
-      <div className='card-form' >
+      <div>
         {
           DEFAULT_CARDS.map(card => <TermFlashcard 
             cardId={String(card)}
