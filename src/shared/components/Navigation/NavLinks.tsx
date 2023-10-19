@@ -15,15 +15,11 @@ const NavLinks = () => {
             <NavLink to="/u1/cards">MY CARDS</NavLink>
         </li>
         }
-        <li>
-            <NavLink to="/card/new">ADD CARD</NavLink>
-        </li>
-        
-        {/* {
+        {
             auth.isLoggedIn && <li>
             <NavLink to="/card/new">ADD CARD</NavLink>
         </li>
-        } */}
+        }
         { !auth.isLoggedIn && <li>
             <NavLink to="/auth">AUTHENTICATE</NavLink>
         </li>

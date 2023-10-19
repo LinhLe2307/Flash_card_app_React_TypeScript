@@ -6,9 +6,9 @@ export interface ModalOverlayProps {
     headerClass?: string
     header: string
     onSubmit?: ()=>void
-    contentClass: string 
+    contentClass?: string 
     children?: ReactNode
-    footerClass: string
+    footerClass?: string
     footer: ReactNode 
 }
 
