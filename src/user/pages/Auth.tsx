@@ -34,11 +34,22 @@ const Auth = () => {
 
     const authSubmitHandler:FormHandlerProps = async(event) => {
         event.preventDefault()
+        setIsLoading(true)
         if (isLoginMode) {
-            
+            try {
+                const body = JSON.stringify({
+                    email: formState.inputs.email.value,
+                    password: formState.inputs.password.value
+                })
+                await userApi.login(body)
+                setIsLoading(false)
+                auth.login()
+            } catch(err) {
+                setIsLoading(false)
+                setError(err.response.data.message || 'Something went wrong, please try again.')
+            }
         } else {
             try {
-                setIsLoading(true)
                 const body = JSON.stringify({
                     name: formState.inputs.name.value,
                     email: formState.inputs.email.value,
@@ -49,7 +60,7 @@ const Auth = () => {
                 auth.login()
             } catch(err) {
                 setIsLoading(false)
-                setError(err && err.message || 'Something went wrong, please try again.')
+                setError(err.response.data.message || 'Something went wrong, please try again.')
             }
         }
     }

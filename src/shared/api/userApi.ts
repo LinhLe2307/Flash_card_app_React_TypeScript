@@ -1,9 +1,12 @@
-import { userApiProps } from '../types/apiTypes';
 import axiosClient from './axiosClient';
 
 const userApi = {
-    signup: (params:userApiProps) => {
+    signup: (params:string) => {
         const url = '/api/users/signup'
+        return axiosClient.post(url, params)
+    },
+    login: (params:string) => {
+        const url = '/api/users/login'
         return axiosClient.post(url, params)
     }
 }
