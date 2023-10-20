@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Home from "./shared/components/Home/Home"
 import MainPage from "./shared/components/MainPage/MainPage"
 import MainNavigation from "./shared/components/Navigation/MainNavigation"
@@ -12,6 +13,7 @@ import Auth from "./user/pages/Auth"
 
 function App() {
   const [isLoggedIn, setIsLogin] = useState(false)
+  const client = new QueryClient()
 
   const login = useCallback(() => {
     setIsLogin(true)
@@ -49,15 +51,16 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login:login, logout: logout}}>
-        <BrowserRouter>
-          <MainNavigation />
-          <main>
-                  {routes}
-          </main>
-        </BrowserRouter>
-
-    </AuthContext.Provider>
+    <QueryClientProvider client={client}>
+      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login:login, logout: logout}}>
+          <BrowserRouter>
+            <MainNavigation />
+            <main>
+                    {routes}
+            </main>
+          </BrowserRouter>
+      </AuthContext.Provider>
+    </QueryClientProvider>
   )
 }
 

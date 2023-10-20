@@ -24,6 +24,6 @@ export interface AvatarProps {
 
 export interface CardAvatarProps {
     children: ReactNode
-    className: string
+    className?: string
     // style: string
 }

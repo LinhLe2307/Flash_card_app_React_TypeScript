@@ -1,6 +1,36 @@
 .flashcard {
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 0.5rem;
+}
+
+#wrapper {
+    overflow:auto;
+    height: 2.5rem
+}
+
+.flashcard__id {
+    float:left;
+    margin: auto;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+}
+.flashcard__button {
+    margin-top: 0.25rem;
+    float:right;
+}
+
+.flashcard__input {
     display: flex;
     flex-direction: row;
-    border-radius: 5px;
-    border: 1px solid black
+    justify-content: center;
+    gap: 0.5rem;
+    border-top: 1px solid black;
+}
+
+
+@media (max-width: 768px) {
+    .flashcard__input {
+        flex-direction: column;
+    }
 }

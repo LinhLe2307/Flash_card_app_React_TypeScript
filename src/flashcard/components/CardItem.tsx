@@ -72,11 +72,7 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                             <Button to={`/card/${id}`}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>
-                    }           
-
-                    <Button to={`/card/${id}`}>EDIT</Button>
-                    <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
-                        
+                    }    
                 </div>
             </CardAvatar>
         </li>

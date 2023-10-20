@@ -1,17 +1,38 @@
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
+import userApi from '../../shared/api/userApi'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import UsersList from "../components/UsersList"
 
+const getAllUsers = async() => {
+  try {
+    return await userApi.getAll()
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 const Users = () => {
-    const USERS = [
-        {
-            id: 'u1',
-            name: 'Linh Le',
-            image: 'https://images.unsplash.com/photo-1682686578842-00ba49b0a71a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80',
-            cards: 3
-        }
-    ]
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: getAllUsers
+  })
+
+  if (isLoading) {
+    return <LoadingSpinner asOverlay/>
+  }
+
+  if (error) {
+    return <ErrorModal 
+      error={"Cannot load users"} 
+      onClear={() => !error}
+    />
+  }
   return (
-    <UsersList items={USERS}/>
+    <React.Fragment>
+      {data && <UsersList items={data.users}/>}
+    </React.Fragment>
   )
 }
 

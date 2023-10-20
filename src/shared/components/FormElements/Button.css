@@ -53,7 +53,15 @@
   }
   
   .button--small {
-    font-size: 0.8rem;
+    border: 1px solid white;
+    color: black;
+    padding: 0rem;
+  }
+  
+  .button--small:hover {
+    background-color: white;
+    color: #ff4382;
+    border: 1px solid white;
   }
   
   .button--big {

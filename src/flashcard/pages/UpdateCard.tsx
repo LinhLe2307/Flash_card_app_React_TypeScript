@@ -70,6 +70,9 @@ const UpdateCard = () => {
                         }, definition:  {
                             value: identifiedCard.one.definition,
                             isValid: true
+                        }, imageUrl:  {
+                            value: identifiedCard.one.imageUrl,
+                            isValid: true
                         }
                     },
                     isValid: true
@@ -81,6 +84,9 @@ const UpdateCard = () => {
                             isValid: true
                         }, definition:  {
                             value: identifiedCard.two.term,
+                            isValid: true
+                        }, imageUrl:  {
+                            value: identifiedCard.two.imageUrl,
                             isValid: true
                         }
                     },

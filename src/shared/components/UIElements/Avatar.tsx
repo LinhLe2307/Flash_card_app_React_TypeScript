@@ -1,5 +1,5 @@
+import { AvatarProps } from '../../../user/types/userTypes';
 import './Avatar.css';
-import { AvatarProps } from '../../constants/type';
 
 const Avatar = ({image, alt}: AvatarProps) => {
   return (

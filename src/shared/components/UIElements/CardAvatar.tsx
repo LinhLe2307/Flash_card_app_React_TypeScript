@@ -1,4 +1,5 @@
-import { CardAvatarProps } from '../../constants/type'
+
+import { CardAvatarProps } from '../../../user/types/userTypes'
 import './CardAvatar.css'
 
 const CardAvatar = ({children, className}: CardAvatarProps) => {
