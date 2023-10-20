@@ -2,35 +2,24 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
-import { useState } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import ImageList from '../components/ImageList';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
-import { EventHandler } from '../../shared/types/formTypes';
+import { useImage } from '../../shared/hooks/image-hook';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:TermFlashcardProps) => {
   const termValue = formState && formState.inputs[cardId].value;
-  const [isLoadingImage, setIsLoadingImage] = useState(false)
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [isSearching, setIsSearching] = useState(false)
 
-  const searchImageHandler:EventHandler = (event) => {
-    if (event) {
-      setSearchKeyword(event.target.value)
-      setIsSearching(false)
+  const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
+    [cardId]: {
+      isOpeningUnsplash: false,
+      searchKeyword: '',
+      isClickingButton: false,
+      photos: []
     }
-  }
-
-  const imageClickHandler = () => {
-    setIsLoadingImage(prevState => !prevState)
-  }
-
-  const uploadImageHandler = (imageId: string) => {
-    inputHandler(imageId, true, cardId, 'imageUrl')
-  }
-
+  })
   return (
     <div className="flashcard">
       <div id="wrapper">
@@ -79,7 +68,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             onInput = {inputHandler}
           />
           <div>
-            <Button onClick={imageClickHandler}><img
+            <Button onClick={(event) => openUnsplashHandler(event, cardId)}><img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
               width="125px"
               /></Button>
@@ -88,8 +77,8 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
         }
         {
           typeof termValue !== "string" && termValue
-        &&
-        <>
+          &&
+          <>
             <Input 
             nameId="term"
             id={`${cardId}`}
@@ -126,26 +115,33 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
               <img
                 src={termValue.imageUrl?.value}
                 width="125px"
-                onClick={imageClickHandler}
+                onClick={(event) => openUnsplashHandler(event, cardId)}
               />
           </div>
         </>
       }         
       </div>
       {
-            isLoadingImage && 
+            imageState[cardId].isOpeningUnsplash ?
             <>
               <div>
-                <input onChange={searchImageHandler}/>
+                <input onChange={(event) => searchKeywordHandler(event, cardId)}/>
               </div>
-              <Button onClick={() => setIsSearching(true)}>Search</Button>
-              <ImageList 
-                searchKeyword={searchKeyword} 
-                isSearching={isSearching} 
-                uploadImageHandler={uploadImageHandler}
-              />
-              
+              <Button onClick={() => searchingButtonHandler(cardId)}>Search</Button>
+
+              {
+                imageState[cardId].searchKeyword.length !== 0 &&
+                <ImageList 
+                  searchKeyword={imageState[cardId].searchKeyword} 
+                  isSearching={imageState[cardId].isClickingButton} 
+                  photos={imageState[cardId].photos}
+                  addedPhotosHandler={addedPhotosHandler}
+                  cardId={cardId}
+                />
+              }
             </>
+            
+            : <></>
       }
     </div>
   )

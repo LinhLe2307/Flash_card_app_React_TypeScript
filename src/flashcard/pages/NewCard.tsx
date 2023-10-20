@@ -5,9 +5,11 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 
 import { DEFAULT_CARDS } from '../../shared/constants/global'
 import { useForm } from '../../shared/hooks/form-hook'
-import { FormHandlerProps, FormInputsProps } from '../../shared/types/formTypes'
+import { EventHandler, FormHandlerProps, FormInputsProps } from '../../shared/types/formTypes'
 import './CardForm.css'
 import TermFlashcard from './TermFlashcard'
+import { useEffect, useReducer } from 'react'
+import { useImage } from '../../shared/hooks/image-hook'
 
 let initialValue: FormInputsProps = {
   title: {
@@ -20,11 +22,13 @@ let initialValue: FormInputsProps = {
   },
 }
 
+
+
 const NewCard = () => {
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
+
   const cardSubmitHandler:FormHandlerProps = event => {
     event.preventDefault()
-    // console.log(formState.inputs) // send this to backend
   }
 
   return (
@@ -60,7 +64,7 @@ const NewCard = () => {
 
       <div>
         {
-          DEFAULT_CARDS.map(card => <TermFlashcard 
+          ["one", "two"].map(card => <TermFlashcard 
             cardId={String(card)}
             removeSubCardHandler={removeSubCardHandler}
             inputHandler={inputHandler}
