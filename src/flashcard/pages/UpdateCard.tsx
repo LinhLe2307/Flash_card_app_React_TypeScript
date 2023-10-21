@@ -149,7 +149,7 @@ const UpdateCard = () => {
             key={card}
           />)
         }
-        <Button onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+        <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
       </div>
         <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button>
     </form>
