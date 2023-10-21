@@ -9,6 +9,7 @@ import { FormInputsProps } from '../../shared/types/formTypes'
 import { GenericProps } from '../../shared/types/sharedTypes'
 import './CardForm.css'
 import TermFlashcard from './TermFlashcard'
+import { DEFAULT_CARDS } from '../../shared/constants/global'
 
 let initialValue: FormInputsProps = {
   title: {
@@ -20,8 +21,6 @@ let initialValue: FormInputsProps = {
     isValid: false
   },
 }
-
-
 
 const NewCard = () => {
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
@@ -67,7 +66,7 @@ const NewCard = () => {
 
       <div>
         {
-          ["one", "two"].map(card => <TermFlashcard 
+          DEFAULT_CARDS.map(card => <TermFlashcard 
             cardId={String(card)}
             removeSubCardHandler={removeSubCardHandler}
             inputHandler={inputHandler}
