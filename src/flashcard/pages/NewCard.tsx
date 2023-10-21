@@ -3,13 +3,12 @@ import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 
-import { DEFAULT_CARDS } from '../../shared/constants/global'
+import { useEffect } from 'react'
 import { useForm } from '../../shared/hooks/form-hook'
-import { EventHandler, FormHandlerProps, FormInputsProps } from '../../shared/types/formTypes'
+import { FormInputsProps } from '../../shared/types/formTypes'
+import { GenericProps } from '../../shared/types/sharedTypes'
 import './CardForm.css'
 import TermFlashcard from './TermFlashcard'
-import { useEffect, useReducer } from 'react'
-import { useImage } from '../../shared/hooks/image-hook'
 
 let initialValue: FormInputsProps = {
   title: {
@@ -27,9 +26,13 @@ let initialValue: FormInputsProps = {
 const NewCard = () => {
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
 
-  const cardSubmitHandler:FormHandlerProps = event => {
+  const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = event => {
     event.preventDefault()
   }
+
+  useEffect(() => {
+    console.log(formState)
+  }, [formState])
 
   return (
     <form className='card-form' onSubmit={cardSubmitHandler}>

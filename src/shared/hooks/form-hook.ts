@@ -1,5 +1,6 @@
 import { useCallback, useReducer } from 'react';
 import { FormAction, FormActionProps, FormState, FormValueObjectProps, InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
+import { GenericProps } from '../types/sharedTypes';
 
 
 const valuesTypes = ["title", "description", "name", "email", "password"]
@@ -80,7 +81,11 @@ const formReducer = (state: FormState, action: FormAction) => {
           definition: {
             value: '',
             isValid: false
-          }
+          }, 
+          imageUrl: {
+            value: '',
+            isValid: false
+          }, 
         },
         isValid: false
       }
@@ -106,7 +111,7 @@ export const useForm:UserFormHandler = function(initialInputs, initialFormValidi
     const inputHandler: InputHandlerProps = useCallback((value, isValid, id, nameId) => {
         if (valuesTypes.find( name => name===id) !== undefined) {
           dispatch({
-            type: 'INPUT_CHANGE',
+            type: FormActionProps.INPUT_CHANGE,
             value: value,
             isValid: isValid,
             inputId: String(id),
@@ -114,7 +119,7 @@ export const useForm:UserFormHandler = function(initialInputs, initialFormValidi
           })
         } else {
           dispatch({
-            type: 'INPUT_CHANGE',
+            type: FormActionProps.INPUT_CHANGE,
             value: {
               [nameId]: {
                 value: value,
@@ -128,7 +133,7 @@ export const useForm:UserFormHandler = function(initialInputs, initialFormValidi
         }
     }, [dispatch])
 
-    const removeSubCardHandler = useCallback((cardId: string) => {
+    const removeSubCardHandler:GenericProps<string> = useCallback((cardId) => {
       dispatch({
         type: FormActionProps.REMOVE_CARD,
         inputId: cardId

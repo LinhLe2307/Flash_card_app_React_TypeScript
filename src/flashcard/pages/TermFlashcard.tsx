@@ -10,6 +10,7 @@ import { useImage } from '../../shared/hooks/image-hook';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:TermFlashcardProps) => {
+// const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState, imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler}:TermFlashcardProps) => {
   const termValue = formState && formState.inputs[cardId].value;
 
   const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
@@ -68,7 +69,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             onInput = {inputHandler}
           />
           <div>
-            <Button onClick={(event) => openUnsplashHandler(event, cardId)}><img
+            <Button onClick={() => openUnsplashHandler(cardId)}><img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
               width="125px"
               /></Button>
@@ -115,7 +116,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
               <img
                 src={termValue.imageUrl?.value}
                 width="125px"
-                onClick={(event) => openUnsplashHandler(event, cardId)}
+                onClick={() => openUnsplashHandler(cardId)}
               />
           </div>
         </>
@@ -125,7 +126,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             imageState[cardId].isOpeningUnsplash ?
             <>
               <div>
-                <input onChange={(event) => searchKeywordHandler(event, cardId)}/>
+                <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
               </div>
               <Button onClick={() => searchingButtonHandler(cardId)}>Search</Button>
 
@@ -136,6 +137,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
                   isSearching={imageState[cardId].isClickingButton} 
                   photos={imageState[cardId].photos}
                   addedPhotosHandler={addedPhotosHandler}
+                  inputHandler={inputHandler}
                   cardId={cardId}
                 />
               }

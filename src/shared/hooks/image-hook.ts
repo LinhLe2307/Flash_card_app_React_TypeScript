@@ -1,8 +1,10 @@
 import { useEffect, useReducer } from "react"
+import { AddedPhotosHandlerProps, ImageAction, ImageInputValueProps, ImageState, SearchKeywordHandlerProps, useImageProps } from "../types/imageTypes"
+import { GenericProps } from "../types/sharedTypes"
 
-const imageReducer = (state, action) => {
+const imageReducer = (state: ImageState, action:ImageAction) => {
     switch (action.type) {
-      case 'OPEN_UNSPLASH':
+      case ImageInputValueProps.OPEN_UNSPLASH:
         let newProps = {...state}
         for (const inputId in state){
           if (inputId === action.inputId) {
@@ -13,7 +15,7 @@ const imageReducer = (state, action) => {
         }
         return newProps
   
-      case 'SEARCH_KEYWORD':
+      case ImageInputValueProps.SEARCH_KEYWORD:
         let newKeyword = {...state}
         for (const inputId in state){
           if (inputId === action.inputId) {
@@ -23,7 +25,7 @@ const imageReducer = (state, action) => {
         return newKeyword
 
     
-        case 'SEARCHING':
+        case ImageInputValueProps.SEARCHING:
             let newSearchingState = {...state}
             for (const inputId in state){
                 if (inputId === action.inputId) {
@@ -32,7 +34,7 @@ const imageReducer = (state, action) => {
             }
             return newSearchingState
 
-        case 'PHOTOS_ADDED':
+        case ImageInputValueProps.PHOTOS_ADDED:
             let newPhotosState = {...state}
             for (const inputId in state){
                 if (inputId === action.inputId) {
@@ -45,40 +47,38 @@ const imageReducer = (state, action) => {
   }
 
 
-export const useImage = (initialInputs) => {
+export const useImage:useImageProps = (initialInputs) => {
     const [imageState, dispatch] = useReducer(imageReducer, initialInputs)
     
     useEffect(() => {
         console.log(imageState)
     }, [imageState])
 
-      const searchKeywordHandler = (event, cardId) => {
+      const searchKeywordHandler:SearchKeywordHandlerProps = (event, cardId) => {
         dispatch({
-          type: "SEARCH_KEYWORD",
+          type: ImageInputValueProps.SEARCH_KEYWORD,
           inputId: cardId,
           value: event.target.value
         })
       }
     
-      const openUnsplashHandler = (event, cardId) => {
-        if (event) {
+      const openUnsplashHandler:GenericProps<string> = (cardId) => {
           dispatch({
-            type: "OPEN_UNSPLASH",
+            type: ImageInputValueProps.OPEN_UNSPLASH,
             inputId: cardId
           })
-        }
       }
 
-      const searchingButtonHandler = (cardId) => {
+      const searchingButtonHandler:GenericProps<string> = (cardId) => {
         dispatch({
-            type: "SEARCHING",
+            type: ImageInputValueProps.SEARCHING,
             inputId: cardId
         })
       }
 
-      const addedPhotosHandler = (photos, cardId) => {
+      const addedPhotosHandler: AddedPhotosHandlerProps = (photos, cardId) => {
         dispatch({
-            type: "PHOTOS_ADDED",
+            type: ImageInputValueProps.PHOTOS_ADDED,
             photos: photos,
             inputId: cardId
         })

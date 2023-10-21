@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { InputAction, InputProps, InputState, InputValueProps } from '../../types/formTypes';
-import { EventHandler } from '../../types/formTypes';
+import { GenericProps } from '../../types/sharedTypes';
 import { validate } from '../../util/validators';
 import './Input.css';
 
@@ -34,7 +34,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         onInput(inputState.value, inputState.isValid, id, nameId)
     }, [id, value, isValid, nameId])
     
-    const changeHandler:EventHandler = (event) => {
+    const changeHandler: GenericProps<React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>> = (event) => {
         dispatch({
             type: InputValueProps.CHANGE,
             val: event.target.value,
@@ -43,7 +43,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         })
     }
 
-    const touchHandler:EventHandler = (event) => {
+    const touchHandler: GenericProps<React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>> = (event) => {
         dispatch({
             type: InputValueProps.TOUCH,
             val: event.target.value,

@@ -3,15 +3,11 @@ import photoApi from '../../shared/api/photoApi';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
+import { AddedPhotosHandlerProps, ImageListPProps } from '../../shared/types/imageTypes';
 import './ImageList.css';
 
-interface ImageListPProps { 
-  searchKeyword: string, 
-  isSearching: boolean, 
-  uploadImageHandler:(imageId: string) => void 
-}
 
-const getUnsplashImage = async(query: string, addedPhotosHandler, cardId) => {
+const getUnsplashImage = async(query: string, addedPhotosHandler:AddedPhotosHandlerProps, cardId:string) => {
     try {
       const image = await photoApi.getImage(query)
       addedPhotosHandler(image.data.results, cardId)
@@ -21,23 +17,12 @@ const getUnsplashImage = async(query: string, addedPhotosHandler, cardId) => {
     }
   }
   
-const ImageList = ({searchKeyword, isSearching, photos, uploadImageHandler, addedPhotosHandler, cardId}: ImageListPProps) => {
+const ImageList = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler}: ImageListPProps) => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["unsplash"],
         queryFn: () => getUnsplashImage(searchKeyword, addedPhotosHandler, cardId),
         enabled: !!isSearching
     })
-    // const photos = data?.data.results || data
-
-    const chosenImageHandler = (imageId: string) => {
-      uploadImageHandler(imageId)
-    }
-
-    // if (isClickingImage) {
-    //   return <Modal footer={
-    //     <Button>Submit</Button>
-    //   }>Are you sure to choose this picture?</Modal>
-    // }
 
     if (isLoading) {
       return <LoadingSpinner asOverlay/>
@@ -52,8 +37,8 @@ const ImageList = ({searchKeyword, isSearching, photos, uploadImageHandler, adde
     return (
         <div id='image-wrapper'>
             {
-                photos?.map(item => <div key={item.urls.small}>
-                  <img className="gallery__img" alt="unsplash" src={item.urls.small} onClick={() => chosenImageHandler(item.urls.small)}/>
+                photos?.map(item => <div key={item['urls']['small']}>
+                  <img className="gallery__img" alt="unsplash" src={item['urls']['small']} onClick={() => inputHandler(item['urls']['small'], true, cardId, 'imageUrl')}/>
               </div>)
             }
         </div>

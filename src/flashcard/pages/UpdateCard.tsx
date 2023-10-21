@@ -4,7 +4,7 @@ import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
 import CardAvatar from "../../shared/components/UIElements/CardAvatar"
 import { useForm } from "../../shared/hooks/form-hook"
-import { FormHandlerProps } from "../../shared/types/formTypes"
+import { GenericProps } from "../../shared/types/sharedTypes"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './CardForm.css'
 import TermFlashcard from "./TermFlashcard"
@@ -46,7 +46,7 @@ const UpdateCard = () => {
     const identifiedCard = DUMMY_PLACES.find(card => card.id === cardId)
 
     
-    const updateCardSubmitHandler:FormHandlerProps = (event) => {
+    const updateCardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = (event) => {
         event.preventDefault()
         console.log(formState.inputs)
     }

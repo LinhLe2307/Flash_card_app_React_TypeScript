@@ -1,3 +1,5 @@
+import { GenericProps } from "./sharedTypes"
+
 export enum InputValueProps {
     CHANGE = 'CHANGE',
     TOUCH = 'TOUCH'
@@ -59,11 +61,6 @@ export interface InputProps extends UpdateCardInputProps {
     onInput: InputHandlerProps 
 }
 
-export interface EventHandler {
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) : void
-}
-
-
 // ----- FORM ------
  
 export enum FormActionProps {
@@ -78,20 +75,20 @@ export interface SetFormDataProps {
 }
 
 export type FormAction = {
-    type: 'INPUT_CHANGE'
+    type: FormActionProps.INPUT_CHANGE
     inputId: string
     isValid: boolean
     nameId: string 
     value: FormValueObjectProps | string
 } | {
-    type: 'SET_DATA',
+    type: FormActionProps.SET_DATA,
     inputs: FormInputsProps,
     formIsValid: boolean | undefined
 } | {
-    type: 'REMOVE_CARD',
+    type: FormActionProps.REMOVE_CARD,
     inputId: string
 } | {
-    type: 'ADD_CARD',
+    type: FormActionProps.ADD_CARD,
 }
 
 export interface FormState {
@@ -102,14 +99,9 @@ export interface FormState {
 export interface UserFormHandler {
     (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
         formState: FormState,
-        removeSubCardHandler: ((cardId:string)=>void),
+        removeSubCardHandler: GenericProps<string>,
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
         setFormData: SetFormDataProps,
     ]
 }
-
-export interface FormHandlerProps{
-    (event: React.FormEvent<HTMLFormElement>): void
-} 
-

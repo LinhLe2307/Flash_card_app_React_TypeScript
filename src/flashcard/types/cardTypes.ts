@@ -1,4 +1,5 @@
 import { FormState, InputHandlerProps } from "../../shared/types/formTypes"
+import { GenericProps } from "../../shared/types/sharedTypes"
 
 interface BaseProps {
     id: string
@@ -19,5 +20,5 @@ export interface TermFlashcardProps {
     cardId: string, 
     inputHandler: InputHandlerProps,
     formState?: FormState,
-    removeSubCardHandler:((cardId:string)=>void)
+    removeSubCardHandler: GenericProps<string>
 }
