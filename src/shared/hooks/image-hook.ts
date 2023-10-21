@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react"
-import { AddedPhotosHandlerProps, ImageAction, ImageInputValueProps, ImageState, SearchKeywordHandlerProps, useImageProps } from "../types/imageTypes"
+import { ImageAction, ImageGenericProps, ImageInputValueProps, ImageState, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 
 const imageReducer = (state: ImageState, action:ImageAction) => {
@@ -54,7 +54,7 @@ export const useImage:useImageProps = (initialInputs) => {
         console.log(imageState)
     }, [imageState])
 
-      const searchKeywordHandler:SearchKeywordHandlerProps = (event, cardId) => {
+      const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = (event, cardId) => {
         dispatch({
           type: ImageInputValueProps.SEARCH_KEYWORD,
           inputId: cardId,
@@ -76,7 +76,7 @@ export const useImage:useImageProps = (initialInputs) => {
         })
       }
 
-      const addedPhotosHandler: AddedPhotosHandlerProps = (photos, cardId) => {
+      const addedPhotosHandler: ImageGenericProps<[]> = (photos, cardId) => {
         dispatch({
             type: ImageInputValueProps.PHOTOS_ADDED,
             photos: photos,

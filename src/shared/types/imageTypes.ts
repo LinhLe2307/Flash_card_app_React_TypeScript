@@ -8,21 +8,14 @@ export enum ImageInputValueProps {
     PHOTOS_ADDED='PHOTOS_ADDED'
 }
 
-// interface IdProps<T> {
-//     [input:string]: typeof T
-// }
-
-export type ImageAction = ({
+export type ImageAction = {inputId: string} & ({
     type: ImageInputValueProps.OPEN_UNSPLASH | ImageInputValueProps.SEARCHING
-    inputId: string
 } | {
     type: ImageInputValueProps.PHOTOS_ADDED
     photos: []
-    inputId: string
 } | {
     type: ImageInputValueProps.SEARCH_KEYWORD
     value: string
-    inputId: string
 })
 
 export interface ImageState {
@@ -34,28 +27,24 @@ export interface ImageState {
     }
 }
 
-export interface SearchKeywordHandlerProps {
-    (event:React.ChangeEvent<HTMLInputElement>, cardId: string) : void,
-}
-
-export interface AddedPhotosHandlerProps {
-    (photos: [], cardId: string) : void,
+export interface ImageGenericProps<Type> {
+    (arg: Type, cardId: string) : void
 }
 
 export interface useImageProps {
     (initialInputs: ImageState) : [
         ImageState,
-        searchKeywordHandler: SearchKeywordHandlerProps,
+        searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>>,
         openUnsplashHandler: GenericProps<string>,
         searchingButtonHandler: GenericProps<string>,
-        addedPhotosHandler: AddedPhotosHandlerProps
+        addedPhotosHandler: ImageGenericProps<[]>
     ] 
 }
 
 export interface ImageListPProps { 
     searchKeyword: string, 
     isSearching: boolean, 
-    addedPhotosHandler:AddedPhotosHandlerProps,
+    addedPhotosHandler: ImageGenericProps<[]>,
     photos: [],
     inputHandler: InputHandlerProps,
     cardId: string

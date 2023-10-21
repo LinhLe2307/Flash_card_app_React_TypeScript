@@ -5,20 +5,17 @@ export enum InputValueProps {
     TOUCH = 'TOUCH'
 }
 
-export interface ValueAndValidProps {
-    value: string
+export interface ValueAndValidProps<T> {
+    value: T
     isValid: boolean
 }
 
 export interface FormValueObjectProps {
-    [nameId: string]: ValueAndValidProps
+    [nameId: string]: ValueAndValidProps<string> 
 }
 
 export type FormInputsProps = {
-    [key: string]: {
-        value: FormValueObjectProps| string,
-        isValid: boolean
-    }
+    [key: string]: ValueAndValidProps<FormValueObjectProps| string> 
   }
 
 
@@ -35,7 +32,7 @@ export interface InputAction {
     nameId: string
 }
 
-export interface InputState extends ValueAndValidProps {
+export interface InputState extends ValueAndValidProps<string> {
     isTouched: boolean
 }
 

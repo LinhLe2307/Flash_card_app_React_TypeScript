@@ -3,11 +3,11 @@ import photoApi from '../../shared/api/photoApi';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
-import { AddedPhotosHandlerProps, ImageListPProps } from '../../shared/types/imageTypes';
+import { ImageGenericProps, ImageListPProps } from '../../shared/types/imageTypes';
 import './ImageList.css';
 
 
-const getUnsplashImage = async(query: string, addedPhotosHandler:AddedPhotosHandlerProps, cardId:string) => {
+const getUnsplashImage = async(query: string, addedPhotosHandler:ImageGenericProps<[]>, cardId:string) => {
     try {
       const image = await photoApi.getImage(query)
       addedPhotosHandler(image.data.results, cardId)
