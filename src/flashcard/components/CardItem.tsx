@@ -4,8 +4,9 @@ import Button from '../../shared/components/FormElements/Button'
 import React, { useContext, useState } from 'react'
 import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
+import { Link } from 'react-router-dom'
 
-const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
+const CardItem = ({id, card}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const [showPreview, setShowPreview] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -32,7 +33,7 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
         <Modal 
             show={showPreview} 
             onCancel={closePreviewHandler}
-            header={term}
+            header={card.title}
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={<Button onClick={closePreviewHandler}>CLOSE</Button>}
@@ -62,14 +63,14 @@ const CardItem = ({id, term, definition, image, creatorId}: CardItemProps) => {
                     <img src={image} alt={term}/>
                 </div> */}
                 <div className='card-item__info'>
-                    <h2>{term}</h2>
-                    <h2>{definition}</h2>
+                    <h2><Link to={`/card-detail/${card.id}`} state={{card}}>{card.title}</Link></h2>
+                    <h2>{card.description}</h2>
                 </div>
                 <div className='card-item__actions'>
                     <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
                     {
                         auth.isLoggedIn && <>
-                            <Button to={`/card/${id}`}>EDIT</Button>
+                            <Button to={`/card-update/${id}`}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>
                     }    

@@ -12,7 +12,7 @@ const NavLinks = () => {
         </li>
         {
             auth.isLoggedIn && <li>
-            <NavLink to="/u1/cards">MY CARDS</NavLink>
+            <NavLink to={`/cards-user/${auth.userId}`}>MY CARDS</NavLink>
         </li>
         }
         {
@@ -21,7 +21,7 @@ const NavLinks = () => {
         </li>
         }
         { !auth.isLoggedIn && <li>
-            <NavLink to="/auth">AUTHENTICATE</NavLink>
+            <NavLink to="/auth">LOGIN</NavLink>
         </li>
         }
         { auth.isLoggedIn && <li>

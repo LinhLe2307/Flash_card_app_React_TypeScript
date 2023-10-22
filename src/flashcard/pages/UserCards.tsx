@@ -1,5 +1,10 @@
+import { useQuery } from "@tanstack/react-query"
 import CardList from "../components/CardList"
 import { useParams } from 'react-router-dom'
+import cardApi from "../../shared/api/cardApi"
+import ErrorModal from "../../shared/components/UIElements/ErrorModal"
+import axios from "axios"
+import axiosClient from "../../shared/api/axiosClient"
 
 const DUMMY_PLACES = [
   {
@@ -17,13 +22,38 @@ const DUMMY_PLACES = [
     creator: 'u2'
   }, 
 ]
+ 
+const getAllUserCards = async(userId: string) => {
+  try {
+    const response = await cardApi.getUserCards(userId)
+    console.log(response)
+    return response.cards
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 const UserCards = () => {
   const userId = useParams().userId
-  const loadedCards = DUMMY_PLACES.filter(card => card.creator === userId)
+  const {data, isLoading, error} = useQuery({
+    queryKey: ["cards"],
+    queryFn: () => getAllUserCards(userId),
+  })
+  
+  if (isLoading) {
+    return <h1>Loading...</h1>
+  }
+  
+  if (error) {
+      return <ErrorModal
+        error={"Cannot load the image"} 
+        onClear={() => !error}
+      />
+  }
+
 
   return (
-    <CardList items={loadedCards}/>
+    <CardList items={data}/>
   )
 }
 

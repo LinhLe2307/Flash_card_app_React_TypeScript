@@ -23,8 +23,10 @@ html {
 
 body {
   /* max-width: 1500px; */
-  margin: 0;
-  background: #4d4d4d;
+  /* margin: 0;
+  background: #4d4d4d; */
+  margin-top:20px;
+background-color: #eee;
 }
 
 .slide-in-left-enter {

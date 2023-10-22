@@ -1,19 +1,9 @@
 import { FormState, InputHandlerProps } from "../../shared/types/formTypes"
-import { GenericProps } from "../../shared/types/sharedTypes"
+import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 
-interface BaseProps {
+export interface CardItemProps {
     id: string
-    term: string
-    definition: string
-} 
-export interface CardProps extends BaseProps {
-    imageUrl: string
-    creator: string | undefined
-}
-
-export interface CardItemProps extends BaseProps {
-    image: string
-    creatorId: string | undefined
+    card: ObjectGenericProps<string>
 }
 
 export interface TermFlashcardProps {

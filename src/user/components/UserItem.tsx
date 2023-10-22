@@ -1,24 +1,29 @@
-import './UserItem.css'
-import Avatar from '../../shared/components/UIElements/Avatar'
 import { UserItemProps } from '../types/userTypes'
-import { Link } from 'react-router-dom'
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
+import './UserItem.css'
 
 const UserItem = ({id, image, name, cardCount}: UserItemProps ) => {
   return (
-    <li className='user-item'>
-      <CardAvatar className='user-item__content'>
-            <Link to={`/${id}/cards`}>
-              <div className='user-item__image'>
-                  <Avatar image={image} alt={name}/>
+    <section className="search-result-item">
+      <a className="image-link" href="#"><img className="image" src="https://bootdey.com/img/Content/avatar/avatar1.png" />
+      </a>
+      <div className="search-result-item-body">
+          <div className="row">
+              <div className="col-sm-9">
+                  <h4 className="search-result-item-heading"><a href="#">{name}</a></h4>
+                  <p className="info">New York, NY 20188</p>
+                  {/* <p className="description">Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template.</p> */}
               </div>
-              <div className='user-item__info'>
-                  <h2>{name}</h2>
-                  <h3>{cardCount} {cardCount === 1 ? 'Flash Card' : 'Flash Cards'}</h3>
+              <div className="col-sm-3 text-align-center">
+                  <p className="value3 mt-sm">{cardCount >= 1 ? cardCount : 0}</p>
+                  <p className="fs-mini text-muted">{cardCount === 1 ? 'CARD' : 'CARDS'}</p><a className="btn btn-primary btn-info btn-sm" href="#">
+                    View Cards
+                  </a>
               </div>
-            </Link>
-      </CardAvatar>
-    </li>
+          </div>
+      </div>
+  </section>
+
+    
   )
 }
 

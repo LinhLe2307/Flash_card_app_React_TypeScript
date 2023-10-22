@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const clientId = process.env.NEXT_PUBLIC_UNSPLASH_CLIENT_ID
+
 const UNSPLASH_ROOT = 'https://api.unsplash.com'
 
 const photoApi = {

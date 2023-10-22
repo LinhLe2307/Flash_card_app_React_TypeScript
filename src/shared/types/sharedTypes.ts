@@ -7,5 +7,9 @@ export interface GenericProps<Type> {
 }
 
 export type AddNewProperty<T> = {
-    [K in keyof T]: T[K]
+    [K in keyof T]: string
+}
+
+export interface ObjectGenericProps<T> {
+    [key: string]: T
 }
