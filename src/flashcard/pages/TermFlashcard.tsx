@@ -3,10 +3,10 @@ import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 import Button from '../../shared/components/FormElements/Button';
-import ImageList from '../components/ImageList';
+import { useImage } from '../../shared/hooks/image-hook';
+import ImagesList from '../components/ImagesList';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
-import { useImage } from '../../shared/hooks/image-hook';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:TermFlashcardProps) => {
@@ -21,6 +21,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
       photos: []
     }
   })
+
   return (
     <div className="flashcard">
       <div id="wrapper">
@@ -123,27 +124,24 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
       }         
       </div>
       {
-            imageState[cardId].isOpeningUnsplash ?
+            imageState[cardId].isOpeningUnsplash &&
             <>
               <div>
                 <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
               </div>
               <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
-
-              {
-                imageState[cardId].searchKeyword.length !== 0 &&
-                <ImageList 
-                  searchKeyword={imageState[cardId].searchKeyword} 
-                  isSearching={imageState[cardId].isClickingButton} 
-                  photos={imageState[cardId].photos}
-                  addedPhotosHandler={addedPhotosHandler}
-                  inputHandler={inputHandler}
-                  cardId={cardId}
-                />
-              }
+                {
+                  imageState[cardId].isClickingButton && 
+                  <ImagesList 
+                    searchKeyword={imageState[cardId].searchKeyword} 
+                    isSearching={imageState[cardId].isClickingButton} 
+                    photos={imageState[cardId].photos}
+                    addedPhotosHandler={addedPhotosHandler}
+                    inputHandler={inputHandler}
+                    cardId={cardId}
+                  />
+                }
             </>
-            
-            : <></>
       }
     </div>
   )

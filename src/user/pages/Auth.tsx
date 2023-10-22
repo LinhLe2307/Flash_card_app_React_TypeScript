@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react"
+import userApi from "../../shared/api/userApi"
 import Button from "../../shared/components/FormElements/Button"
-import ErrorModal from "../../shared/components/UIElements/ErrorModal"
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import Input from "../../shared/components/FormElements/Input"
 import CardAvatar from "../../shared/components/UIElements/CardAvatar"
-import { useForm } from "../../shared/hooks/form-hook"
-import { FormHandlerProps } from "../../shared/types/formTypes"
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
+import ErrorModal from "../../shared/components/UIElements/ErrorModal"
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { AuthContext } from "../../shared/context/auth-context"
+import { useForm } from "../../shared/hooks/form-hook"
+import { GenericProps } from "../../shared/types/sharedTypes"
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './Auth.css'
-import userApi from "../../shared/api/userApi"
 
 const Auth = () => {
     const auth = useContext(AuthContext)
@@ -32,7 +32,7 @@ const Auth = () => {
         }
     }, false)
 
-    const authSubmitHandler:FormHandlerProps = async(event) => {
+    const authSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
         setIsLoading(true)
         if (isLoginMode) {
@@ -41,10 +41,12 @@ const Auth = () => {
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                await userApi.login(body)
+                const response = await userApi.login(body)
+                console.log(response)
                 setIsLoading(false)
-                auth.login()
+                auth.login(response.user.id)
             } catch(err) {
+                console.log(err)
                 setIsLoading(false)
                 setError(err.response.data.message || 'Something went wrong, please try again.')
             }
@@ -55,9 +57,9 @@ const Auth = () => {
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                await userApi.signup(body)
+                const response = await userApi.signup(body)
                 setIsLoading(false)
-                auth.login()
+                auth.login(response.user.id)
             } catch(err) {
                 setIsLoading(false)
                 setError(err.response.data.message || 'Something went wrong, please try again.')
@@ -129,7 +131,7 @@ const Auth = () => {
                     validators={
                         [
                             VALIDATOR_REQUIRE(),
-                            VALIDATOR_MINLENGTH(10)
+                            VALIDATOR_MINLENGTH(6)
                         ]
                     }
                     onInput={inputHandler}

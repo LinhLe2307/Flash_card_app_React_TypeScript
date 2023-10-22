@@ -7,7 +7,8 @@ import UsersList from "../components/UsersList"
 
 const getAllUsers = async() => {
   try {
-    return await userApi.getAll()
+    const response = await userApi.getAll()
+    return response
   } catch(err) {
     console.log(err)
   }

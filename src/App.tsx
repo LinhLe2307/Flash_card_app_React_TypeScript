@@ -10,16 +10,20 @@ import UpdateCard from "./flashcard/pages/UpdateCard"
 import UserCards from "./flashcard/pages/UserCards"
 import { AuthContext } from "./shared/context/auth-context"
 import Auth from "./user/pages/Auth"
+import { GenericProps } from "./shared/types/sharedTypes"
 
 function App() {
   const [isLoggedIn, setIsLogin] = useState(false)
+  const [userId, setUserId] = useState('')
   const client = new QueryClient()
 
-  const login = useCallback(() => {
+  const login:GenericProps<string> = useCallback((uid) => {
     setIsLogin(true)
+    setUserId(uid)
   }, [])
   const logout = useCallback(() => {
     setIsLogin(false)
+    setUserId('')
   }, [])
 
   let routes;
@@ -52,7 +56,7 @@ function App() {
 
   return (
     <QueryClientProvider client={client}>
-      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login:login, logout: logout}}>
+      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, userId: userId, login:login, logout: logout}}>
           <BrowserRouter>
             <MainNavigation />
             <main>

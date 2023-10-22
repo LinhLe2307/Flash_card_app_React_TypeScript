@@ -10,14 +10,13 @@ export interface ValueAndValidProps<T> {
     isValid: boolean
 }
 
-export interface FormValueObjectProps {
-    [nameId: string]: ValueAndValidProps<string> 
+export interface FormValueObjectProps<T> {
+    [nameId: string]: T
 }
 
 export type FormInputsProps = {
-    [key: string]: ValueAndValidProps<FormValueObjectProps| string> 
+    [key: string]: ValueAndValidProps<FormValueObjectProps<ValueAndValidProps<string>>| string>
   }
-
 
 export interface ValidatorsProps {
     type: string
@@ -76,7 +75,7 @@ export type FormAction = {
     inputId: string
     isValid: boolean
     nameId: string 
-    value: FormValueObjectProps | string
+    value: FormValueObjectProps<ValueAndValidProps<string>> | string
 } | {
     type: FormActionProps.SET_DATA,
     inputs: FormInputsProps,
@@ -102,3 +101,4 @@ export interface UserFormHandler {
         setFormData: SetFormDataProps,
     ]
 }
+

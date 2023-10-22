@@ -1,5 +1,5 @@
-import axios from 'axios'
-import queryString from 'query-string'
+import axios from 'axios';
+import queryString from 'query-string';
 
 const axiosClient = axios.create({
     baseURL: process.env.BASE_URL,
@@ -9,19 +9,27 @@ const axiosClient = axios.create({
     paramsSerializer: params => queryString.stringify(params)
 })
 
+let source = axios.CancelToken.source();
 axiosClient.interceptors.request.use(async(config) => {
     // Handle token here...
-    return config
+    config.cancelToken = source.token;
+    return config;
 }, (error) => {
     return Promise.reject(error);
 })
 
 axiosClient.interceptors.response.use(response => {
+
     if (response && response.data) {
         return response.data
-    }
+    } 
     return response
 }, (error) => {
+    const response = error.response;
+    if(response.status === 404) {
+        // how to cancel the Promise here?
+        return false;
+    }
     return Promise.reject(error);
 })
 

@@ -69,7 +69,7 @@ const NewCard = () => {
   }
 
   useEffect(() => {
-    console.log(formState)
+    console.log("formState", formState)
   }, [formState])
 
   return (
@@ -108,7 +108,7 @@ const NewCard = () => {
 
         <div>
           {
-            ["one"].map(card => <TermFlashcard 
+            DEFAULT_CARDS.map(card => <TermFlashcard 
               cardId={String(card)}
               removeSubCardHandler={removeSubCardHandler}
               inputHandler={inputHandler}

@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react"
+import { useCallback, useEffect, useReducer } from "react"
 import { ImageAction, ImageGenericProps, ImageInputValueProps, ImageState, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 
@@ -20,6 +20,7 @@ const imageReducer = (state: ImageState, action:ImageAction) => {
         for (const inputId in state){
           if (inputId === action.inputId) {
             newKeyword[inputId].searchKeyword = action.value
+            newKeyword[inputId].isClickingButton = false
           } 
         }
         return newKeyword
@@ -49,40 +50,36 @@ const imageReducer = (state: ImageState, action:ImageAction) => {
 
 export const useImage:useImageProps = (initialInputs) => {
     const [imageState, dispatch] = useReducer(imageReducer, initialInputs)
-    
-    useEffect(() => {
-        console.log(imageState)
-    }, [imageState])
 
-      const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = (event, cardId) => {
+    const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = useCallback((event, cardId) => {
         dispatch({
           type: ImageInputValueProps.SEARCH_KEYWORD,
           inputId: cardId,
           value: event.target.value
         })
-      }
+      }, [dispatch])
     
-      const openUnsplashHandler:GenericProps<string> = (cardId) => {
+      const openUnsplashHandler:GenericProps<string> = useCallback((cardId) => {
           dispatch({
             type: ImageInputValueProps.OPEN_UNSPLASH,
             inputId: cardId
           })
-      }
+      }, [dispatch])
 
-      const searchingButtonHandler:GenericProps<string> = (cardId) => {
+      const searchingButtonHandler:GenericProps<string> = useCallback((cardId) => {
         dispatch({
             type: ImageInputValueProps.SEARCHING,
             inputId: cardId
         })
-      }
+      }, [dispatch])
 
-      const addedPhotosHandler: ImageGenericProps<[]> = (photos, cardId) => {
+      const addedPhotosHandler: ImageGenericProps<[]> = useCallback((photos, cardId) => {
         dispatch({
             type: ImageInputValueProps.PHOTOS_ADDED,
             photos: photos,
             inputId: cardId
         })
-      }
+      }, [dispatch])
     
     return [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler]
 }

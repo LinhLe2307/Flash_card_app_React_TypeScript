@@ -11,8 +11,7 @@ const userApi = {
         return axiosClient.post(url, params)
     },
     getAll: () => {
-        const url = baseUrl
-        return axiosClient.get(url)
+        return axiosClient.get(baseUrl)
     }
 }
 export default userApi;
