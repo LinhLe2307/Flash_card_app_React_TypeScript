@@ -1,4 +1,4 @@
-import { GenericProps } from "./sharedTypes"
+import { GenericProps, ObjectGenericProps } from "./sharedTypes"
 
 export enum InputValueProps {
     CHANGE = 'CHANGE',
@@ -10,12 +10,12 @@ export interface ValueAndValidProps<T> {
     isValid: boolean
 }
 
-export interface FormValueObjectProps<T> {
-    [nameId: string]: T
-}
+// export interface ObjectGenericProps<T> {
+//     [key: string]: T
+// }
 
 export type FormInputsProps = {
-    [key: string]: ValueAndValidProps<FormValueObjectProps<ValueAndValidProps<string>>| string>
+    [key: string]: ValueAndValidProps<ObjectGenericProps<ValueAndValidProps<string>>| string>
   }
 
 export interface ValidatorsProps {
@@ -75,7 +75,7 @@ export type FormAction = {
     inputId: string
     isValid: boolean
     nameId: string 
-    value: FormValueObjectProps<ValueAndValidProps<string>> | string
+    value: ObjectGenericProps<ValueAndValidProps<string>> | string
 } | {
     type: FormActionProps.SET_DATA,
     inputs: FormInputsProps,

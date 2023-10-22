@@ -6,7 +6,7 @@ const cardApi = {
     getAll: (params: cardApiProps) => {
         return axiosClient.get(baseURL, {params})
     },
-    post: (params) => {
+    post: (params: string) => {
         return axiosClient.post(baseURL, params)
     },
     getUserCards: (userId : string) => {

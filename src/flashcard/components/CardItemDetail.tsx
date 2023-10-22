@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import Button from '../../shared/components/FormElements/Button'
+import { useState } from 'react'
 
+import { ObjectGenericProps } from '../../shared/types/sharedTypes'
 import './CardDetail.css'
 
-const CardItemDetail = ({card, id}) => {
-  console.log("card",card)
-    const [side, setSide] = useState();
+const CardItemDetail = ({card, id}: {card: ObjectGenericProps<string>,id: string }) => {
+    const [side, setSide] = useState(false);
 
     function handleClick() {
         console.log("clicked!");

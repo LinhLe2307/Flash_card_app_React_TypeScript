@@ -1,6 +1,6 @@
 import { useCallback, useReducer } from 'react';
-import { FormAction, FormActionProps, FormState, FormValueObjectProps, InputHandlerProps, SetFormDataProps, UserFormHandler, ValueAndValidProps } from '../types/formTypes';
-import { GenericProps } from '../types/sharedTypes';
+import { FormAction, FormActionProps, FormState, InputHandlerProps, SetFormDataProps, UserFormHandler, ValueAndValidProps } from '../types/formTypes';
+import { GenericProps, ObjectGenericProps } from '../types/sharedTypes';
 
 
 const valuesTypes = ["title", "description", "name", "email", "password"]
@@ -23,7 +23,7 @@ const formReducer = (state: FormState, action: FormAction) => {
               formIsValid = formIsValid && action.isValid
             } else {
               if (typeof action.value === "object") {
-                const inputValue = newProps.inputs[action.inputId].value as FormValueObjectProps<ValueAndValidProps<string>>;
+                const inputValue = newProps.inputs[action.inputId].value as ObjectGenericProps<ValueAndValidProps<string>>;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
                   value : {
@@ -46,7 +46,7 @@ const formReducer = (state: FormState, action: FormAction) => {
               formIsValid = formIsValid && state.inputs[inputId].isValid
             } else {
               if (typeof action.value === "object") {
-                const inputValue = newProps.inputs[action.inputId]?.value as FormValueObjectProps<ValueAndValidProps<string>>;
+                const inputValue = newProps.inputs[action.inputId]?.value as ObjectGenericProps<ValueAndValidProps<string>>;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
                   value: {

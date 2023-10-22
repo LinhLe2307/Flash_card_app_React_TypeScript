@@ -4,8 +4,8 @@ import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import { useForm } from '../../shared/hooks/form-hook'
-import { FormInputsProps, FormValueObjectProps } from '../../shared/types/formTypes'
-import { GenericProps } from '../../shared/types/sharedTypes'
+import { FormInputsProps } from '../../shared/types/formTypes'
+import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
 import TermFlashcard from './TermFlashcard'
 import { DEFAULT_CARDS } from '../../shared/constants/global'
 import cardApi from '../../shared/api/cardApi'
@@ -27,7 +27,7 @@ let initialValue: FormInputsProps = {
 }
 
 interface BodyProps {
-  [key: string]: FormValueObjectProps<string> | string 
+  [key: string]: ObjectGenericProps<string> | string 
 }
 
 const NewCard = () => {

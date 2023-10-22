@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Button from '../../shared/components/FormElements/Button'
+import { useEffect, useState } from 'react';
 
-import './CardDetail.css'
-import CardItemDetail from './CardItemDetail';
-import { useQuery } from '@tanstack/react-query';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { useLocation } from 'react-router-dom';
+import './CardDetail.css';
+import CardItemDetail from './CardItemDetail';
+import { ObjectGenericProps } from '../../shared/types/sharedTypes';
 
 // const getCardDetail = () => {
 
@@ -14,11 +12,6 @@ import { useLocation } from 'react-router-dom';
 const CardDetail = () => {
     const [flashcarddata, setFlashcarddata] = useState({});
     const location = useLocation().state.card
-    console.log(location)
-    // const {data, isLoading, error} = useQuery({
-    //     queryKey: ["cards"],
-    //     queryFn: () => getCardDetail(userId),
-    //   })
 
   // https://www.debuggr.io/react-map-of-undefined/
   const cards = Object.entries(flashcarddata).map(([key, value]) => {
@@ -35,36 +28,25 @@ const CardDetail = () => {
   function nextCard() {
     setCurrent(current + 1);
   }
-
-  // if (flashcarddata) {
-  //   return (
-  //     <div>
-  //       <div>The number of cards is: {flashcarddata.length}</div>
-  //       {cards[0]}
-  //     </div>
-  //   );
-  // } else {
-  //   return <div>Loading...</div>;
-  // }
-
-//   if (isLoading) {
-//     return <h1>Loading...</h1>
-//   }
   
-//   if (error) {
-//       return <ErrorModal
-//         error={"Cannot load the image"} 
-//         onClear={() => !error}
-//       />
-//   }
-
+  
   useEffect(() => {
-    const nameState = ["creator", "id", "description", "title", "__v", "_id"]
-    const newLocation = {}
-    Object.entries(location).filter(([key, value]) => nameState.indexOf(key) === -1 && (newLocation[`${key}-${location[key].id}`]=value))
-    console.log("newLocation", newLocation)
-    setFlashcarddata(newLocation)
-  }, [location])
+      const nameState = ["creator", "id", "description", "title", "__v", "_id"]
+      const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
+      Object.entries(location).filter(([key, value]) => nameState.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
+      setFlashcarddata(newLocation)
+    }, [location])
+
+    // if (Object.keys(flashcarddata).length !== 0) {
+    //   return (
+    //     <div>
+    //       <div>The number of cards is: {Object.keys(flashcarddata).length}</div>
+    //       {cards[0]}
+    //     </div>
+    //   );
+    // } else {
+    //   return <div>Loading...</div>;
+    // } }
   return (
     <div>
       {/* number of cards */}
