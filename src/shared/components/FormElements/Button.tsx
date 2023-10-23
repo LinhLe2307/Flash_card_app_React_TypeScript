@@ -19,6 +19,7 @@ const Button = (props: ButtonProps) => {
     return (
       <Link
         to={props.to}
+        state={props.state ? props.state : null}
         // exact={props.exact}
         className={`button button--${props.size || 'default'} ${props.inverse &&
           'button--inverse'} ${props.danger && 'button--danger'}`}

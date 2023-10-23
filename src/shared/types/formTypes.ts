@@ -101,4 +101,3 @@ export interface UserFormHandler {
         setFormData: SetFormDataProps,
     ]
 }
-

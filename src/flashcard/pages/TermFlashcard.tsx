@@ -9,10 +9,7 @@ import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
 
 
-const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:TermFlashcardProps) => {
-// const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState, imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler}:TermFlashcardProps) => {
-  const termValue = formState && formState.inputs[cardId].value;
-
+const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:TermFlashcardProps) => {
   const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
     [cardId]: {
       isOpeningUnsplash: false,
@@ -39,7 +36,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
       </div>
       <div className="flashcard__input">
       {
-        typeof termValue !== "string" && !termValue
+        typeof flashcard !== "string" && !flashcard
         && <>
             <Input 
             nameId="term"
@@ -78,7 +75,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
         </> 
         }
         {
-          typeof termValue !== "string" && termValue
+          typeof flashcard !== "string" && flashcard
           &&
           <>
             <Input 
@@ -94,8 +91,8 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             }
             errorText="Please enter a valid term"
             onInput = {inputHandler}
-            initialValue={termValue.term.value}
-            initialIsValid={termValue.term.isValid}
+            initialValue={flashcard.term}
+            initialIsValid={true}
             />
           <Input 
             nameId="definition"
@@ -110,12 +107,12 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, formState}:T
             }
             errorText="Please enter a valid definition (at least 5 characters)."
             onInput = {inputHandler}
-            initialValue={termValue.definition.value}
-            initialIsValid={termValue.definition.isValid}
+            initialValue={flashcard.definition}
+            initialIsValid={true}
           />
           <div>
               <img
-                src={termValue.imageUrl?.value}
+                src={flashcard.imageUrl}
                 width="125px"
                 onClick={() => openUnsplashHandler(cardId)}
               />

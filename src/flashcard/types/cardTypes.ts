@@ -9,6 +9,6 @@ export interface CardItemProps {
 export interface TermFlashcardProps {
     cardId: string, 
     inputHandler: InputHandlerProps,
-    formState?: FormState,
+    flashcard?: ObjectGenericProps<string>,
     removeSubCardHandler: GenericProps<string>
 }

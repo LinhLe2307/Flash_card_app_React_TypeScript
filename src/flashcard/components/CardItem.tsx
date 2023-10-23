@@ -70,7 +70,7 @@ const CardItem = ({id, card}: CardItemProps) => {
                     <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
                     {
                         auth.isLoggedIn && <>
-                            <Button to={`/card-update/${id}`}>EDIT</Button>
+                            <Button to={`/card-update/${id}`} state={card}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>
                     }    
