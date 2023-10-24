@@ -8,7 +8,7 @@ import UsersList from "../components/UsersList"
 const getAllUsers = async() => {
   try {
     const response = await userApi.getAll()
-    return response
+    return response.users
   } catch(err) {
     console.log(err)
   }
@@ -17,7 +17,8 @@ const getAllUsers = async() => {
 const Users = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["users"],
-    queryFn: getAllUsers
+    queryFn: getAllUsers,
+    refetchOnWindowFocus: false
   })
 
   if (isLoading) {
@@ -32,7 +33,7 @@ const Users = () => {
   }
   return (
     <React.Fragment>
-      {data && <UsersList items={data.users}/>}
+      {data && <UsersList items={data}/>}
     </React.Fragment>
   )
 }

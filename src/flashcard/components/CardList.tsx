@@ -1,10 +1,10 @@
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import { ListResponse, ObjectGenericProps } from '../../shared/types/sharedTypes'
+import { CardListProps } from '../types/cardTypes'
 import CardItem from './CardItem'
 import './CardList.css'
 
-const CardList = ({ items }: ListResponse<ObjectGenericProps<string>>) => {
+const CardList = ({ items, onDeleteCard }: CardListProps) => {
     if (items.length === 0) {
         return <div className='card-list center'>
             <CardAvatar>
@@ -19,6 +19,7 @@ const CardList = ({ items }: ListResponse<ObjectGenericProps<string>>) => {
             key={card.id} 
             id={card.id}
             card={card}
+            onDelete={onDeleteCard}
         />)}
         
     </ul>

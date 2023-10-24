@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useLocation, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import cardApi from '../../shared/api/cardApi';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { filterName } from '../../shared/constants/global';
+import { ObjectGenericProps } from '../../shared/types/sharedTypes';
 import './CardDetail.css';
 import CardItemDetail from './CardItemDetail';
-import { ObjectGenericProps } from '../../shared/types/sharedTypes';
-import { useQuery } from '@tanstack/react-query';
-import cardApi from '../../shared/api/cardApi';
-import { filterName } from '../../shared/constants/global';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
-const getCardDetail = async(cardId) => {
+const getCardDetail = async(cardId: string) => {
   try {
     const response = await cardApi.getDetailCard(cardId)
     const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
@@ -26,48 +26,37 @@ const CardDetail = () => {
     // const [flashcarddata, setFlashcarddata] = useState({});
     const { cardId } = useParams()
 
+    if (!cardId) {
+      return <h2>Cannot find card</h2>
+    }
+
     const {data, isLoading, error} = useQuery({
-      queryKey: [],
+      queryKey: ["card-detail"],
       queryFn: () => getCardDetail(cardId),
       refetchOnWindowFocus: false
     }
     )
 
-  // https://www.debuggr.io/react-map-of-undefined/
-  const cards = data && Object.entries(data).map(([key, value]) => {
-    return <CardItemDetail card={value} id={key} key={key} />;
-  });
-
-  const loading = <div className="loading">Loading flashcard content...</div>;
-
-  // navigation in cards
-  const [current, setCurrent] = useState(0);
-  function previousCard() {
-    setCurrent(current - 1);
-  }
-  function nextCard() {
-    setCurrent(current + 1);
-  }
+    
+    const loading = <div className="loading">Loading flashcard content...</div>;
+    
+    // navigation in cards
+    const [current, setCurrent] = useState(0);
+    function previousCard() {
+      setCurrent(current - 1);
+    }
+    function nextCard() {
+      setCurrent(current + 1);
+    }
+    // https://www.debuggr.io/react-map-of-undefined/
+    const cards = data && Object.entries(data).map(([key, value]) => {
+      return <CardItemDetail card={value} id={key} key={key} />;
+    });
+    
+    if(!data) {
+      return <h2>Cannot fetching data</h2>
+    }
   
-  
-  // useEffect(() => {
-  //     const filterName = ["creator", "id", "description", "title", "__v", "_id"]
-  //     const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
-  //     Object.entries(location).filter(([key, value]) => filterName.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
-  //     setdata(newLocation)
-  //   }, [location])
-
-    // if (Object.keys(data).length !== 0) {
-    //   return (
-    //     <div>
-    //       <div>The number of cards is: {Object.keys(data).length}</div>
-    //       {cards[0]}
-    //     </div>
-    //   );
-    // } else {
-    //   return <div>Loading...</div>;
-    // } }
-
     if (isLoading) {
       return <LoadingSpinner asOverlay/>
     }
@@ -81,7 +70,7 @@ const CardDetail = () => {
   return (
     <div>
       {/* number of cards */}
-      {Object.keys(data) && Object.keys(data).length > 0 ? (
+      {data && Object.keys(data) && Object.keys(data).length > 0 ? (
         <div className="cardNumber">
           Card {current + 1} of {Object.keys(data).length}
         </div>
@@ -91,7 +80,7 @@ const CardDetail = () => {
       {/* /number of cards */}
 
       {/* render cards */}
-      {Object.keys(data) && Object.keys(data).length > 0 ? cards[current] : loading}
+      {data && cards && Object.keys(data) && Object.keys(data).length > 0 ? cards[current] : loading}
       {/* /render cards */}
 
       {/* render nav buttons */}
@@ -103,7 +92,7 @@ const CardDetail = () => {
             Previous card
           </button>
         )}
-        {current < Object.keys(data).length - 1 ? (
+        {data && current < Object.keys(data).length - 1 ? (
           <button onClick={nextCard}>Next card</button>
         ) : (
           <button className="disabled" disabled>

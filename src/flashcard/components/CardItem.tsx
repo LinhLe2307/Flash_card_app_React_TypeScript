@@ -1,35 +1,52 @@
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import { CardItemProps } from '../types/cardTypes'
-import Button from '../../shared/components/FormElements/Button'
 import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
+import cardApi from '../../shared/api/cardApi'
+import Button from '../../shared/components/FormElements/Button'
+import CardAvatar from '../../shared/components/UIElements/CardAvatar'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
-import { Link } from 'react-router-dom'
+import { CardItemProps } from '../types/cardTypes'
 
-const CardItem = ({id, card}: CardItemProps) => {
+const CardItem = ({id, card, onDelete}: CardItemProps) => {
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+
     const auth = useContext(AuthContext)
     const [showPreview, setShowPreview] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
+    const clearError = () => {
+        setError(null);
+      };
     const openPreviewHandler = () => {
         setShowPreview(true)
     }
     const closePreviewHandler = () => {
         setShowPreview(false)
     }
-
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
     }
     const cancelDeleteHandler = () => {
         setShowConfirmModal(false)
     }
-    const confirmDeleteHandler = () => {
+    const confirmDeleteHandler = async (deletedCardId: string) => {
         setShowConfirmModal(false)
+        setIsLoading(true)
+        try {
+            await cardApi.deleteCard(deletedCardId)
+            onDelete(deletedCardId)
+            setIsLoading(false)
+        } catch(err) {
+            console.log(err)
+        }
     }
 
   return (
     <React.Fragment>
+        <ErrorModal error={error} onClear={clearError}/>
         <Modal 
             show={showPreview} 
             onCancel={closePreviewHandler}
@@ -51,7 +68,7 @@ const CardItem = ({id, card}: CardItemProps) => {
             footer={
                 <React.Fragment>
                     <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
-                    <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+                    <Button danger onClick={() => confirmDeleteHandler(id)}>DELETE</Button>
                 </React.Fragment>
             }
         >
@@ -62,6 +79,7 @@ const CardItem = ({id, card}: CardItemProps) => {
                 {/* <div className='card-item__image'>
                     <img src={image} alt={term}/>
                 </div> */}
+                {isLoading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
                     <h2><Link to={`/card-detail/${card.id}`} state={{card}}>{card.title}</Link></h2>
                     <h2>{card.description}</h2>

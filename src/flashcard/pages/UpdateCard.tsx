@@ -74,7 +74,7 @@ const UpdateCard = () => {
     }, false)
 
     const {data, error} = useQuery({
-        queryKey: ["card-detail"],
+        queryKey: ["update-card"],
         queryFn: () => cardId && getDetailCard(cardId, setFormData, setIsLoading),
         refetchOnWindowFocus: false
     }
