@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import cardApi from '../../shared/api/cardApi'
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
-import { CardItemProps } from '../types/cardTypes'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import { CardItemProps } from '../types/cardTypes'
 
 const CardItem = ({id, card, onDelete}: CardItemProps) => {
     const auth = useContext(AuthContext)

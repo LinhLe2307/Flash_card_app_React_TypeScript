@@ -39,9 +39,9 @@ const Auth = () => {
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                const response = await sendRequest(`/api/user/login`,
+                const response = await sendRequest(`/api/users/login`,
                     'POST',
-                    JSON.stringify(body),
+                    body,
                     {
                         'Content-Type': 'application/json'
                     }
@@ -57,12 +57,10 @@ const Auth = () => {
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                const response = await sendRequest(`/api/user/signup`,
+                const response = await sendRequest(`/api/users/signup`,
                     'POST',
                     JSON.stringify(body),
-                    {
-                        'Content-Type': 'application/json'
-                    }
+                    {}
                 )
                 auth.login(response.userId, response.token)
             } catch(err) {}

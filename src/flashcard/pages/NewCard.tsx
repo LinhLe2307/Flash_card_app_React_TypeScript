@@ -71,10 +71,6 @@ const NewCard = () => {
     }
   }
 
-  useEffect(() => {
-    console.log("formState", formState)
-  }, [formState])
-
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />

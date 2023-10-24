@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import cardApi from '../../shared/api/cardApi';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { filterName } from '../../shared/constants/global';
 import { ObjectGenericProps } from '../../shared/types/sharedTypes';
 import './CardDetail.css';
 import CardItemDetail from './CardItemDetail';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import { SendRequestProps } from '../../shared/types/formTypes';
 
-const getCardDetail = async(cardId: string) => {
+const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
   try {
-    const response = await cardApi.getDetailCard(cardId)
+    const response = await sendRequest(`/api/cards/${cardId}`, 
+      'GET',
+      null,
+      {
+        'Content-Type': 'application/json'
+      }
+    )
     const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
     Object.entries(response.card).filter(([key, value]) => filterName.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
     console.log(newLocation)
@@ -23,16 +30,16 @@ const getCardDetail = async(cardId: string) => {
 }
 
 const CardDetail = () => {
-    // const [flashcarddata, setFlashcarddata] = useState({});
     const { cardId } = useParams()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
 
     if (!cardId) {
       return <h2>Cannot find card</h2>
     }
 
-    const {data, isLoading, error} = useQuery({
+    const {data, isLoading: isLoadingFetch} = useQuery({
       queryKey: ["card-detail"],
-      queryFn: () => getCardDetail(cardId),
+      queryFn: () => getCardDetail(cardId, sendRequest),
       refetchOnWindowFocus: false
     }
     )
@@ -57,18 +64,10 @@ const CardDetail = () => {
       return <h2>Cannot fetching data</h2>
     }
   
-    if (isLoading) {
-      return <LoadingSpinner asOverlay/>
-    }
-  
-    if (error) {
-      return <ErrorModal 
-        error={"Cannot load users"} 
-        onClear={() => !error}
-      />
-    }
   return (
-    <div>
+    <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoadingFetch && <LoadingSpinner asOverlay/>}
       {/* number of cards */}
       {data && Object.keys(data) && Object.keys(data).length > 0 ? (
         <div className="cardNumber">
@@ -101,7 +100,7 @@ const CardDetail = () => {
         )}
         {/* /render nav buttons */}
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

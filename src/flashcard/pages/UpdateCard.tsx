@@ -21,9 +21,11 @@ const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, sendR
             `/api/cards/${cardId}`,
             'GET',
             null,
-            {}
-        )
-        const newData: FormInputsProps = {}
+            {
+                'Content-Type': 'application/json'
+            }
+            )
+            const newData: FormInputsProps = {}
             Object.entries(response.card).map(([key, value]) => {
                 if (["title", "description"].indexOf(key) !== -1) {
                     if (typeof value === "string") {
@@ -115,71 +117,74 @@ const UpdateCard = () => {
                     'Authorization': 'Bearer ' + auth.token
                 }
             )
-            navigate(`/card-detail/${cardId}`)
+
+            setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
+            
 
         } catch(error) {
             console.log(error)
         }
     }
 
-    if (isLoading) {
-        return <LoadingSpinner asOverlay/>
-      }
-    
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />
-        <form className='card-form' onSubmit={updateCardSubmitHandler}>
-            <Input 
-                nameId="title"
-                id="title" 
-                element="input"
-                type="text"
-                label="Title"
-                validators={
-                    [
-                    VALIDATOR_REQUIRE()
-                    ]
-                }
-                errorText="Please enter a valid text"
-                onInput={inputHandler}
-                initialValue={data.title}
-                initialIsValid={true}
-                />
-            <Input 
-                nameId="description"
-                id="description" 
-                element="textarea"
-                type="text"
-                label="Description"
-                validators={[VALIDATOR_MINLENGTH(5)]}
-                errorText="Please enter a valid definition (min. 5 characters)."
-                onInput={inputHandler}
-                initialValue={data.description}
-                initialIsValid={true}
-                />
-            <div className='card-form' >
-            {
-            Object.entries(data).map(([key, value]) => {
-                if (filterName.indexOf(key) === -1) {
 
-                    if (typeof value !== null) {
-                        return <TermFlashcard 
-                        cardId={key}
-                        removeSubCardHandler={removeSubCardHandler}
-                        flashcard={value as ObjectGenericProps<string>}
-                        inputHandler={inputHandler}
-                        key={key}
+        {
+            data &&
+            <form className='card-form' onSubmit={updateCardSubmitHandler}>
+                { isLoading && <LoadingSpinner asOverlay/> }
+                <Input 
+                    nameId="title"
+                    id="title" 
+                    element="input"
+                    type="text"
+                    label="Title"
+                    validators={
+                        [
+                        VALIDATOR_REQUIRE()
+                        ]
+                    }
+                    errorText="Please enter a valid text"
+                    onInput={inputHandler}
+                    initialValue={data.title}
+                    initialIsValid={true}
                     />
+                <Input 
+                    nameId="description"
+                    id="description" 
+                    element="textarea"
+                    type="text"
+                    label="Description"
+                    validators={[VALIDATOR_MINLENGTH(5)]}
+                    errorText="Please enter a valid definition (min. 5 characters)."
+                    onInput={inputHandler}
+                    initialValue={data.description}
+                    initialIsValid={true}
+                    />
+                <div className='card-form' >
+                {
+                Object.entries(data).map(([key, value]) => {
+                    if (filterName.indexOf(key) === -1) {
+
+                        if (typeof value !== null) {
+                            return <TermFlashcard 
+                            cardId={key}
+                            removeSubCardHandler={removeSubCardHandler}
+                            flashcard={value as ObjectGenericProps<string>}
+                            inputHandler={inputHandler}
+                            key={key}
+                        />
+                        }
                     }
                 }
-            }
-            )
-            }
-            <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
-        </div>
-            <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button> 
-        </form>
+                )
+                }
+                <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+            </div>
+                <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button> 
+            </form>
+        }
     </React.Fragment>
   )
 }

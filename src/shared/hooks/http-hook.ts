@@ -1,41 +1,71 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SendRequestProps } from '../types/formTypes';
+import { AuthContext } from '../context/auth-context';
+import axios from 'axios';
 
-const baseURL = 'http://localhost:5068'
+import queryString from 'query-string';
+
+const baseURL = process.env.VITE__API_URL
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const auth = useContext(AuthContext)
 
   const activeHttpRequests = useRef<AbortController[]>([]);
 
   const sendRequest:SendRequestProps = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
       setIsLoading(true);
-      const httpAbortCtrl = new AbortController();
-      activeHttpRequests.current.push(httpAbortCtrl);
+      // const httpAbortCtrl = new AbortController();
+      // activeHttpRequests.current.push(httpAbortCtrl);
 
       try {
-        const response = await fetch(`${baseURL}${url}`, {
-          method,
-          body,
-          headers,
-          signal: httpAbortCtrl.signal
-        });
+        const axiosClient = axios.create({
+            baseURL: baseURL,
+            headers: headers,
+            paramsSerializer: body => queryString.stringify(body)
+        })
 
-        const responseData = await response.json();
+        axiosClient.interceptors.request.use(async(config) => {
+          // Handle token here...
+          return config;
+        }, (error) => {
+            return Promise.reject(error);
+        })
 
-        activeHttpRequests.current = activeHttpRequests.current.filter(
-          reqCtrl => reqCtrl !== httpAbortCtrl
-        );
+        axiosClient.interceptors.response.use(response => {
 
-        if (!response.ok) {
-          throw new Error(responseData.message);
+          if (response && response.data) {
+              setIsLoading(false);
+              return response.data
+          } 
+          return response
+        }, (error) => {
+            const response = error.response;
+            if(response.status === 404) {
+                // how to cancel the Promise here?
+                return false;
+            }
+            return Promise.reject(error);
+        })
+
+        if (method === "GET") {
+          return await axiosClient.get(url)
+        } else if (method === "POST") {
+          return await axiosClient.post(url, body)
+          
+        } else if (method === "PATCH") {
+          return await axiosClient.patch(url, body)
+          
+        } else if (method === "DELETE") {
+          return await axiosClient.delete(url)
         }
 
-        setIsLoading(false);
-        return responseData;
       } catch (err) {
+        if (err.name === 'AbortError') {
+          console.log('AbortError: Fetch request aborted');
+        }
         setError(err.message);
         setIsLoading(false);
         throw err;
@@ -48,12 +78,12 @@ export const useHttpClient = () => {
     setError(null);
   };
 
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //     activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
+  //   };
+  // }, []);
 
   return { isLoading, error, sendRequest, clearError };
 };

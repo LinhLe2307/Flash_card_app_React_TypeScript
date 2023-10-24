@@ -8,9 +8,9 @@ import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 import CardList from "../components/CardList"
 
  
-const getAllUserCards = async(userId: string, setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, sendRequest:SendRequestProps) => {
+const getAllUserCards = async (userId: string, setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, sendRequest:SendRequestProps) => {
   try {
-    const response = await sendRequest(`api/cards/user/${userId}`,
+    const response = await sendRequest(`/api/cards/user/${userId}`,
       'GET',
       null,
       {}
