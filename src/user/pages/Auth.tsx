@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react"
-import userApi from "../../shared/api/userApi"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
 import CardAvatar from "../../shared/components/UIElements/CardAvatar"
@@ -10,12 +9,12 @@ import { useForm } from "../../shared/hooks/form-hook"
 import { GenericProps } from "../../shared/types/sharedTypes"
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './Auth.css'
+import { useHttpClient } from "../../shared/hooks/http-hook"
 
 const Auth = () => {
     const auth = useContext(AuthContext)
     const [isLoginMode, setIsLoginMode] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState(null)
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
 
     const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
         email: {
@@ -34,21 +33,22 @@ const Auth = () => {
 
     const authSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
-        setIsLoading(true)
         if (isLoginMode) {
             try {
                 const body = JSON.stringify({
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                const response = await userApi.login(body)
-                console.log(response)
-                setIsLoading(false)
-                auth.login(response.user.id)
+                const response = await sendRequest(`/api/user/login`,
+                    'POST',
+                    JSON.stringify(body),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                )
+                auth.login(response.userId, response.token)
             } catch(err) {
                 console.log(err)
-                setIsLoading(false)
-                setError(err.response.data.message || 'Something went wrong, please try again.')
             }
         } else {
             try {
@@ -57,13 +57,15 @@ const Auth = () => {
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value
                 })
-                const response = await userApi.signup(body)
-                setIsLoading(false)
-                auth.login(response.user.id)
-            } catch(err) {
-                setIsLoading(false)
-                setError(err.response.data.message || 'Something went wrong, please try again.')
-            }
+                const response = await sendRequest(`/api/user/signup`,
+                    'POST',
+                    JSON.stringify(body),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                )
+                auth.login(response.userId, response.token)
+            } catch(err) {}
         }
     }
 
@@ -85,12 +87,9 @@ const Auth = () => {
         setIsLoginMode(prevMode => !prevMode)
     }
      
-    const errorHandler = () => {
-        setError(null)
-    }
   return ( 
     <React.Fragment>
-        <ErrorModal error={error} onClear={errorHandler}/>
+        <ErrorModal error={error} onClear={clearError}/>
         <CardAvatar className="authentication">
             {isLoading && <LoadingSpinner asOverlay/>}
             <h2>Login Required</h2>

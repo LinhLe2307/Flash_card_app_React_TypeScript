@@ -2,18 +2,18 @@ import React, { useContext, useEffect } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
+import { DEFAULT_CARDS } from '../../shared/constants/global'
+import { AuthContext } from '../../shared/context/auth-context'
 import { useForm } from '../../shared/hooks/form-hook'
 import { FormInputsProps } from '../../shared/types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
-import { DEFAULT_CARDS } from '../../shared/constants/global'
-import cardApi from '../../shared/api/cardApi'
-import { AuthContext } from '../../shared/context/auth-context'
 
-import './CardForm.css'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { useHttpClient } from '../../shared/hooks/http-hook'
+import './CardForm.css'
 
 let initialValue: FormInputsProps = {
   title: {
@@ -27,12 +27,13 @@ let initialValue: FormInputsProps = {
 }
 
 interface BodyProps {
-  [key: string]: ObjectGenericProps<string> | string 
+  [key: string]: ObjectGenericProps<string> | string | null
 }
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
     event.preventDefault()
@@ -62,7 +63,9 @@ const NewCard = () => {
         }
       })
 
-      await cardApi.post(JSON.stringify(body))
+      sendRequest('/api/cards', 'POST', JSON.stringify(body), {
+        Authorization: 'Bearer ' + auth.token 
+      })
     } catch(err) {
       console.log(err)
     }
@@ -74,9 +77,9 @@ const NewCard = () => {
 
   return (
     <React.Fragment>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
+      <ErrorModal error={error} onClear={clearError} />
       <form className='card-form' onSubmit={cardSubmitHandler}>
-        {/* { isLoading && <LoadingSpinner asOverlay/> } */}
+        { isLoading && <LoadingSpinner asOverlay/> }
         <Input 
           id="title"
           type="text" 

@@ -1,13 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import userApi from '../../shared/api/userApi'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import UsersList from "../components/UsersList"
+import { useHttpClient } from '../../shared/hooks/http-hook'
+import { SendRequestProps } from '../../shared/types/formTypes'
 
-const getAllUsers = async() => {
+const getAllUsers = async(sendRequest: SendRequestProps) => {
   try {
-    const response = await userApi.getAll()
+    const response = await sendRequest(`/api/users`,
+      'GET',
+      null,
+      {
+        'Content-Type': 'application/json'
+      }
+    )
     return response.users
   } catch(err) {
     console.log(err)
@@ -15,24 +22,21 @@ const getAllUsers = async() => {
 }
 
 const Users = () => {
-  const { data, isLoading, error } = useQuery({
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()   
+  const { data } = useQuery({
     queryKey: ["users"],
-    queryFn: getAllUsers,
+    queryFn: () => getAllUsers(sendRequest),
     refetchOnWindowFocus: false
   })
 
-  if (isLoading) {
-    return <LoadingSpinner asOverlay/>
-  }
-
-  if (error) {
-    return <ErrorModal 
-      error={"Cannot load users"} 
-      onClear={() => !error}
-    />
-  }
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError}/>
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner asOverlay />
+        </div>
+      )}
       {data && <UsersList items={data}/>}
     </React.Fragment>
   )

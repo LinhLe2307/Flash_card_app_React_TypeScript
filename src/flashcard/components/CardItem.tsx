@@ -8,18 +8,14 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
 import { CardItemProps } from '../types/cardTypes'
+import { useHttpClient } from '../../shared/hooks/http-hook'
 
 const CardItem = ({id, card, onDelete}: CardItemProps) => {
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
-
     const auth = useContext(AuthContext)
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [showPreview, setShowPreview] = useState(false)
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-    const clearError = () => {
-        setError(null);
-      };
     const openPreviewHandler = () => {
         setShowPreview(true)
     }
@@ -34,11 +30,15 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
     }
     const confirmDeleteHandler = async (deletedCardId: string) => {
         setShowConfirmModal(false)
-        setIsLoading(true)
         try {
-            await cardApi.deleteCard(deletedCardId)
+            await sendRequest(`/api/cards/${id}`,
+                'DELETE',
+                null,
+                {
+                    Authorization: 'Bearer ' + auth.token
+                }
+            )
             onDelete(deletedCardId)
-            setIsLoading(false)
         } catch(err) {
             console.log(err)
         }

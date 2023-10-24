@@ -1,23 +1,28 @@
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import React, { useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import cardApi from "../../shared/api/cardApi"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { filterName } from "../../shared/constants/global"
+import { AuthContext } from "../../shared/context/auth-context"
 import { useForm } from "../../shared/hooks/form-hook"
-import { FormInputsProps, SetFormDataProps, ValueAndValidProps } from "../../shared/types/formTypes"
+import { useHttpClient } from "../../shared/hooks/http-hook"
+import { FormInputsProps, SendRequestProps, SetFormDataProps, ValueAndValidProps } from "../../shared/types/formTypes"
 import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
 import './CardForm.css'
 import TermFlashcard from "./TermFlashcard"
 
-const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setIsLoading(true)
+const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, sendRequest:SendRequestProps) => {
     try {
-        const response = await cardApi.getDetailCard(cardId)
+        const response = await sendRequest(
+            `/api/cards/${cardId}`,
+            'GET',
+            null,
+            {}
+        )
         const newData: FormInputsProps = {}
             Object.entries(response.card).map(([key, value]) => {
                 if (["title", "description"].indexOf(key) !== -1) {
@@ -49,7 +54,6 @@ const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, setIs
                 }
             })
         setFormData(newData, true)
-        setIsLoading(false)
         return response.card
     } catch(err) {
         console.log(err)
@@ -57,8 +61,9 @@ const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, setIs
 }
 
 const UpdateCard = () => {
-    const [isLoading, setIsLoading] = useState(true)    
     const navigate = useNavigate()
+    const auth = useContext(AuthContext)
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
     const cardId = useParams().cardId
 
     const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
@@ -73,9 +78,9 @@ const UpdateCard = () => {
         
     }, false)
 
-    const {data, error} = useQuery({
+    const {data} = useQuery({
         queryKey: ["update-card"],
-        queryFn: () => cardId && getDetailCard(cardId, setFormData, setIsLoading),
+        queryFn: () => cardId && getDetailCard(cardId, setFormData, sendRequest),
         refetchOnWindowFocus: false
     }
     )
@@ -102,8 +107,14 @@ const UpdateCard = () => {
                 }
             })
 
-            const response = cardId && await cardApi.updateCard(cardId, JSON.stringify(body))
-            console.log(response)
+            cardId && sendRequest(`/api/cards/${cardId}`,
+                'PATCH',
+                JSON.stringify(body),
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + auth.token
+                }
+            )
             navigate(`/card-detail/${cardId}`)
 
         } catch(error) {
@@ -115,65 +126,61 @@ const UpdateCard = () => {
         return <LoadingSpinner asOverlay/>
       }
     
-    if (error) {
-        return <ErrorModal 
-          error={"Cannot load users"} 
-          onClear={() => !error}
-        />
-    }
-    
   return (
-    <form className='card-form' onSubmit={updateCardSubmitHandler}>
-        <Input 
-            nameId="title"
-            id="title" 
-            element="input"
-            type="text"
-            label="Title"
-            validators={
-                [
-                  VALIDATOR_REQUIRE()
-                ]
-              }
-            errorText="Please enter a valid text"
-            onInput={inputHandler}
-            initialValue={data.title}
-            initialIsValid={true}
-            />
-        <Input 
-            nameId="description"
-            id="description" 
-            element="textarea"
-            type="text"
-            label="Description"
-            validators={[VALIDATOR_MINLENGTH(5)]}
-            errorText="Please enter a valid definition (min. 5 characters)."
-            onInput={inputHandler}
-            initialValue={data.description}
-            initialIsValid={true}
-            />
-        <div className='card-form' >
-        {
-          Object.entries(data).map(([key, value]) => {
-            if (filterName.indexOf(key) === -1) {
+    <React.Fragment>
+        <ErrorModal error={error} onClear={clearError} />
+        <form className='card-form' onSubmit={updateCardSubmitHandler}>
+            <Input 
+                nameId="title"
+                id="title" 
+                element="input"
+                type="text"
+                label="Title"
+                validators={
+                    [
+                    VALIDATOR_REQUIRE()
+                    ]
+                }
+                errorText="Please enter a valid text"
+                onInput={inputHandler}
+                initialValue={data.title}
+                initialIsValid={true}
+                />
+            <Input 
+                nameId="description"
+                id="description" 
+                element="textarea"
+                type="text"
+                label="Description"
+                validators={[VALIDATOR_MINLENGTH(5)]}
+                errorText="Please enter a valid definition (min. 5 characters)."
+                onInput={inputHandler}
+                initialValue={data.description}
+                initialIsValid={true}
+                />
+            <div className='card-form' >
+            {
+            Object.entries(data).map(([key, value]) => {
+                if (filterName.indexOf(key) === -1) {
 
-                if (typeof value !== null) {
-                    return <TermFlashcard 
-                    cardId={key}
-                    removeSubCardHandler={removeSubCardHandler}
-                    flashcard={value as ObjectGenericProps<string>}
-                    inputHandler={inputHandler}
-                    key={key}
-                  />
+                    if (typeof value !== null) {
+                        return <TermFlashcard 
+                        cardId={key}
+                        removeSubCardHandler={removeSubCardHandler}
+                        flashcard={value as ObjectGenericProps<string>}
+                        inputHandler={inputHandler}
+                        key={key}
+                    />
+                    }
                 }
             }
-          }
-          )
-        }
-        <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
-      </div>
-        <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button> 
-    </form>
+            )
+            }
+            <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+        </div>
+            <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button> 
+        </form>
+    </React.Fragment>
   )
 }
 

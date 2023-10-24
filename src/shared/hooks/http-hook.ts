@@ -1,19 +1,22 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { SendRequestProps } from '../types/formTypes';
+
+const baseURL = 'http://localhost:5068'
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
-  const activeHttpRequests = useRef([]);
+  const activeHttpRequests = useRef<AbortController[]>([]);
 
-  const sendRequest = useCallback(
+  const sendRequest:SendRequestProps = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
       setIsLoading(true);
       const httpAbortCtrl = new AbortController();
       activeHttpRequests.current.push(httpAbortCtrl);
 
       try {
-        const response = await fetch(url, {
+        const response = await fetch(`${baseURL}${url}`, {
           method,
           body,
           headers,
