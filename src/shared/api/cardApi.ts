@@ -9,9 +9,22 @@ const cardApi = {
     post: (params: string) => {
         return axiosClient.post(baseURL, params)
     },
+    updateCard: (cardId: string, params: string) => {
+        const url = `${baseURL}/${cardId}`
+        return axiosClient.patch(url, params)
+    }
+    ,
     getUserCards: (userId : string) => {
         const url = `${baseURL}/user/${userId}`
         return axiosClient.get(url)
+    },
+    getDetailCard: (cardId: string) => {
+        const url = `${baseURL}/${cardId}`
+        return axiosClient.get(url)
+    },
+    deleteCard: (cardId: string) => {
+        const url = `${baseURL}/${cardId}`
+        return axiosClient.delete(url)
     }
 }
 
