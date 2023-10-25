@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import queryString from 'query-string';
 
-const baseURL = process.env.VITE__API_URL
+const baseURL = 'http://localhost:5068'
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,10 +43,10 @@ export const useHttpClient = () => {
           return response
         }, (error) => {
             const response = error.response;
-            if(response.status === 404) {
-                // how to cancel the Promise here?
-                return false;
-            }
+            // if(response.status === 404) {
+            //     // how to cancel the Promise here?
+            //     return false;
+            // }
             return Promise.reject(error);
         })
 

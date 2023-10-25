@@ -11,6 +11,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../s
 import './Auth.css'
 import { useHttpClient } from "../../shared/hooks/http-hook"
 
+
 const Auth = () => {
     const auth = useContext(AuthContext)
     const [isLoginMode, setIsLoginMode] = useState(false)
@@ -41,7 +42,7 @@ const Auth = () => {
                 })
                 const response = await sendRequest(`/api/users/login`,
                     'POST',
-                    body,
+                    JSON.stringify(body),
                     {
                         'Content-Type': 'application/json'
                     }
