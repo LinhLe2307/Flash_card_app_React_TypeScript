@@ -38,9 +38,7 @@ const NewCard = () => {
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
     event.preventDefault()
     try {
-      const body: BodyProps = {
-        creator: auth.userId
-      }
+      const body: BodyProps = {}
 
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
