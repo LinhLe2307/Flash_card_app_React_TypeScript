@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
-import { DEFAULT_CARDS } from '../../shared/constants/global'
+import { DEFAULT_CARDS, filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useForm } from '../../shared/hooks/form-hook'
 import { FormInputsProps } from '../../shared/types/formTypes'
@@ -42,7 +42,7 @@ const NewCard = () => {
 
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
-        if(["title", "description"].indexOf(key) === -1) {
+        if(filterName.indexOf(key) === -1) {
           if (typeof keyValue !== "string") {
             return (
               body[key] = {
