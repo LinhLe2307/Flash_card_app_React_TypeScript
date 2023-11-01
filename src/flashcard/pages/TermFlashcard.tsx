@@ -7,6 +7,7 @@ import { useImage } from '../../shared/hooks/image-hook';
 import ImagesList from '../components/ImagesList';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:TermFlashcardProps) => {
@@ -124,20 +125,25 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             imageState[cardId].isOpeningUnsplash &&
             <>
               <div>
-                <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
+                <div>
+                  <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
+                </div>
+                <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
+                  {
+                    imageState[cardId].isClickingButton && 
+                    <ImagesList 
+                      searchKeyword={imageState[cardId].searchKeyword} 
+                      isSearching={imageState[cardId].isClickingButton} 
+                      photos={imageState[cardId].photos}
+                      addedPhotosHandler={addedPhotosHandler}
+                      inputHandler={inputHandler}
+                      cardId={cardId}
+                    />
+                  }
               </div>
-              <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
-                {
-                  imageState[cardId].isClickingButton && 
-                  <ImagesList 
-                    searchKeyword={imageState[cardId].searchKeyword} 
-                    isSearching={imageState[cardId].isClickingButton} 
-                    photos={imageState[cardId].photos}
-                    addedPhotosHandler={addedPhotosHandler}
-                    inputHandler={inputHandler}
-                    cardId={cardId}
-                  />
-                }
+              {/* <div>
+                <ImageUpload id={cardId} center onInput={inputHandler} errorText={"Wrong file"} nameId="imageUrl"/>
+              </div> */}
             </>
       }
     </div>

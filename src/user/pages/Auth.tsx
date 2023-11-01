@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
+import ImageUpload from "../../shared/components/FormElements/ImageUpload"
 import CardAvatar from "../../shared/components/UIElements/CardAvatar"
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
@@ -29,11 +30,16 @@ const Auth = () => {
         name: {
             value: '',
             isValid: false
+        },
+        image: {
+            value: '',
+            isValid: false
         }
     }, false)
 
     const authSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
+        // console.log("formState", formState)
         if (isLoginMode) {
             try {
                 const body = JSON.stringify({
@@ -42,7 +48,7 @@ const Auth = () => {
                 })
                 const response = await sendRequest(`/api/users/login`,
                     'POST',
-                    JSON.stringify(body),
+                    body,
                     {
                         'Content-Type': 'application/json'
                     }
@@ -53,18 +59,24 @@ const Auth = () => {
             }
         } else {
             try {
-                const body = JSON.stringify({
-                    name: formState.inputs.name.value,
-                    email: formState.inputs.email.value,
-                    password: formState.inputs.password.value
-                })
+                const formData = new FormData()  
+                formData.append('email', formState.inputs.email.value)
+                formData.append('name', formState.inputs.name.value)
+                formData.append('password', formState.inputs.password.value)
+                formData.append('image', formState.inputs.image.value)
+                // for (var [key, value] of formData.entries()) { 
+                //     console.log(key, value);
+                //   }                  
+                
                 const response = await sendRequest(`/api/users/signup`,
-                    'POST',
-                    JSON.stringify(body),
-                    {}
+                'POST',
+                formData,
+                {}
                 )
                 auth.login(response.userId, response.token)
-            } catch(err) {}
+            } catch(err) {
+                console.log(err)
+            }
         }
     }
 
@@ -72,12 +84,17 @@ const Auth = () => {
         if (!isLoginMode) {
             setFormData({
                 ...formState.inputs, 
-                name: undefined
+                name: undefined,
+                image: undefined
             }, formState.inputs.email.isValid && formState.inputs.password.isValid)
         } else {
             setFormData({
                 ...formState.inputs,
                 name: {
+                    value: '',
+                    isValid: false
+                },
+                image:  {
                     value: '',
                     isValid: false
                 }
@@ -105,6 +122,9 @@ const Auth = () => {
                     errorText="Please enter a name."
                     onInput={inputHandler}
                 />}
+                {
+                    !isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText={error} nameId="image"/>
+                }
                 <Input 
                     nameId="email"
                     id="email"

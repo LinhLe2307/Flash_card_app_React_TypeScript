@@ -14,8 +14,6 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
         </div>
     }
 
-
-      
   return (
     <div className="container">
         <div className="row ng-scope">
@@ -24,6 +22,7 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
             <ul>
             {
                 items.map((user) => {
+                    console.log(user)
                     return <UserItem 
                         key={user.id} 
                         id={user.id}

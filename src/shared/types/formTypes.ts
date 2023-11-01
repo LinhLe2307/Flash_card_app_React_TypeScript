@@ -10,12 +10,18 @@ export interface ValueAndValidProps<T> {
     isValid: boolean
 }
 
-// export interface ObjectGenericProps<T> {
-//     [key: string]: T
-// }
+export enum VALUE_CARD {
+    term= "term",
+    definition = "definition",
+    imageUrl = "imageUrl"
+}
+
+export type ObjectGenericInitial = {
+  [key in keyof typeof VALUE_CARD]: ValueAndValidProps<string>;
+}
 
 export type FormInputsProps = {
-    [key: string]: ValueAndValidProps<ObjectGenericProps<ValueAndValidProps<string>>| string>
+    [key: string]: ValueAndValidProps<ObjectGenericInitial| string | ObjectGenericProps<ValueAndValidProps<string>>> 
   }
 
 export interface ValidatorsProps {
@@ -75,7 +81,8 @@ export type FormAction = {
     inputId: string
     isValid: boolean
     nameId: string 
-    value: ObjectGenericProps<ValueAndValidProps<string>> | string
+    // value: string | ObjectGenericInitial
+    value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
 } | {
     type: FormActionProps.SET_DATA,
     inputs: FormInputsProps,

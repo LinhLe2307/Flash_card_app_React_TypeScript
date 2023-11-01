@@ -1,2 +1,2 @@
 export const DEFAULT_CARDS = ["one","two", "three", "four"]
-export const filterName = ["title", "description", "creator", "__v", "_id", "id"]
+export const filterName = ["title", "description", "creator", "__v", "_id", "id", "name", "email", "password", "image"]

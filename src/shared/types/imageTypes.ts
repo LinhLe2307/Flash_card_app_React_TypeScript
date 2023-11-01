@@ -49,3 +49,11 @@ export interface ImageListPProps {
     inputHandler: InputHandlerProps,
     cardId: string
   }
+
+export interface ImageUploadProps {
+    id: string
+    center: boolean
+    onInput: InputHandlerProps
+    errorText: string | null
+    nameId: string
+}

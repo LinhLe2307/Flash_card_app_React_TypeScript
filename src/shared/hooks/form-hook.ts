@@ -1,9 +1,10 @@
 import { useCallback, useReducer } from 'react';
-import { FormAction, FormActionProps, FormState, InputHandlerProps, SetFormDataProps, UserFormHandler, ValueAndValidProps } from '../types/formTypes';
-import { GenericProps, ObjectGenericProps } from '../types/sharedTypes';
+import { filterName } from '../constants/global';
+import { FormAction, FormActionProps, FormState, InputHandlerProps, ObjectGenericInitial, SetFormDataProps, UserFormHandler, VALUE_CARD } from '../types/formTypes';
+import { GenericProps } from '../types/sharedTypes';
 
 
-const valuesTypes = ["title", "description", "name", "email", "password"]
+// const filterName = ["title", "description", "name", "email", "password", "imageUrl"]
 const formReducer = (state: FormState, action: FormAction) => {
   switch(action.type) {
     case FormActionProps.INPUT_CHANGE:
@@ -14,7 +15,7 @@ const formReducer = (state: FormState, action: FormAction) => {
           continue
         } else {
           if (inputId === action.inputId) {
-            if (valuesTypes.find(card => card === action.inputId) !== undefined) {
+            if (filterName.find(card => card === action.inputId) !== undefined) {
               newProps.inputs[action.inputId] = {
                 ...newProps.inputs[action.inputId],
                 value: action.value,
@@ -23,12 +24,12 @@ const formReducer = (state: FormState, action: FormAction) => {
               formIsValid = formIsValid && action.isValid
             } else {
               if (typeof action.value === "object") {
-                const inputValue = newProps.inputs[action.inputId].value as ObjectGenericProps<ValueAndValidProps<string>>;
+                const inputValue = newProps.inputs[action.inputId].value as ObjectGenericInitial;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
                   value : {
                     ...inputValue,
-                    [action.nameId]: action.value?.[action.nameId]
+                    [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
                   },
                   isValid: true
                 }
@@ -37,7 +38,7 @@ const formReducer = (state: FormState, action: FormAction) => {
               
             }
           } else {
-            if (valuesTypes.find(card => card === action.inputId) !== undefined) {
+            if (filterName.find(card => card === action.inputId) !== undefined) {
               formIsValid = formIsValid && action.isValid
               newProps.inputs[action.inputId] = {
                 value: action.value,
@@ -46,12 +47,12 @@ const formReducer = (state: FormState, action: FormAction) => {
               formIsValid = formIsValid && state.inputs[inputId].isValid
             } else {
               if (typeof action.value === "object") {
-                const inputValue = newProps.inputs[action.inputId]?.value as ObjectGenericProps<ValueAndValidProps<string>>;
+                const inputValue = newProps.inputs[action.inputId]?.value as ObjectGenericInitial;
                 newProps.inputs[action.inputId] = {
                   ...newProps.inputs[action.inputId],
                   value: {
                     ...inputValue,
-                    [action.nameId]: action.value?.[action.nameId]
+                    [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
                   },
                   isValid: true
                 }
@@ -109,7 +110,7 @@ export const useForm:UserFormHandler = function(initialInputs, initialFormValidi
       })
 
     const inputHandler: InputHandlerProps = useCallback((value, isValid, id, nameId) => {
-        if (valuesTypes.find( name => name===id) !== undefined) {
+        if (filterName.find( name => name===id) !== undefined) {
           dispatch({
             type: FormActionProps.INPUT_CHANGE,
             value: value,
