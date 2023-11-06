@@ -7,7 +7,6 @@ import { useImage } from '../../shared/hooks/image-hook';
 import ImagesList from '../components/ImagesList';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
-import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:TermFlashcardProps) => {
@@ -92,7 +91,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             }
             errorText="Please enter a valid term"
             onInput = {inputHandler}
-            initialValue={flashcard.term}
+            initialValue={flashcard.term.value}
             initialIsValid={true}
             />
           <Input 
@@ -108,16 +107,27 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             }
             errorText="Please enter a valid definition (at least 5 characters)."
             onInput = {inputHandler}
-            initialValue={flashcard.definition}
+            initialValue={flashcard.definition.value}
             initialIsValid={true}
           />
-          <div>
-              <img
-                src={flashcard.imageUrl}
-                width="125px"
-                onClick={() => openUnsplashHandler(cardId)}
-              />
-          </div>
+
+          {
+            flashcard.imageUrl.value 
+            ? <div>
+                <img
+                  src={flashcard.imageUrl.value}
+                  width="125px"
+                  onClick={() => openUnsplashHandler(cardId)}
+                />
+            </div>
+            : <div>
+                <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                  width="125px"
+                  /></Button>
+              </div>
+            }
+          
         </>
       }         
       </div>

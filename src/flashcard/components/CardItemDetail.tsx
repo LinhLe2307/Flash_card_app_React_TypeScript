@@ -7,20 +7,23 @@ const CardItemDetail = ({card, id}: {card: ObjectGenericProps<string>,id: string
     const [side, setSide] = useState(false);
 
     function handleClick() {
-        console.log("clicked!");
         setSide(!side);
-        console.log(side);
       }
   return (
     <div>
          <div className={`card-detail ${side ? "side" : ""}`} onClick={handleClick}>
-        <small>
+        {/* <small>
             <span>Card ID</span>
             {id}
-        </small>
+        </small> */}
         {/* {side ? card.fields.side1 : card.fields.side2} */}
         <div className="front">{card.term}</div>
-        <div className="back">{card.definition}</div>
+        <div className="back">
+          <div>
+            {card.definition}
+          </div>
+          <img src={card.imageUrl} />
+        </div>
         </div>
     </div>
   )

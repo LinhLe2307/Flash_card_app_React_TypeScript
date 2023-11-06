@@ -1,5 +1,5 @@
-import { InputHandlerProps } from "../../shared/types/formTypes"
-import { GenericProps, ListResponse, ObjectGenericProps } from "../../shared/types/sharedTypes"
+import { InputHandlerProps, ObjectGenericInitial, ValueAndValidProps } from "../../shared/types/formTypes"
+import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 
 export interface CardItemProps {
     id: string
@@ -10,7 +10,7 @@ export interface CardItemProps {
 export interface TermFlashcardProps {
     cardId: string, 
     inputHandler: InputHandlerProps,
-    flashcard?: ObjectGenericProps<string>,
+    flashcard?: string | ObjectGenericInitial | ObjectGenericProps<ValueAndValidProps<string>>,
     removeSubCardHandler: GenericProps<string>
 }
 

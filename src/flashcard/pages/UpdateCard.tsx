@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
@@ -101,15 +101,22 @@ const UpdateCard = () => {
                     if ( typeof value !== "string") {
                         const valueState = value.value as ObjectGenericProps<ValueAndValidProps<string>>
                         body[key] = {
-                            term: valueState.term.value ? valueState.term.value : data[key].term,
-                            definition: valueState.definition.value ? valueState.definition.value : data[key].definition,
-                            imageUrl: valueState.imageUrl.value ? valueState.imageUrl.value: data[key].imageUrl,
+                            term: valueState.term.value 
+                                ? valueState.term.value 
+                                : data[key].term,
+                            definition: valueState.definition.value 
+                                ? valueState.definition.value 
+                                : data[key].definition,
+                            imageUrl: valueState.imageUrl.value 
+                                ? valueState.imageUrl.value 
+                                ? data[key].imageUrl : data[key].imageUrl
+                                : '',
                         }
                     }
                 }
             })
-
-            cardId && sendRequest(`/api/cards/${cardId}`,
+            console.log("body", body)
+            const response = await sendRequest(`/api/cards/${cardId}`,
                 'PATCH',
                 JSON.stringify(body),
                 {
@@ -117,6 +124,8 @@ const UpdateCard = () => {
                     'Authorization': 'Bearer ' + auth.token
                 }
             )
+
+            console.log("response", response)
 
             setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
             
@@ -126,6 +135,10 @@ const UpdateCard = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(formState)
+    }, [formState])
+ 
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />
@@ -164,14 +177,14 @@ const UpdateCard = () => {
                     />
                 <div className='card-form' >
                 {
-                Object.entries(data).map(([key, value]) => {
+                Object.entries(formState.inputs).map(([key, value]) => {
                     if (filterName.indexOf(key) === -1) {
 
                         if (typeof value !== null) {
                             return <TermFlashcard 
                             cardId={key}
                             removeSubCardHandler={removeSubCardHandler}
-                            flashcard={value as ObjectGenericProps<string>}
+                            flashcard={value.value}
                             inputHandler={inputHandler}
                             key={key}
                         />

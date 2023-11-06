@@ -25,13 +25,18 @@ const formReducer = (state: FormState, action: FormAction) => {
             } else {
               if (typeof action.value === "object") {
                 const inputValue = newProps.inputs[action.inputId].value as ObjectGenericInitial;
-                newProps.inputs[action.inputId] = {
-                  ...newProps.inputs[action.inputId],
-                  value : {
-                    ...inputValue,
-                    [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
-                  },
-                  isValid: true
+                if (inputValue.term.length !== 0 && inputValue.definition.length !== 0) {
+                  newProps.inputs[action.inputId] = {
+                    ...newProps.inputs[action.inputId],
+                    value : {
+                      ...inputValue,
+                      [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
+                    },
+                    isValid: action.value[action.nameId as keyof typeof VALUE_CARD].isValid
+                  }
+                  formIsValid = formIsValid && action.value[action.nameId as keyof typeof VALUE_CARD].isValid
+                } else {
+                  formIsValid = formIsValid && action.value[action.nameId as keyof typeof VALUE_CARD].isValid
                 }
                 formIsValid = formIsValid && action.isValid
               }
@@ -48,16 +53,22 @@ const formReducer = (state: FormState, action: FormAction) => {
             } else {
               if (typeof action.value === "object") {
                 const inputValue = newProps.inputs[action.inputId]?.value as ObjectGenericInitial;
-                newProps.inputs[action.inputId] = {
-                  ...newProps.inputs[action.inputId],
-                  value: {
-                    ...inputValue,
-                    [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
-                  },
-                  isValid: true
+                if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
+                  newProps.inputs[action.inputId] = {
+                    ...newProps.inputs[action.inputId],
+                    value: {
+                      ...inputValue,
+                      [action.nameId as keyof typeof VALUE_CARD]: action.value?.[action.nameId as keyof typeof VALUE_CARD]
+                    },
+                    isValid: true
+                  } 
+                  // console.log("value", state.inputs[inputId].value[action.nameId] && state.inputs[inputId].value[action.nameId].isValid)
+                  // subForm = subForm && state.inputs[inputId].value[action.nameId] && state.inputs[inputId].value[action.nameId].isValid
+                } else {
+                  formIsValid = formIsValid && state.inputs[inputId].isValid
                 }
+                formIsValid = formIsValid && state.inputs[inputId].isValid
               }
-              formIsValid = formIsValid && state.inputs[inputId].isValid
             }
           }
         }
@@ -66,9 +77,23 @@ const formReducer = (state: FormState, action: FormAction) => {
       return newProps
 
     case FormActionProps.REMOVE_CARD:
-      const newRemoveValue = {...state.inputs}
-      delete newRemoveValue[action.inputId]
-      return {...state, inputs: newRemoveValue}
+      let removeFormIsValid = true
+      const removeValue = {...state}
+      
+      for (const inputId in state.inputs) {
+        if (!state.inputs[inputId]) {
+          continue
+        } else {
+          if (inputId === action.inputId) {
+            delete removeValue.inputs[action.inputId]
+          } else {
+            removeFormIsValid = removeFormIsValid && state.inputs[inputId].isValid
+          }
+        }
+      }
+
+      removeValue.isValid = removeFormIsValid
+      return removeValue
 
     case FormActionProps.ADD_CARD:
       const newAddState = {...state.inputs}

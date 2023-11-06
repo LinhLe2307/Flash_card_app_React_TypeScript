@@ -1,8 +1,8 @@
 .card-detail {
   margin: 10px auto;
   background: var(--grad-one);
-  height: 350px;
-  width: 350px;
+  height: 400px;
+  width: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +37,7 @@
 }
 
 .card-detail .front {
+  color: black;
   transform: rotateY(0deg);
 }
 
@@ -46,7 +47,16 @@
 }
 
 .card-detail .back {
+  height: 400px;
+  width: 700px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   transform: rotateY(180deg);
+}
+
+.card-detail .back img {
+  width: 200px
 }
 
 .card-detail small {

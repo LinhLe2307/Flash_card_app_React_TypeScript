@@ -2,8 +2,10 @@
 :root {
   line-height: 1.5;
   --border-radius: 20px;
-  --grad-one: linear-gradient(#c75600, #f88d35);
-  --grad-two: linear-gradient(#96153e, #e02341);
+  /* --grad-one: linear-gradient(#94bbe9, #eeaeca); */
+  --grad-one: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  --grad-two: #6a6a6a;
+  /* --grad-two: linear-gradient(#3f5efb, #fc466b); */
   --layout-width: 350px;
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;

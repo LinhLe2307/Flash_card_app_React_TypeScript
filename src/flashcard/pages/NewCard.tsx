@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
-import { filterName } from '../../shared/constants/global'
+import { DEFAULT_CARDS, filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useForm } from '../../shared/hooks/form-hook'
 import { FormInputsProps, VALUE_CARD } from '../../shared/types/formTypes'
@@ -30,30 +30,28 @@ let initialValue: FormInputsProps = {
   } 
 }
 
-const DEFAULT_CARDS = ["one", "two", "three", "four"];
-
-DEFAULT_CARDS.forEach(card => {
-  return (
-    initialValue[card] = 
-      {
-        value: {
-          [VALUE_CARD.term]: {
-            value: '',
-            isValid: false
-          },
-          [VALUE_CARD.definition]: {
-            value: '',
-            isValid: false
-          },
-          [VALUE_CARD.imageUrl]: {
-            value: '',
-            isValid: false
-          }
-        },
-        isValid: false
-      }
-  )
-})
+// DEFAULT_CARDS.forEach(card => {
+//   return (
+//     initialValue[card] = 
+//       {
+//         value: {
+//           [VALUE_CARD.term]: {
+//             value: '',
+//             isValid: false
+//           },
+//           [VALUE_CARD.definition]: {
+//             value: '',
+//             isValid: false
+//           },
+//           [VALUE_CARD.imageUrl]: {
+//             value: '',
+//             isValid: false
+//           }
+//         },
+//         isValid: false
+//       }
+//   )
+// })
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
