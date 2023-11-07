@@ -1,5 +1,10 @@
+import { AuthInputs } from "../../user/pages/Auth";
 import { InputHandlerProps } from "./formTypes"
 import { GenericProps } from "./sharedTypes"
+import {
+    UseFormRegister,
+    UseFormSetValue
+  } from "react-hook-form";
 
 export enum ImageInputValueProps {
     OPEN_UNSPLASH = 'OPEN_UNSPLASH',
@@ -53,7 +58,7 @@ export interface ImageListPProps {
 export interface ImageUploadProps {
     id: string
     center: boolean
-    onInput: InputHandlerProps
     errorText: string | null
-    nameId: string
+    register: UseFormRegister<AuthInputs>;
+    setValue: UseFormSetValue<AuthInputs>
 }

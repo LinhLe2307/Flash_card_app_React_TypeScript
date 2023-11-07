@@ -135,7 +135,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             imageState[cardId].isOpeningUnsplash &&
             <>
               <div>
-                <div>
+                <div className={`form-control`}>
                   <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
                 </div>
                 <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>

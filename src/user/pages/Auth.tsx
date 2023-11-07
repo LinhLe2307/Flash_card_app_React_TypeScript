@@ -1,50 +1,40 @@
-import React, { useContext, useState } from "react"
-import Button from "../../shared/components/FormElements/Button"
-import Input from "../../shared/components/FormElements/Input"
-import ImageUpload from "../../shared/components/FormElements/ImageUpload"
-import CardAvatar from "../../shared/components/UIElements/CardAvatar"
-import ErrorModal from "../../shared/components/UIElements/ErrorModal"
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
-import { AuthContext } from "../../shared/context/auth-context"
-import { useForm } from "../../shared/hooks/form-hook"
-import { GenericProps } from "../../shared/types/sharedTypes"
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
+import React, { useContext, useState } from 'react'
+import { SubmitHandler, useForm } from "react-hook-form"
+import Button from '../../shared/components/FormElements/Button'
+import ImageUpload from '../../shared/components/FormElements/ImageUpload'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { AuthContext } from '../../shared/context/auth-context'
+import { useHttpClient } from '../../shared/hooks/http-hook'
 import './Auth.css'
-import { useHttpClient } from "../../shared/hooks/http-hook"
+import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
+
+export type AuthInputs = {
+    email: string
+    password: string
+    name: string
+    image: File
+}
 
 const Auth = () => {
     const auth = useContext(AuthContext)
-    const [isLoginMode, setIsLoginMode] = useState(false)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
+    const [isLoginMode, setIsLoginMode] = useState(false)
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        formState: {errors}
+    } = useForm<AuthInputs>()
 
-    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
-        email: {
-            value: '',
-            isValid: false
-        }, 
-        password: {
-            value: '',
-            isValid: false
-        }, 
-        name: {
-            value: '',
-            isValid: false
-        },
-        image: {
-            value: '',
-            isValid: false
-        }
-    }, false)
-
-    const authSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
-        event.preventDefault()
+    const authSubmitHandler:SubmitHandler<AuthInputs> = async(data) => {
         // console.log("formState", formState)
         if (isLoginMode) {
             try {
                 const body = JSON.stringify({
-                    email: formState.inputs.email.value,
-                    password: formState.inputs.password.value
+                    email: data.email,
+                    password: data.password
                 })
                 const response = await sendRequest(`/api/users/login`,
                     'POST',
@@ -54,26 +44,27 @@ const Auth = () => {
                     }
                 )
                 auth.login(response.userId, response.token)
-            } catch(err) {
+                } catch(err) {
                 console.log(err)
             }
         } else {
             try {
                 const formData = new FormData()  
-                formData.append('email', formState.inputs.email.value)
-                formData.append('name', formState.inputs.name.value)
-                formData.append('password', formState.inputs.password.value)
-                formData.append('image', formState.inputs.image.value)
-                // for (var [key, value] of formData.entries()) { 
-                //     console.log(key, value);
-                //   }                  
+                formData.append('email', data.email)
+                formData.append('name', data.name)
+                formData.append('password', data.password)
+                formData.append('image', data.image)
+                for (var [key, value] of formData.entries()) { 
+                    console.log(key, value);
+                  }                  
                 
                 const response = await sendRequest(`/api/users/signup`,
-                'POST',
-                formData,
-                {}
+                    'POST',
+                    formData,
+                    {}
                 )
                 auth.login(response.userId, response.token)
+                console.log(response)
             } catch(err) {
                 console.log(err)
             }
@@ -81,83 +72,66 @@ const Auth = () => {
     }
 
     const switchModeHandler = () => {
-        if (!isLoginMode) {
-            setFormData({
-                ...formState.inputs, 
-                name: undefined,
-                image: undefined
-            }, formState.inputs.email.isValid && formState.inputs.password.isValid)
-        } else {
-            setFormData({
-                ...formState.inputs,
-                name: {
-                    value: '',
-                    isValid: false
-                },
-                image:  {
-                    value: '',
-                    isValid: false
-                }
-            }, false)
-        }
         setIsLoginMode(prevMode => !prevMode)
     }
-     
-  return ( 
+
+  return (
     <React.Fragment>
-        <ErrorModal error={error} onClear={clearError}/>
         <CardAvatar className="authentication">
             {isLoading && <LoadingSpinner asOverlay/>}
-            <h2>Login Required</h2>
-            <form onSubmit={authSubmitHandler}>
-                {!isLoginMode && <Input
-                    nameId="name"
-                    element="input"
-                    id="name"
-                    type="text"
-                    label="Your Name"
-                    validators={[
-                        VALIDATOR_REQUIRE()
-                    ]}
-                    errorText="Please enter a name."
-                    onInput={inputHandler}
-                />}
-                {
-                    !isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText={error} nameId="image"/>
+            <form onSubmit={handleSubmit(authSubmitHandler)}>
+                {!isLoginMode && 
+                    <>
+                        <div className={`form-control`}>
+                            <label htmlFor="name">Name</label>
+                            <input 
+                                id="name" 
+                                {...register("name")}
+                                placeholder="Please enter your name"
+                            />
+                            {errors.name?.message && <span>This field is required</span>}
+                        </div>
+
+                        <div className={`form-control`}>
+                            <label htmlFor="image">Image</label>
+                            <ImageUpload 
+                                register={register} 
+                                center 
+                                id="image" 
+                                errorText={error} 
+                                setValue={setValue}
+                            />            
+                            {errors.image && <span>This field is required</span>}
+                        </div>
+                    </>
                 }
-                <Input 
-                    nameId="email"
-                    id="email"
-                    element="input"
-                    type="text"
-                    label="Email"
-                    validators={
-                        [
-                            VALIDATOR_REQUIRE(),
-                            VALIDATOR_EMAIL()
-                        ]
-                    }
-                    onInput={inputHandler}
-                    errorText="Please enter a valid email"
+                <div className={`form-control`}>
+                    <label htmlFor="email">Email</label>
+                    <input 
+                        id="email" 
+                        {...register("email", { required: "This is required.", pattern: /^\S+@\S+\.\S+$/ })}
+                        placeholder="Please enter your email"
                     />
-                <Input 
-                    nameId="password"
-                    id="password"
-                    element="input"
-                    type="text"
-                    label="Password"
-                    validators={
-                        [
-                            VALIDATOR_REQUIRE(),
-                            VALIDATOR_MINLENGTH(6)
-                        ]
-                    }
-                    onInput={inputHandler}
-                    errorText="Please enter a valid password"
-                />
-                <Button type="submit" disabled={!formState.isValid}>
+                    <span>{errors.email?.message}</span>
+                </div>
+                <div className={`form-control`}>
+                    <label htmlFor="password">Password</label>
+                    <input type="password" id="password" 
+                        {...register("password", { 
+                            required: "This is required.", 
+                            minLength: {
+                                value: 6,
+                                message: "Min length is 6"
+                            } 
+                        })}
+                        placeholder="Please enter your password"
+                    />
+                    <span>{errors.password?.message}</span>
+                </div>
+                <Button type="submit">
                     {isLoginMode ? 'LOGIN' : 'SIGNUP'}
                 </Button>
+                
             </form>
             <Button inverse onClick={switchModeHandler}>
                 SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}

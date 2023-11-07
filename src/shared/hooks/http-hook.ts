@@ -1,7 +1,7 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { SendRequestProps } from '../types/formTypes';
-import { AuthContext } from '../context/auth-context';
 import axios from 'axios';
+import { useCallback, useContext, useRef, useState } from 'react';
+import { AuthContext } from '../context/auth-context';
+import { SendRequestProps } from '../types/formTypes';
 
 import queryString from 'query-string';
 
