@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import React, { useState } from "react"
 import { useParams } from 'react-router-dom'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import { useHttpClient } from "../../shared/hooks/http-hook"
 import { SendRequestProps } from "../../shared/types/formTypes"
 import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 import CardList from "../components/CardList"
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 
  
 const getAllUserCards = async (userId: string, setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, sendRequest:SendRequestProps) => {
@@ -36,20 +37,18 @@ const UserCards = () => {
     setFetchCards(updatedState)
   }
   
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
-  
   if (error) {
       return <ErrorModal
-        error={"Cannot load the image"} 
+        error={error} 
         onClear={clearError}
       />
   }
 
-
   return (
-    <CardList items={fetchCards} onDeleteCard={cardDeleteHandler}/>
+    <React.Fragment>
+      { isLoading && <LoadingSpinner asOverlay/> }
+      <CardList items={fetchCards} onDeleteCard={cardDeleteHandler}/>
+    </React.Fragment>
   )
 }
 

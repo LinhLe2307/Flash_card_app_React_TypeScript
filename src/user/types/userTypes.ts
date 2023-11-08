@@ -7,7 +7,7 @@ interface BaseProps {
 }
 
 export interface UserProps extends BaseProps {
-    cards: number
+    cards: []
 }
 
 export interface UserItemProps extends BaseProps {

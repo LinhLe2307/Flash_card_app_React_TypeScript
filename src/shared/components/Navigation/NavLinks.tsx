@@ -20,6 +20,11 @@ const NavLinks = () => {
             <NavLink to="/card/new">ADD CARD</NavLink>
         </li>
         }
+        {
+            auth.isLoggedIn && <li>
+            <NavLink to="/settings">SETTINGS</NavLink>
+        </li>
+        }
         { !auth.isLoggedIn && <li>
             <NavLink to="/auth">LOGIN</NavLink>
         </li>

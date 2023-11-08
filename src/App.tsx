@@ -11,6 +11,8 @@ import UserCards from "./flashcard/pages/UserCards"
 import { AuthContext } from "./shared/context/auth-context"
 import { useAuth } from "./shared/hooks/auth-hook"
 import Auth from "./user/pages/Auth"
+import UserDetail from "./user/components/UserDetail"
+import Settings from "./user/pages/Settings"
 
 
 function App() {
@@ -24,9 +26,11 @@ function App() {
         <Route path="/" element={<MainPage />}>
           <Route index element={<Home />}/>
           <Route path="/card/new" element={<NewCard/>}/>
-          <Route path="/cards-user/:userId" element={<UserCards />}/>
           <Route path="/card-detail/:cardId" element={<CardDetail />}/>
+          <Route path="/cards-user/:userId" element={<UserCards />}/>
           <Route path="/card-update/:cardId" element={<UpdateCard/>}/>
+          <Route path="/user-detail/:userId" element={<UserDetail />}/>
+          <Route path="/settings" element={<Settings />}/>
           <Route path="/*" element={ <Navigate to="/" /> } />
         </Route>
       </Routes>
@@ -37,6 +41,8 @@ function App() {
         <Route path="/" element={<MainPage />}>
           <Route index element={<Home />}/>
           <Route path="/auth" element={<Auth/>}/>
+          <Route path="/cards-user/:userId" element={<UserCards />}/>
+          <Route path="/user-detail/:userId" element={<UserDetail />}/>
           <Route path="/*" element={ <Navigate to="/auth" /> } />
         </Route>
       </Routes>

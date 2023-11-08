@@ -22,13 +22,12 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
             <ul>
             {
                 items.map((user) => {
-                    console.log(user)
                     return <UserItem 
                         key={user.id} 
                         id={user.id}
                         image={user.image}
                         name={user.name}
-                        cardCount={user.cards}
+                        cardCount={user.cards.length}
                     />
                 })
             }

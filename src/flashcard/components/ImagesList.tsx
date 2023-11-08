@@ -6,6 +6,7 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 import { ImageGenericProps, ImageListPProps } from '../../shared/types/imageTypes';
+import { Box } from '@mui/material';
 // import './ImageList.css';
 
 
@@ -37,7 +38,9 @@ const ImagesList = ({searchKeyword, isSearching, photos, addedPhotosHandler, car
         />
     }
     return (
-        <ImageList sx={{ width: 900, height: 500 }} variant="woven" cols={4} gap={8}>
+      <Box sx={{ width: 700, height: 500, overflowY: 'scroll', margin: "auto" }}>
+        <ImageList 
+         variant="masonry" cols={3} gap={8}>
           {photos?.map((item) => (
             <ImageListItem key={item['urls']['small']}>
               <img
@@ -50,6 +53,7 @@ const ImagesList = ({searchKeyword, isSearching, photos, addedPhotosHandler, car
             </ImageListItem>
           ))}
         </ImageList>
+      </Box>
     )
 }
 

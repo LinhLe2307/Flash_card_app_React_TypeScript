@@ -16,6 +16,10 @@ export type AuthInputs = {
     image: File
 }
 
+const InputForm = () => {
+    
+}
+
 const Auth = () => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
@@ -137,6 +141,7 @@ const Auth = () => {
                 SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
             </Button>
         </CardAvatar>
+
     </React.Fragment>
   )
 }
