@@ -13,15 +13,43 @@ export enum ImageInputValueProps {
     PHOTOS_ADDED='PHOTOS_ADDED'
 }
 
-export type ImageAction = {inputId: string} & ({
-    type: ImageInputValueProps.OPEN_UNSPLASH | ImageInputValueProps.SEARCHING
+export interface OpenUnsplashPayload {
+    inputId: string
+    initialInputs: ImageState
+}
+
+export interface SearchingPayload {
+    inputId: string
+}
+
+export interface SearchKeywordPayload {
+    value: string
+    inputId: string
+}
+
+export interface PhotosAddedPayload {
+    photos: [],
+    inputId: string
+}
+
+export type ImageAction = ({
+    type: ImageInputValueProps.OPEN_UNSPLASH 
+    payload: OpenUnsplashPayload
+} | {
+    type: ImageInputValueProps.SEARCHING
+    payload: SearchingPayload
 } | {
     type: ImageInputValueProps.PHOTOS_ADDED
-    photos: []
+    payload: PhotosAddedPayload
 } | {
     type: ImageInputValueProps.SEARCH_KEYWORD
-    value: string
+    payload: SearchKeywordPayload
 })
+
+// export interface ImageAction {
+//     type: ImageInputValueProps
+//     payload: OpenUnsplashPayload | SearchingPayload | PhotosAddedPayload | SearchKeywordPayload
+// }
 
 export interface ImageState {
     [cardId: string]: {

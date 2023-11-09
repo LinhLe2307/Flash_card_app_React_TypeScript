@@ -1,10 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { FormState, ObjectGenericInitial, VALUE_CARD } from "../shared/types/formTypes";
-import { filterName } from "../shared/constants/global";
+import { filterName } from "../../shared/constants/global"
+import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
 
-
-  // Define the initial state using that type
-  const initialState: FormState = {
+const initialState: FormState = {
     inputs: {
         title: {
             value: '',
@@ -17,12 +14,11 @@ import { filterName } from "../shared/constants/global";
     },
     isValid: false
   }
-  
-const flashcardSlice = createSlice({
-    name: 'flashcard',
-    initialState: initialState, 
-    reducers: {
-        inputChange: (state, action) => {
+
+const flashcardReducer = (state = initialState, action: FormAction ) => {
+    switch(action.type) {
+        case FormActionProps.INPUT_CHANGE: {
+            let newProps = {...state}
             let formIsValid = true
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
@@ -30,18 +26,18 @@ const flashcardSlice = createSlice({
                 } else {
                 if (inputId === action.payload.inputId) {
                     if (filterName.find(card => card === action.payload.inputId) !== undefined) {
-                    state.inputs[action.payload.inputId] = {
-                        ...state.inputs[action.payload.inputId],
+                    newProps.inputs[action.payload.inputId] = {
+                        ...newProps.inputs[action.payload.inputId],
                         value: action.payload.value,
                         isValid: action.payload.isValid
                     }
                     formIsValid = formIsValid && action.payload.isValid
                     } else {
                     if (typeof action.payload.value === "object") {
-                        const inputValue = state.inputs[action.payload.inputId].value as ObjectGenericInitial;
+                        const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
                         if (inputValue.term.length !== 0 && inputValue.definition.length !== 0) {
-                        state.inputs[action.payload.inputId] = {
-                            ...state.inputs[action.payload.inputId],
+                        newProps.inputs[action.payload.inputId] = {
+                            ...newProps.inputs[action.payload.inputId],
                             value : {
                             ...inputValue,
                             [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
@@ -59,25 +55,25 @@ const flashcardSlice = createSlice({
                 } else {
                     if (filterName.find(card => card === action.payload.inputId) !== undefined) {
                     formIsValid = formIsValid && action.payload.isValid
-                    state.inputs[action.payload.inputId] = {
+                    newProps.inputs[action.payload.inputId] = {
                         value: action.payload.value,
                         isValid: action.payload.isValid
                     }
                     formIsValid = formIsValid && state.inputs[inputId].isValid
                     } else {
                     if (typeof action.payload.value === "object") {
-                        const inputValue = state.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
+                        const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
                         if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
-                        state.inputs[action.payload.inputId] = {
-                            ...state.inputs[action.payload.inputId],
+                        newProps.inputs[action.payload.inputId] = {
+                            ...newProps.inputs[action.payload.inputId],
                             value: {
                             ...inputValue,
                             [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
                             },
                             isValid: true
                         } 
-                        // console.log("value", state.inputs[inputId].value[action.nameId] && state.inputs[inputId].value[action.nameId].isValid)
-                        // subForm = subForm && state.inputs[inputId].value[action.nameId] && state.inputs[inputId].value[action.nameId].isValid
+                        // console.log("value", state.inputs[inputId].value[action.payload.nameId] && state.inputs[inputId].value[action.payload.nameId].isValid)
+                        // subForm = subForm && state.inputs[inputId].value[action.payload.nameId] && state.inputs[inputId].value[action.payload.nameId].isValid
                         } else {
                         formIsValid = formIsValid && state.inputs[inputId].isValid
                         }
@@ -87,9 +83,10 @@ const flashcardSlice = createSlice({
                 }
                 }
             }
-            state.isValid = formIsValid
-        },
-        addCard: (state) => {
+            newProps.isValid = formIsValid
+            return newProps
+        }
+        case FormActionProps.ADD_CARD:
             const newAddState = {...state.inputs}
             const stateLength = Object.keys(newAddState).length
             newAddState[`m${stateLength}`] = {
@@ -110,32 +107,33 @@ const flashcardSlice = createSlice({
                 isValid: false
             }
             return {...state, inputs: newAddState}
-        },
-        removeCard: (state, action) => {
+        case FormActionProps.REMOVE_CARD:
             let removeFormIsValid = true
+            const removeValue = {...state}
             
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
                 continue
                 } else {
                 if (inputId === action.payload.inputId) {
-                    delete state.inputs[action.payload.inputId]
+                    delete removeValue.inputs[action.payload.inputId]
                 } else {
                     removeFormIsValid = removeFormIsValid && state.inputs[inputId].isValid
                 }
                 }
             }
 
-            state.isValid = removeFormIsValid
-        },
-        setData: (state, action) => {
-            state = {
+            removeValue.isValid = removeFormIsValid
+            return removeValue
+        case FormActionProps.SET_DATA:
+            return {
                 inputs: action.payload.inputs,
                 isValid: action.payload.formIsValid
             }
-        }
+        default:
+            return state
     }
-})
 
-export const { inputChange, addCard, removeCard, setData } = flashcardSlice.actions
-export default flashcardSlice.reducer;
+}
+
+export default flashcardReducer

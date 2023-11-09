@@ -1,6 +1,6 @@
 import { useCallback } from "react"
+import { openUnsplashImage, searchKeywordImage, searchingButtonImage, photosAdded } from "../../app/actions/image"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { openUnsplash, photosAdded, searchKeyword, searching } from "../../features/imageSlice"
 import { ImageGenericProps, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 
@@ -10,30 +10,34 @@ export const useImage:useImageProps = (initialInputs) => {
     const dispatch = useAppDispatch()
 
     const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = useCallback((event, cardId) => {
-        dispatch(searchKeyword({
+      const action = searchKeywordImage({
           inputId: cardId,
           value: event.target.value
-        }))
+        })
+      dispatch(action)
       }, [dispatch])
     
       const openUnsplashHandler:GenericProps<string> = useCallback((cardId) => {
-          dispatch(openUnsplash({
-            initialInputs: initialInputs,
-            inputId: cardId
-          }))
+        const action = openUnsplashImage({
+          initialInputs: initialInputs,
+          inputId: cardId
+        })
+        dispatch(action)
       }, [dispatch])
 
       const searchingButtonHandler:GenericProps<string> = useCallback((cardId) => {
-        dispatch(searching({
+        const action = searchingButtonImage({
           inputId: cardId
-        }))
+        })
+        dispatch(action)
       }, [dispatch])
 
       const addedPhotosHandler: ImageGenericProps<[]> = useCallback((photos, cardId) => {
-        dispatch(photosAdded({
+        const action = photosAdded({
           photos: photos,
           inputId: cardId
-        }))
+        })
+        dispatch(action)
       }, [dispatch])
     
     return [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler]

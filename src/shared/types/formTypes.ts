@@ -40,10 +40,10 @@ export interface InputAction {
 export interface InputState extends ValueAndValidProps<string> {
     isTouched: boolean
 }
-
 export interface InputHandlerProps {
-    (value: string, isValid: boolean, id: string, nameId: string) : void
+    (value: string, isValid: boolean, inputId: string, nameId: string) : void
 }
+
 
 interface UpdateCardInputProps {
     initialValue?: string
@@ -76,23 +76,40 @@ export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
 }
 
-export type FormAction = {
-    type: FormActionProps.INPUT_CHANGE
+export interface InputChangeFormPayload {
+        inputId: string
+        isValid: boolean
+        nameId: string 
+        // value: string | ObjectGenericInitial
+        value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
+}
+
+export interface RemoveCardPayload {
     inputId: string
-    isValid: boolean
-    nameId: string 
-    // value: string | ObjectGenericInitial
-    value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
-} | {
-    type: FormActionProps.SET_DATA,
+}
+
+export interface SetDataPayload {
     inputs: FormInputsProps,
     formIsValid: boolean | undefined
+}
+
+export type FormAction = {
+    type: FormActionProps.INPUT_CHANGE
+    payload: InputChangeFormPayload
+} | {
+    type: FormActionProps.SET_DATA,
+    payload: SetDataPayload
 } | {
     type: FormActionProps.REMOVE_CARD,
-    inputId: string
+    payload: RemoveCardPayload
 } | {
     type: FormActionProps.ADD_CARD,
 }
+
+// export interface FormAction {
+//     type: FormActionProps,
+//     payload: InputChangeFormPayload | SetDataPayload | RemoveCardPayload
+// }
 
 export interface FormState {
     inputs: FormInputsProps,
