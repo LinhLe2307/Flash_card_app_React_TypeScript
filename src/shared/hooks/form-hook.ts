@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { addCardFlashcard, inputChangeFlashcard, removeCardFlashcard, setDataFlashcard } from '../../app/actions/flashcards';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { filterName } from '../constants/global';
 import { InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
 import { GenericProps } from '../types/sharedTypes';
 
 
 export const useForm:UserFormHandler = function(initialInputs, initialFormValidity) {
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch()
     const formState = useAppSelector(state => state.form)
     const inputHandler: InputHandlerProps = useCallback((value, isValid, inputId, nameId) => {
         if (filterName.find( name => name===inputId) !== undefined) {

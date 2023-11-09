@@ -3,11 +3,12 @@ import { openUnsplashImage, searchKeywordImage, searchingButtonImage, photosAdde
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { ImageGenericProps, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
+import { useDispatch } from "react-redux"
 
 
 export const useImage:useImageProps = (initialInputs) => {
     const imageState = useAppSelector(state => state.image)
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch()
 
     const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = useCallback((event, cardId) => {
       const action = searchKeywordImage({
