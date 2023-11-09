@@ -18,6 +18,7 @@ export const useImage:useImageProps = (initialInputs) => {
     
       const openUnsplashHandler:GenericProps<string> = useCallback((cardId) => {
           dispatch(openUnsplash({
+            initialInputs: initialInputs,
             inputId: cardId
           }))
       }, [dispatch])

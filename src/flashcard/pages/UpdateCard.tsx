@@ -125,8 +125,6 @@ const UpdateCard = () => {
                 }
             )
 
-            console.log("response", response)
-
             setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
             
 

@@ -1,21 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ImageState } from "../shared/types/imageTypes";
 
-const initialState = {
-        isOpeningUnsplash: false,
-        searchKeyword: '',
-        isClickingButton: false,
-        photos: []
-}
+const initialState: ImageState = {}
 const imageSlice = createSlice({
     name: 'image',
     initialState,
     reducers: {
         openUnsplash: (state, action) => {
-            for (const inputId in state){
+            // state = action.payload.initialInputs
+            for (const inputId in action.payload.initialInputs){
                 if (inputId === action.payload.inputId) {
-                    state[inputId].isOpeningUnsplash = true
+                    state[inputId] = {
+                        isOpeningUnsplash: true,
+                        searchKeyword: '',
+                        isClickingButton: false,
+                        photos: []
+                    }
                 } else {
-                    state[inputId].isOpeningUnsplash = false
+                    state[inputId] = {
+                        isOpeningUnsplash: false,
+                        searchKeyword: '',
+                        isClickingButton: false,
+                        photos: []
+                    }
                 }
                 }
         },
@@ -41,7 +48,6 @@ const imageSlice = createSlice({
                 }
             }
         }
-
     }
 })
 

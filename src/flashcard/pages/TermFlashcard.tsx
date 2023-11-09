@@ -132,7 +132,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
       }         
       </div>
       {
-            imageState[cardId].isOpeningUnsplash &&
+            imageState[cardId] && imageState[cardId].isOpeningUnsplash &&
             <>
               <div>
                 <div className={`form-control`}>

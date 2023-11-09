@@ -10,6 +10,7 @@ import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 
+import { useNavigate } from 'react-router-dom'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
@@ -55,6 +56,7 @@ let initialValue: FormInputsProps = {
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
+  const navigate = useNavigate()
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
@@ -120,10 +122,15 @@ const NewCard = () => {
         }
       })
       
-      await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
+      const response = await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
         Authorization: 'Bearer ' + auth.token,
         'Content-Type': 'application/json'
       })
+      if (response.card.id) {
+        setTimeout(()=> 
+          navigate(`/card-detail/${response.card.id}`), 500)
+      }
+
     } catch(err) {
       console.log(err)
     }
