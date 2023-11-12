@@ -7,18 +7,7 @@ import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import UserForm from '../components/UserForm'
 import './Auth.css'
-
-
-export type AuthInputs = {
-    email: string
-    password: string
-    country: string
-    language: string
-    phone: string
-    firstName: string
-    lastName: string
-    image: File
-}
+import { AuthInputs } from '../types/userTypes'
 
 
 const Auth = () => {

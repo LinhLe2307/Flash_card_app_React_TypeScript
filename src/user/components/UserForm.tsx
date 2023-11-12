@@ -1,8 +1,8 @@
-import React from 'react'
-import './UserForm.css'
 import ImageUpload from '../../shared/components/FormElements/ImageUpload'
+import { UserFormProps } from '../types/userTypes'
+import './UserForm.css'
 
-const UserForm = ({ register, errors, setValue, children }) => {
+const UserForm = ({ register, errors, setValue, children }: UserFormProps) => {
   return (
     <div>
         <div className="wrapper bg-white mt-sm-5">
@@ -15,7 +15,7 @@ const UserForm = ({ register, errors, setValue, children }) => {
                         register={register} 
                         center 
                         id="image" 
-                        // errorText={errors} 
+                        errorText={errors} 
                         setValue={setValue}
                     />     
                 {/* <div className="pl-sm-4 pl-2" id="img-section">
@@ -71,7 +71,7 @@ const UserForm = ({ register, errors, setValue, children }) => {
             <div className="row py-2">
                 <div className="col-md-6">
                     <label htmlFor="country">Country</label>
-                    <select name="country" id="country" className="bg-light" {...register("country")}>
+                    <select id="country" className="bg-light" {...register("country")}>
                         <option value="finland">Finland</option>
                         <option value="usa">USA</option>
                         <option value="uk">UK</option>
@@ -81,7 +81,7 @@ const UserForm = ({ register, errors, setValue, children }) => {
                 <div className="col-md-6 pt-md-0 pt-3" id="lang">
                     <label htmlFor="language">Language</label>
                     <div className="arrow">
-                        <select name="language" id="language" className="bg-light" {...register("language")}>
+                        <select id="language" className="bg-light" {...register("language")}>
                             <option value="english">English</option>
                             <option value="english_us">English (United States)</option>
                             <option value="enguk">English UK</option>
