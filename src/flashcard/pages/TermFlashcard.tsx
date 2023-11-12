@@ -4,20 +4,21 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 
 import Button from '../../shared/components/FormElements/Button';
 import { useImage } from '../../shared/hooks/image-hook';
-import ImagesList from '../components/ImagesList';
+import ImagesListUnsplash from '../../shared/components/FormElements/ImagesListUnsplash';
+import ImageUnsplash from '../../shared/components/FormElements/ImageUnsplash';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
 
 
 const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:TermFlashcardProps) => {
-  const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
-    [cardId]: {
-      isOpeningUnsplash: false,
-      searchKeyword: '',
-      isClickingButton: false,
-      photos: []
-    }
-  })
+  // const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
+  //   [cardId]: {
+  //     isOpeningUnsplash: false,
+  //     searchKeyword: '',
+  //     isClickingButton: false,
+  //     photos: []
+  //   }
+  // })
 
   return (
     <div className="flashcard">
@@ -66,12 +67,12 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             errorText="Please enter a valid definition (at least 5 characters)."
             onInput = {inputHandler}
           />
-          <div>
+          {/* <div>
             <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
               width="125px"
               /></Button>
-          </div>
+          </div> */}
         </> 
         }
         {
@@ -111,7 +112,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
             initialIsValid={true}
           />
 
-          {
+          {/* {
             flashcard.imageUrl.value 
             ? <div>
                 <img
@@ -127,11 +128,11 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
                   /></Button>
               </div>
             }
-          
+           */}
         </>
       }         
       </div>
-      {
+      {/* {
             imageState[cardId] && imageState[cardId].isOpeningUnsplash &&
             <>
               <div>
@@ -141,7 +142,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
                 <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
                   {
                     imageState[cardId].isClickingButton && 
-                    <ImagesList 
+                    <ImagesListUnsplash 
                       searchKeyword={imageState[cardId].searchKeyword} 
                       isSearching={imageState[cardId].isClickingButton} 
                       photos={imageState[cardId].photos}
@@ -153,9 +154,11 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
               </div>
               {/* <div>
                 <ImageUpload id={cardId} center onInput={inputHandler} errorText={"Wrong file"} nameId="imageUrl"/>
-              </div> */}
+              </div>
             </>
-      }
+      } */}
+      <ImageUnsplash cardId={cardId} inputHandler={inputHandler} />
+      <></>
     </div>
   )
 }

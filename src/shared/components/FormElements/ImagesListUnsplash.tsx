@@ -1,12 +1,11 @@
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useQuery } from '@tanstack/react-query';
-import photoApi from '../../shared/api/photoApi';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import photoApi from '../../api/photoApi';
+import ErrorModal from '../UIElements/ErrorModal';
 
-import { ImageGenericProps, ImageListPProps } from '../../shared/types/imageTypes';
 import { Box } from '@mui/material';
+import { ImageGenericProps, ImageListProps } from '../../types/imageTypes';
 // import './ImageList.css';
 
 
@@ -20,7 +19,7 @@ const getUnsplashImage = async(query: string, addedPhotosHandler:ImageGenericPro
     }
   }
   
-const ImagesList = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler}: ImageListPProps) => {
+const ImagesListUnsplash = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler, setPickedImage}: ImageListProps) => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["unsplash"],
         queryFn: () => getUnsplashImage(searchKeyword, addedPhotosHandler, cardId),
@@ -48,7 +47,12 @@ const ImagesList = ({searchKeyword, isSearching, photos, addedPhotosHandler, car
                 src={`${item['urls']['small']}`}
                 alt={"test"}
                 loading="lazy"
-                onClick={() => inputHandler(item['urls']['small'], true, cardId, 'imageUrl')}
+                onClick={() => {
+                  return (
+                    inputHandler(item['urls']['small'], true, cardId, 'imageUrl'),
+                    setPickedImage(item['urls']['small'])
+                  )
+                }}
               />
             </ImageListItem>
           ))}
@@ -57,6 +61,6 @@ const ImagesList = ({searchKeyword, isSearching, photos, addedPhotosHandler, car
     )
 }
 
-export default ImagesList
+export default ImagesListUnsplash
 
 

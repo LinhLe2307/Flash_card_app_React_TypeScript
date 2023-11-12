@@ -1,3 +1,4 @@
+import React from "react";
 import { AuthInputs } from "../../user/pages/Auth";
 import { InputHandlerProps } from "./formTypes"
 import { GenericProps } from "./sharedTypes"
@@ -74,13 +75,14 @@ export interface useImageProps {
     ] 
 }
 
-export interface ImageListPProps { 
+export interface ImageListProps { 
     searchKeyword: string, 
     isSearching: boolean, 
     addedPhotosHandler: ImageGenericProps<[]>,
     photos: [],
     inputHandler: InputHandlerProps,
-    cardId: string
+    cardId: string,
+    setPickedImage: React.Dispatch<React.SetStateAction<string>>
   }
 
 export interface ImageUploadProps {

@@ -1,12 +1,15 @@
-import { combineReducers } from "redux"; 
+import { combineReducers } from "redux";
 import flashcardReducer from "./flashcardReducer";
 import imageReducer from "./imageReducer";
-import { ImageAction } from "../../shared/types/imageTypes";
-import { FormAction } from "../../shared/types/formTypes";
 
-const rootReducers = combineReducers({
+const appReducer = combineReducers({
     form: flashcardReducer,
     image: imageReducer
 })
+
+// this is for reset the state after submitting
+const rootReducers = (state, action) => {
+    return appReducer(state, action)
+}
 
 export default rootReducers
