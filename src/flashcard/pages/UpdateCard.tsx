@@ -7,7 +7,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { filterName } from "../../shared/constants/global"
 import { AuthContext } from "../../shared/context/auth-context"
-import { useForm } from "../../shared/hooks/form-hook"
+import { useFormHook } from "../../shared/hooks/form-hook"
 import { useHttpClient } from "../../shared/hooks/http-hook"
 import { FormInputsProps, SendRequestProps, SetFormDataProps, ValueAndValidProps } from "../../shared/types/formTypes"
 import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
@@ -68,7 +68,7 @@ const UpdateCard = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
     const cardId = useParams().cardId
 
-    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useForm({
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useFormHook({
         title: {
             value: '',
             isValid : false

@@ -19,7 +19,7 @@ const getUnsplashImage = async(query: string, addedPhotosHandler:ImageGenericPro
     }
   }
   
-const ImagesListUnsplash = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler, setPickedImage}: ImageListProps) => {
+const ImageListUrl = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler, setPickedImage}: ImageListProps) => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["unsplash"],
         queryFn: () => getUnsplashImage(searchKeyword, addedPhotosHandler, cardId),
@@ -61,6 +61,6 @@ const ImagesListUnsplash = ({searchKeyword, isSearching, photos, addedPhotosHand
     )
 }
 
-export default ImagesListUnsplash
+export default ImageListUrl
 
 

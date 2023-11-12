@@ -7,7 +7,7 @@ import { InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/f
 import { GenericProps } from '../types/sharedTypes';
 
 
-export const useForm:UserFormHandler = function(initialInputs, initialFormValidity) {
+export const useFormHook:UserFormHandler = function(initialInputs, initialFormValidity) {
     const dispatch = useDispatch()
     const formState = useAppSelector(state => state.form)
     const inputHandler: InputHandlerProps = useCallback((value, isValid, inputId, nameId) => {

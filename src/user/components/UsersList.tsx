@@ -26,7 +26,8 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                         key={user.id} 
                         id={user.id}
                         image={user.image}
-                        name={user.name}
+                        firstName={user.firstName}
+                        lastName={user.lastName}
                         cardCount={user.cards.length}
                     />
                 })

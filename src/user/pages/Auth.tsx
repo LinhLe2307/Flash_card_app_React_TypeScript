@@ -1,24 +1,25 @@
 import React, { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form"
 import Button from '../../shared/components/FormElements/Button'
-import ImageUpload from '../../shared/components/FormElements/ImageUpload'
+import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import UserForm from '../components/UserForm'
 import './Auth.css'
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 
 
 export type AuthInputs = {
     email: string
     password: string
-    name: string
+    country: string
+    language: string
+    phone: string
+    firstName: string
+    lastName: string
     image: File
 }
 
-const InputForm = () => {
-    
-}
 
 const Auth = () => {
     const auth = useContext(AuthContext)
@@ -55,7 +56,11 @@ const Auth = () => {
             try {
                 const formData = new FormData()  
                 formData.append('email', data.email)
-                formData.append('name', data.name)
+                formData.append('firstName', data.firstName)
+                formData.append('lastName', data.lastName)
+                formData.append('phone', data.phone)
+                formData.append('country', data.country)
+                formData.append('language', data.language)
                 formData.append('password', data.password)
                 formData.append('image', data.image)
                 for (var [key, value] of formData.entries()) { 
@@ -84,57 +89,60 @@ const Auth = () => {
         <CardAvatar className="authentication">
             {isLoading && <LoadingSpinner asOverlay/>}
             <form onSubmit={handleSubmit(authSubmitHandler)}>
-                {!isLoginMode && 
-                    <>
+                {!isLoginMode ?
+                    <UserForm 
+                        register={register}
+                        errors={errors}
+                        setValue={setValue}
+                    >
                         <div className={`form-control`}>
-                            <label htmlFor="name">Name</label>
-                            <input 
-                                id="name" 
-                                {...register("name")}
-                                placeholder="Please enter your name"
+                            <label htmlFor="password">Password</label>
+                            <input type="password" id="password" 
+                                {...register("password", { 
+                                    required: "This is required.", 
+                                    minLength: {
+                                        value: 6,
+                                        message: "Min length is 6"
+                                    } 
+                                })}
+                                placeholder="Please enter your password"
                             />
-                            {errors.name?.message && <span>This field is required</span>}
+                            <span>{errors.password?.message}</span>
                         </div>
-
+                        <Button type="submit">
+                            SIGNUP
+                        </Button>
+                    </UserForm>
+                    : <>
                         <div className={`form-control`}>
-                            <label htmlFor="image">Image</label>
-                            <ImageUpload 
-                                register={register} 
-                                center 
-                                id="image" 
-                                errorText={error} 
-                                setValue={setValue}
-                            />            
-                            {errors.image && <span>This field is required</span>}
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                id="email" 
+                                {...register("email", { required: "This is required.", pattern: /^\S+@\S+\.\S+$/ })}
+                                placeholder="Please enter your email"
+                            />
+                            <span>{errors.email?.message}</span>
                         </div>
+                        <div className={`form-control`}>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" id="password" 
+                                {...register("password", { 
+                                    required: "This is required.", 
+                                    minLength: {
+                                        value: 6,
+                                        message: "Min length is 6"
+                                    } 
+                                })}
+                                placeholder="Please enter your password"
+                            />
+                            <span>{errors.password?.message}</span>
+                        </div>
+                        <Button type="submit">
+                            LOGIN
+                        </Button>
                     </>
+                    
                 }
-                <div className={`form-control`}>
-                    <label htmlFor="email">Email</label>
-                    <input 
-                        id="email" 
-                        {...register("email", { required: "This is required.", pattern: /^\S+@\S+\.\S+$/ })}
-                        placeholder="Please enter your email"
-                    />
-                    <span>{errors.email?.message}</span>
-                </div>
-                <div className={`form-control`}>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" 
-                        {...register("password", { 
-                            required: "This is required.", 
-                            minLength: {
-                                value: 6,
-                                message: "Min length is 6"
-                            } 
-                        })}
-                        placeholder="Please enter your password"
-                    />
-                    <span>{errors.password?.message}</span>
-                </div>
-                <Button type="submit">
-                    {isLoginMode ? 'LOGIN' : 'SIGNUP'}
-                </Button>
                 
             </form>
             <Button inverse onClick={switchModeHandler}>

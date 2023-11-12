@@ -3,7 +3,7 @@ import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 import Button from '../../shared/components/FormElements/Button';
-import ImageUnsplash from '../../shared/components/FormElements/ImageUnsplash';
+import ImageUrl from '../../shared/components/FormElements/ImageUrl';
 import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
 
@@ -98,7 +98,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
         </>
       }         
       </div>
-      <ImageUnsplash 
+      <ImageUrl 
         flashcard={flashcard}
         cardId={cardId} 
         inputHandler={inputHandler}

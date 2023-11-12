@@ -3,7 +3,8 @@ import { ReactNode } from "react"
 interface BaseProps {
     id: string
     image: string
-    name: string
+    firstName: string
+    lastName: string
 }
 
 export interface UserProps extends BaseProps {

@@ -4,7 +4,7 @@ import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
-import { useForm } from '../../shared/hooks/form-hook'
+import { useFormHook } from '../../shared/hooks/form-hook'
 import { FormInputsProps } from '../../shared/types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
@@ -57,7 +57,7 @@ let initialValue: FormInputsProps = {
 const NewCard = () => {
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
-  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
+  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useFormHook(initialValue, false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {

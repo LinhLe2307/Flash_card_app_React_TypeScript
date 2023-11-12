@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import Button from './Button';
-import ImagesListUnsplash from './ImagesListUnsplash';
+import ImageListUrl from './ImagesListUrl';
 
-import { useImage } from '../../hooks/image-hook';
-import { InputHandlerProps } from '../../types/formTypes';
 import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
+import { useImage } from '../../hooks/image-hook';
 
-const ImageUnsplash = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
+const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
         [cardId]: {
           isOpeningUnsplash: false,
@@ -27,7 +26,7 @@ const ImageUnsplash = ({cardId, inputHandler, flashcard}: TermFlashcardProps) =>
             width="125px"
             /></Button> 
             : 
-            flashcard?.imageUrl.value 
+            typeof flashcard !== "string" && flashcard?.imageUrl.value 
             ? <div>
                 <img
                   src={flashcard.imageUrl.value}
@@ -52,7 +51,7 @@ const ImageUnsplash = ({cardId, inputHandler, flashcard}: TermFlashcardProps) =>
                 <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
                   {
                     imageState[cardId].isClickingButton && 
-                    <ImagesListUnsplash 
+                    <ImageListUrl 
                       searchKeyword={imageState[cardId].searchKeyword} 
                       isSearching={imageState[cardId].isClickingButton} 
                       photos={imageState[cardId].photos}
@@ -63,13 +62,10 @@ const ImageUnsplash = ({cardId, inputHandler, flashcard}: TermFlashcardProps) =>
                     />
                   }
               </div>
-              {/* <div>
-                <ImageUpload id={cardId} center onInput={inputHandler} errorText={"Wrong file"} nameId="imageUrl"/>
-              </div> */}
             </>
       }
     </div>
   )
 }
 
-export default ImageUnsplash
+export default ImageUrl

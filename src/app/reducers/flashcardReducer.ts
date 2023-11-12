@@ -22,7 +22,7 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
             let formIsValid = true
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
-                continue
+                    continue
                 } else {
                 if (inputId === action.payload.inputId) {
                     if (filterName.find(card => card === action.payload.inputId) !== undefined) {
@@ -72,8 +72,6 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                             },
                             isValid: true
                         } 
-                        // console.log("value", state.inputs[inputId].value[action.payload.nameId] && state.inputs[inputId].value[action.payload.nameId].isValid)
-                        // subForm = subForm && state.inputs[inputId].value[action.payload.nameId] && state.inputs[inputId].value[action.payload.nameId].isValid
                         } else {
                         formIsValid = formIsValid && state.inputs[inputId].isValid
                         }

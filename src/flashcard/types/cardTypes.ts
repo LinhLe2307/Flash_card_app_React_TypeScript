@@ -10,7 +10,7 @@ export interface CardItemProps {
 export interface TermFlashcardProps {
     cardId: string, 
     inputHandler: InputHandlerProps,
-    flashcard?: ObjectGenericInitial | ObjectGenericProps<ValueAndValidProps<string>>,
+    flashcard?: string | ObjectGenericInitial | ObjectGenericProps<ValueAndValidProps<string>>,
     removeSubCardHandler: GenericProps<string>
 }
 
