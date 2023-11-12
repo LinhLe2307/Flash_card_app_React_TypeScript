@@ -4,8 +4,9 @@ import ImagesListUnsplash from './ImagesListUnsplash';
 
 import { useImage } from '../../hooks/image-hook';
 import { InputHandlerProps } from '../../types/formTypes';
+import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
 
-const ImageUnsplash = ({cardId, inputHandler}: {cardId: string, inputHandler: InputHandlerProps }) => {
+const ImageUnsplash = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
         [cardId]: {
           isOpeningUnsplash: false,
@@ -19,21 +20,28 @@ const ImageUnsplash = ({cardId, inputHandler}: {cardId: string, inputHandler: In
 
     return (
     <div>
-        <div>
-            {
-                pickedImage 
-                ? 
-                    <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
-                    src={pickedImage}
-                    width="125px"
-                    /></Button> 
-                : 
-                    <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
-                    width="125px"
-                    /></Button>
+          {
+            pickedImage
+            ? <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
+            src={pickedImage}
+            width="125px"
+            /></Button> 
+            : 
+            flashcard?.imageUrl.value 
+            ? <div>
+                <img
+                  src={flashcard.imageUrl.value}
+                  width="125px"
+                  onClick={() => openUnsplashHandler(cardId)}
+                />
+            </div>
+            : <div>
+                <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                  width="125px"
+                  /></Button>
+              </div>
             }
-          </div>
           {
             imageState[cardId] && imageState[cardId].isOpeningUnsplash &&
             <>

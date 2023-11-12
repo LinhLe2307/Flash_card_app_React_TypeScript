@@ -106,11 +106,6 @@ export type FormAction = {
     type: FormActionProps.ADD_CARD,
 }
 
-// export interface FormAction {
-//     type: FormActionProps,
-//     payload: InputChangeFormPayload | SetDataPayload | RemoveCardPayload
-// }
-
 export interface FormState {
     inputs: FormInputsProps,
     isValid: boolean | undefined
