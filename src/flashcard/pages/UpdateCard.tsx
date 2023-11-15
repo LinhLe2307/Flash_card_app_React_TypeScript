@@ -56,7 +56,6 @@ const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, sendR
                 }
             })
         setFormData(newData, true)
-        console.log(response)
         return response.card
     } catch(err) {
         console.log(err)
@@ -128,8 +127,6 @@ const UpdateCard = () => {
                 }
             )
 
-            console.log(response)
-
             setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
             
         } catch(error) {
@@ -137,10 +134,6 @@ const UpdateCard = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(formState)
-    }, [formState])
- 
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />

@@ -98,8 +98,6 @@ const NewCard = () => {
               }
         }
       })
-
-      console.log(formState.inputs)
       
       const response = await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
         'Authorization': 'Bearer ' + auth.token,

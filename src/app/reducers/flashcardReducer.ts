@@ -111,7 +111,7 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
             
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
-                continue
+                    continue
                 } else {
                 if (inputId === action.payload.inputId) {
                     delete removeValue.inputs[action.payload.inputId]
