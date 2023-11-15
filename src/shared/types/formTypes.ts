@@ -40,10 +40,10 @@ export interface InputAction {
 export interface InputState extends ValueAndValidProps<string> {
     isTouched: boolean
 }
-export interface InputHandlerProps {
-    (value: string, isValid: boolean, inputId: string, nameId: string) : void
-}
 
+export interface InputHandlerProps {
+    (value: string, isValid: boolean, id: string, nameId: string) : void
+}
 
 interface UpdateCardInputProps {
     initialValue?: string
@@ -76,32 +76,20 @@ export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
 }
 
-export interface InputChangeFormPayload {
-        inputId: string
-        isValid: boolean
-        nameId: string 
-        // value: string | ObjectGenericInitial
-        value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
-}
-
-export interface RemoveCardPayload {
-    inputId: string
-}
-
-export interface SetDataPayload {
-    inputs: FormInputsProps,
-    formIsValid: boolean | undefined
-}
-
 export type FormAction = {
     type: FormActionProps.INPUT_CHANGE
-    payload: InputChangeFormPayload
+    inputId: string
+    isValid: boolean
+    nameId: string 
+    // value: string | ObjectGenericInitial
+    value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
 } | {
     type: FormActionProps.SET_DATA,
-    payload: SetDataPayload
+    inputs: FormInputsProps,
+    formIsValid: boolean | undefined
 } | {
     type: FormActionProps.REMOVE_CARD,
-    payload: RemoveCardPayload
+    inputId: string
 } | {
     type: FormActionProps.ADD_CARD,
 }

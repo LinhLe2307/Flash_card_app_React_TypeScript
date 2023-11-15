@@ -1,44 +1,83 @@
-import { useCallback } from "react"
-import { openUnsplashImage, searchKeywordImage, searchingButtonImage, photosAdded } from "../../app/actions/image"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { ImageGenericProps, useImageProps } from "../types/imageTypes"
+import { useCallback, useReducer } from "react"
+import { ImageAction, ImageGenericProps, ImageInputValueProps, ImageState, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
-import { useDispatch } from "react-redux"
+
+const imageReducer = (state: ImageState, action:ImageAction) => {
+    switch (action.type) {
+      case ImageInputValueProps.OPEN_UNSPLASH:
+        case ImageInputValueProps.OPEN_UNSPLASH:
+          let newProps = {...state}
+          for (const inputId in state){
+            if (inputId === action.inputId) {
+              newProps[inputId].isOpeningUnsplash = true
+            } else {
+              newProps[inputId].isOpeningUnsplash = false
+            }
+          }
+          return newProps
+        case ImageInputValueProps.SEARCH_KEYWORD:
+            let newKeyword = {...state}
+            for (const inputId in state){
+                if (inputId === action.inputId) {
+                    newKeyword[inputId].searchKeyword = action.value
+                    newKeyword[inputId].isClickingButton = false
+                } 
+            } 
+            return newKeyword
+        case ImageInputValueProps.SEARCHING:
+            let newSearchingState = {...state}
+            for (const inputId in state){
+                if (inputId === action.inputId) {
+                    newSearchingState[inputId].isClickingButton = true
+                }
+            }
+            return newSearchingState
+        case ImageInputValueProps.PHOTOS_ADDED:
+            let newPhotosState = {...state}
+            for (const inputId in state){
+                if (inputId === action.inputId) {
+                    newPhotosState[inputId].photos = action.photos
+                }
+            }
+            return newPhotosState
+
+        default:
+          return state
+  }
+  }
 
 
 export const useImage:useImageProps = (initialInputs) => {
-    const imageState = useAppSelector(state => state.image)
-    const dispatch = useDispatch()
+    const [imageState, dispatch] = useReducer(imageReducer, initialInputs)
 
     const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = useCallback((event, cardId) => {
-      const action = searchKeywordImage({
+        dispatch({
+          type: ImageInputValueProps.SEARCH_KEYWORD,
           inputId: cardId,
           value: event.target.value
         })
-      dispatch(action)
       }, [dispatch])
     
       const openUnsplashHandler:GenericProps<string> = useCallback((cardId) => {
-        const action = openUnsplashImage({
-          initialInputs: initialInputs,
-          inputId: cardId
-        })
-        dispatch(action)
+          dispatch({
+            type: ImageInputValueProps.OPEN_UNSPLASH,
+            inputId: cardId
+          })
       }, [dispatch])
 
       const searchingButtonHandler:GenericProps<string> = useCallback((cardId) => {
-        const action = searchingButtonImage({
-          inputId: cardId
+        dispatch({
+            type: ImageInputValueProps.SEARCHING,
+            inputId: cardId
         })
-        dispatch(action)
       }, [dispatch])
 
       const addedPhotosHandler: ImageGenericProps<[]> = useCallback((photos, cardId) => {
-        const action = photosAdded({
-          photos: photos,
-          inputId: cardId
+        dispatch({
+            type: ImageInputValueProps.PHOTOS_ADDED,
+            photos: photos,
+            inputId: cardId
         })
-        dispatch(action)
       }, [dispatch])
     
     return [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler]

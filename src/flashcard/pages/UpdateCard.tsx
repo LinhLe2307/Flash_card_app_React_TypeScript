@@ -134,7 +134,7 @@ const UpdateCard = () => {
         }
     }
 
-  return (
+  return ( 
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />
 

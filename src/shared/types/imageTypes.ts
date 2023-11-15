@@ -1,12 +1,10 @@
-import React from "react";
+import { AuthInputs } from "../../user/types/userTypes";
 import { InputHandlerProps } from "./formTypes"
 import { GenericProps } from "./sharedTypes"
 import {
-    FieldErrors,
     UseFormRegister,
     UseFormSetValue
   } from "react-hook-form";
-import { AuthInputs } from "../../user/types/userTypes";
 
 export enum ImageInputValueProps {
     OPEN_UNSPLASH = 'OPEN_UNSPLASH',
@@ -15,43 +13,15 @@ export enum ImageInputValueProps {
     PHOTOS_ADDED='PHOTOS_ADDED'
 }
 
-export interface OpenUnsplashPayload {
-    inputId: string
-    initialInputs: ImageState
-}
-
-export interface SearchingPayload {
-    inputId: string
-}
-
-export interface SearchKeywordPayload {
-    value: string
-    inputId: string
-}
-
-export interface PhotosAddedPayload {
-    photos: [],
-    inputId: string
-}
-
-export type ImageAction = ({
-    type: ImageInputValueProps.OPEN_UNSPLASH 
-    payload: OpenUnsplashPayload
-} | {
-    type: ImageInputValueProps.SEARCHING
-    payload: SearchingPayload
+export type ImageAction = {inputId: string} & ({
+    type: ImageInputValueProps.OPEN_UNSPLASH | ImageInputValueProps.SEARCHING
 } | {
     type: ImageInputValueProps.PHOTOS_ADDED
-    payload: PhotosAddedPayload
+    photos: []
 } | {
     type: ImageInputValueProps.SEARCH_KEYWORD
-    payload: SearchKeywordPayload
+    value: string
 })
-
-// export interface ImageAction {
-//     type: ImageInputValueProps
-//     payload: OpenUnsplashPayload | SearchingPayload | PhotosAddedPayload | SearchKeywordPayload
-// }
 
 export interface ImageState {
     [cardId: string]: {
@@ -76,21 +46,19 @@ export interface useImageProps {
     ] 
 }
 
-export interface ImageListProps { 
+export interface ImageListPProps { 
     searchKeyword: string, 
     isSearching: boolean, 
     addedPhotosHandler: ImageGenericProps<[]>,
     photos: [],
     inputHandler: InputHandlerProps,
-    cardId: string,
-    setPickedImage: React.Dispatch<React.SetStateAction<string>>
+    cardId: string
   }
 
 export interface ImageUploadProps {
     id: string
     center: boolean
-    errorText: FieldErrors<AuthInputs>
+    errorText: string | null
     register: UseFormRegister<AuthInputs>;
     setValue: UseFormSetValue<AuthInputs>
-    imageUrl: string
 }
