@@ -92,4 +92,5 @@ export interface ImageUploadProps {
     errorText: FieldErrors<AuthInputs>
     register: UseFormRegister<AuthInputs>;
     setValue: UseFormSetValue<AuthInputs>
+    imageUrl: string
 }

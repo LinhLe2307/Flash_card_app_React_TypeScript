@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form"
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
 
 interface BaseProps {
     id: string
@@ -42,8 +42,11 @@ export type AuthInputs = {
 }
 
 export type UserFormProps = {
-    register: UseFormRegister<AuthInputs>,
-    errors: FieldErrors<AuthInputs>,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
+    register: UseFormRegister<AuthInputs>
+    errors: FieldErrors<AuthInputs>
+    setValue: UseFormSetValue<AuthInputs>
+    imageUrl: string
+    title: string
+    disabled: boolean
     children: React.ReactNode
 }

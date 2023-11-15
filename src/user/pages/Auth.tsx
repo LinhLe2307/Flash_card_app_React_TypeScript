@@ -5,9 +5,9 @@ import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import UserForm from '../components/UserForm'
-import './Auth.css'
+import UserForm from '../../shared/components/FormElements/UserForm'
 import { AuthInputs } from '../types/userTypes'
+import '../../shared/components/FormElements/UserForm.css'
 
 
 const Auth = () => {
@@ -17,7 +17,6 @@ const Auth = () => {
     const {
         register,
         handleSubmit,
-        watch,
         setValue,
         formState: {errors}
     } = useForm<AuthInputs>()
@@ -52,9 +51,6 @@ const Auth = () => {
                 formData.append('language', data.language)
                 formData.append('password', data.password)
                 formData.append('image', data.image)
-                for (var [key, value] of formData.entries()) { 
-                    console.log(key, value);
-                  }                  
                 
                 const response = await sendRequest(`/api/users/signup`,
                     'POST',
@@ -62,7 +58,6 @@ const Auth = () => {
                     {}
                 )
                 auth.login(response.userId, response.token)
-                console.log(response)
             } catch(err) {
                 console.log(err)
             }
@@ -83,6 +78,9 @@ const Auth = () => {
                         register={register}
                         errors={errors}
                         setValue={setValue}
+                        imageUrl='https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg'
+                        title="Sign Up"
+                        disabled={false}
                     >
                         <div className={`form-control`}>
                             <label htmlFor="password">Password</label>
@@ -95,6 +93,7 @@ const Auth = () => {
                                     } 
                                 })}
                                 placeholder="Please enter your password"
+                                className="bg-light form-control"
                             />
                             <span>{errors.password?.message}</span>
                         </div>
@@ -102,13 +101,14 @@ const Auth = () => {
                             SIGNUP
                         </Button>
                     </UserForm>
-                    : <>
+                    : <div className="wrapper">
                         <div className={`form-control`}>
                             <label htmlFor="email">Email</label>
                             <input 
                                 id="email" 
                                 {...register("email", { required: "This is required.", pattern: /^\S+@\S+\.\S+$/ })}
                                 placeholder="Please enter your email"
+                                className="bg-light form-control"
                             />
                             <span>{errors.email?.message}</span>
                         </div>
@@ -123,13 +123,14 @@ const Auth = () => {
                                     } 
                                 })}
                                 placeholder="Please enter your password"
+                                className="bg-light form-control"
                             />
                             <span>{errors.password?.message}</span>
                         </div>
                         <Button type="submit">
                             LOGIN
                         </Button>
-                    </>
+                    </div>
                     
                 }
                 

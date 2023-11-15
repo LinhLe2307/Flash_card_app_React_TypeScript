@@ -22,8 +22,8 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
           {
             pickedImage
             ? <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
-            src={pickedImage}
-            width="125px"
+              src={pickedImage}
+              width="125px"
             /></Button> 
             : 
             typeof flashcard !== "string" && flashcard?.imageUrl.value 

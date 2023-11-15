@@ -31,7 +31,8 @@ function App() {
           <Route path="/card-update/:cardId" element={<UpdateCard/>}/>
           <Route path="/user-detail/:userId" element={<UserDetail />}/>
           <Route path="/settings" element={<Settings />}/>
-          <Route path="/*" element={ <Navigate to="/" /> } />
+          {/* <Route element={<Home />} /> */}
+          <Route path="*" element={ <Navigate to="/" /> } />
         </Route>
       </Routes>
     )
@@ -43,7 +44,7 @@ function App() {
           <Route path="/auth" element={<Auth/>}/>
           <Route path="/cards-user/:userId" element={<UserCards />}/>
           <Route path="/user-detail/:userId" element={<UserDetail />}/>
-          <Route path="/*" element={ <Navigate to="/auth" /> } />
+          <Route path="*" element={ <Navigate to="/auth" /> } />
         </Route>
       </Routes>
     )

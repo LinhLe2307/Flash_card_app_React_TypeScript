@@ -3,10 +3,11 @@ import { GenericProps } from '../../types/sharedTypes'
 import Button from './Button'
 
 import './ImageUpload.css'
+import './UserForm.css'
 import { ImageUploadProps } from '../../types/imageTypes';
 
 
-const ImageUpload = ({ id, center, errorText, register, setValue }: ImageUploadProps) => {
+const ImageUpload = ({ id, center, errorText, register, setValue, imageUrl }: ImageUploadProps) => {
     const [file, setFile] = useState<Blob>()
     const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer>()
     const [isValid, setIsValid] = useState(false)
@@ -31,9 +32,10 @@ const ImageUpload = ({ id, center, errorText, register, setValue }: ImageUploadP
         let fileIsValid = isValid
         if (event.target.files && event.target.files.length === 1) {
             pickedFile = event.target.files[0]
+            console.log(pickedFile)
             setFile(pickedFile)
             setIsValid(true)
-            setValue("image", event.target.files[0])
+            setValue("image", pickedFile)
             fileIsValid= true
         } else {
             setIsValid(false)
@@ -62,9 +64,13 @@ const ImageUpload = ({ id, center, errorText, register, setValue }: ImageUploadP
         <div className={`image-upload ${center && "center"}`}>
             <div className="image-upload__preview">
                 { previewUrl && <img src={String(previewUrl)} alt="Preview"/> }
-                { !previewUrl && <p>Please pick an image.</p> }
+                { !previewUrl && <img src={imageUrl}/> }
             </div>
-            <Button type="button" onClick={pickImageHandler}>PICK IMAGE</Button>
+            <div className="pl-sm-4 pl-2" id="img-section">
+                <b>Profile Photo</b>
+                <p>Accepted file type .jpg, .png, .jpeg. Less than 1MB</p> 
+                <Button type="button" onClick={pickImageHandler}>PICK IMAGE</Button>
+            </div>
         </div>
         { !isValid && <p>{ errorText?.image?.message }</p> }
     </div>

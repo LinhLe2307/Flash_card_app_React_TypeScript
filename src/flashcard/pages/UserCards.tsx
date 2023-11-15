@@ -30,7 +30,7 @@ const UserCards = () => {
   const { data } = useQuery({
     queryKey: ["cards"],
     queryFn: () => userId && getAllUserCards(userId, setFetchCards, sendRequest),
-    staleTime: Infinity
+    // staleTime: Infinity
   })
 
   const cardDeleteHandler = (deletedCardId: string) => {

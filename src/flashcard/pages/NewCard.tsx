@@ -31,29 +31,6 @@ let initialValue: FormInputsProps = {
   } 
 }
 
-// DEFAULT_CARDS.forEach(card => {
-//   return (
-//     initialValue[card] = 
-//       {
-//         value: {
-//           [VALUE_CARD.term]: {
-//             value: '',
-//             isValid: false
-//           },
-//           [VALUE_CARD.definition]: {
-//             value: '',
-//             isValid: false
-//           },
-//           [VALUE_CARD.imageUrl]: {
-//             value: '',
-//             isValid: false
-//           }
-//         },
-//         isValid: false
-//       }
-//   )
-// })
-
 const NewCard = () => {
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
@@ -121,9 +98,11 @@ const NewCard = () => {
               }
         }
       })
+
+      console.log(formState.inputs)
       
       const response = await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
-        Authorization: 'Bearer ' + auth.token,
+        'Authorization': 'Bearer ' + auth.token,
         'Content-Type': 'application/json'
       })
       if (response.card.id) {
@@ -135,10 +114,6 @@ const NewCard = () => {
       console.log(err)
     }
   }
-
-  useEffect(() => {
-    console.log(formState)
-  }, [formState])
 
   return (
     <React.Fragment>

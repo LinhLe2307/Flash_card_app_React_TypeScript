@@ -56,6 +56,7 @@ const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, sendR
                 }
             })
         setFormData(newData, true)
+        console.log(response)
         return response.card
     } catch(err) {
         console.log(err)
@@ -95,11 +96,13 @@ const UpdateCard = () => {
                 title: formState.inputs.title.value,
                 description: formState.inputs.description.value,
             }
-
+   
             Object.entries(formState.inputs).map(([key, value]) => {
                 if (!(key in body)){
                     if ( typeof value !== "string") {
+                        // const valueState = value.value as ObjectGenericProps<ValueAndValidProps<string>>
                         const valueState = value.value as ObjectGenericProps<ValueAndValidProps<string>>
+                        console.log("image", valueState.imageUrl.value )
                         body[key] = {
                             term: valueState.term.value 
                                 ? valueState.term.value 
@@ -107,15 +110,15 @@ const UpdateCard = () => {
                             definition: valueState.definition.value 
                                 ? valueState.definition.value 
                                 : data[key].definition,
-                            imageUrl: valueState.imageUrl.value 
+                            imageUrl: valueState.imageUrl.value && valueState.imageUrl.value 
                                 ? valueState.imageUrl.value 
-                                ? data[key].imageUrl : data[key].imageUrl
-                                : '',
+                                : data[key].imageUrl && data[key].imageUrl ? data[key].imageUrl
+                                : ''
                         }
                     }
                 }
             })
-            console.log("body", body)
+            // console.log("body", body)
             const response = await sendRequest(`/api/cards/${cardId}`,
                 'PATCH',
                 JSON.stringify(body),
@@ -125,9 +128,10 @@ const UpdateCard = () => {
                 }
             )
 
+            console.log(response)
+
             setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
             
-
         } catch(error) {
             console.log(error)
         }
