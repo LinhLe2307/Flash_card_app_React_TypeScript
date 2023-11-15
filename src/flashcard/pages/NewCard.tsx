@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import './CardForm.css'
+import './TermFlashcard.css'
 
 interface BodyProps {
   [key: string]: ObjectGenericProps<string> | string | null
@@ -128,7 +128,7 @@ const NewCard = () => {
               VALIDATOR_REQUIRE()
             ]
           }
-          errorText="Please enter a valid term"
+          errorText="Please enter a valid title"
           onInput = {inputHandler}
           nameId="title"
         />
@@ -156,10 +156,16 @@ const NewCard = () => {
               key={card}
             />)
           }
-          <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
         </div>
-        <Button type="submit" disabled={!formState.isValid}
-        >SUBMIT</Button>
+        <div>
+          <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+          <div style={{
+            float: "right"
+          }}>
+            <Button type="submit" disabled={!formState.isValid}
+            >SUBMIT</Button>
+          </div>
+        </div>
       </form>
     </React.Fragment>
   )

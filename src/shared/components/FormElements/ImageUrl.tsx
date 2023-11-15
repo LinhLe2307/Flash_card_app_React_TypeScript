@@ -18,7 +18,8 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     const [pickedImage, setPickedImage] = useState('')
 
     return (
-    <div>
+    <>
+        <div className="flashcard__input_3">
           {
             pickedImage
             ? <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
@@ -41,12 +42,16 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
                   /></Button>
               </div>
             }
+        </div>
           {
             imageState[cardId] && imageState[cardId].isOpeningUnsplash &&
-            <>
-              <div>
+              <div className='flashcard__input_4'>
                 <div className={`form-control`}>
-                  <input name="imageUrl" onChange={(event) => searchKeywordHandler(event, cardId)}/>
+                  <input 
+                    name="imageUrl" 
+                    onChange={(event) => searchKeywordHandler(event, cardId)}
+                    value={imageState[cardId].searchKeyword}
+                  />
                 </div>
                 <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
                   {
@@ -62,9 +67,8 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
                     />
                   }
               </div>
-            </>
       }
-    </div>
+    </>
   )
 }
 

@@ -46,7 +46,7 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError}/>
-        <Modal 
+        {/* <Modal 
             show={showPreview} 
             onCancel={closePreviewHandler}
             header={card.title}
@@ -57,7 +57,7 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
             <div className='map-container'>
                 The map
             </div>
-        </Modal>
+        </Modal> */}
         <Modal
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
@@ -84,7 +84,7 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
                     <h2>{card.description}</h2>
                 </div>
                 <div className='card-item__actions'>
-                    <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
+                    {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
                         auth.isLoggedIn && <>
                             <Button to={`/card-update/${id}`} state={card}>EDIT</Button>

@@ -12,8 +12,8 @@ import { useHttpClient } from "../../shared/hooks/http-hook"
 import { FormInputsProps, SendRequestProps, SetFormDataProps, ValueAndValidProps } from "../../shared/types/formTypes"
 import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from "../../shared/util/validators"
-import './CardForm.css'
 import TermFlashcard from "./TermFlashcard"
+import './TermFlashcard.css'
 
 const getDetailCard = async(cardId: string, setFormData: SetFormDataProps, sendRequest:SendRequestProps) => {
     try {
@@ -170,7 +170,7 @@ const UpdateCard = () => {
                     initialValue={data.description}
                     initialIsValid={true}
                     />
-                <div className='card-form' >
+                <div>
                 {
                 Object.entries(formState.inputs).map(([key, value]) => {
                     if (filterName.indexOf(key) === -1) {
@@ -188,9 +188,13 @@ const UpdateCard = () => {
                 }
                 )
                 }
-                <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
             </div>
-                <Button type="submit" disabled={!formState.isValid}>UPDATE CARD</Button> 
+                <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+                <div style={{
+                    float: "right"
+                }}>
+                    <Button type="submit" disabled={!formState.isValid}>UPDATE</Button> 
+                </div>
             </form>
         }
     </React.Fragment>

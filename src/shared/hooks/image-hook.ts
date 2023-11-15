@@ -1,6 +1,6 @@
 import { useCallback } from "react"
 import { openUnsplashImage, searchKeywordImage, searchingButtonImage, photosAdded } from "../../app/actions/image"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppSelector } from "../../app/hooks"
 import { ImageGenericProps, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 import { useDispatch } from "react-redux"

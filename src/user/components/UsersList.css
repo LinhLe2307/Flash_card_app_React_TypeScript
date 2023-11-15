@@ -1,3 +1,6 @@
+.container {
+  margin: 0 auto
+}
 .search-result-categories>li>a {
   color: #b6b6b6;
   font-weight: 400

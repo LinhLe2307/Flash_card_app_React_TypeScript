@@ -95,4 +95,9 @@ select:focus{
     #delete{
         line-height: 18px;
     }
+    .row {
+        flex-direction: column;
+        gap: 0
+    }
+
 }
