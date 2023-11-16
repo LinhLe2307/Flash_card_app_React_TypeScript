@@ -25,37 +25,41 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                 if (!state.inputs[inputId]) {
                     continue
                 } else {
+
+                    const typeNameId = action.payload.nameId as keyof typeof VALUE_CARD
+                    // console.log("action.payload", action.payload)
                 if (inputId === action.payload.inputId) {
                     if (filterName.find(card => card === action.payload.inputId) !== undefined) {
-                    newProps.inputs[action.payload.inputId] = {
-                        ...newProps.inputs[action.payload.inputId],
-                        value: action.payload.value,
-                        isValid: action.payload.isValid
-                    }
-                    formIsValid = formIsValid && action.payload.isValid && subCardIsValid
+                        newProps.inputs[action.payload.inputId] = {
+                            ...newProps.inputs[action.payload.inputId],
+                            value: action.payload.value,
+                            isValid: action.payload.isValid
+                        }
+                        formIsValid = formIsValid && action.payload.isValid && subCardIsValid
                     
                     } else {
                         if (typeof action.payload.value === "object") {
                             const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
+
                             if (inputValue.term.value.length !== 0 && inputValue.definition.value.length !== 0) {
                                 newProps.inputs[action.payload.inputId] = {
                                     ...newProps.inputs[action.payload.inputId],
                                     value : {
                                         ...inputValue,
-                                        [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
+                                        [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[typeNameId]
                                     },
-                                    isValid: subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                    // isValid: action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                    isValid: action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
                                 }
-                                // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                subCardIsValid = subCardIsValid && true
+                                formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                // formIsValid = formIsValid && subCardIsValid 
+                            
                             }
-                            // else {
-                            //         subCardIsValid = formIsValid 
-                            //     // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                            //     }
-                            formIsValid = formIsValid && subCardIsValid
-                            // formIsValid = formIsValid && action.payload.isValid
+                            else {
+                                   // subCardIsValid = formIsValid 
+                                    formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                }
+                            // formIsValid = formIsValid && subCardIsValid
+                            formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
                         }
                         
                         }
@@ -70,6 +74,7 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                         } else {
                         if (typeof action.payload.value === "object") {
                             const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
+
                             if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
                                 newProps.inputs[action.payload.inputId] = {
                                     ...newProps.inputs[action.payload.inputId],
@@ -79,20 +84,21 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                                     },
                                     isValid: subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
                                 } 
-                                subCardIsValid = subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                // subCardIsValid = subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                formIsValid = formIsValid && state.inputs[inputId].isValid
 
                             } else {
-                                // formIsValid = formIsValid && state.inputs[inputId].isValid
-                                subCardIsValid = subCardIsValid && state.inputs[inputId].isValid
+                                formIsValid = formIsValid && state.inputs[inputId].isValid
+                                // subCardIsValid = subCardIsValid && state.inputs[inputId].isValid
                             }
-                            // formIsValid = formIsValid && state.inputs[inputId].isValid
-                            formIsValid = formIsValid && subCardIsValid
+                            formIsValid = formIsValid && state.inputs[inputId].isValid
+                            //formIsValid = formIsValid && subCardIsValid
                         }
                         }
                     }
                 }
             }
-            console.log("newProps", newProps)
+            // console.log("newProps", newProps)
             newProps.isValid = formIsValid
             return newProps
         }
