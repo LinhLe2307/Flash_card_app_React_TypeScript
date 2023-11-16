@@ -54,10 +54,10 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
                 element="textarea"
                 validators={
                   [
-                    VALIDATOR_MINLENGTH(5)
+                    VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText="Please enter a valid definition (at least 5 characters)."
+                errorText="Please enter a valid definition."
                 onInput = {inputHandler}
               />
             </div> 
@@ -94,10 +94,11 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:T
                 element="textarea"
                 validators={
                   [
-                    VALIDATOR_MINLENGTH(5)
+                    VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText="Please enter a valid definition (at least 5 characters)."
+                errorText="Please enter a valid definition {'\n'}
+                (at least 5 characters)."
                 onInput = {inputHandler}
                 initialValue={flashcard.definition.value}
                 initialIsValid={true}

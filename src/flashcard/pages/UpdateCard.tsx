@@ -188,12 +188,15 @@ const UpdateCard = () => {
                 }
                 )
                 }
-            </div>
-                <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
-                <div style={{
-                    float: "right"
-                }}>
-                    <Button type="submit" disabled={!formState.isValid}>UPDATE</Button> 
+                </div>
+
+                <div className="flashcard__buttons_group">
+                    <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+                    <div style={{
+                        float: "right"
+                    }}>
+                        <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+                    </div>
                 </div>
             </form>
         }

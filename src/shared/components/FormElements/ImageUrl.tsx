@@ -22,24 +22,26 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
         <div className="flashcard__input_3">
           {
             pickedImage
-            ? <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
+            ? <img
               src={pickedImage}
-              width="125px"
-            /></Button> 
+              width="200px"
+              onClick={() => openUnsplashHandler(cardId)}
+            />
             : 
             typeof flashcard !== "string" && flashcard?.imageUrl.value 
             ? <div>
                 <img
                   src={flashcard.imageUrl.value}
-                  width="125px"
+                  width="200px"
                   onClick={() => openUnsplashHandler(cardId)}
                 />
             </div>
             : <div>
-                <Button type="button" onClick={() => openUnsplashHandler(cardId)}><img
+                <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
-                  width="125px"
-                  /></Button>
+                  width="200px"
+                  onClick={() => openUnsplashHandler(cardId)}
+                />
               </div>
             }
         </div>

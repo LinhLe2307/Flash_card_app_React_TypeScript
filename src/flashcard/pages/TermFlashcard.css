@@ -57,6 +57,11 @@
     padding-top: 0.6rem;
 }
 
+.flashcard__buttons_group {
+    display: "flex";
+    justify-content: "space-around"
+}
+
 @media (max-width: 768px) {
     .card-form {
         width: 100%
@@ -78,5 +83,9 @@
 
     .flashcard__input_4 {
         margin: 0
+    }
+
+    .flashcard__buttons_group {
+        flex-direction: column;
     }
 }

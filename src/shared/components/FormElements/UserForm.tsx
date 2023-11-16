@@ -30,6 +30,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                             {...register("firstName")}
                             placeholder="John"
                             className="bg-light form-control"
+                            autoComplete="firstName"
                         />
                         {errors.firstName?.message && <span>This field is required</span>}
                 </div>
@@ -40,6 +41,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                             {...register("lastName")}
                             placeholder="Doe"
                             className="bg-light form-control"
+                            autoComplete="lastName"
                         />
                         {errors.lastName?.message && <span>This field is required</span>}
                 </div>
@@ -48,6 +50,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                 <div className="form-control">
                     <label htmlFor="email">Email Address</label>
                     <input 
+                            id="email"
                             disabled={disabled}
                             style={{
                                 backgroundColor: "none"
@@ -55,15 +58,18 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                             type="text" 
                             className="form-control" 
                             placeholder="john_doe@email.com" 
+                            autoComplete="email"
                             {...register("email", {required: "This is required.", pattern: /^\S+@\S+\.\S+$/ })}
                         />
                     </div>
                 <div className="form-control">
                     <label htmlFor="phone">Phone Number</label>
                     <input 
+                        id="phone"
                         type="tel" 
                         className="form-control" 
                         placeholder="+358 1368 230797" 
+                        autoComplete="phone"
                         {...register("phone")}
                     />
                     <span>{errors.email?.message}</span>

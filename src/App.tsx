@@ -26,10 +26,10 @@ function App() {
         <Route path="/" element={<MainPage />}>
           <Route index element={<Home />}/>
           <Route path="/card/new" element={<NewCard/>}/>
-          <Route path="/card-detail/:cardId" element={<CardDetail />}/>
           <Route path="/cards-user/:userId" element={<UserCards />}/>
           <Route path="/card-update/:cardId" element={<UpdateCard/>}/>
           <Route path="/user-detail/:userId" element={<UserDetail />}/>
+          <Route path="/card-detail/:cardId" element={<CardDetail />}/>
           <Route path="/settings" element={<Settings />}/>
           {/* <Route element={<Home />} /> */}
           <Route path="*" element={ <Navigate to="/" /> } />
@@ -44,6 +44,7 @@ function App() {
           <Route path="/auth" element={<Auth/>}/>
           <Route path="/cards-user/:userId" element={<UserCards />}/>
           <Route path="/user-detail/:userId" element={<UserDetail />}/>
+          <Route path="/card-detail/:cardId" element={<CardDetail />}/>
           <Route path="*" element={ <Navigate to="/auth" /> } />
         </Route>
       </Routes>

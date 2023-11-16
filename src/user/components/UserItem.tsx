@@ -16,7 +16,7 @@ const UserItem = ({id, image, firstName, lastName, cardCount}: UserItemProps ) =
               </div>
               <div className="col-sm-3 text-align-center">
                   <p className="value3 mt-sm">{cardCount >= 1 ? cardCount : 0}</p>
-                  <p className="fs-mini text-muted">{cardCount === 1 ? 'CARD' : 'CARDS'}</p><a className="btn btn-primary btn-info btn-sm" href={`/cards-user/${id}`}>
+                  <p className="fs-mini text-muted">{cardCount === 1 ? 'CARD' : 'CARDS'}</p><a className="btn btn-info btn-sm" href={`/cards-user/${id}`}>
                     View Cards
                   </a>
               </div>

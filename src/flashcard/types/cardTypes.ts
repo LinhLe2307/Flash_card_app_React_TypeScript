@@ -1,7 +1,8 @@
 import { InputHandlerProps, ObjectGenericInitial, ValueAndValidProps } from "../../shared/types/formTypes"
 import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 
-export interface CardItemProps {
+export interface CardItemProps{
+    creator: string
     id: string
     card: ObjectGenericProps<string>,
     onDelete: (deletedCardId: string) => void
@@ -12,9 +13,4 @@ export interface TermFlashcardProps {
     inputHandler: InputHandlerProps,
     flashcard?: string | ObjectGenericInitial | ObjectGenericProps<ValueAndValidProps<string>>,
     removeSubCardHandler: GenericProps<string>
-}
-
-export interface CardListProps {
-    items: ObjectGenericProps<string>[],
-    onDeleteCard: (deletedCardId: string) => void
 }

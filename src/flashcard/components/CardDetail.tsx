@@ -22,7 +22,6 @@ const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
     )
     const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
     Object.entries(response.card).filter(([key, value]) => filterName.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
-    console.log(newLocation)
     return newLocation
   } catch(err) {
     console.log(err)

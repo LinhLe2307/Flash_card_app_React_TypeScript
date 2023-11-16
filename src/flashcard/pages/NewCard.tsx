@@ -41,43 +41,6 @@ const NewCard = () => {
     event.preventDefault()
     try {
       const body: BodyProps = {}
-      // const formData = new FormData()
-
-      // function objectToFormData(obj, parentKey = '') {
-      //   for (let key in obj) {
-      //     if (obj.hasOwnProperty(key)) {
-      //       let keyName = parentKey ? `${parentKey}[${key}]` : key;
-      
-      //       if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
-      //         objectToFormData(obj[key], keyName);
-      //       } else {
-      //         formData.append(keyName, obj[key].value);
-      //       }
-      //     }
-      //   }
-      // }
-
-      // objectToFormData(formState.inputs)
-
-      // for (let dataKey in formState.inputs) {
-      //   if (filterName.indexOf(dataKey) === -1) {
-      //     const newValue = {}
-      //     for (let objectKey in formState.inputs[dataKey].value){
-      //       if (objectKey === "imageUrl") {
-      //         formData.append(dataKey["imageUrl"], formState.inputs[dataKey].value[objectKey].value)
-      //       } else {
-      //         newValue[objectKey] = formState.inputs[dataKey].value[objectKey].value
-      //       }
-      //     }
-      //     formData.append(dataKey, JSON.stringify(newValue))
-      //   }else {
-      //     formData.append(dataKey, formState.inputs[dataKey].value)
-      //   }
-      // }
-      
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(key, value)
-      // }
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
         if(filterName.indexOf(key) === -1) {
@@ -157,13 +120,12 @@ const NewCard = () => {
             />)
           }
         </div>
-        <div>
+        <div className="flashcard__buttons_group">
           <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
           <div style={{
             float: "right"
           }}>
-            <Button type="submit" disabled={!formState.isValid}
-            >SUBMIT</Button>
+            <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
           </div>
         </div>
       </form>

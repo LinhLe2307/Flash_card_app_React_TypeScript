@@ -32,7 +32,6 @@ const ImageUpload = ({ id, center, errorText, register, setValue, imageUrl }: Im
         let fileIsValid = isValid
         if (event.target.files && event.target.files.length === 1) {
             pickedFile = event.target.files[0]
-            console.log(pickedFile)
             setFile(pickedFile)
             setIsValid(true)
             setValue("image", pickedFile)
@@ -60,6 +59,7 @@ const ImageUpload = ({ id, center, errorText, register, setValue, imageUrl }: Im
                 filePickerRef.current = e
             }}
             onChange={pickedHandler}
+            autoComplete="image"
         />
         <div className={`image-upload ${center && "center"}`}>
             <div className="image-upload__preview">

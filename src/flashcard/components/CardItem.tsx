@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
@@ -9,10 +9,12 @@ import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { CardItemProps } from '../types/cardTypes'
 
-const CardItem = ({id, card, onDelete}: CardItemProps) => {
+const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [showPreview, setShowPreview] = useState(false)
+    // const [isUserMatched, setIsUserMatched] = useState(false);
+
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
     const openPreviewHandler = () => {
@@ -86,7 +88,7 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
                 <div className='card-item__actions'>
                     {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
-                        auth.isLoggedIn && <>
+                        auth.isLoggedIn && auth.userId === creator && <>
                             <Button to={`/card-update/${id}`} state={card}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>

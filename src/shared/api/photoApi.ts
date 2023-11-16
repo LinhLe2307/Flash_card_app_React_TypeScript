@@ -2,6 +2,9 @@ import axios from 'axios'
 
 const clientId = 'jGKs1Y1sQ5phKJ5Ezh5zBB3ugbc6JFQjvt3ZURZ-xLQ'
 const UNSPLASH_ROOT = 'https://api.unsplash.com'
+const axiosInstance = axios.create({
+    withCredentials: true
+  });
 
 const photoApi = {
     getImage: (query:string) => {

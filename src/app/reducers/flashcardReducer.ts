@@ -7,10 +7,10 @@ const initialState: FormState = {
             value: '',
             isValid: false
           },
-          description: {
+        description: {
             value: '',
             isValid: false
-          } 
+        }
     },
     isValid: false
   }
@@ -20,6 +20,7 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
         case FormActionProps.INPUT_CHANGE: {
             let newProps = {...state}
             let formIsValid = true
+            let subCardIsValid = true
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
                     continue
@@ -31,56 +32,67 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                         value: action.payload.value,
                         isValid: action.payload.isValid
                     }
-                    formIsValid = formIsValid && action.payload.isValid
-                    } else {
-                    if (typeof action.payload.value === "object") {
-                        const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
-                        if (inputValue.term.length !== 0 && inputValue.definition.length !== 0) {
-                        newProps.inputs[action.payload.inputId] = {
-                            ...newProps.inputs[action.payload.inputId],
-                            value : {
-                            ...inputValue,
-                            [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
-                            },
-                            isValid: action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                        }
-                        formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                        } else {
-                        formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                        }
-                        formIsValid = formIsValid && action.payload.isValid
-                    }
+                    formIsValid = formIsValid && action.payload.isValid && subCardIsValid
                     
-                    }
-                } else {
-                    if (filterName.find(card => card === action.payload.inputId) !== undefined) {
-                    formIsValid = formIsValid && action.payload.isValid
-                    newProps.inputs[action.payload.inputId] = {
-                        value: action.payload.value,
-                        isValid: action.payload.isValid
-                    }
-                    formIsValid = formIsValid && state.inputs[inputId].isValid
                     } else {
-                    if (typeof action.payload.value === "object") {
-                        const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
-                        if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
-                        newProps.inputs[action.payload.inputId] = {
-                            ...newProps.inputs[action.payload.inputId],
-                            value: {
-                            ...inputValue,
-                            [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
-                            },
-                            isValid: true
-                        } 
-                        } else {
-                        formIsValid = formIsValid && state.inputs[inputId].isValid
+                        if (typeof action.payload.value === "object") {
+                            const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
+                            if (inputValue.term.value.length !== 0 && inputValue.definition.value.length !== 0) {
+                                newProps.inputs[action.payload.inputId] = {
+                                    ...newProps.inputs[action.payload.inputId],
+                                    value : {
+                                        ...inputValue,
+                                        [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
+                                    },
+                                    isValid: subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                    // isValid: action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                }
+                                // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                subCardIsValid = subCardIsValid && true
+                            }
+                            // else {
+                            //         subCardIsValid = formIsValid 
+                            //     // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                            //     }
+                            formIsValid = formIsValid && subCardIsValid
+                            // formIsValid = formIsValid && action.payload.isValid
                         }
-                        formIsValid = formIsValid && state.inputs[inputId].isValid
+                        
+                        }
+                    } else {
+                        if (filterName.find(card => card === action.payload.inputId) !== undefined) {
+                            formIsValid = formIsValid && action.payload.isValid
+                            newProps.inputs[action.payload.inputId] = {
+                                value: action.payload.value,
+                                isValid: action.payload.isValid
+                            }
+                            formIsValid = formIsValid && state.inputs[inputId].isValid
+                        } else {
+                        if (typeof action.payload.value === "object") {
+                            const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
+                            if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
+                                newProps.inputs[action.payload.inputId] = {
+                                    ...newProps.inputs[action.payload.inputId],
+                                    value: {
+                                        ...inputValue,
+                                        [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD]
+                                    },
+                                    isValid: subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                } 
+                                subCardIsValid = subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+
+                            } else {
+                                // formIsValid = formIsValid && state.inputs[inputId].isValid
+                                subCardIsValid = subCardIsValid && state.inputs[inputId].isValid
+                            }
+                            // formIsValid = formIsValid && state.inputs[inputId].isValid
+                            formIsValid = formIsValid && subCardIsValid
+                        }
+                        }
                     }
-                    }
-                }
                 }
             }
+            console.log("newProps", newProps)
             newProps.isValid = formIsValid
             return newProps
         }
@@ -113,11 +125,20 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                 if (!state.inputs[inputId]) {
                     continue
                 } else {
-                if (inputId === action.payload.inputId) {
-                    delete removeValue.inputs[action.payload.inputId]
-                } else {
-                    removeFormIsValid = removeFormIsValid && state.inputs[inputId].isValid
-                }
+                    if (inputId === action.payload.inputId) {
+                        delete removeValue.inputs[action.payload.inputId]
+                        if (+Object.keys(removeValue.inputs).length === 2 ) {
+                            removeFormIsValid = removeFormIsValid && false
+                        } else {
+                            removeFormIsValid = removeFormIsValid
+                        }
+                    } else {
+                       if (+Object.keys(removeValue.inputs).length === 2 ) {
+                            removeFormIsValid = removeFormIsValid && false
+                        } else {
+                            removeFormIsValid = removeFormIsValid 
+                        }
+                    }
                 }
             }
 

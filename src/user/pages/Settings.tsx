@@ -22,7 +22,6 @@ const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
         'Content-Type': 'application/json'
       }
     )
-    console.log(response.user)
     return response.user
   } catch(err) {
     console.log(err)
@@ -46,10 +45,13 @@ const Settings = () => {
     handleSubmit,
     reset,
     setValue,
-    formState: {errors}
+    formState,
+    formState: { isSubmitSuccessful, errors }
   } = useForm<AuthInputs>({
     defaultValues: data
   })
+
+  const [submittedData, setSubmittedData] = useState({})
 
   const updateHandler:SubmitHandler<AuthInputs> = async(dataForm) => {
     try {
@@ -69,9 +71,9 @@ const Settings = () => {
             'Authorization': 'Bearer ' + auth.token
           }
       )
-      // if (response) {
-      //   setTimeout(() => window.location.reload(), 500)
-      // }
+      if (response) {
+        setSubmittedData(response.user)
+      }
       
     } catch(err) {
         console.log(err)
@@ -112,12 +114,19 @@ const Settings = () => {
   }
 
   const cancelChangesHandler = () => {
-    window.location.reload()
+    reset()
+    setShowCancelModal(false)
   }
 
   useEffect(() => {
     reset(data)
   }, [isLoading])
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset(submittedData)
+    }
+  }, [formState, submittedData, reset])
 
   return (
     <React.Fragment>
