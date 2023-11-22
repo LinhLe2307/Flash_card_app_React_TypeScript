@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCardFlashcard, inputChangeFlashcard, removeCardFlashcard, setDataFlashcard } from '../../app/actions/flashcards';
+import { addCardFlashcard, inputChangeFlashcard, removeCardFlashcard, resetForm, setDataFlashcard } from '../../app/actions/form';
 import { useAppSelector } from '../../app/hooks';
 import { filterName } from '../constants/global';
 import { InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
 import { GenericProps } from '../types/sharedTypes';
+import { resetImage } from '../../app/actions/image';
 
 
 export const useFormHook:UserFormHandler = function(initialInputs, initialFormValidity) {
@@ -59,5 +60,10 @@ export const useFormHook:UserFormHandler = function(initialInputs, initialFormVa
         dispatch(action)
     }, [dispatch])
 
-    return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData];
+    const resetState = useCallback(() => {
+      dispatch(resetImage())
+      dispatch(resetForm())
+      }, [dispatch])
+
+    return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState];
 }

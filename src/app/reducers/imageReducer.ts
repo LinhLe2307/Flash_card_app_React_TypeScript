@@ -18,9 +18,11 @@ const imageReducer = (state = initialState, action: ImageAction) => {
                     isOpeningUnsplash: !state[action.payload.inputId].isOpeningUnsplash,
                     searchKeyword: state[action.payload.inputId].searchKeyword,
                     isClickingButton: true,
-                    photos: state[action.payload.inputId].photos
+                    photos: state[action.payload.inputId].photos.length > 1 
+                        ? state[action.payload.inputId].photos
+                        : []  
                 }
-            }
+            } 
             return newProps
         case ImageInputValueProps.SEARCH_KEYWORD:
             let newKeyword = {...state}
@@ -47,6 +49,9 @@ const imageReducer = (state = initialState, action: ImageAction) => {
                 }
             }
             return newPhotosState
+
+        case ImageInputValueProps.RESET:
+            return {}
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
@@ -34,7 +34,7 @@ let initialValue: FormInputsProps = {
 const NewCard = () => {
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
-  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useFormHook(initialValue, false)
+  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState] = useFormHook(initialValue, false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
@@ -67,6 +67,7 @@ const NewCard = () => {
         'Content-Type': 'application/json'
       })
       if (response.card.id) {
+        resetState();
         setTimeout(()=> 
           navigate(`/card-detail/${response.card.id}`), 500)
       }

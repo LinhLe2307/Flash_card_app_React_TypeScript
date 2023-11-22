@@ -15,7 +15,7 @@ const initialState: FormState = {
     isValid: false
   }
 
-const flashcardReducer = (state = initialState, action: FormAction ) => {
+const formReducer = (state = initialState, action: FormAction ) => {
     switch(action.type) {
         case FormActionProps.INPUT_CHANGE: {
             let newProps = {...state}
@@ -27,41 +27,43 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                 } else {
 
                     const typeNameId = action.payload.nameId as keyof typeof VALUE_CARD
-                    // console.log("action.payload", action.payload)
-                if (inputId === action.payload.inputId) {
-                    if (filterName.find(card => card === action.payload.inputId) !== undefined) {
-                        newProps.inputs[action.payload.inputId] = {
-                            ...newProps.inputs[action.payload.inputId],
-                            value: action.payload.value,
-                            isValid: action.payload.isValid
-                        }
-                        formIsValid = formIsValid && action.payload.isValid && subCardIsValid
                     
-                    } else {
-                        if (typeof action.payload.value === "object") {
-                            const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
-
-                            if (inputValue.term.value.length !== 0 && inputValue.definition.value.length !== 0) {
-                                newProps.inputs[action.payload.inputId] = {
-                                    ...newProps.inputs[action.payload.inputId],
-                                    value : {
-                                        ...inputValue,
-                                        [action.payload.nameId as keyof typeof VALUE_CARD]: action.payload.value?.[typeNameId]
-                                    },
-                                    isValid: action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                }
-                                formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                // formIsValid = formIsValid && subCardIsValid 
-                            
+                    // console.log("action.payload", action.payload)
+                    if (inputId === action.payload.inputId) {
+                        if (filterName.find(card => card === action.payload.inputId) !== undefined) {
+                            newProps.inputs[action.payload.inputId] = {
+                                ...newProps.inputs[action.payload.inputId],
+                                value: action.payload.value,
+                                isValid: action.payload.isValid
                             }
-                            else {
-                                   // subCardIsValid = formIsValid 
-                                    formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                }
-                            // formIsValid = formIsValid && subCardIsValid
-                            formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                        }
+                            formIsValid = formIsValid && action.payload.isValid && subCardIsValid
                         
+                        } else {
+                            if (typeof action.payload.value === "object") {
+                                const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
+                                console.log(inputValue)
+                                if (inputValue.term && inputValue.definition) {
+                                    console.log(typeNameId, action.payload.inputId)
+                                    newProps.inputs[action.payload.inputId] = {
+                                        ...newProps.inputs[action.payload.inputId],
+                                        value : {
+                                            ...inputValue,
+                                            [typeNameId]: action.payload.value?.[typeNameId]
+                                        },
+                                        isValid: action.payload.value[typeNameId].isValid
+                                    }
+                                    // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                    // formIsValid = formIsValid && subCardIsValid 
+                                
+                                }
+                                // else {
+                                //     // subCardIsValid = formIsValid 
+                                //         // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                                //     }
+                                // formIsValid = formIsValid && subCardIsValid
+                                // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
+                            }
+                            
                         }
                     } else {
                         if (filterName.find(card => card === action.payload.inputId) !== undefined) {
@@ -85,40 +87,40 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                                     isValid: subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
                                 } 
                                 // subCardIsValid = subCardIsValid && action.payload.value?.[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                formIsValid = formIsValid && state.inputs[inputId].isValid
+                                // formIsValid = formIsValid && state.inputs[inputId].isValid
 
                             } else {
-                                formIsValid = formIsValid && state.inputs[inputId].isValid
+                                // formIsValid = formIsValid && state.inputs[inputId].isValid
                                 // subCardIsValid = subCardIsValid && state.inputs[inputId].isValid
                             }
-                            formIsValid = formIsValid && state.inputs[inputId].isValid
+                            // formIsValid = formIsValid && state.inputs[inputId].isValid
                             //formIsValid = formIsValid && subCardIsValid
                         }
                         }
                     }
                 }
             }
-            // console.log("newProps", newProps)
             newProps.isValid = formIsValid
             return newProps
         }
+       
         case FormActionProps.ADD_CARD:
             const newAddState = {...state.inputs}
             const stateLength = Object.keys(newAddState).length
             newAddState[`m${stateLength}`] = {
                 value: {
-                term: {
-                    value: '',
-                    isValid: false
-                }, 
-                definition: {
-                    value: '',
-                    isValid: false
-                }, 
-                imageUrl: {
-                    value: '',
-                    isValid: false
-                }, 
+                    term: {
+                        value: '',
+                        isValid: false
+                    }, 
+                    definition: {
+                        value: '',
+                        isValid: false
+                    }, 
+                    imageUrl: {
+                        value: '',
+                        isValid: false
+                    }, 
                 },
                 isValid: false
             }
@@ -155,10 +157,14 @@ const flashcardReducer = (state = initialState, action: FormAction ) => {
                 inputs: action.payload.inputs,
                 isValid: action.payload.formIsValid
             }
+
+        case FormActionProps.RESET_FORM:
+            return initialState
         default:
+            console.log("state", state)
             return state
     }
 
 }
 
-export default flashcardReducer
+export default formReducer

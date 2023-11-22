@@ -12,7 +12,8 @@ export enum ImageInputValueProps {
     OPEN_UNSPLASH = 'OPEN_UNSPLASH',
     SEARCH_KEYWORD = 'SEARCH_KEYWORD',
     SEARCHING='SEARCHING',
-    PHOTOS_ADDED='PHOTOS_ADDED'
+    PHOTOS_ADDED='PHOTOS_ADDED',
+    RESET='RESET'
 }
 
 export interface OpenUnsplashPayload {
@@ -46,7 +47,9 @@ export type ImageAction = ({
 } | {
     type: ImageInputValueProps.SEARCH_KEYWORD
     payload: SearchKeywordPayload
-})
+}) | {
+    type: ImageInputValueProps.RESET
+}
 
 // export interface ImageAction {
 //     type: ImageInputValueProps

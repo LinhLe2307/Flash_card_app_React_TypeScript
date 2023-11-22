@@ -1,9 +1,9 @@
 import { useCallback } from "react"
-import { openUnsplashImage, searchKeywordImage, searchingButtonImage, photosAdded } from "../../app/actions/image"
+import { useDispatch } from "react-redux"
+import { openUnsplashImage, photosAdded, searchKeywordImage, searchingButtonImage } from "../../app/actions/image"
 import { useAppSelector } from "../../app/hooks"
 import { ImageGenericProps, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
-import { useDispatch } from "react-redux"
 
 
 export const useImage:useImageProps = (initialInputs) => {

@@ -25,3 +25,8 @@ export const setDataFlashcard = (flashcard: SetDataPayload) => {
     }
 }
 
+export const resetForm = () => {
+    return {
+        type: FormActionProps.RESET_FORM,
+    }
+}

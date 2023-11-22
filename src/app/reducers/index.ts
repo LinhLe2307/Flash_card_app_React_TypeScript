@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import flashcardReducer from "./flashcardReducer";
+import formReducer from "./formReducer";
 import imageReducer from "./imageReducer";
 
 const appReducer = combineReducers({
-    form: flashcardReducer,
+    form: formReducer,
     image: imageReducer
 })
 

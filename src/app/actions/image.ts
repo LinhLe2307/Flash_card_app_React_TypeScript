@@ -27,3 +27,9 @@ export const photosAdded = (image: PhotosAddedPayload) => {
         payload: image
     }
 }
+
+export const resetImage = () => {
+    return {
+        type: ImageInputValueProps.RESET
+    }
+}

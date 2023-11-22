@@ -69,7 +69,8 @@ export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
     SET_DATA = "SET_DATA",
     REMOVE_CARD = "REMOVE_CARD",
-    ADD_CARD="ADD_CARD"
+    ADD_CARD="ADD_CARD",
+    RESET_FORM="RESET_FORM"
 }
 
 export interface SetFormDataProps {
@@ -103,7 +104,7 @@ export type FormAction = {
     type: FormActionProps.REMOVE_CARD,
     payload: RemoveCardPayload
 } | {
-    type: FormActionProps.ADD_CARD,
+    type: FormActionProps.ADD_CARD | FormActionProps.RESET_FORM,
 }
 
 export interface FormState {
@@ -118,6 +119,7 @@ export interface UserFormHandler {
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
         setFormData: SetFormDataProps,
+        resetState: ()=>void
     ]
 }
 
