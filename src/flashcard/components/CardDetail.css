@@ -59,6 +59,10 @@
   width: 200px
 }
 
+.back--center {
+  margin: 0 center
+}
+
 .card-detail small {
   opacity: 0.7;
   font-size: 0.7em;

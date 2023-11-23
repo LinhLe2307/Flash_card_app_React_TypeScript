@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import Button from "../../shared/components/FormElements/Button"
 import Input from "../../shared/components/FormElements/Input"
@@ -68,17 +68,7 @@ const UpdateCard = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
     const cardId = useParams().cardId
 
-    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData] = useFormHook({
-        title: {
-            value: '',
-            isValid : false
-        },
-        description: {
-            value: '',
-            isValid : false
-        }
-        
-    }, false)
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState] = useFormHook()
 
     const {data} = useQuery({
         queryKey: ["update-card"],
@@ -91,7 +81,7 @@ const UpdateCard = () => {
         event.preventDefault()
         try {
             
-            const body: ObjectGenericProps<string | ObjectGenericProps<ValueAndValidProps<string>>> = {
+            const body: ObjectGenericProps<string | ObjectGenericProps<ValueAndValidProps<string> | string>> = {
                 title: formState.inputs.title.value,
                 description: formState.inputs.description.value,
             }
@@ -101,7 +91,6 @@ const UpdateCard = () => {
                     if ( typeof value !== "string") {
                         // const valueState = value.value as ObjectGenericProps<ValueAndValidProps<string>>
                         const valueState = value.value as ObjectGenericProps<ValueAndValidProps<string>>
-                        console.log("image", valueState.imageUrl.value )
                         body[key] = {
                             term: valueState.term.value 
                                 ? valueState.term.value 
@@ -109,9 +98,9 @@ const UpdateCard = () => {
                             definition: valueState.definition.value 
                                 ? valueState.definition.value 
                                 : data[key].definition,
-                            imageUrl: valueState.imageUrl.value && valueState.imageUrl.value 
+                            imageUrl: valueState.imageUrl && valueState.imageUrl.value 
                                 ? valueState.imageUrl.value 
-                                : data[key].imageUrl && data[key].imageUrl ? data[key].imageUrl
+                                // : data[key].imageUrl && data[key].imageUrl ? data[key].imageUrl
                                 : ''
                         }
                     }
@@ -127,7 +116,11 @@ const UpdateCard = () => {
                 }
             )
 
-            setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
+            if (response) {
+                resetState("update_card")
+                setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
+            }
+
             
         } catch(error) {
             console.log(error)

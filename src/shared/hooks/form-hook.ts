@@ -8,7 +8,7 @@ import { GenericProps } from '../types/sharedTypes';
 import { resetImage } from '../../app/actions/image';
 
 
-export const useFormHook:UserFormHandler = function(initialInputs, initialFormValidity) {
+export const useFormHook:UserFormHandler = function() {
     const dispatch = useDispatch()
     const formState = useAppSelector(state => state.form)
     const inputHandler: InputHandlerProps = useCallback((value, isValid, inputId, nameId) => {
@@ -60,9 +60,13 @@ export const useFormHook:UserFormHandler = function(initialInputs, initialFormVa
         dispatch(action)
     }, [dispatch])
 
-    const resetState = useCallback(() => {
-      dispatch(resetImage())
-      dispatch(resetForm())
+    const resetState:GenericProps<string> = useCallback((formName) => {
+      if (formName === "new_card") {
+        dispatch(resetImage())
+        dispatch(resetForm())
+      } else if (formName === "update_card") {
+        dispatch(resetImage())
+      }
       }, [dispatch])
 
     return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState];

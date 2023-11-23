@@ -18,11 +18,15 @@ const CardItemDetail = ({card, id}: {card: ObjectGenericProps<string>,id: string
         </small> */}
         {/* {side ? card.fields.side1 : card.fields.side2} */}
         <div className="front">{card.term}</div>
-        <div className="back">
+        <div className={`back ${!card.imageUrl && 'back--center'}`}>
           <div>
             {card.definition}
           </div>
-          <img src={card.imageUrl} />
+
+          {
+            card.imageUrl && 
+            <img src={card.imageUrl} />
+          }
         </div>
         </div>
     </div>

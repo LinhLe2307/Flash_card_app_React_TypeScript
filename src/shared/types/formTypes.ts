@@ -113,13 +113,13 @@ export interface FormState {
 }
 
 export interface UserFormHandler {
-    (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
+    () : [
         formState: FormState,
         removeSubCardHandler: GenericProps<string>,
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
         setFormData: SetFormDataProps,
-        resetState: ()=>void
+        resetState: (formName: string)=>void
     ]
 }
 

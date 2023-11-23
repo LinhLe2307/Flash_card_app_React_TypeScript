@@ -1,6 +1,6 @@
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import Input from '../../shared/components/FormElements/Input';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import { VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 import Button from '../../shared/components/FormElements/Button';
 import ImageUrl from '../../shared/components/FormElements/ImageUrl';

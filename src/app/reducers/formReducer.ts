@@ -41,9 +41,7 @@ const formReducer = (state = initialState, action: FormAction ) => {
                         } else {
                             if (typeof action.payload.value === "object") {
                                 const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
-                                console.log(inputValue)
                                 if (inputValue.term && inputValue.definition) {
-                                    console.log(typeNameId, action.payload.inputId)
                                     newProps.inputs[action.payload.inputId] = {
                                         ...newProps.inputs[action.payload.inputId],
                                         value : {
@@ -161,7 +159,6 @@ const formReducer = (state = initialState, action: FormAction ) => {
         case FormActionProps.RESET_FORM:
             return initialState
         default:
-            console.log("state", state)
             return state
     }
 
