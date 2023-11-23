@@ -1,44 +1,39 @@
 import { useCallback } from "react"
-import { useDispatch } from "react-redux"
-import { openUnsplashImage, photosAdded, searchKeywordImage, searchingButtonImage } from "../../app/actions/image"
-import { useAppSelector } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { openUnsplash, photosAdded, searchKeyword, searching } from "../../features/imageSlice"
 import { ImageGenericProps, useImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 
 
 export const useImage:useImageProps = (initialInputs) => {
     const imageState = useAppSelector(state => state.image)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>> = useCallback((event, cardId) => {
-      const action = searchKeywordImage({
+        dispatch(searchKeyword({
           inputId: cardId,
           value: event.target.value
-        })
-      dispatch(action)
+        }))
       }, [dispatch])
     
       const openUnsplashHandler:GenericProps<string> = useCallback((cardId) => {
-        const action = openUnsplashImage({
-          initialInputs: initialInputs,
-          inputId: cardId
-        })
-        dispatch(action)
+          dispatch(openUnsplash({
+            initialInputs: initialInputs,
+            inputId: cardId
+          }))
       }, [dispatch])
 
       const searchingButtonHandler:GenericProps<string> = useCallback((cardId) => {
-        const action = searchingButtonImage({
+        dispatch(searching({
           inputId: cardId
-        })
-        dispatch(action)
+        }))
       }, [dispatch])
 
       const addedPhotosHandler: ImageGenericProps<[]> = useCallback((photos, cardId) => {
-        const action = photosAdded({
+        dispatch(photosAdded({
           photos: photos,
           inputId: cardId
-        })
-        dispatch(action)
+        }))
       }, [dispatch])
     
     return [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler]
