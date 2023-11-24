@@ -70,11 +70,17 @@ export enum FormActionProps {
     SET_DATA = "SET_DATA",
     REMOVE_CARD = "REMOVE_CARD",
     ADD_CARD="ADD_CARD",
-    RESET_FORM="RESET_FORM"
+    RESET_FORM="RESET_FORM",
+    FETCH_UPDATE_CARD="FETCH_UPDATE_CARD"
 }
 
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
+}
+
+export interface FetchUpdateDataPayload {
+    cardId: string,
+    sendRequest: SendRequestProps
 }
 
 export interface InputChangeFormPayload {
@@ -105,6 +111,9 @@ export type FormAction = {
     payload: RemoveCardPayload
 } | {
     type: FormActionProps.ADD_CARD | FormActionProps.RESET_FORM,
+} | {
+    type: FormActionProps.FETCH_UPDATE_CARD,
+    payload: FetchUpdateDataPayload
 }
 
 export interface FormState {
@@ -118,7 +127,6 @@ export interface UserFormHandler {
         removeSubCardHandler: GenericProps<string>,
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
-        setFormData: SetFormDataProps,
         resetState: (formName: string)=>void
     ]
 }

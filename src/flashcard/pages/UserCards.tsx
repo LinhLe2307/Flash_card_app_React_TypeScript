@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
@@ -8,7 +8,6 @@ import { SendRequestProps } from "../../shared/types/formTypes"
 import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 import CardItem from "../components/CardItem"
 
-import { AuthContext } from "../../shared/context/auth-context"
 import "./UserCards.css"
 
 const getAllUserCards = async (userId: string, setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, sendRequest:SendRequestProps) => {

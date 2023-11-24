@@ -1,32 +1,39 @@
-import { FormActionProps, InputChangeFormPayload, RemoveCardPayload, SetDataPayload } from "../../shared/types/formTypes"
+import { FetchUpdateDataPayload, FormActionProps, InputChangeFormPayload, RemoveCardPayload, SetDataPayload } from "../../shared/types/formTypes"
 
-export const inputChangeFlashcard = (flashcard: InputChangeFormPayload) => {
+export const inputChangeForm = (form: InputChangeFormPayload) => {
     return {
         type: FormActionProps.INPUT_CHANGE,
-        payload: flashcard
+        payload: form
     }
 }
 
-export const addCardFlashcard = () => {
+export const addCardForm = () => {
     return {
         type: FormActionProps.ADD_CARD,
     }
 }
-export const removeCardFlashcard = (flashcard: RemoveCardPayload) => {
+export const removeCardForm = (form: RemoveCardPayload) => {
     return {
         type: FormActionProps.REMOVE_CARD,
-        payload: flashcard
+        payload: form
     }
 }
-export const setDataFlashcard = (flashcard: SetDataPayload) => {
+export const setDataForm = (form: SetDataPayload) => {
     return {
         type: FormActionProps.SET_DATA,
-        payload: flashcard
+        payload: form
     }
 }
 
 export const resetForm = () => {
     return {
         type: FormActionProps.RESET_FORM,
+    }
+}
+
+export const fetchUpdateCard = (form: FetchUpdateDataPayload) => {
+    return {
+        type: 'FETCH_UPDATE_CARD',
+        payload: form
     }
 }

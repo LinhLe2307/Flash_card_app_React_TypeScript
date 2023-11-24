@@ -34,7 +34,7 @@ let initialValue: FormInputsProps = {
 const NewCard = () => {
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
-  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState] = useFormHook()
+  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, resetState] = useFormHook()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
