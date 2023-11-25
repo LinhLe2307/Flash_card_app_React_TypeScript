@@ -1,12 +1,12 @@
 import { useCallback } from "react"
 import { useDispatch } from "react-redux"
-import { openUnsplashImage, photosAdded, searchKeywordImage, searchingButtonImage } from "../../app/actions/image"
+import { openUnsplashImage, searchKeywordImage } from "../../app/actions/image"
 import { useAppSelector } from "../../app/hooks"
-import { ImageGenericProps, useImageProps } from "../types/imageTypes"
+import { ImageGenericProps, UseImageProps } from "../types/imageTypes"
 import { GenericProps } from "../types/sharedTypes"
 
 
-export const useImage:useImageProps = (initialInputs) => {
+export const useImage:UseImageProps = (initialInputs) => {
     const imageState = useAppSelector(state => state.image)
     const dispatch = useDispatch()
 
@@ -26,20 +26,5 @@ export const useImage:useImageProps = (initialInputs) => {
         dispatch(action)
       }, [dispatch])
 
-      const searchingButtonHandler:GenericProps<string> = useCallback((cardId) => {
-        const action = searchingButtonImage({
-          inputId: cardId
-        })
-        dispatch(action)
-      }, [dispatch])
-
-      const addedPhotosHandler: ImageGenericProps<[]> = useCallback((photos, cardId) => {
-        const action = photosAdded({
-          photos: photos,
-          inputId: cardId
-        })
-        dispatch(action)
-      }, [dispatch])
-    
-    return [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler]
+    return [imageState, searchKeywordHandler, openUnsplashHandler]
 }

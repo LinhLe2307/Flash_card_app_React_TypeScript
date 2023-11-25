@@ -33,7 +33,7 @@ export const resetForm = () => {
 
 export const fetchUpdateCard = (form: FetchUpdateDataPayload) => {
     return {
-        type: 'FETCH_UPDATE_CARD',
+        type: FormActionProps.FETCH_UPDATE_CARD,
         payload: form
     }
 }

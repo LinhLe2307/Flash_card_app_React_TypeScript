@@ -157,7 +157,19 @@ const formReducer = (state = initialState, action: FormAction ) => {
             }
 
         case FormActionProps.RESET_FORM:
-            return initialState
+            return {
+                inputs: {
+                    title: {
+                        value: '',
+                        isValid: false
+                      },
+                    description: {
+                        value: '',
+                        isValid: false
+                    }
+                },
+                isValid: false
+              }
         default:
             return state
     }

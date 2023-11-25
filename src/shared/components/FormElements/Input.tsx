@@ -33,7 +33,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
     useEffect(() => {
         onInput(inputState.value, inputState.isValid, id, nameId)
     }, [id, value, isValid, nameId])
-    
+
     const changeHandler: GenericProps<React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>> = (event) => {
         dispatch({
             type: InputValueProps.CHANGE,
@@ -52,7 +52,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         })
     }
 
-    const elemenInput = element === "input" 
+    const elementInput = element === "input" 
         ? <input 
             name={nameId}
             id={id} 
@@ -60,6 +60,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             placeholder={placeholder} 
             onChange={changeHandler}
             onBlur={touchHandler}
+            // value={initialValue ? String(initialValue) : ''}
             value={String(inputState.value)}
             /> 
         : <textarea 
@@ -68,13 +69,19 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             rows={rows || 3} 
             onChange={changeHandler}
             onBlur={touchHandler}
+            // value={initialValue ? String(initialValue) : ''}
             value={String(inputState.value)}
         />
+
+    // useEffect(() => {
+    //     console.log(initialValue)
+    //     console.log("inputState", nameId, inputState)
+    // }, [initialValue])
 
   return (
     <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
         <label htmlFor={id}>{label}</label>
-        {elemenInput} 
+        {elementInput} 
         {!inputState.isValid && inputState.isTouched && <p>{errorText}</p>}
     </div>
   )

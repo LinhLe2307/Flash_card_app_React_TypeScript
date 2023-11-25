@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCardForm, inputChangeForm, removeCardForm, resetForm, setDataForm } from '../../app/actions/form';
+import { addCardForm, inputChangeForm, removeCardForm, resetForm } from '../../app/actions/form';
+import { resetImage } from '../../app/actions/image';
 import { useAppSelector } from '../../app/hooks';
 import { filterName } from '../constants/global';
-import { InputHandlerProps, SetFormDataProps, UserFormHandler } from '../types/formTypes';
+import { InputHandlerProps, UserFormHandler } from '../types/formTypes';
 import { GenericProps } from '../types/sharedTypes';
-import { resetImage } from '../../app/actions/image';
 
 
 export const useFormHook:UserFormHandler = function() {
@@ -57,6 +57,7 @@ export const useFormHook:UserFormHandler = function() {
         dispatch(resetForm())
       } else if (formName === "update_card") {
         dispatch(resetImage())
+        dispatch(resetForm())
       }
       }, [dispatch])
 

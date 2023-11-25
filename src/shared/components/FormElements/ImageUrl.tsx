@@ -4,9 +4,11 @@ import ImageListUrl from './ImagesListUrl';
 
 import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
 import { useImage } from '../../hooks/image-hook';
+import { useDispatch } from 'react-redux';
+import { fetchImage } from '../../../app/actions/image';
 
 const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
-    const [imageState, searchKeywordHandler, openUnsplashHandler, searchingButtonHandler, addedPhotosHandler] = useImage({
+    const [imageState, searchKeywordHandler, openUnsplashHandler] = useImage({
         [cardId]: {
           isOpeningUnsplash: false,
           searchKeyword: '',
@@ -14,6 +16,8 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
           photos: []
         }
     })
+
+    const dispatch = useDispatch()
 
     const [pickedImage, setPickedImage] = useState('')
 
@@ -55,14 +59,15 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
                     value={imageState[cardId].searchKeyword}
                   />
                 </div>
-                <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button>
+                <Button type="button" onClick={() => dispatch(fetchImage({
+                  searchKeyword: imageState[cardId].searchKeyword,
+                  inputId: cardId
+                }))}>Search</Button>
+                {/* <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button> */}
                   {
                     imageState[cardId].isClickingButton && 
                     <ImageListUrl 
-                      searchKeyword={imageState[cardId].searchKeyword} 
-                      isSearching={imageState[cardId].isClickingButton} 
                       photos={imageState[cardId].photos}
-                      addedPhotosHandler={addedPhotosHandler}
                       inputHandler={inputHandler}
                       cardId={cardId}
                       setPickedImage={setPickedImage}

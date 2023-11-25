@@ -1,11 +1,8 @@
 import ImageList from '@mui/material/ImageList';
-import ImageListItem, { imageListItemClasses } from '@mui/material/ImageListItem';
-import { useQuery } from '@tanstack/react-query';
-import photoApi from '../../api/photoApi';
-import ErrorModal from '../UIElements/ErrorModal';
+import ImageListItem from '@mui/material/ImageListItem';
 
 import { Box, ThemeProvider, createTheme } from '@mui/material';
-import { ImageGenericProps, ImageListProps } from '../../types/imageTypes';
+import { ImageListProps } from '../../types/imageTypes';
 // import './ImageList.css';
 
 const theme = createTheme({
@@ -19,34 +16,8 @@ const theme = createTheme({
   }
 });
 
-const getUnsplashImage = async(query: string, addedPhotosHandler:ImageGenericProps<[]>, cardId:string) => {
-  try {
-      const image = await photoApi.getImage(query)
-      addedPhotosHandler(image.data.results, cardId)
-      return image
-    } catch(err) {
-      console.log(err)
-    }
-  }
- 
 
-const ImageListUrl = ({searchKeyword, isSearching, photos, addedPhotosHandler, cardId, inputHandler, setPickedImage}: ImageListProps) => {
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["unsplash"],
-        queryFn: () => getUnsplashImage(searchKeyword, addedPhotosHandler, cardId),
-        enabled: !!isSearching
-    })
-
-    if (isLoading) {
-      return <h1>Loading...</h1>
-    }
-    
-    if (error) {
-        return <ErrorModal
-          error={"Cannot load the image"} 
-          onClear={() => !error}
-        />
-    }
+const ImageListUrl = ({photos, cardId, inputHandler, setPickedImage}: ImageListProps) => {
     return (
       <ThemeProvider theme={theme}>
         <Box 

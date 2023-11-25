@@ -41,7 +41,7 @@ const imageReducer = (state = initialState, action: ImageAction) => {
                 }
             }
             return newSearchingState
-        case ImageInputValueProps.PHOTOS_ADDED:
+        case ImageInputValueProps.FETCH_IMAGES_SUCCESS:
             let newPhotosState = {...state}
             for (const inputId in state){
                 if (inputId === action.payload.inputId) {
@@ -53,6 +53,7 @@ const imageReducer = (state = initialState, action: ImageAction) => {
         case ImageInputValueProps.RESET:
             return {}
         default:
+            console.log("imageState", state)
             return state
     }
 

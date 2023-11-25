@@ -12,27 +12,29 @@ export enum ImageInputValueProps {
     OPEN_UNSPLASH = 'OPEN_UNSPLASH',
     SEARCH_KEYWORD = 'SEARCH_KEYWORD',
     SEARCHING='SEARCHING',
-    PHOTOS_ADDED='PHOTOS_ADDED',
-    RESET='RESET'
+    FETCH_IMAGES_SUCCESS='FETCH_IMAGES_SUCCESS',
+    RESET='RESET',
+    FETCH_IMAGE_REQUEST='FETCH_IMAGE_REQUEST'
 }
 
-export interface OpenUnsplashPayload {
+export interface InputIdTypes {
     inputId: string
+}
+
+export interface OpenUnsplashPayload extends InputIdTypes {
     initialInputs: ImageState
 }
 
-export interface SearchingPayload {
-    inputId: string
-}
-
-export interface SearchKeywordPayload {
+export interface SearchKeywordPayload extends InputIdTypes{
     value: string
-    inputId: string
 }
 
-export interface PhotosAddedPayload {
-    photos: [],
-    inputId: string
+export interface FetchSuccessPayload extends InputIdTypes {
+    photos: []
+}
+
+export interface FetchImagePayload extends InputIdTypes {
+    searchKeyword: string
 }
 
 export type ImageAction = ({
@@ -40,15 +42,18 @@ export type ImageAction = ({
     payload: OpenUnsplashPayload
 } | {
     type: ImageInputValueProps.SEARCHING
-    payload: SearchingPayload
+    payload: InputIdTypes
 } | {
-    type: ImageInputValueProps.PHOTOS_ADDED
-    payload: PhotosAddedPayload
+    type: ImageInputValueProps.FETCH_IMAGES_SUCCESS
+    payload: FetchSuccessPayload
 } | {
     type: ImageInputValueProps.SEARCH_KEYWORD
     payload: SearchKeywordPayload
 }) | {
     type: ImageInputValueProps.RESET
+} | {
+    type: ImageInputValueProps.FETCH_IMAGE_REQUEST,
+    payload: FetchImagePayload
 }
 
 // export interface ImageAction {
@@ -69,20 +74,15 @@ export interface ImageGenericProps<Type> {
     (arg: Type, cardId: string) : void
 }
 
-export interface useImageProps {
+export interface UseImageProps {
     (initialInputs: ImageState) : [
         ImageState,
         searchKeywordHandler: ImageGenericProps<React.ChangeEvent<HTMLInputElement>>,
-        openUnsplashHandler: GenericProps<string>,
-        searchingButtonHandler: GenericProps<string>,
-        addedPhotosHandler: ImageGenericProps<[]>
+        openUnsplashHandler: GenericProps<string>
     ] 
 }
 
 export interface ImageListProps { 
-    searchKeyword: string, 
-    isSearching: boolean, 
-    addedPhotosHandler: ImageGenericProps<[]>,
     photos: [],
     inputHandler: InputHandlerProps,
     cardId: string,

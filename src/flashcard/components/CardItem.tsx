@@ -8,9 +8,12 @@ import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { CardItemProps } from '../types/cardTypes'
+import { useDispatch } from 'react-redux'
+import { fetchUpdateCard } from '../../app/actions/form'
 
 const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
+    const dispatch = useDispatch()
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [showPreview, setShowPreview] = useState(false)
     // const [isUserMatched, setIsUserMatched] = useState(false);
@@ -44,6 +47,17 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
             console.log(err)
         }
     }
+
+    // const getCardInfo = (cardId) => {
+    //     console.log("card")
+    //     // if (cardId) {
+    //         dispatch(
+    //             fetchUpdateCard({
+    //                 cardId: cardId,
+    //                 sendRequest: sendRequest
+    //             }))
+    //     // }
+    // }
 
   return (
     <React.Fragment>

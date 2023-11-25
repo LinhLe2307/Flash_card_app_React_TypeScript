@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
@@ -76,6 +76,10 @@ const NewCard = () => {
       console.log(err)
     }
   }
+
+  useEffect(()=> {
+    console.log(formState)
+  },[formState])
 
   return (
     <React.Fragment>
