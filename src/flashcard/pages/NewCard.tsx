@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
@@ -15,6 +15,7 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import './TermFlashcard.css'
+import { useDispatch } from 'react-redux'
 
 interface BodyProps {
   [key: string]: ObjectGenericProps<string> | string | null
@@ -80,56 +81,59 @@ const NewCard = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <form className='card-form' onSubmit={cardSubmitHandler}>
-        { isLoading && <LoadingSpinner asOverlay/> }
-        <Input 
-          id="title"
-          type="text" 
-          label="Title" 
-          element="input"
-          validators={
-            [
-              VALIDATOR_REQUIRE()
-            ]
-          }
-          errorText="Please enter a valid title"
-          onInput = {inputHandler}
-          nameId="title"
-        />
-        <Input 
-          id="description"
-          type="text" 
-          label="Description" 
-          element="textarea"
-          validators={
-            [
-              VALIDATOR_MINLENGTH(5)
-            ]
-          }
-          errorText="Please enter a valid description (at least 5 characters)."
-          onInput = {inputHandler}
-          nameId="description"
-        />
+      {
+        formState.inputs && 
+        <form className='card-form' onSubmit={cardSubmitHandler}>
+          { isLoading && <LoadingSpinner asOverlay/> }
+          <Input 
+            id="title"
+            type="text" 
+            label="Title" 
+            element="input"
+            validators={
+              [
+                VALIDATOR_REQUIRE()
+              ]
+            }
+            errorText="Please enter a valid title"
+            onInput = {inputHandler}
+            nameId="title"
+          />
+          <Input 
+            id="description"
+            type="text" 
+            label="Description" 
+            element="textarea"
+            validators={
+              [
+                VALIDATOR_MINLENGTH(5)
+              ]
+            }
+            errorText="Please enter a valid description (at least 5 characters)."
+            onInput = {inputHandler}
+            nameId="description"
+          />
 
-        <div>
-          {
-            Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 
-              cardId={String(card)}
-              removeSubCardHandler={removeSubCardHandler}
-              inputHandler={inputHandler}
-              key={card}
-            />)
-          }
-        </div>
-        <div className="flashcard__buttons_group">
-          <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
-          <div style={{
-            float: "right"
-          }}>
-            <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+          <div>
+            {
+              Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 
+                cardId={String(card)}
+                removeSubCardHandler={removeSubCardHandler}
+                inputHandler={inputHandler}
+                key={card}
+              />)
+            }
           </div>
-        </div>
-      </form>
+          <div className="flashcard__buttons_group">
+            <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+            <div style={{
+              float: "right"
+            }}>
+              <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+            </div>
+          </div>
+        </form>
+      }
     </React.Fragment>
   )
 }

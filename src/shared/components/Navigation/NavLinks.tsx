@@ -2,10 +2,15 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-context';
 import './NavLinks.css';
+import { useFormHook } from '../../hooks/form-hook';
+import { useDispatch } from 'react-redux';
 
 const NavLinks = () => {
     const auth = useContext(AuthContext)
-    
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setFormData, resetState] = useFormHook()
+    const newPageReset = () => {
+        resetState("new_card")
+    }
   return (
     <ul className='nav-links'>
         <li>
@@ -18,7 +23,7 @@ const NavLinks = () => {
         }
         {
             auth.isLoggedIn && <li>
-            <NavLink to="/card/new">ADD CARD</NavLink>
+            <NavLink to="/card/new" onClick={newPageReset}>ADD CARD</NavLink>
         </li>
         }
         {
