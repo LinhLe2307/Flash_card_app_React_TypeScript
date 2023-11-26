@@ -33,6 +33,7 @@ const Settings = () => {
   const {isLoading, error, sendRequest, clearError} = useHttpClient()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const {data} = useQuery({
     queryKey: ["single-user"],
@@ -95,6 +96,14 @@ const Settings = () => {
     setShowCancelModal(false)
   }
 
+  const openConfirmHandler = () => {
+    setShowConfirmModal(true)
+  }
+
+  const cancelConfirmHandle = () => {
+    setShowConfirmModal(false)
+  }
+
   const deleteAccountHandler = async() => {
     try {
       const response = await sendRequest(`/api/users/${auth.userId}`,
@@ -134,7 +143,7 @@ const Settings = () => {
       <Modal 
             show={showCancelModal} 
             onCancel={cancelModelHandle}
-            header="Confirm"
+            header="Cancel changes"
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
@@ -151,7 +160,7 @@ const Settings = () => {
       <Modal 
             show={showDeleteModal} 
             onCancel={cancelDeleteHandle}
-            header="Confirm"
+            header="Confirm delete"
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
@@ -162,13 +171,30 @@ const Settings = () => {
             }
         >
             <div className='map-container'>
-               Are you sure you want to delete?
+               Are you sure you want to delete this profile?
             </div>
         </Modal>
       { isLoading && <LoadingSpinner asOverlay/> }
       {
         data && 
         <form onSubmit={handleSubmit(updateHandler)}>
+          <Modal 
+            show={showConfirmModal} 
+            onCancel={cancelConfirmHandle}
+            header="Confirm changes"
+            contentClass='card-item__modal-content'
+            footerClass='card-item__modal-actions'
+            footer={
+              <>
+                <Button type="submit" onClick={cancelConfirmHandle}>CONFIRM</Button>
+                <Button inverse type="button" onClick={cancelConfirmHandle}>CLOSE</Button>
+              </>
+            }
+          >
+              <div className='map-container'>
+                Are you sure you want to update profile?
+              </div>
+          </Modal>
           <UserForm 
             register={register}
             setValue={setValue}
@@ -178,7 +204,7 @@ const Settings = () => {
             disabled={true}
           >
             <div className="py-3 pb-4 border-bottom">
-              <Button type="submit">
+              <Button type="button" onClick={openConfirmHandler}>
                 Save Changes
               </Button>
               <Button type="button" inverse onClick={openCancelHandler}>

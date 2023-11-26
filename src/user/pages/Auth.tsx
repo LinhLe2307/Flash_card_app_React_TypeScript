@@ -57,9 +57,11 @@ const Auth = () => {
                     formData,
                     {}
                 )
-                auth.login(response.userId, response.token)
+                if(response) {
+                    auth.login(response.userId, response.token)
+                }
             } catch(err) {
-                console.log(err)
+                console.log(error)
             }
         }
     }
