@@ -1,34 +1,38 @@
 import { filterName } from "../../shared/constants/global"
 import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
 
+// const initialState: FormState = {}
+
 const initialState: FormState = {
     inputs: {
         title: {
             value: '',
             isValid: false
           },
-        description: {
+          description: {
             value: '',
             isValid: false
-        }
+          },
     },
     isValid: false
   }
 
 const formReducer = (state = initialState, action: FormAction ) => {
     switch(action.type) {
+        case FormActionProps.INITIAL_FORM_STATE: {
+            return action.payload.initialState
+        }
         case FormActionProps.INPUT_CHANGE: {
             let newProps = {...state}
             let formIsValid = true
             let subCardIsValid = true
             for (const inputId in state.inputs) {
+                console.log("inputId", action.payload.inputId)
                 if (!state.inputs[inputId]) {
                     continue
                 } else {
-
                     const typeNameId = action.payload.nameId as keyof typeof VALUE_CARD
                     
-                    // console.log("action.payload", action.payload)
                     if (inputId === action.payload.inputId) {
                         if (filterName.find(card => card === action.payload.inputId) !== undefined) {
                             newProps.inputs[action.payload.inputId] = {
@@ -123,6 +127,7 @@ const formReducer = (state = initialState, action: FormAction ) => {
                 isValid: false
             }
             return {...state, inputs: newAddState}
+
         case FormActionProps.REMOVE_CARD:
             let removeFormIsValid = true
             const removeValue = {...state}
@@ -150,26 +155,11 @@ const formReducer = (state = initialState, action: FormAction ) => {
 
             removeValue.isValid = removeFormIsValid
             return removeValue
-        case FormActionProps.SET_DATA:
+        case FormActionProps.SET_DATA_SUCCESS:
             return {
                 inputs: action.payload.inputs,
                 isValid: action.payload.formIsValid
             }
-
-        case FormActionProps.RESET_FORM:
-            return {
-                inputs: {
-                    title: {
-                        value: '',
-                        isValid: false
-                      },
-                    description: {
-                        value: '',
-                        isValid: false
-                    }
-                },
-                isValid: false
-              }
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { fetchUpdateCard } from "../../app/actions/form"
@@ -20,11 +20,10 @@ const UpdateCard = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const auth = useContext(AuthContext)
-    const [isLoadingState, setIsLoadingState] = useState(false)
 
     const cardId = useParams().cardId
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
-    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, resetState] = useFormHook()
+    const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useFormHook()
     
     const updateCardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
@@ -61,7 +60,6 @@ const UpdateCard = () => {
             )
 
             if (response) {
-                resetState("update_card")
                 setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
             }
 
@@ -72,8 +70,6 @@ const UpdateCard = () => {
     }
 
     useEffect(() => {
-        // console.log("formState 1", formState)
-        setIsLoadingState(true)
         if (cardId) {
             dispatch(
                 fetchUpdateCard({
@@ -82,39 +78,16 @@ const UpdateCard = () => {
                 }))
             }
         }, [dispatch])
-        
-    useEffect(() => {
-        setIsLoadingState(false)
-        // console.log("formState", formState)
-        // setUpdatedCard(formState)
-    }, [formState])
 
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />
-        { isLoadingState && <LoadingSpinner asOverlay/> }
-
+        { !formState.inputs && <LoadingSpinner asOverlay/> }
         
-            <p>{formState.inputs.title.value as string}</p>
-            <p>{formState.inputs.description.value as string}</p>
-            {
-                    Object.entries(formState.inputs).map(([key, value]) => {
-                        if (filterName.indexOf(key) === -1) {
-                            if (typeof value !== null) {
-                                return <>
-                                <p>{key} - {value.value.term.value}</p>
-                                <p>{key} - {value.value.definition.value}</p>
-                                <p>{key} - {value.value.imageUrl.value}</p>
-                                </>
-                            }
-                        }
-                    }
-                    )
-                }
-        
-
         {
-            formState
+            formState 
+            && +formState.inputs.title.value.length > 0 
+            && +formState.inputs.description.value.length > 0
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
                 { isLoading && <LoadingSpinner asOverlay/> }

@@ -30,7 +30,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
 
     const { value, isValid } = inputState
     
-    useEffect(() => {
+    useEffect(() => { 
         onInput(inputState.value, inputState.isValid, id, nameId)
     }, [id, value, isValid, nameId])
 
@@ -60,8 +60,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             placeholder={placeholder} 
             onChange={changeHandler}
             onBlur={touchHandler}
-            // value={initialValue ? String(initialValue) : ''}
-            value={String(inputState.value)}
+            value={String(value)}
             /> 
         : <textarea 
             name={nameId}
@@ -69,15 +68,9 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             rows={rows || 3} 
             onChange={changeHandler}
             onBlur={touchHandler}
-            // value={initialValue ? String(initialValue) : ''}
-            value={String(inputState.value)}
+            value={String(value)}
         />
-
-    // useEffect(() => {
-    //     console.log(initialValue)
-    //     console.log("inputState", nameId, inputState)
-    // }, [initialValue])
-
+        
   return (
     <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
         <label htmlFor={id}>{label}</label>

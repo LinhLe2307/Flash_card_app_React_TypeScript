@@ -64,14 +64,17 @@ export interface InputProps extends UpdateCardInputProps {
 }
 
 // ----- FORM ------
- 
+
 export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
-    SET_DATA = "SET_DATA",
     REMOVE_CARD = "REMOVE_CARD",
     ADD_CARD="ADD_CARD",
     RESET_FORM="RESET_FORM",
-    FETCH_UPDATE_CARD="FETCH_UPDATE_CARD"
+    INITIAL_FORM_STATE="INITIAL_FORM_STATE",
+
+    FETCH_UPDATE_CARD="FETCH_UPDATE_CARD",
+    SET_DATA_SUCCESS="SET_DATA_SUCCESS",
+    SET_DATA_FAILURE="SET_DATA_FAILURE"
 }
 
 export interface SetFormDataProps {
@@ -104,7 +107,7 @@ export type FormAction = {
     type: FormActionProps.INPUT_CHANGE
     payload: InputChangeFormPayload
 } | {
-    type: FormActionProps.SET_DATA,
+    type: FormActionProps.SET_DATA_SUCCESS,
     payload: SetDataPayload
 } | {
     type: FormActionProps.REMOVE_CARD,
@@ -114,6 +117,11 @@ export type FormAction = {
 } | {
     type: FormActionProps.FETCH_UPDATE_CARD,
     payload: FetchUpdateDataPayload
+} | {
+    type: FormActionProps.INITIAL_FORM_STATE,
+    payload: {
+        initialState: FormState
+    }
 }
 
 export interface FormState {
@@ -127,7 +135,7 @@ export interface UserFormHandler {
         removeSubCardHandler: GenericProps<string>,
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
-        resetState: (formName: string)=>void
+        setInitialState: (initialState: FormState) => void
     ]
 }
 

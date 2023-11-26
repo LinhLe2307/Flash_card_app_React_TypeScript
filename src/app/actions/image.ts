@@ -21,16 +21,9 @@ export const searchingButtonImage = (image: InputIdTypes) => {
     }
 }
 
-export const fetchImageSuccess = (image: FetchSuccessPayload) => {
+export const initialImageState = () => {
     return {
-        type: ImageInputValueProps.FETCH_IMAGES_SUCCESS,
-        payload: image
-    }
-}
-
-export const resetImage = () => {
-    return {
-        type: ImageInputValueProps.RESET
+        type: ImageInputValueProps.INITIAL_IMAGE_STATE
     }
 }
 
@@ -38,5 +31,17 @@ export const fetchImage = (image: FetchImagePayload)=> {
     return {
         type: ImageInputValueProps.FETCH_IMAGE_REQUEST,
         payload: image
+    }
+}
+
+export const fetchImageSuccess = (image: FetchSuccessPayload) => {
+    return {
+        type: ImageInputValueProps.FETCH_IMAGES_SUCCESS,
+        payload: image
+    }
+}
+export const fetchImageFailure = () => {
+    return {
+        type: ImageInputValueProps.FETCH_IMAGES_SUCCESS,
     }
 }

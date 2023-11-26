@@ -14,7 +14,8 @@ export enum ImageInputValueProps {
     SEARCHING='SEARCHING',
     FETCH_IMAGES_SUCCESS='FETCH_IMAGES_SUCCESS',
     RESET='RESET',
-    FETCH_IMAGE_REQUEST='FETCH_IMAGE_REQUEST'
+    FETCH_IMAGE_REQUEST='FETCH_IMAGE_REQUEST',
+    INITIAL_IMAGE_STATE="INITIAL_IMAGE_STATE"
 }
 
 export interface InputIdTypes {
@@ -50,16 +51,11 @@ export type ImageAction = ({
     type: ImageInputValueProps.SEARCH_KEYWORD
     payload: SearchKeywordPayload
 }) | {
-    type: ImageInputValueProps.RESET
+    type: ImageInputValueProps.INITIAL_IMAGE_STATE 
 } | {
     type: ImageInputValueProps.FETCH_IMAGE_REQUEST,
     payload: FetchImagePayload
 }
-
-// export interface ImageAction {
-//     type: ImageInputValueProps
-//     payload: OpenUnsplashPayload | SearchingPayload | PhotosAddedPayload | SearchKeywordPayload
-// }
 
 export interface ImageState {
     [cardId: string]: {

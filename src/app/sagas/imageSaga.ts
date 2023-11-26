@@ -1,10 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 
 import photoApi from "../../shared/api/photoApi";
 import { FetchImagePayload } from "../../shared/types/imageTypes";
-import { fetchImageSuccess, searchingButtonImage } from "../actions/image";
+import { fetchImageFailure, fetchImageSuccess, searchingButtonImage } from "../actions/image";
 
 function* getImages(action: PayloadAction<FetchImagePayload>) {
     try {
@@ -21,7 +21,7 @@ function* getImages(action: PayloadAction<FetchImagePayload>) {
         }))
 
     } catch(error) {
-        console.log(error)
+        yield put(fetchImageFailure())
     }
 }
 

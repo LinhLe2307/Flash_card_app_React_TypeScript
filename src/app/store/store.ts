@@ -17,11 +17,6 @@ export const store = configureStore({
 //   applyMiddleware(sagaMiddleware)
 // )
 
-// store.subscribe(() => {
-//     const storeNow = store.getState()
-//     console.log(storeNow)
-// })
-
 sagaMiddleware.run(rootSaga)
 
 export type RootState = ReturnType<typeof store.getState>

@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCardForm, inputChangeForm, removeCardForm, resetForm } from '../../app/actions/form';
-import { resetImage } from '../../app/actions/image';
+import { addCardForm, initialStateForm, inputChangeForm, removeCardForm } from '../../app/actions/form';
 import { useAppSelector } from '../../app/hooks';
 import { filterName } from '../constants/global';
-import { InputHandlerProps, UserFormHandler } from '../types/formTypes';
+import { FormState, InputHandlerProps, UserFormHandler } from '../types/formTypes';
 import { GenericProps } from '../types/sharedTypes';
 
 
@@ -51,15 +50,11 @@ export const useFormHook:UserFormHandler = function() {
       dispatch(addCardForm())
     }, [dispatch])
 
-    const resetState:GenericProps<string> = useCallback((formName) => {
-      if (formName === "new_card") {
-        dispatch(resetImage())
-        dispatch(resetForm())
-      } else if (formName === "update_card") {
-        dispatch(resetImage())
-        dispatch(resetForm())
-      }
-      }, [dispatch])
+    const setInitialStateForm = useCallback((initialState: FormState) => {
+      dispatch(initialStateForm({
+        initialState: initialState
+      }))
+    },  [dispatch])
 
-    return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, resetState];
+    return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setInitialStateForm];
 }

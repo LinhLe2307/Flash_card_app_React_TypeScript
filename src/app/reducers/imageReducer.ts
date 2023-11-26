@@ -50,10 +50,9 @@ const imageReducer = (state = initialState, action: ImageAction) => {
             }
             return newPhotosState
 
-        case ImageInputValueProps.RESET:
-            return {}
+        case ImageInputValueProps.INITIAL_IMAGE_STATE:
+            return initialState
         default:
-            console.log("imageState", state)
             return state
     }
 

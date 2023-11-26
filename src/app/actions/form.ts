@@ -1,4 +1,4 @@
-import { FetchUpdateDataPayload, FormActionProps, InputChangeFormPayload, RemoveCardPayload, SetDataPayload } from "../../shared/types/formTypes"
+import { FetchUpdateDataPayload, FormActionProps, FormState, InputChangeFormPayload, RemoveCardPayload, SetDataPayload } from "../../shared/types/formTypes"
 
 export const inputChangeForm = (form: InputChangeFormPayload) => {
     return {
@@ -18,22 +18,31 @@ export const removeCardForm = (form: RemoveCardPayload) => {
         payload: form
     }
 }
-export const setDataForm = (form: SetDataPayload) => {
+
+
+export const initialStateForm = (form: {initialState: FormState}) => {
     return {
-        type: FormActionProps.SET_DATA,
+        type: FormActionProps.INITIAL_FORM_STATE,
         payload: form
     }
 }
 
-export const resetForm = () => {
-    return {
-        type: FormActionProps.RESET_FORM,
-    }
-}
-
+// FETCH CARD SAGA
 export const fetchUpdateCard = (form: FetchUpdateDataPayload) => {
     return {
         type: FormActionProps.FETCH_UPDATE_CARD,
         payload: form
+    }
+}
+export const setDataFormSucess = (form: SetDataPayload) => {
+    return {
+        type: FormActionProps.SET_DATA_SUCCESS,
+        payload: form
+    }
+}
+
+export const setDataFormFailure = () => {
+    return {
+        type: FormActionProps.SET_DATA_FAILURE,
     }
 }

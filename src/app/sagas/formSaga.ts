@@ -1,14 +1,33 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { filterName } from '../../shared/constants/global'
-import { FetchUpdateDataPayload, FormInputsProps } from '../../shared/types/formTypes'
+import { FetchUpdateDataPayload, FormInputsProps, FormState } from '../../shared/types/formTypes'
 import { ObjectGenericProps } from '../../shared/types/sharedTypes'
-import { setDataForm } from '../actions/form'
+import { initialStateForm, setDataFormFailure, setDataFormSucess } from '../actions/form'
+import { initialImageState } from '../actions/image'
 
-// const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
+const initialState: FormState = {
+    inputs: {
+        title: {
+            value: '',
+            isValid: false
+          },
+          description: {
+            value: '',
+            isValid: false
+        },
+    },
+    isValid: false
+  }
 function* getUpdateCard(action: PayloadAction<FetchUpdateDataPayload>) {
     try {
+        yield put(initialStateForm({
+            initialState: initialState
+        }))
+
+        yield put(initialImageState())
+
         const response: ObjectGenericProps<ObjectGenericProps<string>> = yield call(action.payload.sendRequest, 
             `/api/cards/${action.payload.cardId}`, 
             'GET', 
@@ -48,19 +67,19 @@ function* getUpdateCard(action: PayloadAction<FetchUpdateDataPayload>) {
                 }
             })
             
-            // yield delay(1000)
-            yield put(setDataForm({
+            yield put(setDataFormSucess({
                 inputs: newData,
                 formIsValid: true
         }))
 
     } catch(error) {
-        console.log(error)
+        yield put(setDataFormFailure())
     }
 }
 
 function* formSaga() {
     yield takeLatest('FETCH_UPDATE_CARD', getUpdateCard)
 }
+
 
 export default formSaga
