@@ -27,7 +27,6 @@ const formReducer = (state = initialState, action: FormAction ) => {
             let formIsValid = true
             let subCardIsValid = true
             for (const inputId in state.inputs) {
-                console.log("inputId", action.payload.inputId)
                 if (!state.inputs[inputId]) {
                     continue
                 } else {
@@ -79,7 +78,7 @@ const formReducer = (state = initialState, action: FormAction ) => {
                         if (typeof action.payload.value === "object") {
                             const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
 
-                            if (inputValue.term.value !== '' && inputValue.definition.value !== '') {
+                            if (inputValue?.term?.value !== '' && inputValue?.definition?.value !== '') {
                                 newProps.inputs[action.payload.inputId] = {
                                     ...newProps.inputs[action.payload.inputId],
                                     value: {

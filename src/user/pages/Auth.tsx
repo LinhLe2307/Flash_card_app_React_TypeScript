@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form"
+import { AuthContext } from '../../shared/context/auth-context'
+import { useHttpClient } from '../../shared/hooks/http-hook'
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import { AuthContext } from '../../shared/context/auth-context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
 import UserForm from '../../shared/components/FormElements/UserForm'
 import { AuthInputs } from '../types/userTypes'
 import '../../shared/components/FormElements/UserForm.css'
@@ -36,7 +36,9 @@ const Auth = () => {
                         'Content-Type': 'application/json'
                     }
                 )
-                auth.login(response.userId, response.token)
+                if (response) {
+                    auth.login(response.userId, response.token)
+                }
                 } catch(err) {
                 console.log(err)
             }

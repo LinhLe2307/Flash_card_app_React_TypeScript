@@ -9,14 +9,14 @@ import { initialImageState } from '../actions/image'
 
 const initialState: FormState = {
     inputs: {
-        title: {
-            value: '',
-            isValid: false
-          },
-          description: {
-            value: '',
-            isValid: false
-        },
+        // title: {
+        //     value: '',
+        //     isValid: false
+        //   },
+        //   description: {
+        //     value: '',
+        //     isValid: false
+        // },
     },
     isValid: false
   }

@@ -16,9 +16,8 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
 
   return (
     <div className="container">
-        <p className="search-results-count">About {items.length} results</p>
+        <p className="search-results-count">About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
         <div className="row ng-scope">
-        {/* <div className="col-md-9 col-md-pull-3"> */}
             <ul>
             {
                 items.map((user) => {
@@ -33,7 +32,6 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                 })
             }
             </ul> 
-            {/* </div>  */}
         </div>
     </div>
 

@@ -8,7 +8,6 @@ const middleware = [sagaMiddleware]
 
 export const store = configureStore({
   reducer: rootReducers,
-  // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(middleware)
   middleware: ()=>(middleware)
 }
 )

@@ -19,7 +19,6 @@ export const removeCardForm = (form: RemoveCardPayload) => {
     }
 }
 
-
 export const initialStateForm = (form: {initialState: FormState}) => {
     return {
         type: FormActionProps.INITIAL_FORM_STATE,

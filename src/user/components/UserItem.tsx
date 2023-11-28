@@ -9,10 +9,9 @@ const UserItem = ({id, image, firstName, lastName, cardCount}: UserItemProps ) =
       <div className="search-result-item-body">
           <div className="row">
               <div className="col-sm-9">
-                  {/* <h1 className="search-result-item-heading">{name}</h1> */}
-                  <h1 className="search-result-item-heading"><a href={`/user-detail/${id}`}>{firstName} {lastName}</a></h1>
+                  <h1 className="search-result-item-heading">{firstName} {lastName}</h1>
+                  {/* <h1 className="search-result-item-heading"><a href={`/user-detail/${id}`}>{firstName} {lastName}</a></h1> */}
                   <p className="info">Helsinki, Finland</p>
-                  {/* <p className="description">Not just usual Metro. But something bigger. Not just usual widgets, but real widgets. Not just yet another admin template, but next generation admin template.</p> */}
               </div>
               <div className="col-sm-3 text-align-center">
                   <p className="value3 mt-sm">{cardCount >= 1 ? cardCount : 0}</p>

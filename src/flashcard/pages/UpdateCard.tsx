@@ -86,8 +86,8 @@ const UpdateCard = () => {
         
         {
             formState 
-            && +formState.inputs.title.value.length > 0 
-            && +formState.inputs.description.value.length > 0
+            && +formState.inputs?.title?.value.length > 0 
+            && +formState.inputs?.description?.value.length > 0
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
                 { isLoading && <LoadingSpinner asOverlay/> }
@@ -121,9 +121,9 @@ const UpdateCard = () => {
                     />
                 <div>
                 {
+                    
                     Object.entries(formState.inputs).map(([key, value]) => {
                         if (filterName.indexOf(key) === -1) {
-
                             if (typeof value !== null) {
                                 return <TermFlashcard 
                                 cardId={key}
