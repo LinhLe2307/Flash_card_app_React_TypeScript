@@ -5,7 +5,7 @@ import { SendRequestProps } from '../types/formTypes';
 
 import queryString from 'query-string';
 
-const baseURL = 'http://localhost:5068'
+const baseURL = import.meta.env.VITE_APP_BACKEND_URL
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
