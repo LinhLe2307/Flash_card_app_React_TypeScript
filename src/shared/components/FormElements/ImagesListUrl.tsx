@@ -8,14 +8,14 @@ import { ImageListProps } from '../../types/imageTypes';
 const theme = createTheme({
   breakpoints: {
     values: {
-      mobile: 0,
-      bigMobile: 350,
-      tablet: 650,
-      desktop: 900
+      xs: 0,
+      sm: 350,     // bigMobile
+      md: 650,     // tablet
+      lg: 900,     // desktop
+      xl: 1200     // wideDesktop
     }
   }
 });
-
 
 const ImageListUrl = ({photos, cardId, inputHandler, setPickedImage}: ImageListProps) => {
     return (

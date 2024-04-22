@@ -56,7 +56,7 @@ const CardDetail = () => {
     }
 
     const cards = data && Object.entries(data).map(([key, value]) => {
-      return <CardItemDetail card={value} id={key} key={key} />;
+      return <CardItemDetail card={value} key={key} />;
     });
     
     // if(!data) {

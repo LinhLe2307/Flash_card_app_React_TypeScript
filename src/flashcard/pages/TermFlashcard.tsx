@@ -103,7 +103,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
                 errorText="Please enter a valid definition {'\n'}
                 (at least 5 characters)."
                 onInput = {inputHandler}
-                initialValue={flashcard.definition.value}
+                initialValue={flashcard?.definition?.value ?? ''}
                 initialIsValid={true}
               />
             </div>

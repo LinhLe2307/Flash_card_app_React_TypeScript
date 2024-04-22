@@ -12,7 +12,7 @@ import '../../shared/components/FormElements/UserForm.css'
 
 const Auth = () => {
     const auth = useContext(AuthContext)
-    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
+    const { isLoading, error, sendRequest } = useHttpClient()   
     const [isLoginMode, setIsLoginMode] = useState(false)
     const {
         register,

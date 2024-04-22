@@ -7,7 +7,7 @@ import './UserForm.css'
 import { ImageUploadProps } from '../../types/imageTypes';
 
 
-const ImageUpload = ({ id, center, errorText, register, setValue, imageUrl }: ImageUploadProps) => {
+const ImageUpload = ({ center, errorText, register, setValue, imageUrl }: ImageUploadProps) => {
     const [file, setFile] = useState<Blob>()
     const [previewUrl, setPreviewUrl] = useState<string | ArrayBuffer>()
     const [isValid, setIsValid] = useState(false)
@@ -29,16 +29,13 @@ const ImageUpload = ({ id, center, errorText, register, setValue, imageUrl }: Im
 
     const pickedHandler: GenericProps<React.ChangeEvent<HTMLInputElement>> = (event) => {
         let pickedFile
-        let fileIsValid = isValid
         if (event.target.files && event.target.files.length === 1) {
             pickedFile = event.target.files[0]
             setFile(pickedFile)
             setIsValid(true)
             setValue("image", pickedFile)
-            fileIsValid= true
         } else {
             setIsValid(false)
-            fileIsValid= false
         }
     }
 

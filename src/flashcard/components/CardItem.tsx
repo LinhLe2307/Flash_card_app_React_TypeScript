@@ -8,24 +8,21 @@ import Modal from '../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { CardItemProps } from '../types/cardTypes'
-import { useDispatch } from 'react-redux'
-import { fetchUpdateCard } from '../../app/actions/form'
 
 const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
-    const dispatch = useDispatch()
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
-    const [showPreview, setShowPreview] = useState(false)
+    // const [showPreview, setShowPreview] = useState(false)
     // const [isUserMatched, setIsUserMatched] = useState(false);
 
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-    const openPreviewHandler = () => {
-        setShowPreview(true)
-    }
-    const closePreviewHandler = () => {
-        setShowPreview(false)
-    }
+    // const openPreviewHandler = () => {
+    //     setShowPreview(true)
+    // }
+    // const closePreviewHandler = () => {
+    //     setShowPreview(false)
+    // }
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
     }

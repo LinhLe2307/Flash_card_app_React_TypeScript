@@ -86,8 +86,8 @@ const UpdateCard = () => {
         
         {
             formState 
-            && +formState.inputs?.title?.value.length > 0 
-            && +formState.inputs?.description?.value.length > 0
+            && typeof formState.inputs?.title?.value === 'string' && +formState.inputs?.title?.value.length > 0 
+            && typeof formState.inputs?.description?.value === 'string' && +formState.inputs?.description?.value.length > 0
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
                 { isLoading && <LoadingSpinner asOverlay/> }
@@ -104,7 +104,7 @@ const UpdateCard = () => {
                     }
                     errorText="Please enter a valid text"
                     onInput={inputHandler}
-                    initialValue={formState.inputs.title.value}
+                    initialValue={formState?.inputs?.title?.value ?? ''}
                     initialIsValid={true}
                     />
                 <Input 
@@ -116,7 +116,7 @@ const UpdateCard = () => {
                     validators={[VALIDATOR_MINLENGTH(5)]}
                     errorText="Please enter a valid definition (min. 5 characters)."
                     onInput={inputHandler}
-                    initialValue={formState.inputs.description.value}
+                    initialValue={formState?.inputs?.description?.value ?? ''}
                     initialIsValid={true}
                     />
                 <div>

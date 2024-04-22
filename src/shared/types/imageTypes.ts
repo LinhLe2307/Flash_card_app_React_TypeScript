@@ -86,7 +86,6 @@ export interface ImageListProps {
   }
 
 export interface ImageUploadProps {
-    id: string
     center: boolean
     errorText: FieldErrors<AuthInputs>
     register: UseFormRegister<AuthInputs>;

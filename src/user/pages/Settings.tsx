@@ -47,7 +47,7 @@ const Settings = () => {
     reset,
     setValue,
     formState,
-    formState: { isSubmitSuccessful, errors }
+    formState: { errors }
   } = useForm<AuthInputs>({
     defaultValues: data
   })

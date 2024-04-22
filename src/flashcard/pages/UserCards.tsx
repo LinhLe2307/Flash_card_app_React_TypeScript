@@ -28,7 +28,7 @@ const UserCards = () => {
   const userId = useParams().userId
   const [fetchCards, setFetchCards] = useState<ObjectGenericProps<string>[]>([])
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const { data, refetch } = useQuery({
+  const { refetch } = useQuery({
     queryKey: ["cards"],
     queryFn: () => userId && getAllUserCards(userId, setFetchCards, sendRequest),
   })

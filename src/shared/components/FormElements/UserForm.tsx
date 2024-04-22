@@ -14,7 +14,6 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <ImageUpload 
                         register={register} 
                         center 
-                        id="image" 
                         errorText={errors} 
                         setValue={setValue}
                         imageUrl={imageUrl}
