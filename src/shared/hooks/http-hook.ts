@@ -42,7 +42,7 @@ export const useHttpClient = () => {
           } 
           return response
         }, (error) => {
-            const response = error.response;
+            const response = error.response.data.message;
             // if(response.status === 404) {
             //     // how to cancel the Promise here?
             //     return false;
@@ -66,7 +66,7 @@ export const useHttpClient = () => {
         if (err.name === 'AbortError') {
           console.log('AbortError: Fetch request aborted');
         }
-        setError(err.message);
+        setError(err.response.data.message);
         setIsLoading(false);
         throw err;
       }

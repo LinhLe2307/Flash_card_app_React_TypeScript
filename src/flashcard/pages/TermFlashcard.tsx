@@ -8,22 +8,25 @@ import { TermFlashcardProps } from '../types/cardTypes';
 import './TermFlashcard.css';
 
 
-const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard}:TermFlashcardProps) => {
+const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, length}:TermFlashcardProps) => {
 
   return (
     <div className="flashcard card-form">
       <div id="wrapper">
         <div className='flashcard__id'>{cardId}</div>
-        <div className='flashcard__button'>
-          <Button 
-            type="button" 
-            onClick={() => removeSubCardHandler(cardId)} 
-            inverse
-            size="small"
-          >
-            <DeleteRoundedIcon />
-          </Button> 
-        </div>
+        {
+          typeof length === 'number' && length >= 4 &&
+          <div className='flashcard__button'>
+            <Button 
+              type="button" 
+              onClick={() => removeSubCardHandler(cardId)} 
+              inverse
+              size="small"
+            >
+              <DeleteRoundedIcon />
+            </Button> 
+          </div>
+        }
       </div>
       <div className="flashcard__input">
         {

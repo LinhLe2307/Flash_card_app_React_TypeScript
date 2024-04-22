@@ -12,5 +12,6 @@ export interface TermFlashcardProps {
     cardId: string, 
     inputHandler: InputHandlerProps,
     flashcard?: string | ObjectGenericInitial | ObjectGenericProps<ValueAndValidProps<string>>,
-    removeSubCardHandler: GenericProps<string>
+    removeSubCardHandler: GenericProps<string>,
+    length?: number
 }

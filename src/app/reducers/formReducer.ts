@@ -1,18 +1,30 @@
+import { v4 as uuidv4 } from 'uuid';
 import { filterName } from "../../shared/constants/global"
 import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
-
-// const initialState: FormState = {}
 
 const initialState: FormState = {
     inputs: {
         title: {
             value: '',
             isValid: false
-          },
-          description: {
+        },
+        description: {
             value: '',
             isValid: false
-          },
+        },
+        [uuidv4()]: {
+            value: {
+                term: {
+                    value: '',
+                    isValid: false
+                },
+                definition: {
+                    value: '',
+                    isValid: false
+                }
+            },
+            isValid: false
+        }
     },
     isValid: false
   }
@@ -107,8 +119,7 @@ const formReducer = (state = initialState, action: FormAction ) => {
        
         case FormActionProps.ADD_CARD:
             const newAddState = {...state.inputs}
-            const stateLength = Object.keys(newAddState).length
-            newAddState[`m${stateLength}`] = {
+            newAddState[uuidv4()] = {
                 value: {
                     term: {
                         value: '',

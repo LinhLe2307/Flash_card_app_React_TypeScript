@@ -31,7 +31,7 @@ const initialState: FormState = {
     description: {
       value: '',
       isValid: false
-    },
+    }
   },
   isValid: false
 }
@@ -53,9 +53,9 @@ const NewCard = () => {
           if (typeof keyValue !== "string") {
             return (
               body[key] = {
-                term: keyValue &&  keyValue.term.value,
-                definition: keyValue.definition.value,
-                imageUrl: keyValue.imageUrl ? keyValue.imageUrl.value : '',
+                term: keyValue && keyValue.term ? keyValue.term.value : '',
+                definition: keyValue && keyValue.definition ? keyValue.definition.value : '',
+                imageUrl: keyValue && keyValue.imageUrl ? keyValue.imageUrl.value : '',
               }
             )
           }
@@ -130,11 +130,12 @@ const NewCard = () => {
               removeSubCardHandler={removeSubCardHandler}
               inputHandler={inputHandler}
               key={card}
+              length={Object.keys(formState.inputs).length}
             />)
           }
         </div>
         <div className="flashcard__buttons_group">
-          <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
+          <Button type="button" onClick={addMoreCardHandler}>ADD CARD</Button>
           <div style={{
             float: "right"
           }}>

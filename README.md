@@ -7,6 +7,9 @@ This is a front-end flashcard using React and Typescript with backend technologi
 ### Tech stack:
 - React
 - TypeScript
-- Redux
-- Redux Saga
+- Nodejs
 - Unsplash API
+
+### How to start
+- Run `npm install`
+- Run `npm run dev` to open http://localhost:5173/
