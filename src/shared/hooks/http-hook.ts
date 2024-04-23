@@ -6,6 +6,7 @@ import { SendRequestProps } from '../types/formTypes';
 import queryString from 'query-string';
 
 // const baseURL = import.meta.env.VITE_APP_BACKEND_URL
+const baseURL = 'https://flash-card-app-nodejs.fly.dev'
 
 function isError(error: any): error is Error {
   return error instanceof Error;

@@ -12,7 +12,7 @@ const initialState: FormState = {
             value: '',
             isValid: false
         },
-        [uuidv4()]: {
+        "129148-125-115516-25152118-38914-2116": {
             value: {
                 term: {
                     value: '',
