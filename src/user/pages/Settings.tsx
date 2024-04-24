@@ -199,7 +199,7 @@ const Settings = () => {
             register={register}
             setValue={setValue}
             errors={errors}
-            imageUrl={`http://localhost:5068/${data.image}`}
+            imageUrl={`${data.image}`}
             title="Account Settings"
             disabled={true}
           >

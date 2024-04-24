@@ -4,7 +4,7 @@ import './UserItem.css'
 const UserItem = ({id, image, firstName, lastName, cardCount}: UserItemProps ) => {
   return (
     <section className="search-result-item">
-      <a className="image-link" href="#"><img className="image" src={`http://localhost:5068/${image}`} />
+      <a className="image-link" href="#"><img className="image" src={`${image}`} />
       </a>
       <div className="search-result-item-body">
           <div className="row">

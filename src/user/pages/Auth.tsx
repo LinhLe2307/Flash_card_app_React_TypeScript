@@ -22,7 +22,6 @@ const Auth = () => {
     } = useForm<AuthInputs>()
 
     const authSubmitHandler:SubmitHandler<AuthInputs> = async(data) => {
-        // console.log("formState", formState)
         if (isLoginMode) {
             try {
                 const body = JSON.stringify({
