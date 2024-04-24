@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-const clientId = process.env.VITE__NEXT_PUBLIC_UNSPLASH_CLIENT_ID
-const UNSPLASH_ROOT = 'https://api.unsplash.com'
+const clientId = import.meta.env.VITE_PUBLIC_UNSPLASH_CLIENT_ID
+const UNSPLASH_ROOT = import.meta.env.VITE_UNSPLASH_ROOT
+// const axiosInstance = axios.create({
+//     withCredentials: true
+//   });
 
 const photoApi = {
     getImage: (query:string) => {

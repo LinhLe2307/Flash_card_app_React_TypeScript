@@ -1,54 +1,74 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
-import { DEFAULT_CARDS, filterName } from '../../shared/constants/global'
+import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
-import { useForm } from '../../shared/hooks/form-hook'
-import { FormInputsProps } from '../../shared/types/formTypes'
+import { useFormHook } from '../../shared/hooks/form-hook'
+import { FormState } from '../../shared/types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { initialImageState } from '../../app/actions/image'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import './CardForm.css'
-
-let initialValue: FormInputsProps = {
-  title: {
-    value: '',
-    isValid: false
-  },
-  description: {
-    value: '',
-    isValid: false
-  }
-}
+import './TermFlashcard.css'
 
 interface BodyProps {
   [key: string]: ObjectGenericProps<string> | string | null
 }
 
+const initialState: FormState = {
+  inputs: {
+    title: {
+      value: '',
+      isValid: false
+    },
+    description: {
+      value: '',
+      isValid: false
+    },
+    "129148-125-115516-25152118-38914-2116": {
+      value: {
+          term: {
+              value: '',
+              isValid: false
+          },
+          definition: {
+              value: '',
+              isValid: false
+          }
+      },
+      isValid: false
+  }
+  },
+  isValid: false
+}
+
 const NewCard = () => {
   const auth = useContext(AuthContext)
-  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useForm(initialValue, false)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setInitialStateForm] = useFormHook()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
     event.preventDefault()
     try {
       const body: BodyProps = {}
-
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
         if(filterName.indexOf(key) === -1) {
           if (typeof keyValue !== "string") {
             return (
               body[key] = {
-                term: keyValue &&  keyValue.term.value,
-                definition: keyValue.definition.value,
-                imageUrl: keyValue.imageUrl ? keyValue.imageUrl.value : '',
+                term: keyValue && keyValue.term ? keyValue.term.value : '',
+                definition: keyValue && keyValue.definition ? keyValue.definition.value : '',
+                imageUrl: keyValue && keyValue.imageUrl ? keyValue.imageUrl.value : '',
               }
             )
           }
@@ -60,14 +80,27 @@ const NewCard = () => {
               }
         }
       })
-
-      sendRequest('/api/cards', 'POST', JSON.stringify(body), {
-        Authorization: 'Bearer ' + auth.token 
+      
+      const response = await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
+        'Authorization': 'Bearer ' + auth.token,
+        'Content-Type': 'application/json'
       })
+      if (response.card.id) {
+        setTimeout(()=> 
+          navigate(`/card-detail/${response.card.id}`), 500)
+      }
+
     } catch(err) {
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    dispatch(
+      initialImageState()
+    )
+    setInitialStateForm(initialState)
+  }, [])
 
   return (
     <React.Fragment>
@@ -84,7 +117,7 @@ const NewCard = () => {
               VALIDATOR_REQUIRE()
             ]
           }
-          errorText="Please enter a valid term"
+          errorText="Please enter a valid title"
           onInput = {inputHandler}
           nameId="title"
         />
@@ -105,16 +138,23 @@ const NewCard = () => {
 
         <div>
           {
-            DEFAULT_CARDS.map(card => <TermFlashcard 
+            formState.inputs && Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 
               cardId={String(card)}
               removeSubCardHandler={removeSubCardHandler}
               inputHandler={inputHandler}
               key={card}
+              length={Object.keys(formState.inputs).length}
             />)
           }
-          <Button type="button" onClick={addMoreCardHandler}>ADD MORE CARD</Button>
         </div>
-        <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+        <div className="flashcard__buttons_group">
+          <Button type="button" onClick={addMoreCardHandler}>ADD CARD</Button>
+          <div style={{
+            float: "right"
+          }}>
+            <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+          </div>
+        </div>
       </form>
     </React.Fragment>
   )

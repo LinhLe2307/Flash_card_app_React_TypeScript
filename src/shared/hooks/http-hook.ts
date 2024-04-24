@@ -1,24 +1,24 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { SendRequestProps } from '../types/formTypes';
-import { AuthContext } from '../context/auth-context';
 import axios from 'axios';
+import { AxiosError } from 'axios';
+import { useCallback, useState } from 'react';
+import { SendRequestProps } from '../types/formTypes';
 
 import queryString from 'query-string';
 
-const baseURL = 'http://localhost:5068'
+// const baseURL = import.meta.env.VITE_APP_BACKEND_URL
+const baseURL = 'https://flash-card-app-nodejs.fly.dev'
+
+function isError(error: any): error is Error {
+  return error instanceof Error;
+}
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const auth = useContext(AuthContext)
-
-  const activeHttpRequests = useRef<AbortController[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const sendRequest:SendRequestProps = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
       setIsLoading(true);
-      // const httpAbortCtrl = new AbortController();
-      // activeHttpRequests.current.push(httpAbortCtrl);
 
       try {
         const axiosClient = axios.create({
@@ -42,11 +42,6 @@ export const useHttpClient = () => {
           } 
           return response
         }, (error) => {
-            const response = error.response;
-            // if(response.status === 404) {
-            //     // how to cancel the Promise here?
-            //     return false;
-            // }
             return Promise.reject(error);
         })
 
@@ -63,10 +58,18 @@ export const useHttpClient = () => {
         }
 
       } catch (err) {
-        if (err.name === 'AbortError') {
+        if (isError(err) && err.name === 'AbortError') {
           console.log('AbortError: Fetch request aborted');
         }
-        setError(err.message);
+
+        // Assuming err is of type unknown or any
+        if ((err as AxiosError).response) {
+          // If err has a response property, it is an AxiosError
+          setError(((err as AxiosError).response?.data as any)?.message);
+        } else {
+          // Handle other types of errors
+          setError('An error occurred');
+        }
         setIsLoading(false);
         throw err;
       }
@@ -77,13 +80,6 @@ export const useHttpClient = () => {
   const clearError = () => {
     setError(null);
   };
-
-  // useEffect(() => {
-  //   return () => {
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //     activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-  //   };
-  // }, []);
 
   return { isLoading, error, sendRequest, clearError };
 };

@@ -26,7 +26,8 @@ const Users = () => {
   const { data } = useQuery({
     queryKey: ["users"],
     queryFn: () => getAllUsers(sendRequest),
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    staleTime: Infinity
   })
 
   return (

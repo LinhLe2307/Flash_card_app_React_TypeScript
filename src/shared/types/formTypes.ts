@@ -10,12 +10,18 @@ export interface ValueAndValidProps<T> {
     isValid: boolean
 }
 
-// export interface ObjectGenericProps<T> {
-//     [key: string]: T
-// }
+export enum VALUE_CARD {
+    term= "term",
+    definition = "definition",
+    imageUrl = "imageUrl"
+}
+
+export type ObjectGenericInitial = {
+  [key in keyof typeof VALUE_CARD]: ValueAndValidProps<string>;
+}
 
 export type FormInputsProps = {
-    [key: string]: ValueAndValidProps<ObjectGenericProps<ValueAndValidProps<string>>| string>
+    [key: string]: ValueAndValidProps<ObjectGenericInitial| string | ObjectGenericProps<ValueAndValidProps<string>>> 
   }
 
 export interface ValidatorsProps {
@@ -34,10 +40,10 @@ export interface InputAction {
 export interface InputState extends ValueAndValidProps<string> {
     isTouched: boolean
 }
-
 export interface InputHandlerProps {
-    (value: string, isValid: boolean, id: string, nameId: string) : void
+    (value: string, isValid: boolean, inputId: string, nameId: string) : void
 }
+
 
 interface UpdateCardInputProps {
     initialValue?: string
@@ -58,33 +64,64 @@ export interface InputProps extends UpdateCardInputProps {
 }
 
 // ----- FORM ------
- 
+
 export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
-    SET_DATA = "SET_DATA",
     REMOVE_CARD = "REMOVE_CARD",
-    ADD_CARD="ADD_CARD"
+    ADD_CARD="ADD_CARD",
+    RESET_FORM="RESET_FORM",
+    INITIAL_FORM_STATE="INITIAL_FORM_STATE",
+
+    FETCH_UPDATE_CARD="FETCH_UPDATE_CARD",
+    SET_DATA_SUCCESS="SET_DATA_SUCCESS",
+    SET_DATA_FAILURE="SET_DATA_FAILURE"
 }
 
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
 }
 
-export type FormAction = {
-    type: FormActionProps.INPUT_CHANGE
+export interface FetchUpdateDataPayload {
+    cardId: string,
+    sendRequest: SendRequestProps
+}
+
+export interface InputChangeFormPayload {
+        inputId: string
+        isValid: boolean
+        nameId: string 
+        // value: string | ObjectGenericInitial
+        value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
+}
+
+export interface RemoveCardPayload {
     inputId: string
-    isValid: boolean
-    nameId: string 
-    value: ObjectGenericProps<ValueAndValidProps<string>> | string
-} | {
-    type: FormActionProps.SET_DATA,
+}
+
+export interface SetDataPayload {
     inputs: FormInputsProps,
     formIsValid: boolean | undefined
+}
+
+export type FormAction = {
+    type: FormActionProps.INPUT_CHANGE
+    payload: InputChangeFormPayload
+} | {
+    type: FormActionProps.SET_DATA_SUCCESS,
+    payload: SetDataPayload
 } | {
     type: FormActionProps.REMOVE_CARD,
-    inputId: string
+    payload: RemoveCardPayload
 } | {
-    type: FormActionProps.ADD_CARD,
+    type: FormActionProps.ADD_CARD | FormActionProps.RESET_FORM,
+} | {
+    type: FormActionProps.FETCH_UPDATE_CARD,
+    payload: FetchUpdateDataPayload
+} | {
+    type: FormActionProps.INITIAL_FORM_STATE,
+    payload: {
+        initialState: FormState
+    }
 }
 
 export interface FormState {
@@ -93,12 +130,12 @@ export interface FormState {
 }
 
 export interface UserFormHandler {
-    (initialInputs: FormInputsProps, initialFormValidity: boolean) : [
+    () : [
         formState: FormState,
         removeSubCardHandler: GenericProps<string>,
         inputHandler: InputHandlerProps,
         addMoreCardHandler: ()=>void,
-        setFormData: SetFormDataProps,
+        setInitialState: (initialState: FormState) => void
     ]
 }
 

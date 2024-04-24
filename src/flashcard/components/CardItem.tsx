@@ -9,18 +9,20 @@ import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { CardItemProps } from '../types/cardTypes'
 
-const CardItem = ({id, card, onDelete}: CardItemProps) => {
+const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
-    const [showPreview, setShowPreview] = useState(false)
+    // const [showPreview, setShowPreview] = useState(false)
+    // const [isUserMatched, setIsUserMatched] = useState(false);
+
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-    const openPreviewHandler = () => {
-        setShowPreview(true)
-    }
-    const closePreviewHandler = () => {
-        setShowPreview(false)
-    }
+    // const openPreviewHandler = () => {
+    //     setShowPreview(true)
+    // }
+    // const closePreviewHandler = () => {
+    //     setShowPreview(false)
+    // }
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
     }
@@ -43,10 +45,21 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
         }
     }
 
+    // const getCardInfo = (cardId) => {
+    //     console.log("card")
+    //     // if (cardId) {
+    //         dispatch(
+    //             fetchUpdateCard({
+    //                 cardId: cardId,
+    //                 sendRequest: sendRequest
+    //             }))
+    //     // }
+    // }
+
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError}/>
-        <Modal 
+        {/* <Modal 
             show={showPreview} 
             onCancel={closePreviewHandler}
             header={card.title}
@@ -57,7 +70,7 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
             <div className='map-container'>
                 The map
             </div>
-        </Modal>
+        </Modal> */}
         <Modal
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
@@ -84,9 +97,9 @@ const CardItem = ({id, card, onDelete}: CardItemProps) => {
                     <h2>{card.description}</h2>
                 </div>
                 <div className='card-item__actions'>
-                    <Button inverse onClick={openPreviewHandler}>PREVIEW</Button>
+                    {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
-                        auth.isLoggedIn && <>
+                        auth.isLoggedIn && auth.userId === creator && <>
                             <Button to={`/card-update/${id}`} state={card}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>

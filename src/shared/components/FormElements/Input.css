@@ -39,3 +39,10 @@
     border-color: red;
     background: #ffd1d1;
   }
+
+  @media(max-width:576px){
+    .form-control input,
+    .form-control textarea {
+        width: 14.5rem;
+    }
+}

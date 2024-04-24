@@ -1,10 +1,11 @@
-import { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
-import { AuthContext } from '../../context/auth-context'
-import './NavLinks.css'
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../context/auth-context';
+import './NavLinks.css';
 
 const NavLinks = () => {
     const auth = useContext(AuthContext)
+
   return (
     <ul className='nav-links'>
         <li>
@@ -18,6 +19,11 @@ const NavLinks = () => {
         {
             auth.isLoggedIn && <li>
             <NavLink to="/card/new">ADD CARD</NavLink>
+        </li>
+        }
+        {
+            auth.isLoggedIn && <li>
+            <NavLink to="/settings">SETTINGS</NavLink>
         </li>
         }
         { !auth.isLoggedIn && <li>

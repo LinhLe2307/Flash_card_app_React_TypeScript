@@ -14,13 +14,10 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
         </div>
     }
 
-
-      
   return (
     <div className="container">
+        <p className="search-results-count">About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
         <div className="row ng-scope">
-        <div className="col-md-9 col-md-pull-3">
-            <p className="search-results-count">About {items.length} results</p>
             <ul>
             {
                 items.map((user) => {
@@ -28,31 +25,13 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                         key={user.id} 
                         id={user.id}
                         image={user.image}
-                        name={user.name}
-                        cardCount={user.cards}
+                        firstName={user.firstName}
+                        lastName={user.lastName}
+                        cardCount={user.cards.length}
                     />
                 })
             }
             </ul> 
-            {/* <div className="text-align-center">
-                <ul className="pagination pagination-sm">
-                    <li className="disabled"><a href="#">Prev</a>
-                    </li>
-                    <li className="active"><a href="#">1</a>
-                    </li>
-                    <li><a href="#">2</a>
-                    </li>
-                    <li><a href="#">3</a>
-                    </li>
-                    <li><a href="#">4</a>
-                    </li>
-                    <li><a href="#">5</a>
-                    </li>
-                    <li><a href="#">Next</a>
-                    </li>
-                </ul>
-                </div> */}
-            </div> 
         </div>
     </div>
 

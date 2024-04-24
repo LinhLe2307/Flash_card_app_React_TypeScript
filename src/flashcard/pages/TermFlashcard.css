@@ -1,6 +1,17 @@
+.card-form {
+    list-style: none;
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 90%;
+    max-width: 60rem; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    background: white;
+  }
+
 .flashcard {
     border-radius: 5px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin-bottom: 0.5rem;
 }
 
@@ -20,17 +31,61 @@
     float:right;
 }
 
-.flashcard__input {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.5rem;
-    border-top: 1px solid black;
+.flashcard__input_1 {
+    margin-left: 0.5rem;
+    grid-area: term;
+}
+.flashcard__input_2 {
+    grid-area: definition;
+}
+.flashcard__input_3 {
+    grid-area: image;
+    margin: auto;
+}
+.flashcard__input_4 {
+    grid-area: search;
+    margin: 1rem
 }
 
+.flashcard__input {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-areas:
+    'term term term definition definition definition image'
+    'search search search search search search search';
+    border-top: 1px solid black;
+    padding-top: 0.6rem;
+}
+
+.flashcard__buttons_group {
+    display: "flex";
+    justify-content: "space-around"
+}
 
 @media (max-width: 768px) {
+    .card-form {
+        width: 100%
+    }
+    .flashcard__input_1 {
+        margin-left: 0;
+    }
     .flashcard__input {
+        grid-template-areas:
+        'term'
+        'definition'
+        'image'
+        'search';
+    }
+
+    .flashcard__input_3 {
+        margin: 0;
+    }
+
+    .flashcard__input_4 {
+        margin: 0
+    }
+
+    .flashcard__buttons_group {
         flex-direction: column;
     }
 }
