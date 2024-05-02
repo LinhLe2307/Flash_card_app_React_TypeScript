@@ -1,10 +1,10 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { AxiosResponse } from "axios";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
-import photoApi from "../../shared/api/photoApi";
-import { FetchImagePayload } from "../../shared/types/imageTypes";
-import { fetchImageFailure, fetchImageSuccess, searchingButtonImage } from "../actions/image";
+import photoApi from '../../shared/api/photoApi';
+import { FetchImagePayload } from '../../shared/types/imageTypes';
+import { fetchImageFailure, fetchImageSuccess, searchingButtonImage } from '../actions/image';
 
 function* getImages(action: PayloadAction<FetchImagePayload>) {
     try {

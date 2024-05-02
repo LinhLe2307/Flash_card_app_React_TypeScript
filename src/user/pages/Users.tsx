@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import UsersList from "../components/UsersList"
+import UsersList from '../components/UsersList'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { SendRequestProps } from '../../shared/types/formTypes'
 
@@ -24,7 +24,7 @@ const getAllUsers = async(sendRequest: SendRequestProps) => {
 const Users = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()   
   const { data } = useQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: () => getAllUsers(sendRequest),
     refetchOnWindowFocus: false,
     staleTime: Infinity
@@ -34,7 +34,7 @@ const Users = () => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError}/>
       {isLoading && (
-        <div className="center">
+        <div className='center'>
           <LoadingSpinner asOverlay />
         </div>
       )}

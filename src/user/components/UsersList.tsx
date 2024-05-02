@@ -15,9 +15,9 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
     }
 
   return (
-    <div className="container">
-        <p className="search-results-count">About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
-        <div className="row ng-scope">
+    <div className='container'>
+        <p className='search-results-count'>About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
+        <div className='row ng-scope'>
             <ul>
             {
                 items.map((user) => {

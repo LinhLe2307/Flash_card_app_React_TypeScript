@@ -38,8 +38,8 @@ function* getUpdateCard(action: PayloadAction<FetchUpdateDataPayload>) {
             
             const newData: FormInputsProps = {}
             Object.entries(response.card).map(([key, value]) => {
-                if (["title", "description"].indexOf(key) !== -1) {
-                    if (typeof value === "string") {
+                if (['title', 'description'].indexOf(key) !== -1) {
+                    if (typeof value === 'string') {
                         newData[key] = {
                             value: value,
                             isValid : true
