@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import UsersList from '../components/UsersList'
+import UsersList from '../components/UsersList/UsersList'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { SendRequestProps } from '../../shared/types/formTypes'
 

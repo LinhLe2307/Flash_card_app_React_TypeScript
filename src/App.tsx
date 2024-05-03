@@ -4,14 +4,14 @@ import Home from './shared/components/Home/Home'
 import MainPage from './shared/components/MainPage/MainPage'
 import MainNavigation from './shared/components/Navigation/MainNavigation'
 
-import CardDetail from './flashcard/components/CardDetail'
+import CardDetail from './flashcard/components/CardDetail/CardDetail'
 import NewCard from './flashcard/pages/NewCard'
 import UpdateCard from './flashcard/pages/UpdateCard'
 import UserCards from './flashcard/pages/UserCards'
 import { AuthContext } from './shared/context/auth-context'
 import { useAuth } from './shared/hooks/auth-hook'
 import Auth from './user/pages/Auth'
-import UserDetail from './user/components/UserDetail'
+import UserDetail from './user/components/UserDetail/UserDetail'
 import Settings from './user/pages/Settings'
 
 

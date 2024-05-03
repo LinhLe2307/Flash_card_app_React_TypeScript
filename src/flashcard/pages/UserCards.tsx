@@ -6,7 +6,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { useHttpClient } from "../../shared/hooks/http-hook"
 import { SendRequestProps } from "../../shared/types/formTypes"
 import { ObjectGenericProps } from "../../shared/types/sharedTypes"
-import CardItem from "../components/CardItem"
+import CardItem from "../components/CardItem/CardItem"
 
 import "./UserCards.css"
 
