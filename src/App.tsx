@@ -57,7 +57,7 @@ function App() {
           <BrowserRouter>
             <MainNavigation />
             <main>
-                    {routes}
+              {routes}
             </main>
           </BrowserRouter>
       </AuthContext.Provider>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes'
-import './CardDetail.css'
+import '../CardDetail/CardDetail.css'
 
 const CardItemDetail = ({card}: {card: ObjectGenericProps<string>}) => {
     const [side, setSide] = useState(false);
