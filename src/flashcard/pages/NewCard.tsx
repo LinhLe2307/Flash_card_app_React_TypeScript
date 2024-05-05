@@ -32,7 +32,7 @@ const initialState: FormState = {
       value: '',
       isValid: false
     },
-    "129148-125-115516-25152118-38914-2116": {
+    '129148-125-115516-25152118-38914-2116': {
       value: {
           term: {
               value: '',
@@ -63,7 +63,7 @@ const NewCard = () => {
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
         if(filterName.indexOf(key) === -1) {
-          if (typeof keyValue !== "string") {
+          if (typeof keyValue !== 'string') {
             return (
               body[key] = {
                 term: keyValue && keyValue.term ? keyValue.term.value : '',
@@ -73,7 +73,7 @@ const NewCard = () => {
             )
           }
           } else {
-            if (typeof keyValue === "string") {
+            if (typeof keyValue === 'string') {
                 return (
                   body[key] = keyValue
                 )
@@ -108,32 +108,32 @@ const NewCard = () => {
       <form className='card-form' onSubmit={cardSubmitHandler}>
         { isLoading && <LoadingSpinner asOverlay/> }
         <Input 
-          id="title"
-          type="text" 
-          label="Title" 
-          element="input"
+          id='title'
+          type='text' 
+          label='Title' 
+          element='input'
           validators={
             [
               VALIDATOR_REQUIRE()
             ]
           }
-          errorText="Please enter a valid title"
+          errorText='Please enter a valid title'
           onInput = {inputHandler}
-          nameId="title"
+          nameId='title'
         />
         <Input 
-          id="description"
-          type="text" 
-          label="Description" 
-          element="textarea"
+          id='description'
+          type='text' 
+          label='Description' 
+          element='textarea'
           validators={
             [
               VALIDATOR_MINLENGTH(5)
             ]
           }
-          errorText="Please enter a valid description (at least 5 characters)."
+          errorText='Please enter a valid description (at least 5 characters).'
           onInput = {inputHandler}
-          nameId="description"
+          nameId='description'
         />
 
         <div>
@@ -147,12 +147,12 @@ const NewCard = () => {
             />)
           }
         </div>
-        <div className="flashcard__buttons_group">
-          <Button type="button" onClick={addMoreCardHandler}>ADD CARD</Button>
+        <div className='flashcard__buttons_group'>
+          <Button type='button' onClick={addMoreCardHandler}>ADD CARD</Button>
           <div style={{
-            float: "right"
+            float: 'right'
           }}>
-            <Button type="submit" disabled={!formState.isValid}>SUBMIT</Button>
+            <Button type='submit' disabled={!formState.isValid}>SUBMIT</Button>
           </div>
         </div>
       </form>

@@ -52,11 +52,13 @@ const Auth = () => {
                 formData.append('language', data.language)
                 formData.append('password', data.password)
                 formData.append('image', data.image)
-                
+
                 const response = await sendRequest(`/api/users/signup`,
                     'POST',
                     formData,
-                    {}
+                    {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 )
                 if(response) {
                     auth.login(response.userId, response.token)

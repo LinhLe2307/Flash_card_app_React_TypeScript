@@ -8,7 +8,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 import UserForm from '../../shared/components/FormElements/UserForm'
 import { AuthInputs } from '../types/userTypes'
 import Button from '../../shared/components/FormElements/Button'
-import { SendRequestProps } from '../../shared/types/formTypes'
+import { SendRequestProps } from '../../shared/types/sharedTypes'
 import '../../shared/components/FormElements/UserForm.css'
 import Modal from '../../shared/components/UIElements/Modal'
 

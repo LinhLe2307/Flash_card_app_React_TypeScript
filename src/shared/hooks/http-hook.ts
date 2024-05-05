@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
-import { SendRequestProps } from '../types/formTypes';
+import { SendRequestProps } from '../types/sharedTypes';
 
 import queryString from 'query-string';
 
 // const baseURL = import.meta.env.VITE_APP_BACKEND_URL
-const baseURL = 'https://flash-card-app-nodejs.fly.dev'
+// const baseURL = 'https://flash-card-app-nodejs.fly.dev'
 
 function isError(error: any): error is Error {
   return error instanceof Error;
