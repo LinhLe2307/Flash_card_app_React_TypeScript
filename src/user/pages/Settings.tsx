@@ -38,8 +38,6 @@ const Settings = () => {
   const {data} = useQuery({
     queryKey: ['single-user'],
     queryFn: () => typeof auth.userId === 'string' && getSingleUser(sendRequest, auth.userId),
-    refetchOnWindowFocus: false,
-    staleTime: Infinity
   })
   const {
     register,

@@ -1,24 +1,33 @@
-import { useQuery } from "@tanstack/react-query"
 import React, { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useParams } from 'react-router-dom'
+import { useAppSelector } from '../../app/hooks'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { useHttpClient } from "../../shared/hooks/http-hook"
-import { SendRequestProps } from "../../shared/types/formTypes"
-import { ObjectGenericProps } from "../../shared/types/sharedTypes"
+import { SendRequestProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
 import CardItem from "../components/CardItem/CardItem"
 
 import "./UserCards.css"
 
-const getAllUserCards = async (userId: string, setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, sendRequest:SendRequestProps) => {
+const getAllUserCards = async (userId: string, 
+  setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, 
+  sendRequest: SendRequestProps,
+  searchInput: string
+) => {
   try {
     const response = await sendRequest(`/api/cards/user/${userId}`,
       'GET',
       null,
-      {}
+      {
+        'Content-Type': 'application/json'
+      }
     )
-    setFetchCards(response.cards)
-    return response.cards
+    const filter_list = searchInput.length !== 0
+      ? response.cards.filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
+      : response.cards
+    setFetchCards(filter_list)
+    return filter_list
   } catch(err) {
     console.log(err)
   }
@@ -26,11 +35,12 @@ const getAllUserCards = async (userId: string, setFetchCards: React.Dispatch<Rea
 
 const UserCards = () => {
   const userId = useParams().userId
-  const [fetchCards, setFetchCards] = useState<ObjectGenericProps<string>[]>([])
+  const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const searchInput = useAppSelector(state => state.search.search_input)
   const { refetch } = useQuery({
     queryKey: ["cards"],
-    queryFn: () => userId && getAllUserCards(userId, setFetchCards, sendRequest),
+    queryFn: () => userId && getAllUserCards(userId, setFetchCards, sendRequest, searchInput),
   })
 
   const cardDeleteHandler = (deletedCardId: string) => {
@@ -56,7 +66,7 @@ const UserCards = () => {
 
     useEffect(() => {
       refetch();
-    }, [userId, refetch]);
+    }, [userId, refetch, searchInput]);
 
   return (
     <React.Fragment>
@@ -68,7 +78,7 @@ const UserCards = () => {
         }
 
         {
-          fetchCards.map(card => <CardItem 
+          fetchCards && fetchCards.map(card => <CardItem 
             key={card.id} 
             id={card.id}
             card={card}

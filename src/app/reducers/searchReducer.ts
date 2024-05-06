@@ -1,13 +1,13 @@
 import { SearchListAction, SearchListState, SearchInputValueProps } from '../../shared/types/searchTypes'
 
 const initialState: SearchListState = {
-    filter_list: []
+    search_input: ''
 }
 const searchReducer = (state = initialState, action: SearchListAction) => {
     switch(action.type) {
-        case SearchInputValueProps.SEARCH_LIST_SUCCESS:
+        case SearchInputValueProps.SEARCH_LIST:
             const newProps = {...state}
-            newProps['filter_list'] = action.payload
+            newProps['search_input'] = action.payload.searchInput
             return newProps
         default:
             return state

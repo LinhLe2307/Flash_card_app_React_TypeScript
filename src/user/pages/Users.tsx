@@ -1,13 +1,45 @@
-import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React, { useEffect } from 'react'
+import { useAppSelector } from '../../app/hooks'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import UsersList from '../components/UsersList/UsersList'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import { useAppSelector } from '../../app/hooks' 
+import { SendRequestProps } from '../../shared/types/sharedTypes'
+import UsersList from '../components/UsersList/UsersList'
+import { UserProps } from '../types/userTypes'
+
+const getAllUsers = async(sendRequest: SendRequestProps, searchInput: string) => {
+  try {
+    const response = await sendRequest(`/api/users`,
+      'GET',
+      null,
+      {
+        'Content-Type': 'application/json'
+      }
+    )
+    const result = 
+      searchInput.length !== 0 
+      ?  response.users.filter((user: UserProps) => 
+      `${user.firstName} ${user.lastName}`.toLowerCase().indexOf(searchInput) !== -1)
+      : response.users
+    return result
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 const Users = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const filterList = useAppSelector(state => state.search.filter_list)
+  const searchInput = useAppSelector(state => state.search.search_input)
+
+  const { data, refetch } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => getAllUsers(sendRequest, searchInput),
+  })
+
+  useEffect(() => {
+    refetch();
+  }, [searchInput, refetch])
 
   return (
     <React.Fragment>
@@ -17,7 +49,7 @@ const Users = () => {
           <LoadingSpinner asOverlay />
         </div>
       )}
-      {filterList && <UsersList items={filterList}/>}
+      {data && <UsersList items={data}/>}
     </React.Fragment>
   )
 }
