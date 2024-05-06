@@ -6,6 +6,7 @@ import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
 import { useImage } from '../../hooks/image-hook';
 import { useDispatch } from 'react-redux';
 import { fetchImage } from '../../../app/actions/image';
+import './ImageUrl.css'
 
 const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     const [imageState, searchKeywordHandler, openUnsplashHandler] = useImage({
@@ -23,27 +24,30 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
 
     return (
     <>
-        <div className="flashcard__input_3">
+        <div className='flashcard__input_3'>
           {
             pickedImage
             ? <img
+              className='unsplash-img'
               src={pickedImage}
-              width="200px"
+              width='200px'
               onClick={() => openUnsplashHandler(cardId)}
             />
             : 
-            typeof flashcard !== "string" && flashcard?.imageUrl.value 
+            typeof flashcard !== 'string' && flashcard?.imageUrl.value 
             ? <div>
                 <img
+                  className='unsplash-img'
                   src={flashcard.imageUrl.value}
-                  width="200px"
+                  width='200px'
                   onClick={() => openUnsplashHandler(cardId)}
                 />
             </div>
             : <div>
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
-                  width="200px"
+                  className='unsplash-img'
+                  src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png'
+                  width='200px'
                   onClick={() => openUnsplashHandler(cardId)}
                 />
               </div>
@@ -54,16 +58,16 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
               <div className='flashcard__input_4'>
                 <div className={`form-control`}>
                   <input 
-                    name="imageUrl" 
+                    name='imageUrl' 
                     onChange={(event) => searchKeywordHandler(event, cardId)}
                     value={imageState[cardId].searchKeyword}
                   />
                 </div>
-                <Button type="button" onClick={() => dispatch(fetchImage({
+                <Button type='button' onClick={() => dispatch(fetchImage({
                   searchKeyword: imageState[cardId].searchKeyword,
                   inputId: cardId
                 }))}>Search</Button>
-                {/* <Button type="button" onClick={() => searchingButtonHandler(cardId)}>Search</Button> */}
+                {/* <Button type='button' onClick={() => searchingButtonHandler(cardId)}>Search</Button> */}
                   {
                     imageState[cardId].isClickingButton && 
                     <ImageListUrl 

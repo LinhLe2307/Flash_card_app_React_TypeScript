@@ -107,34 +107,36 @@ const NewCard = () => {
       <ErrorModal error={error} onClear={clearError} />
       <form className='card-form' onSubmit={cardSubmitHandler}>
         { isLoading && <LoadingSpinner asOverlay/> }
-        <Input 
-          id='title'
-          type='text' 
-          label='Title' 
-          element='input'
-          validators={
-            [
-              VALIDATOR_REQUIRE()
-            ]
-          }
-          errorText='Please enter a valid title'
-          onInput = {inputHandler}
-          nameId='title'
-        />
-        <Input 
-          id='description'
-          type='text' 
-          label='Description' 
-          element='textarea'
-          validators={
-            [
-              VALIDATOR_MINLENGTH(5)
-            ]
-          }
-          errorText='Please enter a valid description (at least 5 characters).'
-          onInput = {inputHandler}
-          nameId='description'
-        />
+        <div className='flashcard-form-title'>
+          <Input 
+            id='title'
+            type='text' 
+            label='Title' 
+            element='input'
+            validators={
+              [
+                VALIDATOR_REQUIRE()
+              ]
+            }
+            errorText='Please enter a valid title'
+            onInput = {inputHandler}
+            nameId='title'
+          />
+          <Input 
+            id='description'
+            type='text' 
+            label='Description' 
+            element='textarea'
+            validators={
+              [
+                VALIDATOR_MINLENGTH(5)
+              ]
+            }
+            errorText='Please enter a valid description (at least 5 characters).'
+            onInput = {inputHandler}
+            nameId='description'
+          />
+        </div>
 
         <div>
           {

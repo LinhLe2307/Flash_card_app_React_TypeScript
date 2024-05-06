@@ -91,34 +91,36 @@ const UpdateCard = () => {
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
                 { isLoading && <LoadingSpinner asOverlay/> }
-                <Input 
-                    nameId="title"
-                    id="title" 
-                    element="input"
-                    type="text"
-                    label="Title"
-                    validators={
-                        [
-                        VALIDATOR_REQUIRE()
-                        ]
-                    }
-                    errorText="Please enter a valid text"
-                    onInput={inputHandler}
-                    initialValue={formState?.inputs?.title?.value ?? ''}
-                    initialIsValid={true}
-                    />
-                <Input 
-                    nameId="description"
-                    id="description" 
-                    element="textarea"
-                    type="text"
-                    label="Description"
-                    validators={[VALIDATOR_MINLENGTH(5)]}
-                    errorText="Please enter a valid definition (min. 5 characters)."
-                    onInput={inputHandler}
-                    initialValue={formState?.inputs?.description?.value ?? ''}
-                    initialIsValid={true}
-                    />
+                <div className='flashcard-form-title'>
+                    <Input 
+                        nameId="title"
+                        id="title" 
+                        element="input"
+                        type="text"
+                        label="Title"
+                        validators={
+                            [
+                            VALIDATOR_REQUIRE()
+                            ]
+                        }
+                        errorText="Please enter a valid text"
+                        onInput={inputHandler}
+                        initialValue={formState?.inputs?.title?.value ?? ''}
+                        initialIsValid={true}
+                        />
+                    <Input 
+                        nameId="description"
+                        id="description" 
+                        element="textarea"
+                        type="text"
+                        label="Description"
+                        validators={[VALIDATOR_MINLENGTH(5)]}
+                        errorText="Please enter a valid definition (min. 5 characters)."
+                        onInput={inputHandler}
+                        initialValue={formState?.inputs?.description?.value ?? ''}
+                        initialIsValid={true}
+                        />
+                </div>
                 <div>
                 {
                     
