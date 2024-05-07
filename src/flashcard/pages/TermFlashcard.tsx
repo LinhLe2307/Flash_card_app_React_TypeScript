@@ -67,7 +67,9 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
           </>
           }
           {
-            typeof flashcard !== "string" && flashcard
+            typeof flashcard !== "string" 
+            && !Array.isArray(flashcard)
+            && flashcard
             &&
             <>
               <div className="flashcard__input_1">

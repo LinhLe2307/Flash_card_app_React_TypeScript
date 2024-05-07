@@ -12,17 +12,8 @@ import { CardItemProps } from '../../types/cardTypes'
 const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
-    // const [showPreview, setShowPreview] = useState(false)
-    // const [isUserMatched, setIsUserMatched] = useState(false);
+    const [ showConfirmModal, setShowConfirmModal ] = useState(false)
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false)
-
-    // const openPreviewHandler = () => {
-    //     setShowPreview(true)
-    // }
-    // const closePreviewHandler = () => {
-    //     setShowPreview(false)
-    // }
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
     }
@@ -45,32 +36,9 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
         }
     }
 
-    // const getCardInfo = (cardId) => {
-    //     console.log("card")
-    //     // if (cardId) {
-    //         dispatch(
-    //             fetchUpdateCard({
-    //                 cardId: cardId,
-    //                 sendRequest: sendRequest
-    //             }))
-    //     // }
-    // }
-
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError}/>
-        {/* <Modal 
-            show={showPreview} 
-            onCancel={closePreviewHandler}
-            header={card.title}
-            contentClass='card-item__modal-content'
-            footerClass='card-item__modal-actions'
-            footer={<Button onClick={closePreviewHandler}>CLOSE</Button>}
-        >
-            <div className='map-container'>
-                The map
-            </div>
-        </Modal> */}
         <Modal
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
@@ -93,8 +61,9 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
                 </div> */}
                 {isLoading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
-                    <h2><Link to={`/card-detail/${card.id}`} state={{card}}>{card.title}</Link></h2>
-                    <h2>{card.description}</h2>
+                    <h2><Link to={`/card-detail/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
+                    <p>{ card.description }</p>
+                    { typeof card.tags === 'object' && card.tags.map(tag => <span key={tag}>{tag}</span>) }
                 </div>
                 <div className='card-item__actions'>
                     {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}

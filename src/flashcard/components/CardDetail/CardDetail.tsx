@@ -9,7 +9,7 @@ import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 import './CardDetail.css';
 import CardItemDetail from '../CardItemDetail/CardItemDetail';
 import { useHttpClient } from '../../../shared/hooks/http-hook';
-import { SendRequestProps } from '../../../shared/types/formTypes';
+import { SendRequestProps } from '../../../shared/types/sharedTypes';
 
 const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
   try {

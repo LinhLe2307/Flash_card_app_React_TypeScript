@@ -22,19 +22,21 @@ export const useFormHook:UserFormHandler = function() {
           dispatch(action)
 
         } else {
-          const form = {
-            value: {
-                [nameId]: {
-                  value: value,
-                  isValid: isValid
-                }
-              },
-              isValid: isValid,
-              inputId: String(inputId),
-              nameId: nameId
+          if (!Array.isArray(value)) {
+            const form = {
+              value: {
+                  [nameId]: {
+                    value: value,
+                    isValid: isValid
+                  }
+                },
+                isValid: isValid,
+                inputId: String(inputId),
+                nameId: nameId
+            }
+            const action = inputChangeForm(form)
+            dispatch(action)
           }
-          const action = inputChangeForm(form)
-          dispatch(action)
         }
     }, [dispatch])
 

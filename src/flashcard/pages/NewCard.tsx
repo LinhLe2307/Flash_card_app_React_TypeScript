@@ -7,7 +7,8 @@ import Input from '../../shared/components/FormElements/Input'
 import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useFormHook } from '../../shared/hooks/form-hook'
-import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
+import { GenericProps } from '../../shared/types/sharedTypes'
+import { BodyProps } from '../../shared/types/formTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 
@@ -16,11 +17,9 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { initialState, deepCopy } from '../../app/reducers/formReducer'
+import CardTags from '../components/CardTags/CardTags'
 import './TermFlashcard.css'
 
-interface BodyProps {
-  [key: string]: ObjectGenericProps<string> | string | null
-}
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
@@ -36,7 +35,7 @@ const NewCard = () => {
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
         if(filterName.indexOf(key) === -1) {
-          if (typeof keyValue !== 'string') {
+          if (typeof keyValue !== 'string' && !Array.isArray(keyValue)) {
             return (
               body[key] = {
                 term: keyValue && keyValue.term ? keyValue.term.value : '',
@@ -45,12 +44,12 @@ const NewCard = () => {
               }
             )
           }
-          } else {
-            if (typeof keyValue === 'string') {
-                return (
-                  body[key] = keyValue
-                )
-              }
+        } else {
+          if (typeof keyValue === 'string' || typeof keyValue === 'object') {
+            return (
+              body[key] = keyValue
+            )
+          }
         }
       })
       
@@ -109,8 +108,11 @@ const NewCard = () => {
             onInput = {inputHandler}
             nameId='description'
           />
+          <CardTags 
+            inputHandler={inputHandler}
+            initialValue={[]}
+            />
         </div>
-        
         <div>
           {
             formState.inputs && Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 

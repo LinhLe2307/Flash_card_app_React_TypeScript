@@ -6,7 +6,7 @@ export enum InputValueProps {
 }
 
 export interface ValueAndValidProps<T> {
-    value: T
+    value: T 
     isValid: boolean
 }
 
@@ -16,12 +16,16 @@ export enum VALUE_CARD {
     imageUrl = 'imageUrl'
 }
 
+export interface BodyProps {
+    [key: string]: ObjectGenericProps<string> | string | string[] | ObjectGenericProps<ValueAndValidProps<string>>
+}  
+
 export type ObjectGenericInitial = {
   [key in keyof typeof VALUE_CARD]: ValueAndValidProps<string>;
 }
 
 export type FormInputsProps = {
-    [key: string]: ValueAndValidProps<ObjectGenericInitial| string | ObjectGenericProps<ValueAndValidProps<string>>> 
+    [key: string]: ValueAndValidProps<string | string[] | ObjectGenericProps<ValueAndValidProps<string>>> 
   }
 
 export interface ValidatorsProps {
@@ -41,7 +45,7 @@ export interface InputState extends ValueAndValidProps<string> {
     isTouched: boolean
 }
 export interface InputHandlerProps {
-    (value: string, isValid: boolean, inputId: string, nameId: string) : void
+    (value: string | string[], isValid: boolean, inputId: string, nameId: string) : void
 }
 
 
@@ -88,11 +92,11 @@ export interface FetchUpdateDataPayload {
 }
 
 export interface InputChangeFormPayload {
-        inputId: string
-        isValid: boolean
-        nameId: string 
-        // value: string | ObjectGenericInitial
-        value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string
+    inputId: string
+    isValid: boolean
+    nameId: string 
+    // value: string | ObjectGenericInitial
+    value: ObjectGenericInitial |  ObjectGenericProps<ValueAndValidProps<string>> | string | string[]
 }
 
 export interface RemoveCardPayload {
@@ -139,9 +143,3 @@ export interface UserFormHandler {
         setInitialState: (initialState: FormState) => void
     ]
 }
-
-export interface CountryProps {
-    name: {
-        common: string
-    }
-}  

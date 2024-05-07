@@ -17,6 +17,10 @@ export const initialState: FormState = {
             value: '',
             isValid: false
         },
+        tags: {
+            value: [''],
+            isValid: false
+        },
         "129148-125-115516-25152118-38914-2116": {
             value: {
                 term: {
@@ -63,7 +67,7 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
                             formIsValid = formIsValid && action.payload.isValid && subCardIsValid
                         
                         } else {
-                            if (typeof action.payload.value === "object") {
+                            if (typeof action.payload.value === "object" && !Array.isArray(action.payload.value)) {
                                 const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
                                 if (inputValue.term && inputValue.definition) {
                                     newProps.inputs[action.payload.inputId] = {
@@ -88,7 +92,7 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
                             }
                             formIsValid = formIsValid && state.inputs[inputId].isValid
                         } else {
-                        if (typeof action.payload.value === "object") {
+                        if (typeof action.payload.value === "object" && !Array.isArray(action.payload.value)) {
                             const inputValue = newProps.inputs[action.payload.inputId]?.value as ObjectGenericInitial;
 
                             if (inputValue?.term?.value !== '' && inputValue?.definition?.value !== '') {
