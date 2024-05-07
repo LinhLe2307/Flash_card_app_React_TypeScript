@@ -2,7 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { filterName } from "../../shared/constants/global"
 import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
 
-const initialState: FormState = {
+// Function to create a deep copy of an object
+export const deepCopy = (obj: any): any => {
+    return JSON.parse(JSON.stringify(obj));
+};
+
+export const initialState: FormState = {
     inputs: {
         title: {
             value: '',
@@ -21,6 +26,10 @@ const initialState: FormState = {
                 definition: {
                     value: '',
                     isValid: false
+                },
+                imageUrl: {
+                    value: '',
+                    isValid: false
                 }
             },
             isValid: false
@@ -29,10 +38,10 @@ const initialState: FormState = {
     isValid: false
   }
 
-const formReducer = (state = initialState, action: FormAction ) => {
+const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) => {
     switch(action.type) {
         case FormActionProps.INITIAL_FORM_STATE: {
-            return action.payload.initialState
+            return {...deepCopy(initialState)}
         }
         case FormActionProps.INPUT_CHANGE: {
             let newProps = {...state}
@@ -65,16 +74,8 @@ const formReducer = (state = initialState, action: FormAction ) => {
                                         },
                                         isValid: action.payload.value[typeNameId].isValid
                                     }
-                                    // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                    // formIsValid = formIsValid && subCardIsValid 
                                 
                                 }
-                                // else {
-                                //     // subCardIsValid = formIsValid 
-                                //         // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
-                                //     }
-                                // formIsValid = formIsValid && subCardIsValid
-                                // formIsValid = formIsValid && action.payload.value[action.payload.nameId as keyof typeof VALUE_CARD].isValid
                             }
                             
                         }

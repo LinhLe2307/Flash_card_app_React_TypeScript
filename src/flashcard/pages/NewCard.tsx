@@ -1,52 +1,25 @@
 import React, { useContext, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useFormHook } from '../../shared/hooks/form-hook'
-import { FormState } from '../../shared/types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { initialImageState } from '../../app/actions/image'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import { initialState, deepCopy } from '../../app/reducers/formReducer'
 import './TermFlashcard.css'
 
 interface BodyProps {
   [key: string]: ObjectGenericProps<string> | string | null
-}
-
-const initialState: FormState = {
-  inputs: {
-    title: {
-      value: '',
-      isValid: false
-    },
-    description: {
-      value: '',
-      isValid: false
-    },
-    '129148-125-115516-25152118-38914-2116': {
-      value: {
-          term: {
-              value: '',
-              isValid: false
-          },
-          definition: {
-              value: '',
-              isValid: false
-          }
-      },
-      isValid: false
-  }
-  },
-  isValid: false
 }
 
 const NewCard = () => {
@@ -99,7 +72,7 @@ const NewCard = () => {
     dispatch(
       initialImageState()
     )
-    setInitialStateForm(initialState)
+    setInitialStateForm({...deepCopy(initialState)})
   }, [])
 
   return (
