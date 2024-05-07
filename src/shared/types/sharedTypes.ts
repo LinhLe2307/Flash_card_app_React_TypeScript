@@ -13,3 +13,12 @@ export type AddNewProperty<T> = {
 export interface ObjectGenericProps<T> {
     [key: string]: T
 }
+
+export interface SendRequestProps {
+    (
+      url: string,
+      method: string,
+      body: BodyInit | null | undefined,
+      headers: ObjectGenericProps<string>
+    ) : any
+  }

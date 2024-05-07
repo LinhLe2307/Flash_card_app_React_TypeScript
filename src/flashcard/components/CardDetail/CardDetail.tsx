@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import { filterName } from '../../shared/constants/global';
-import { ObjectGenericProps } from '../../shared/types/sharedTypes';
+import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
+import { filterName } from '../../../shared/constants/global';
+import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 import './CardDetail.css';
-import CardItemDetail from './CardItemDetail';
-import { useHttpClient } from '../../shared/hooks/http-hook';
-import { SendRequestProps } from '../../shared/types/formTypes';
+import CardItemDetail from '../CardItemDetail/CardItemDetail';
+import { useHttpClient } from '../../../shared/hooks/http-hook';
+import { SendRequestProps } from '../../../shared/types/formTypes';
 
 const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
   try {

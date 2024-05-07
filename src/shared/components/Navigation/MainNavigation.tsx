@@ -5,6 +5,7 @@ import NavLinks from './NavLinks'
 import SideDrawer from './SideDrawer'
 import './MainNavigation.css'
 import Backdrop from '../UIElements/Backdrop'
+import SearchBar from '../SearchBar/SearchBar'
 
 const MainNavigation = () => {
     const [drawerIsOpen, setDrawerIsOpen] = useState(false)
@@ -37,6 +38,7 @@ const MainNavigation = () => {
             <h1 className='main-navigation__title'>
                 <Link to="/">CardIO</Link>
             </h1>
+            <SearchBar />
             <nav className='main-navigation__header-nav'>
                 <NavLinks />
             </nav>

@@ -1,4 +1,4 @@
-import { GenericProps, ObjectGenericProps } from "./sharedTypes"
+import { GenericProps, ObjectGenericProps, SendRequestProps } from './sharedTypes'
 
 export enum InputValueProps {
     CHANGE = 'CHANGE',
@@ -11,9 +11,9 @@ export interface ValueAndValidProps<T> {
 }
 
 export enum VALUE_CARD {
-    term= "term",
-    definition = "definition",
-    imageUrl = "imageUrl"
+    term= 'term',
+    definition = 'definition',
+    imageUrl = 'imageUrl'
 }
 
 export type ObjectGenericInitial = {
@@ -61,20 +61,21 @@ export interface InputProps extends UpdateCardInputProps {
     validators: ValidatorsProps[]
     errorText?: string
     onInput: InputHandlerProps 
+    className?: string 
 }
 
 // ----- FORM ------
 
 export enum FormActionProps {
     INPUT_CHANGE= 'INPUT_CHANGE',
-    REMOVE_CARD = "REMOVE_CARD",
-    ADD_CARD="ADD_CARD",
-    RESET_FORM="RESET_FORM",
-    INITIAL_FORM_STATE="INITIAL_FORM_STATE",
+    REMOVE_CARD = 'REMOVE_CARD',
+    ADD_CARD='ADD_CARD',
+    RESET_FORM='RESET_FORM',
+    INITIAL_FORM_STATE='INITIAL_FORM_STATE',
 
-    FETCH_UPDATE_CARD="FETCH_UPDATE_CARD",
-    SET_DATA_SUCCESS="SET_DATA_SUCCESS",
-    SET_DATA_FAILURE="SET_DATA_FAILURE"
+    FETCH_UPDATE_CARD='FETCH_UPDATE_CARD',
+    SET_DATA_SUCCESS='SET_DATA_SUCCESS',
+    SET_DATA_FAILURE='SET_DATA_FAILURE'
 }
 
 export interface SetFormDataProps {
@@ -139,12 +140,4 @@ export interface UserFormHandler {
     ]
 }
 
-export interface SendRequestProps {
-    (
-      url: string,
-      method: string,
-      body: BodyInit | null | undefined,
-      headers: ObjectGenericProps<string>
-    ) : any
-  }
   

@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Button from '../../shared/components/FormElements/Button'
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import ErrorModal from '../../shared/components/UIElements/ErrorModal'
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import Modal from '../../shared/components/UIElements/Modal'
-import { AuthContext } from '../../shared/context/auth-context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
-import { CardItemProps } from '../types/cardTypes'
+import Button from '../../../shared/components/FormElements/Button'
+import CardAvatar from '../../../shared/components/UIElements/CardAvatar'
+import ErrorModal from '../../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner'
+import Modal from '../../../shared/components/UIElements/Modal'
+import { AuthContext } from '../../../shared/context/auth-context'
+import { useHttpClient } from '../../../shared/hooks/http-hook'
+import { CardItemProps } from '../../types/cardTypes'
 
 const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)

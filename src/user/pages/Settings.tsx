@@ -1,16 +1,16 @@
-import { useQuery } from "@tanstack/react-query"
-import React, { useContext, useEffect, useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
-import ErrorModal from "../../shared/components/UIElements/ErrorModal"
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
-import { AuthContext } from "../../shared/context/auth-context"
-import { useHttpClient } from "../../shared/hooks/http-hook"
-import UserForm from "../../shared/components/FormElements/UserForm"
-import { AuthInputs } from "../types/userTypes"
-import Button from "../../shared/components/FormElements/Button"
-import { SendRequestProps } from "../../shared/types/formTypes"
-import "../../shared/components/FormElements/UserForm.css"
-import Modal from "../../shared/components/UIElements/Modal"
+import { useQuery } from '@tanstack/react-query'
+import React, { useContext, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { AuthContext } from '../../shared/context/auth-context'
+import { useHttpClient } from '../../shared/hooks/http-hook'
+import UserForm from '../../shared/components/FormElements/UserForm'
+import { AuthInputs } from '../types/userTypes'
+import Button from '../../shared/components/FormElements/Button'
+import { SendRequestProps } from '../../shared/types/sharedTypes'
+import '../../shared/components/FormElements/UserForm.css'
+import Modal from '../../shared/components/UIElements/Modal'
 
 
 const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
@@ -36,10 +36,8 @@ const Settings = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   const {data} = useQuery({
-    queryKey: ["single-user"],
-    queryFn: () => typeof auth.userId === "string" && getSingleUser(sendRequest, auth.userId),
-    refetchOnWindowFocus: false,
-    staleTime: Infinity
+    queryKey: ['single-user'],
+    queryFn: () => typeof auth.userId === 'string' && getSingleUser(sendRequest, auth.userId),
   })
   const {
     register,
@@ -143,13 +141,13 @@ const Settings = () => {
       <Modal 
             show={showCancelModal} 
             onCancel={cancelModelHandle}
-            header="Cancel changes"
+            header='Cancel changes'
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
               <>
-                <Button type="button" onClick={cancelChangesHandler}>CONFIRM</Button>
-                <Button inverse type="button" onClick={cancelModelHandle}>CLOSE</Button>
+                <Button type='button' onClick={cancelChangesHandler}>CONFIRM</Button>
+                <Button inverse type='button' onClick={cancelModelHandle}>CLOSE</Button>
               </>
             }
         >
@@ -160,13 +158,13 @@ const Settings = () => {
       <Modal 
             show={showDeleteModal} 
             onCancel={cancelDeleteHandle}
-            header="Confirm delete"
+            header='Confirm delete'
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
               <>
-                <Button type="button" onClick={deleteAccountHandler}>CONFIRM</Button>
-                <Button inverse type="button" onClick={cancelDeleteHandle}>CLOSE</Button>
+                <Button type='button' onClick={deleteAccountHandler}>CONFIRM</Button>
+                <Button inverse type='button' onClick={cancelDeleteHandle}>CLOSE</Button>
               </>
             }
         >
@@ -181,13 +179,13 @@ const Settings = () => {
           <Modal 
             show={showConfirmModal} 
             onCancel={cancelConfirmHandle}
-            header="Confirm changes"
+            header='Confirm changes'
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
               <>
-                <Button type="submit" onClick={cancelConfirmHandle}>CONFIRM</Button>
-                <Button inverse type="button" onClick={cancelConfirmHandle}>CLOSE</Button>
+                <Button type='submit' onClick={cancelConfirmHandle}>CONFIRM</Button>
+                <Button inverse type='button' onClick={cancelConfirmHandle}>CLOSE</Button>
               </>
             }
           >
@@ -200,24 +198,24 @@ const Settings = () => {
             setValue={setValue}
             errors={errors}
             imageUrl={`${data.image}`}
-            title="Account Settings"
+            title='Account Settings'
             disabled={true}
           >
-            <div className="py-3 pb-4 border-bottom">
-              <Button type="button" onClick={openConfirmHandler}>
+            <div className='py-3 pb-4 border-bottom'>
+              <Button type='button' onClick={openConfirmHandler}>
                 Save Changes
               </Button>
-              <Button type="button" inverse onClick={openCancelHandler}>
+              <Button type='button' inverse onClick={openCancelHandler}>
                 Cancel
               </Button>
             </div>
             <div 
-              className="d-sm-flex align-items-center pt-3" id="delete">
+              className='d-sm-flex align-items-center pt-3' id='delete'>
                 <div>
                     <b>Delete your account</b>
                 </div>
                 <div >
-                    <Button danger type="button" onClick={openDeleteHandle}>Delete</Button>
+                    <Button danger type='button' onClick={openDeleteHandle}>Delete</Button>
                 </div>
             </div>
           </UserForm>

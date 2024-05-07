@@ -25,7 +25,7 @@ const inputReducer = (state:InputState, action: InputAction) => {
     }
 }
 
-const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid, nameId}:InputProps) => {
+const Input = ({id, label, element, type, placeholder, rows, errorText, validators, onInput, initialValue, initialIsValid, nameId, className}:InputProps) => {
     const [inputState, dispatch] = useReducer(inputReducer, {value: initialValue || '', isValid: initialIsValid || false, isTouched: false})
 
     const { value, isValid } = inputState
@@ -52,7 +52,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         })
     }
 
-    const elementInput = element === "input" 
+    const elementInput = element === 'input' 
         ? <input 
             name={nameId}
             id={id} 
@@ -62,6 +62,13 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             onBlur={touchHandler}
             value={String(value)}
             /> 
+        : element === 'search' 
+        ? <input
+            className={className} 
+            type={type}
+            placeholder={placeholder} 
+            onChange={changeHandler}
+        />
         : <textarea 
             name={nameId}
             id={id} 
@@ -72,7 +79,11 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         />
         
   return (
-    <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
+    <div className={
+        element === 'search' 
+        ? ''
+        : `form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`
+    }>
         <label htmlFor={id}>{label}</label>
         {elementInput} 
         {!inputState.isValid && inputState.isTouched && <p>{errorText}</p>}

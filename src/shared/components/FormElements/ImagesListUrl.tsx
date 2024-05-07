@@ -3,7 +3,6 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 import { Box, ThemeProvider, createTheme } from '@mui/material';
 import { ImageListProps } from '../../types/imageTypes';
-// import './ImageList.css';
 
 const theme = createTheme({
   breakpoints: {
@@ -21,21 +20,15 @@ const ImageListUrl = ({photos, cardId, inputHandler, setPickedImage}: ImageListP
     return (
       <ThemeProvider theme={theme}>
         <Box 
-        // sx={{ width: 700, height: 500, overflowY: 'scroll' }}
           sx={{
-            width: 700, height: 500,
-            // backgroundColor: "pink",
+            width: 800, height: 550,
             display: "grid",
             gridTemplateColumns: {
               mobile: "repeat(1, 1fr)",
               bigMobile: "repeat(3, 1fr)",
               tablet: "repeat(2, 1fr)",
               desktop: "repeat(1, 1fr)"
-            },
-            // [`& .${imageListItemClasses.root}`]: {
-            //   display: "flex",
-            //   flexDirection: "column"
-            // }
+            }
           }}
         >
           <ImageList 
