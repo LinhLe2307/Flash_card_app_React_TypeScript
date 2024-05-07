@@ -110,7 +110,7 @@ const NewCard = () => {
             nameId='description'
           />
         </div>
-
+        
         <div>
           {
             formState.inputs && Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 

@@ -48,7 +48,7 @@ const Users = () => {
       `${user.firstName} ${user.lastName}`.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1)
       : data
     setFilterList(result)
-  }, [searchInput, setFilterList, data])
+  }, [searchInput, data])
 
   return (
     <React.Fragment>
