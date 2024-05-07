@@ -33,7 +33,7 @@ const UserCards = () => {
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
   const { error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
-  const { data, isLoading: isLoadingQuery } = useQuery({
+  const { data, isLoading: isLoadingQuery, refetch } = useQuery({
     queryKey: ['cards'],
     queryFn: () => userId && getAllUserCards(userId, sendRequest),
     enabled: !dataFetched
@@ -55,7 +55,7 @@ const UserCards = () => {
       ? data.filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
       : data
     setFetchCards(filter_list)
-  }, [searchInput, setFetchCards, data])
+  }, [searchInput, data])
   
   if (error) {
       return <ErrorModal
@@ -63,6 +63,10 @@ const UserCards = () => {
         onClear={clearError}
       />
   }
+
+  useEffect(() => {
+    refetch()
+  }, [userId])
 
   // if (items && items.length === 0) {
     //     return <div className='card-list center'>
