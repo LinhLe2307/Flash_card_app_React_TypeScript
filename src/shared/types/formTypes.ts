@@ -140,4 +140,8 @@ export interface UserFormHandler {
     ]
 }
 
-  
+export interface CountryProps {
+    name: {
+        common: string
+    }
+}  

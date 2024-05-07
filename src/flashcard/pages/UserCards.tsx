@@ -10,10 +10,8 @@ import CardItem from "../components/CardItem/CardItem"
 
 import "./UserCards.css"
 
-const getAllUserCards = async (userId: string, 
-  setFetchCards: React.Dispatch<React.SetStateAction<ObjectGenericProps<string>[]>>, 
+const getAllUserCards = async (userId: string,
   sendRequest: SendRequestProps,
-  searchInput: string
 ) => {
   try {
     const response = await sendRequest(`/api/cards/user/${userId}`,
@@ -23,11 +21,7 @@ const getAllUserCards = async (userId: string,
         'Content-Type': 'application/json'
       }
     )
-    const filter_list = searchInput.length !== 0
-      ? response.cards.filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
-      : response.cards
-    setFetchCards(filter_list)
-    return filter_list
+    return response.cards
   } catch(err) {
     console.log(err)
   }
@@ -35,18 +29,33 @@ const getAllUserCards = async (userId: string,
 
 const UserCards = () => {
   const userId = useParams().userId
+  const [ dataFetched, setDataFetched ] = useState(false);
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const { error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
-  const { refetch } = useQuery({
-    queryKey: ["cards"],
-    queryFn: () => userId && getAllUserCards(userId, setFetchCards, sendRequest, searchInput),
+  const { data, isLoading: isLoadingQuery } = useQuery({
+    queryKey: ['cards'],
+    queryFn: () => userId && getAllUserCards(userId, sendRequest),
+    enabled: !dataFetched
   })
+
+  // Check if data is being fetched for the first time
+  if (isLoadingQuery && !dataFetched) {
+    // Set dataFetched to true to disable further queries
+    setDataFetched(true);
+  }
 
   const cardDeleteHandler = (deletedCardId: string) => {
     const updatedState = [...fetchCards].filter(card => card.id !== deletedCardId)
     setFetchCards(updatedState)
   }
+
+  useEffect(() => {
+    const filter_list = searchInput.length !== 0
+      ? data.filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
+      : data
+    setFetchCards(filter_list)
+  }, [searchInput, setFetchCards, data])
   
   if (error) {
       return <ErrorModal
@@ -64,13 +73,9 @@ const UserCards = () => {
     //     </div>
     // }
 
-    useEffect(() => {
-      refetch();
-    }, [userId, refetch, searchInput]);
-
   return (
     <React.Fragment>
-      { isLoading && <LoadingSpinner asOverlay/> }
+      { isLoadingQuery && <LoadingSpinner asOverlay/> }
       <ul className='card-list'>
         {
             fetchCards &&

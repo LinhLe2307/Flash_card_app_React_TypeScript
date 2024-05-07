@@ -30,14 +30,16 @@ const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
 
 const Settings = () => {
   const auth = useContext(AuthContext)
-  const {isLoading, error, sendRequest, clearError} = useHttpClient()
+  const [ dataFetched, setDataFetched ] = useState(false);
+  const { isLoading, error, sendRequest, clearError} = useHttpClient()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-  const {data} = useQuery({
+  const {data, isLoading: isLoadingQuery} = useQuery({
     queryKey: ['single-user'],
     queryFn: () => typeof auth.userId === 'string' && getSingleUser(sendRequest, auth.userId),
+    enabled: !dataFetched
   })
   const {
     register,
@@ -125,6 +127,12 @@ const Settings = () => {
     setShowCancelModal(false)
   }
 
+  // Check if data is being fetched for the first time
+  if (isLoadingQuery && !dataFetched) {
+    // Set dataFetched to true to disable further queries
+    setDataFetched(true);
+  }
+
   useEffect(() => {
     reset(data)
   }, [isLoading])
@@ -172,7 +180,7 @@ const Settings = () => {
                Are you sure you want to delete this profile?
             </div>
         </Modal>
-      { isLoading && <LoadingSpinner asOverlay/> }
+      { isLoadingQuery && <LoadingSpinner asOverlay/> }
       {
         data && 
         <form onSubmit={handleSubmit(updateHandler)}>
