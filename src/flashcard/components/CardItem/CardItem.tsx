@@ -8,21 +8,13 @@ import Modal from '../../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../../shared/context/auth-context'
 import { useHttpClient } from '../../../shared/hooks/http-hook'
 import { CardItemProps } from '../../types/cardTypes'
+import './CardItem.css'
 
 const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
-    // const [showPreview, setShowPreview] = useState(false)
-    // const [isUserMatched, setIsUserMatched] = useState(false);
+    const [ showConfirmModal, setShowConfirmModal ] = useState(false)
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false)
-
-    // const openPreviewHandler = () => {
-    //     setShowPreview(true)
-    // }
-    // const closePreviewHandler = () => {
-    //     setShowPreview(false)
-    // }
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
     }
@@ -45,38 +37,15 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
         }
     }
 
-    // const getCardInfo = (cardId) => {
-    //     console.log("card")
-    //     // if (cardId) {
-    //         dispatch(
-    //             fetchUpdateCard({
-    //                 cardId: cardId,
-    //                 sendRequest: sendRequest
-    //             }))
-    //     // }
-    // }
-
   return (
     <React.Fragment>
         <ErrorModal error={error} onClear={clearError}/>
-        {/* <Modal 
-            show={showPreview} 
-            onCancel={closePreviewHandler}
-            header={card.title}
-            contentClass='card-item__modal-content'
-            footerClass='card-item__modal-actions'
-            footer={<Button onClick={closePreviewHandler}>CLOSE</Button>}
-        >
-            <div className='map-container'>
-                The map
-            </div>
-        </Modal> */}
         <Modal
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
-            header="Are you sure?"
+            header='Are you sure?'
             contentClass='card-item__modal-content'
-            footerClass="place-item__modal-actions"
+            footerClass='place-item__modal-actions'
             footer={
                 <React.Fragment>
                     <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
@@ -86,15 +55,27 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
         >
             <p>Do you want to proceed and delete this place? Please note that it can't be undone thereafter</p>
         </Modal>
-        <li className="card-item">
-            <CardAvatar className="card-item__content">
+        <li className='card-item'>
+            <CardAvatar className='card-item__content'>
                 {/* <div className='card-item__image'>
                     <img src={image} alt={term}/>
                 </div> */}
                 {isLoading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
-                    <h2><Link to={`/card-detail/${card.id}`} state={{card}}>{card.title}</Link></h2>
-                    <h2>{card.description}</h2>
+                    <h2><Link to={`/card-detail/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
+                    <p>{ card.description }</p>
+                    {
+                        <div className='card-item__tags'>
+                            { typeof card.tags === 'object' 
+                                && card.tags.map(tag => <span 
+                                    key={tag}
+                                    className='card-item__tag'
+                                >
+                                    {tag}
+                                </span>)
+                            }
+                        </div>
+                    }
                 </div>
                 <div className='card-item__actions'>
                     {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}

@@ -27,6 +27,9 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                         image={user.image}
                         firstName={user.firstName}
                         lastName={user.lastName}
+                        language={user.language}
+                        country={user.country}
+                        phone={user.phone}
                         cardCount={user.cards.length}
                     />
                 })

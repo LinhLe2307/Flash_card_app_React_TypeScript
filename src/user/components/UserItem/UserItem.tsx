@@ -1,7 +1,7 @@
 import { UserItemProps } from '../../types/userTypes'
 import './UserItem.css'
 
-const UserItem = ({id, image, firstName, lastName, cardCount}: UserItemProps ) => {
+const UserItem = ({id, image, firstName, lastName, language, cardCount, country, phone}: UserItemProps ) => {
   return (
     <section className='search-result-item'>
       <a className='image-link' href='#'><img className='image' src={`${image}`} />
@@ -11,7 +11,9 @@ const UserItem = ({id, image, firstName, lastName, cardCount}: UserItemProps ) =
               <div className='col-sm-9'>
                   <h1 className='search-result-item-heading'>{firstName} {lastName}</h1>
                   {/* <h1 className='search-result-item-heading'><a href={`/user-detail/${id}`}>{firstName} {lastName}</a></h1> */}
-                  <p className='info'>Helsinki, Finland</p>
+                  <p className='info'>{language}</p>
+                  <p className='info'>{phone}</p>
+                  <p className='info'>{country}</p>
               </div>
               <div className='col-sm-3 text-align-center'>
                   <p className='value3 mt-sm'>{cardCount >= 1 ? cardCount : 0}</p>

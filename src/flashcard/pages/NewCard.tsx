@@ -1,53 +1,25 @@
 import React, { useContext, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useFormHook } from '../../shared/hooks/form-hook'
-import { FormState } from '../../shared/types/formTypes'
-import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
+import { GenericProps } from '../../shared/types/sharedTypes'
+import { BodyProps } from '../../shared/types/formTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { initialImageState } from '../../app/actions/image'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import { initialState, deepCopy } from '../../app/reducers/formReducer'
+import CardTags from '../components/CardTags/CardTags'
 import './TermFlashcard.css'
 
-interface BodyProps {
-  [key: string]: ObjectGenericProps<string> | string | null
-}
-
-const initialState: FormState = {
-  inputs: {
-    title: {
-      value: '',
-      isValid: false
-    },
-    description: {
-      value: '',
-      isValid: false
-    },
-    '129148-125-115516-25152118-38914-2116': {
-      value: {
-          term: {
-              value: '',
-              isValid: false
-          },
-          definition: {
-              value: '',
-              isValid: false
-          }
-      },
-      isValid: false
-  }
-  },
-  isValid: false
-}
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
@@ -63,7 +35,7 @@ const NewCard = () => {
       Object.entries(formState.inputs).forEach(([key, value]) => {
         const keyValue = value && value.value
         if(filterName.indexOf(key) === -1) {
-          if (typeof keyValue !== 'string') {
+          if (typeof keyValue !== 'string' && !Array.isArray(keyValue)) {
             return (
               body[key] = {
                 term: keyValue && keyValue.term ? keyValue.term.value : '',
@@ -72,12 +44,12 @@ const NewCard = () => {
               }
             )
           }
-          } else {
-            if (typeof keyValue === 'string') {
-                return (
-                  body[key] = keyValue
-                )
-              }
+        } else {
+          if (typeof keyValue === 'string' || typeof keyValue === 'object') {
+            return (
+              body[key] = keyValue
+            )
+          }
         }
       })
       
@@ -99,7 +71,7 @@ const NewCard = () => {
     dispatch(
       initialImageState()
     )
-    setInitialStateForm(initialState)
+    setInitialStateForm({...deepCopy(initialState)})
   }, [])
 
   return (
@@ -111,7 +83,7 @@ const NewCard = () => {
           <Input 
             id='title'
             type='text' 
-            label='Title' 
+            label='Title*' 
             element='input'
             validators={
               [
@@ -125,7 +97,7 @@ const NewCard = () => {
           <Input 
             id='description'
             type='text' 
-            label='Description' 
+            label='Description*' 
             element='textarea'
             validators={
               [
@@ -136,8 +108,11 @@ const NewCard = () => {
             onInput = {inputHandler}
             nameId='description'
           />
+          <CardTags 
+            inputHandler={inputHandler}
+            initialValue={[]}
+            />
         </div>
-
         <div>
           {
             formState.inputs && Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 

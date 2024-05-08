@@ -12,7 +12,7 @@ interface HerfProps extends BaseProps {
 
 interface ToProps extends HerfProps {
     to?: string
-    state?: ObjectGenericProps<string>
+    state?: ObjectGenericProps<string | string[]>
 }
 export interface ButtonProps extends ToProps {
     type?: 'submit' | 'reset' | 'button'

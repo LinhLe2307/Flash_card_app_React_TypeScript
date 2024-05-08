@@ -30,7 +30,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
 
     const { value, isValid } = inputState
     
-    useEffect(() => { 
+    useEffect(() => {
         onInput(inputState.value, inputState.isValid, id, nameId)
     }, [id, value, isValid, nameId])
 
@@ -80,7 +80,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
         
   return (
     <div className={
-        element === 'search' 
+        element === 'search'
         ? ''
         : `form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`
     }>

@@ -3,17 +3,21 @@ import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
 
 interface BaseProps {
     id: string
-    image: string
+    country: string
+    language: string
+    phone: string
     firstName: string
     lastName: string
 }
 
 export interface UserProps extends BaseProps {
     cards: []
+    image: string
 }
 
 export interface UserItemProps extends BaseProps {
     cardCount: number
+    image: string
 }
 
 export interface AvatarProps {
@@ -30,14 +34,9 @@ export interface CardAvatarProps {
     // style: string
 }
 
-export type AuthInputs = {
+export interface AuthInputs extends BaseProps {
     email: string
     password: string
-    country: string
-    language: string
-    phone: string
-    firstName: string
-    lastName: string
     image: File
 }
 
