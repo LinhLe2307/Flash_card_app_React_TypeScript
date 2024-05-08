@@ -1,10 +1,9 @@
-import React from 'react';
 import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import LanguageIcon from '@mui/icons-material/Language';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
-import { UserItemProps } from '../../types/userTypes'
-import './UserItem.css'
+import { UserItemProps } from '../../types/userTypes';
+import './UserItem.css';
 
 const UserItem = ({id, image, firstName, lastName, language, cardCount, country, phone, email}: UserItemProps ) => {
   return (

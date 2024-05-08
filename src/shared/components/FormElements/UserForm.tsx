@@ -1,15 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import { UserFormProps } from '../../../user/types/userTypes';
 import ErrorModal from '../../components/UIElements/ErrorModal';
 import LoadingSpinner from '../../components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../../hooks/http-hook';
 import { ObjectGenericProps, SendRequestProps } from '../../types/sharedTypes';
-import ImageUpload from './ImageUpload';
 import { sortFunction } from '../../util/sortFunction';
+import ImageUpload from './ImageUpload';
 
-import './UserForm.css'
+import './UserForm.css';
 
 const getAllCountries = async(sendRequest: SendRequestProps) => {
     try {

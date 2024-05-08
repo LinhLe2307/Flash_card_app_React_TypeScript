@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import Input from '../FormElements/Input';
-import { searchInputList } from '../../../app/actions/search'
+import { useCallback } from 'react';
+import { searchInputList } from '../../../app/actions/search';
 import { useAppDispatch } from '../../../app/hooks';
-import { InputHandlerProps } from '../../types/formTypes'
+import { InputHandlerProps } from '../../types/formTypes';
+import Input from '../FormElements/Input';
 import './SearchBar.css';
 
 const SearchBar = () => {

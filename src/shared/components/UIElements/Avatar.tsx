@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AvatarProps } from '../../../user/types/userTypes';
 import './Avatar.css';
 

@@ -1,25 +1,34 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import HomePage from './shared/components/HomePage/HomePage'
-import MainPage from './shared/components/MainPage/MainPage'
-import MainNavigation from './shared/components/Navigation/MainNavigation'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import HomePage from './shared/components/HomePage/HomePage';
+import MainPage from './shared/components/MainPage/MainPage';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 
-import CardDetail from './flashcard/components/CardDetail/CardDetail'
-import NewCard from './flashcard/pages/NewCard'
-import UpdateCard from './flashcard/pages/UpdateCard'
-import UserCards from './flashcard/pages/UserCards'
-import { AuthContext } from './shared/context/auth-context'
-import { useAuth } from './shared/hooks/auth-hook'
-import Auth from './user/pages/Auth'
-import UserDetail from './user/components/UserDetail/UserDetail'
-import Settings from './user/pages/Settings'
+import CardDetail from './flashcard/components/CardDetail/CardDetail';
+import NewCard from './flashcard/pages/NewCard';
+import UpdateCard from './flashcard/pages/UpdateCard';
+import UserCards from './flashcard/pages/UserCards';
+import { AuthContext } from './shared/context/auth-context';
+import { useAuth } from './shared/hooks/auth-hook';
+import UserDetail from './user/components/UserDetail/UserDetail';
+import Auth from './user/pages/Auth';
+import Settings from './user/pages/Settings';
+import Users from './user/pages/Users';
 
 
 function App() {
   const client = new QueryClient()
   const { token, userId, login, logout } = useAuth()
 
+  const commonRoutes = (
+    <Route>
+      <Route path='/all-users' element={<Users/>}/>
+      <Route path='/cards-user/:userId' element={<UserCards />}/>
+      <Route path='/user-detail/:userId' element={<UserDetail />}/>
+      <Route path='/card-detail/:cardId' element={<CardDetail />}/>
+    </Route>
+
+  )
   let routes;
   if (token) {
     routes = (
@@ -27,12 +36,9 @@ function App() {
         <Route path='/' element={<MainPage />}>
           <Route index element={<HomePage />}/>
           <Route path='/card/new' element={<NewCard/>}/>
-          <Route path='/cards-user/:userId' element={<UserCards />}/>
           <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
-          <Route path='/user-detail/:userId' element={<UserDetail />}/>
-          <Route path='/card-detail/:cardId' element={<CardDetail />}/>
+          {commonRoutes}
           <Route path='/settings' element={<Settings />}/>
-          {/* <Route element={<HomePage />} /> */}
           <Route path='*' element={ <Navigate to='/' /> } />
         </Route>
       </Routes>
@@ -43,9 +49,7 @@ function App() {
         <Route path='/' element={<MainPage />}>
           <Route index element={<HomePage />}/>
           <Route path='/auth' element={<Auth/>}/>
-          <Route path='/cards-user/:userId' element={<UserCards />}/>
-          <Route path='/user-detail/:userId' element={<UserDetail />}/>
-          <Route path='/card-detail/:cardId' element={<CardDetail />}/>
+          {commonRoutes}
           <Route path='*' element={ <Navigate to='/auth' /> } />
         </Route>
       </Routes>

@@ -1,11 +1,9 @@
-import React from 'react';
+import CardAvatar from '../../../shared/components/UIElements/CardAvatar';
+import { UserProps } from '../../types/userTypes';
+import UserItem from '../UserItem/UserItem';
+import './UsersList.css';
 
-import './UsersList.css'
-import { UserProps } from '../../types/userTypes'
-import UserItem from '../UserItem/UserItem'
-import CardAvatar from '../../../shared/components/UIElements/CardAvatar'
-
-import { ListResponse } from '../../../shared/types/sharedTypes'
+import { ListResponse } from '../../../shared/types/sharedTypes';
 
 const UsersList = ({items}: ListResponse<UserProps>) => {
     if (items.length === 0) {

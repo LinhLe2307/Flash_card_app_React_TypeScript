@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from './Button';
 import ImageListUrl from './ImagesListUrl';
 
-import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
-import { useImage } from '../../hooks/image-hook';
 import { useDispatch } from 'react-redux';
 import { fetchImage } from '../../../app/actions/image';
-import './ImageUrl.css'
+import { TermFlashcardProps } from '../../../flashcard/types/cardTypes';
+import { useImage } from '../../hooks/image-hook';
+import './ImageUrl.css';
 
 const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     const [imageState, searchKeywordHandler, openUnsplashHandler] = useImage({
