@@ -1,29 +1,47 @@
 import React from 'react';
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import LanguageIcon from '@mui/icons-material/Language';
 
 import { UserItemProps } from '../../types/userTypes'
 import './UserItem.css'
 
-const UserItem = ({id, image, firstName, lastName, language, cardCount, country, phone}: UserItemProps ) => {
+const UserItem = ({id, image, firstName, lastName, language, cardCount, country, phone, email}: UserItemProps ) => {
   return (
     <section className='search-result-item'>
+      <div className='search-result__background'></div>
       <a className='image-link' href='#'><img className='image' src={`${image}`} />
       </a>
-      <div className='search-result-item-body'>
-          <div className='row'>
-              <div className='col-sm-9'>
-                  <h1 className='search-result-item-heading'>{firstName} {lastName}</h1>
-                  {/* <h1 className='search-result-item-heading'><a href={`/user-detail/${id}`}>{firstName} {lastName}</a></h1> */}
-                  <p className='info'>{language}</p>
-                  <p className='info'>{phone}</p>
-                  <p className='info'>{country}</p>
+      <div className='search-result-item__body'>
+          <div className='search-result-row'>
+              <div>
+                  <h1 className='search-result-item__heading'>{firstName} {lastName}</h1>
+                  <p className='info'>
+                    <EmailIcon/>
+                    <span>{email}</span>
+                  </p>
+                  <p className='info'>
+                    <LocalPhoneIcon/>
+                    <span>{phone}</span>
+                  </p>
+                  <p className='info'>
+                    <LanguageIcon/>
+                    <span>{country}</span>
+                  </p>
+                  <p className='info'>
+                    <span>{language}</span>
+                  </p>
               </div>
-              <div className='col-sm-3 text-align-center'>
-                  <p className='value3 mt-sm'>{cardCount >= 1 ? cardCount : 0}</p>
-                  <p className='fs-mini text-muted'>{cardCount === 1 ? 'CARD' : 'CARDS'}</p><a className='btn btn-info btn-sm' href={`/cards-user/${id}`}>
-                    View Cards
-                  </a>
+              <div className='search-result-item__view'>
+                <p>{cardCount >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>
+                <a href={`/cards-user/${id}`}>
+                  View Cards
+                </a>
               </div>
           </div>
+      </div>
+      <div className='search-result-item__view-profile'>
+        <a href={`/user-detail/${id}`}>VIEW PROFILE</a>
       </div>
   </section>
 

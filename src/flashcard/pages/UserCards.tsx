@@ -31,16 +31,16 @@ const UserCards = () => {
   const userId = useParams().userId
   const [ dataFetched, setDataFetched ] = useState(false);
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
-  const { error, sendRequest, clearError } = useHttpClient()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
-  const { data, isLoading: isLoadingQuery, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['cards'],
     queryFn: () => userId && getAllUserCards(userId, sendRequest),
     enabled: !dataFetched
   })
 
   // Check if data is being fetched for the first time
-  if (isLoadingQuery && !dataFetched) {
+  if (isLoading && !dataFetched) {
     // Set dataFetched to true to disable further queries
     setDataFetched(true);
   }
@@ -79,7 +79,7 @@ const UserCards = () => {
 
   return (
     <React.Fragment>
-      { isLoadingQuery && <LoadingSpinner asOverlay/> }
+      { isLoading && <LoadingSpinner asOverlay/> }
       <ul className='card-list'>
         {
             fetchCards &&

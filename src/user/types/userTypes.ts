@@ -8,6 +8,7 @@ interface BaseProps {
     phone: string
     firstName: string
     lastName: string
+    email: string
 }
 
 export interface UserProps extends BaseProps {
