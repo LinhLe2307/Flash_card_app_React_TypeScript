@@ -25,10 +25,10 @@ const getAllUsers = async(sendRequest: SendRequestProps) => {
 
 const Users = () => {
   const [ dataFetched, setDataFetched ] = useState(false);
-  const { error, sendRequest, clearError } = useHttpClient()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
   
-  const { data, isLoading: isLoadingQuery } = useQuery({
+  const { data } = useQuery({
     queryKey: ['users'],
     queryFn: () => getAllUsers(sendRequest),
     enabled: !dataFetched
@@ -36,7 +36,7 @@ const Users = () => {
   const [filterList, setFilterList] = useState([])
 
   // Check if data is being fetched for the first time
-  if (isLoadingQuery && !dataFetched) {
+  if (isLoading && !dataFetched) {
     // Set dataFetched to true to disable further queries
     setDataFetched(true);
   }
@@ -53,7 +53,7 @@ const Users = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError}/>
-      {isLoadingQuery && (
+      {isLoading && (
         <div className='center'>
           <LoadingSpinner asOverlay />
         </div>

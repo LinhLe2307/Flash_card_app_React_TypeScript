@@ -10,16 +10,16 @@ import { ListResponse } from '../../../shared/types/sharedTypes'
 const UsersList = ({items}: ListResponse<UserProps>) => {
     if (items.length === 0) {
         return <div className='center'>
-            <CardAvatar className=''>
+            <CardAvatar>
                 <h2>No users found</h2>
             </CardAvatar>
         </div>
     }
 
   return (
-    <div className='container'>
+    <div className='search-result-container'>
         <p className='search-results-count'>About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
-        <div className='row ng-scope'>
+        <div className='search-result-row'>
             <ul>
             {
                 items.map((user) => {
@@ -32,6 +32,7 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                         language={user.language}
                         country={user.country}
                         phone={user.phone}
+                        email={user.email}
                         cardCount={user.cards.length}
                     />
                 })
