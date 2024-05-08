@@ -1,5 +1,5 @@
 .tags-input-container{
-    border: 2px solid #000;
+    border: 1px solid #ccc;
     padding: .5em;
     border-radius: 3px;
     width: min(80vw, 600px);
@@ -8,6 +8,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: .5em;
+    overflow: auto;
 }
 
 .tag-item{
@@ -35,4 +36,6 @@
     padding: .5em 0;
     border: none;
     outline: none;
+    font-family: inherit;
+    overflow: auto;
 }

@@ -99,7 +99,7 @@ const UpdateCard = () => {
                         id='title' 
                         element='input'
                         type='text'
-                        label='Title'
+                        label='Title*'
                         validators={
                             [
                             VALIDATOR_REQUIRE()
@@ -115,7 +115,7 @@ const UpdateCard = () => {
                         id='description' 
                         element='textarea'
                         type='text'
-                        label='Description'
+                        label='Description*'
                         validators={[VALIDATOR_MINLENGTH(5)]}
                         errorText='Please enter a valid definition (min. 5 characters).'
                         onInput={inputHandler}

@@ -83,7 +83,7 @@ const NewCard = () => {
           <Input 
             id='title'
             type='text' 
-            label='Title' 
+            label='Title*' 
             element='input'
             validators={
               [
@@ -97,7 +97,7 @@ const NewCard = () => {
           <Input 
             id='description'
             type='text' 
-            label='Description' 
+            label='Description*' 
             element='textarea'
             validators={
               [
