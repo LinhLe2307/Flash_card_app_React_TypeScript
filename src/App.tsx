@@ -1,6 +1,7 @@
+import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Home from './shared/components/Home/Home'
+import HomePage from './shared/components/HomePage/HomePage'
 import MainPage from './shared/components/MainPage/MainPage'
 import MainNavigation from './shared/components/Navigation/MainNavigation'
 
@@ -24,14 +25,14 @@ function App() {
     routes = (
       <Routes>
         <Route path='/' element={<MainPage />}>
-          <Route index element={<Home />}/>
+          <Route index element={<HomePage />}/>
           <Route path='/card/new' element={<NewCard/>}/>
           <Route path='/cards-user/:userId' element={<UserCards />}/>
           <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
           <Route path='/user-detail/:userId' element={<UserDetail />}/>
           <Route path='/card-detail/:cardId' element={<CardDetail />}/>
           <Route path='/settings' element={<Settings />}/>
-          {/* <Route element={<Home />} /> */}
+          {/* <Route element={<HomePage />} /> */}
           <Route path='*' element={ <Navigate to='/' /> } />
         </Route>
       </Routes>
@@ -40,7 +41,7 @@ function App() {
     routes = (
       <Routes>
         <Route path='/' element={<MainPage />}>
-          <Route index element={<Home />}/>
+          <Route index element={<HomePage />}/>
           <Route path='/auth' element={<Auth/>}/>
           <Route path='/cards-user/:userId' element={<UserCards />}/>
           <Route path='/user-detail/:userId' element={<UserDetail />}/>

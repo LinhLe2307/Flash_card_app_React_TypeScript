@@ -1,3 +1,4 @@
+import React from 'react';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_REQUIRE } from '../../shared/util/validators';

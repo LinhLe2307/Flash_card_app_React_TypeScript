@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import Input from '../FormElements/Input';
 import { searchInputList } from '../../../app/actions/search'
 import { useAppDispatch } from '../../../app/hooks';
@@ -9,10 +9,12 @@ const SearchBar = () => {
     const dispatch = useAppDispatch();
 
     const inputHandler: InputHandlerProps = useCallback((value) => {
-        const action = searchInputList({
-            searchInput: value
-        })
-        dispatch(action)
+        if (typeof value === 'string') {
+            const action = searchInputList({
+                searchInput: value
+            })
+            dispatch(action)
+        }
     }, [dispatch])
 
     return (

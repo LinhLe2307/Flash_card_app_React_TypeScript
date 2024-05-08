@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import './MainHeader.css'
 interface MainHeaderProps {
     children: React.ReactNode

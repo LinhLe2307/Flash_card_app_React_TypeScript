@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { GenericProps } from '../../types/sharedTypes'
 import Button from './Button'
 

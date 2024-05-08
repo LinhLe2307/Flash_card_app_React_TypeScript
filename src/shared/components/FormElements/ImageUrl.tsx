@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 import ImageListUrl from './ImagesListUrl';
 
@@ -19,7 +19,6 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
     })
 
     const dispatch = useDispatch()
-
     const [pickedImage, setPickedImage] = useState('')
 
     return (
@@ -34,7 +33,7 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
               onClick={() => openUnsplashHandler(cardId)}
             />
             : 
-            typeof flashcard !== 'string' && flashcard?.imageUrl.value 
+            typeof flashcard !== 'string' && !Array.isArray(flashcard) && flashcard?.imageUrl.value 
             ? <div>
                 <img
                   className='unsplash-img'

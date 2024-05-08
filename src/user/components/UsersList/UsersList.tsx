@@ -1,3 +1,5 @@
+import React from 'react';
+
 import './UsersList.css'
 import { UserProps } from '../../types/userTypes'
 import UserItem from '../UserItem/UserItem'

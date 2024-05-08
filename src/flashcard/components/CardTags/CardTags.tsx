@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { InputHandlerProps } from '../../../shared/types/formTypes'
 
 import './CardTags.css'

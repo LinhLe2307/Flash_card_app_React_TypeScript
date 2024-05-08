@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes'
 import '../CardDetail/CardDetail.css'

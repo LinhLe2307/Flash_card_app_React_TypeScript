@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { InputAction, InputProps, InputState, InputValueProps } from '../../types/formTypes';
 import { GenericProps } from '../../types/sharedTypes';
 import { validate } from '../../util/validators';

@@ -1,3 +1,4 @@
+import React from 'react';
 
 import { CardAvatarProps } from '../../../user/types/userTypes'
 import './CardAvatar.css'

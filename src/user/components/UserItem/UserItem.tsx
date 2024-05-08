@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { UserItemProps } from '../../types/userTypes'
 import './UserItem.css'
 
