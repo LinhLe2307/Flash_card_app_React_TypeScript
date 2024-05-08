@@ -1,7 +1,6 @@
-import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Button from '../FormElements/Button'
-import './HomePage.css'
+import Button from '../FormElements/Button';
+import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();

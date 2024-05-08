@@ -1,7 +1,6 @@
-import ReactDOM from 'react-dom'
-import React from 'react';
+import ReactDOM from 'react-dom';
 
-import './Backdrop.css'
+import './Backdrop.css';
 
 interface BackdropProps {
     onClick: () => void

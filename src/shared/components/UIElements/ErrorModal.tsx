@@ -1,7 +1,5 @@
-import React from 'react';
-
-import Modal from './Modal';
 import Button from '../FormElements/Button';
+import Modal from './Modal';
 
 interface ErrorModalProps {
     onClear: () => void,

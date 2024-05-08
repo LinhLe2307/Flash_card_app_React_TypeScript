@@ -1,7 +1,5 @@
-import React from 'react';
-
-import { CardAvatarProps } from '../../../user/types/userTypes'
-import './CardAvatar.css'
+import { CardAvatarProps } from '../../../user/types/userTypes';
+import './CardAvatar.css';
 
 const CardAvatar = ({children, className}: CardAvatarProps) => {
   return (

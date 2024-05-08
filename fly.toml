@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for flash-card-app-react-typescript on 2024-04-22T15:33:06+03:00
+# fly.toml app configuration file generated for flash-card-app-react-typescript on 2024-05-08T21:26:32+03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -9,7 +9,7 @@ primary_region = 'arn'
 [build]
 
 [http_service]
-  internal_port = 8080
+  internal_port = 80
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
