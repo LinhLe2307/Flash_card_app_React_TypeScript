@@ -4,8 +4,9 @@ import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes
 export interface CardItemProps{
     creator: string
     id: string
-    card: ObjectGenericProps<string | string[]>,
+    card: ObjectGenericProps<string | string[]>
     onDelete: (deletedCardId: string) => void
+    userId?:string
 }
 
 export interface TermFlashcardProps {
