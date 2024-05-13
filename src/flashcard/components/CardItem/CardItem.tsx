@@ -10,7 +10,7 @@ import { useHttpClient } from '../../../shared/hooks/http-hook'
 import { CardItemProps } from '../../types/cardTypes'
 import './CardItem.css'
 
-const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
+const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [ showConfirmModal, setShowConfirmModal ] = useState(false)
@@ -62,7 +62,7 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
                 </div> */}
                 {isLoading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
-                    <h2><Link to={`/card-detail/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
+                    <h2><Link to={`/user-cards/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
                     <p>{ card.description }</p>
                     {
                         <div className='card-item__tags'>
@@ -71,7 +71,7 @@ const CardItem = ({id, card, onDelete, creator}: CardItemProps) => {
                                     key={tag}
                                     className='card-item__tag'
                                 >
-                                    {tag}
+                                    <a href={`/cards-user/${userId}/${tag}`}>{tag}</a>
                                 </span>)
                             }
                         </div>

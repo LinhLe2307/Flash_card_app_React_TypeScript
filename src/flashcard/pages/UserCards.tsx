@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from 'react-router-dom'
+
+import Button from '../../shared/components/FormElements/Button'
 import { useAppSelector } from '../../app/hooks'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
@@ -11,7 +13,7 @@ import CardItem from "../components/CardItem/CardItem"
 import "./UserCards.css"
 
 const getAllUserCards = async (userId: string,
-  sendRequest: SendRequestProps,
+  sendRequest: SendRequestProps
 ) => {
   try {
     const response = await sendRequest(`/api/cards/user/${userId}`,
@@ -29,10 +31,11 @@ const getAllUserCards = async (userId: string,
 
 const UserCards = () => {
   const userId = useParams().userId
+  const tag = useParams().tag ?? ''
+  const searchInput = useAppSelector(state => state.search.search_input)
   const [ dataFetched, setDataFetched ] = useState(false);
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const searchInput = useAppSelector(state => state.search.search_input)
   const { data, refetch } = useQuery({
     queryKey: ['cards'],
     queryFn: () => userId && getAllUserCards(userId, sendRequest),
@@ -51,35 +54,38 @@ const UserCards = () => {
   }
 
   useEffect(() => {
-    const filter_list = searchInput.length !== 0
-      ? data.filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
+    if (data) {
+      const tags_list = tag ? data
+      .filter((card: ObjectGenericProps<string>) => card.tags.indexOf(tag) !== -1)
       : data
-    setFetchCards(filter_list)
-  }, [searchInput, data])
-  
-  if (error) {
-      return <ErrorModal
-        error={error} 
-        onClear={clearError}
-      />
-  }
 
+      const filter_list = searchInput.length !== 0 ? tags_list
+      .filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
+      : tags_list
+      setFetchCards(filter_list)
+    }
+  }, [searchInput, data, tag])
+  
   useEffect(() => {
     refetch()
   }, [userId])
-
-  // if (items && items.length === 0) {
-    //     return <div className='card-list center'>
-    //         <CardAvatar>
-    //             <h2>No card found. Maybe create one?</h2>
-    //             <Button to="/card/new">Share Card</Button>
-    //         </CardAvatar>
-    //     </div>
-    // }
+  
+  if (error) {
+    return <ErrorModal
+      error={error} 
+      onClear={clearError}
+    />
+  }
 
   return (
     <React.Fragment>
       { isLoading && <LoadingSpinner asOverlay/> }
+      {
+        tag && <div>
+          <h2>{tag}</h2>
+          <Button>Reset Tag</Button>
+        </div>
+      }
       <ul className='card-list'>
         {
             fetchCards &&
@@ -93,6 +99,7 @@ const UserCards = () => {
             card={card}
             creator={card.creator}
             onDelete={cardDeleteHandler}
+            userId={userId}
           />)
         }
 

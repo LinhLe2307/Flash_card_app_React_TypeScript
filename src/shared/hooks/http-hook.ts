@@ -7,12 +7,13 @@ import queryString from 'query-string';
 
 // const baseURL = import.meta.env.VITE_APP_BACKEND_URL
 // const baseURL = 'https://flash-card-app-nodejs.fly.dev'
+const baseURLDev = 'http://localhost:5068'
 
 function isError(error: any): error is Error {
   return error instanceof Error;
 }
 
-export const useHttpClient = (baseURL = 'https://flash-card-app-nodejs.fly.dev') => {
+export const useHttpClient = (baseURL = baseURLDev) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
