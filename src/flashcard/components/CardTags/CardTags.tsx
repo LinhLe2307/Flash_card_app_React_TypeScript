@@ -25,9 +25,10 @@ const CardTags = ({ inputHandler, initialValue }: { inputHandler: InputHandlerPr
 
     const removeTag = (tag: string) => {
         const filter_tags = tags.filter((el) => el !== tag);
-        console.log(filter_tags)
         setTags(filter_tags);
-        inputHandler(filter_tags, true, 'tags', 'tags')
+        filter_tags.length !== 0 
+        ? inputHandler(filter_tags, true, 'tags', 'tags')
+        : inputHandler([''], true, 'tags', 'tags')
     }
 
     const cancelDuplicateModel = () => {

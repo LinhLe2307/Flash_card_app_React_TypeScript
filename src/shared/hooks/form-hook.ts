@@ -11,15 +11,15 @@ export const useFormHook:UserFormHandler = function() {
     const dispatch = useDispatch()
     const formState = useAppSelector(state => state.form)
     const inputHandler: InputHandlerProps = useCallback((value, isValid, inputId, nameId) => {
-        if (filterName.find( name => name===inputId) !== undefined) {
-          const form = {
-            value: value,
-            isValid: isValid,
-            inputId: String(inputId),
-            nameId: nameId
-          }
-          const action = inputChangeForm(form)
-          dispatch(action)
+      if (filterName.find( name => name===inputId) !== undefined) {
+        const form = {
+          value: value,
+          isValid: isValid,
+          inputId: String(inputId),
+          nameId: nameId
+        }
+        const action = inputChangeForm(form)
+        dispatch(action)
 
         } else {
           if (!Array.isArray(value)) {
