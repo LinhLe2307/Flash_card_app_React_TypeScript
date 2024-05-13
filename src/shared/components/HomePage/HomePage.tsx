@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth-hook";
 import Button from '../FormElements/Button';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { token } = useAuth()
 
   const handleClick = () => {
     navigate('/auth')
@@ -14,13 +16,17 @@ const HomePage = () => {
         <div className='homepage__container'>
           <div className='homepage__intro'>
             <h2>
-              Experience a new era of AI-enhanced learning
+              Welcome to CardIO!
             </h2>
-            <p>CardIO is more than flashcards: it’s the #1 global learning platform. 
-              Join our community of 300 million learners using CardIO’s practice tests, 
-              Expert Solutions and AI-powered tools to improve their grades and reach their goals.
+            <p>
+              Give your memory a good workout! Create your own
+              flashcards and make learning simpler and more enjoyable!
             </p>
-            <Button type='button' onClick={handleClick}>Sign Up Now</Button>
+            
+            {
+              !token && 
+              <Button type='button' onClick={handleClick}>Sign Up Now</Button>
+            }
           </div>
         </div>
       </div>
