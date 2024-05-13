@@ -17,6 +17,10 @@
   border-radius: 15px;
 }
 
+.card-item__info a {
+  text-decoration: none;
+}
+
 .card-item__actions {
   margin-top: 1rem;
 }

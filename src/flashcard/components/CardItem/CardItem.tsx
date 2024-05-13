@@ -62,7 +62,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                 </div> */}
                 {isLoading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
-                    <h2><Link to={`/user-cards/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
+                    <h2><Link to={`/card-detail/${card.id}`} state={{ card }}>{ card.title }</Link></h2>
                     <p>{ card.description }</p>
                     {
                         <div className='card-item__tags'>

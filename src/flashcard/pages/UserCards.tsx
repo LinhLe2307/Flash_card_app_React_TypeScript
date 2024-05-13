@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 
-import Button from '../../shared/components/FormElements/Button'
 import { useAppSelector } from '../../app/hooks'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { useHttpClient } from "../../shared/hooks/http-hook"
-import { SendRequestProps, ObjectGenericProps } from "../../shared/types/sharedTypes"
+import { ObjectGenericProps, SendRequestProps } from "../../shared/types/sharedTypes"
 import CardItem from "../components/CardItem/CardItem"
+import CardFilter from "../components/CardFilter/CardFilter"
 
 import "./UserCards.css"
 
@@ -80,12 +80,13 @@ const UserCards = () => {
   return (
     <React.Fragment>
       { isLoading && <LoadingSpinner asOverlay/> }
-      {
+      {/* {
         tag && <div>
           <h2>{tag}</h2>
           <Button>Reset Tag</Button>
         </div>
-      }
+      } */}
+      <CardFilter />
       <ul className='card-list'>
         {
             fetchCards &&

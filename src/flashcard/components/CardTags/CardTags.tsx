@@ -4,7 +4,7 @@ import { InputHandlerProps } from '../../../shared/types/formTypes'
 import './CardTags.css'
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal'
 
-const CardTags = ({ inputHandler, initialValue }: { inputHandler: InputHandlerProps, initialValue: string[] }) => {
+const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandlerProps, initialValue: string[] }) => {
     const [tags, setTags] = useState<string[]>(initialValue)
     const [showErrorModal, setShowErrorModal] = useState(false);
 
@@ -12,22 +12,22 @@ const CardTags = ({ inputHandler, initialValue }: { inputHandler: InputHandlerPr
         if(e.key !== 'Enter') return
         e.preventDefault();
         const target = e.target as HTMLInputElement;
-        const value = target.value
+        const value = target.value.trim()
         if(!value.trim()) return
         if(tags.find(tag => tag.toLowerCase() === value.toLowerCase()) !== undefined) {
             setShowErrorModal(true)
             return;
         }
-        setTags([...tags, value])
+        setTags(prev => prev.concat(value))
         inputHandler([...tags, value], true, 'tags', 'tags')
         target.value = ''
     }
 
     const removeTag = (tag: string) => {
-        const filter_tags = tags.filter((el) => el !== tag);
-        setTags(filter_tags);
-        filter_tags.length !== 0 
-        ? inputHandler(filter_tags, true, 'tags', 'tags')
+        const filterTags = tags.filter((el) => el !== tag);
+        setTags(filterTags);
+        filterTags.length !== 0 
+        ? inputHandler(filterTags, true, 'tags', 'tags')
         : inputHandler([''], true, 'tags', 'tags')
     }
 
@@ -46,7 +46,7 @@ const CardTags = ({ inputHandler, initialValue }: { inputHandler: InputHandlerPr
                 />
             }
             <div className='tags-input-container'>
-                { tags.map((tag) => (
+                { tags.length > 0 && tags.map((tag) => (
                     <div className='tag-item' key={tag}>
                         <span className='text'>{tag}</span>
                         <span className='close' onClick={() => removeTag(tag)}>&times;</span>
