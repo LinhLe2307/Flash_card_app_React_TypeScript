@@ -8,12 +8,14 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import UserForm from '../../shared/components/FormElements/UserForm'
 import { AuthInputs } from '../types/userTypes'
 import '../../shared/components/FormElements/UserForm.css'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 
 
 const Auth = () => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest } = useHttpClient()   
-    const [isLoginMode, setIsLoginMode] = useState(false)
+    const [ isLoginMode, setIsLoginMode ] = useState(false)
+    const [ showErrorModal, setShowErrorModal ] = useState(false)
     const {
         register,
         handleSubmit,
@@ -37,8 +39,11 @@ const Auth = () => {
                 )
                 if (response) {
                     auth.login(response.userId, response.token)
+                } else {
+                    setShowErrorModal(true)
                 }
-                } catch(err) {
+            } catch(err) {
+                setShowErrorModal(true)
                 console.log(err)
             }
         } else {
@@ -60,10 +65,13 @@ const Auth = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 )
-                if(response) {
+                if (response) {
                     auth.login(response.userId, response.token)
+                } else {
+                    setShowErrorModal(true)
                 }
             } catch(err) {
+                setShowErrorModal(true)
                 console.log(error)
             }
         }
@@ -73,10 +81,20 @@ const Auth = () => {
         setIsLoginMode(prevMode => !prevMode)
     }
 
+    const closeModal = () => {
+        setShowErrorModal(false)
+    }
+
   return (
     <React.Fragment>
         <CardAvatar className='authentication'>
             {isLoading && <LoadingSpinner asOverlay/>}
+            { showErrorModal && 
+                <ErrorModal
+                    error={error}
+                    onClear={closeModal}
+                />
+            }
             <form onSubmit={handleSubmit(authSubmitHandler)}>
                 {!isLoginMode ?
                     <UserForm 
