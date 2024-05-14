@@ -30,7 +30,7 @@ const NavLinks = () => {
         </li>
         }
         { !auth.isLoggedIn && <li>
-            <NavLink to="/auth">LOGIN</NavLink>
+            <NavLink to="/auth">SIGN IN</NavLink>
         </li>
         }
         { auth.isLoggedIn && <li>
