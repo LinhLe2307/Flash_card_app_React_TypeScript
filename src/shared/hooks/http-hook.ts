@@ -6,8 +6,8 @@ import { SendRequestProps } from '../types/sharedTypes';
 import queryString from 'query-string';
 
 // const baseURL = import.meta.env.VITE_APP_BACKEND_URL
-// const baseURLbackend = 'https://flash-card-app-nodejs.fly.dev'
-const baseURLbackend = 'http://localhost:5068'
+const baseURLbackend = 'https://flash-card-app-nodejs.fly.dev'
+// const baseURLbackend = 'http://localhost:5068'
 
 function isError(error: any): error is Error {
   return error instanceof Error;
