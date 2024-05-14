@@ -80,13 +80,12 @@ const UserCards = () => {
   return (
     <React.Fragment>
       { isLoading && <LoadingSpinner asOverlay/> }
-      {/* {
+      {
         tag && <div>
           <h2>{tag}</h2>
-          <Button>Reset Tag</Button>
+          {/* <Button>Reset Tag</Button> */}
         </div>
-      } */}
-      <CardFilter />
+      }
       <ul className='card-list'>
         {
             fetchCards &&
