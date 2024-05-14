@@ -8,7 +8,6 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
 import { useHttpClient } from "../../shared/hooks/http-hook"
 import { ObjectGenericProps, SendRequestProps } from "../../shared/types/sharedTypes"
 import CardItem from "../components/CardItem/CardItem"
-import CardFilter from "../components/CardFilter/CardFilter"
 
 import "./UserCards.css"
 
