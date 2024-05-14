@@ -31,7 +31,7 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
         : inputHandler([''], true, 'tags', 'tags')
     }
 
-    const cancelDuplicateModel = () => {
+    const cancelDuplicateModal = () => {
         setShowErrorModal(false)
     }
 
@@ -42,7 +42,7 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
                 showErrorModal && 
                 <ErrorModal 
                     error='Duplicate tag, please try again'
-                    onClear={cancelDuplicateModel}
+                    onClear={cancelDuplicateModal}
                 />
             }
             <div className='tags-input-container'>
