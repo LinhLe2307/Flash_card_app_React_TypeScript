@@ -1,6 +1,8 @@
 const UserDetail = () => {
   return (
-    <div>UserDetail</div>
+    <div>
+      <div></div>
+    </div>
   )
 }
 

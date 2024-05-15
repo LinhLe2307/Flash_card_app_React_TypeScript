@@ -1,5 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import XIcon from '@mui/icons-material/X';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkIcon from '@mui/icons-material/Link';
 
 import { UserFormProps } from '../../../user/types/userTypes';
 import ErrorModal from '../../components/UIElements/ErrorModal';
@@ -7,6 +12,7 @@ import LoadingSpinner from '../../components/UIElements/LoadingSpinner';
 import { useHttpClient } from '../../hooks/http-hook';
 import { ObjectGenericProps, SendRequestProps } from '../../types/sharedTypes';
 import { sortFunction } from '../../util/sortFunction';
+import { SocialMediaType } from '../../../user/types/userTypes'
 import ImageUpload from './ImageUpload';
 
 import './UserForm.css';
@@ -34,6 +40,15 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         queryFn: () => getAllCountries(sendRequest),
         enabled: !dataFetched
     });
+
+    // Array of social media platforms and their URLs
+    const socialMediaLinks = [
+        { platform: 'x', icon: XIcon, url: '' },
+        { platform: 'linkedIn', icon: LinkedInIcon, url: '' },
+        { platform: 'instagram', icon: InstagramIcon, url: '' },
+        { platform: 'github', icon: GitHubIcon, url: '' },
+        { platform: 'website', icon: LinkIcon, url: '' }
+    ];
     
     // Check if data is being fetched for the first time
     if (isLoading && !dataFetched) {
@@ -63,7 +78,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         <div>
             <div className='row'>
                 <div className='form-control'>
-                    <label htmlFor='firstName'>First Name</label>
+                    <label htmlFor='firstName'>First Name*</label>
                     <input 
                         id='firstName' 
                         {...register('firstName')}
@@ -74,7 +89,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     {errors.firstName?.message && <span>This field is required</span>}
                 </div>
                 <div className='form-control'>
-                    <label htmlFor='lastName'>Last Name</label>
+                    <label htmlFor='lastName'>Last Name*</label>
                     <input 
                         id='lastName' 
                         {...register('lastName')}
@@ -87,7 +102,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
             </div>
             <div className='row'>
                 <div className='form-control'>
-                    <label htmlFor='email'>Email Address</label>
+                    <label htmlFor='email'>Email Address*</label>
                     <input 
                         id='email'
                         disabled={disabled}
@@ -116,20 +131,20 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
             </div>
             <div className='row'>
                 <div className='form-control'>
-                    <label htmlFor='country'>Country</label>
+                    <label htmlFor='country'>Country*</label>
                     <select 
                         id='country' {...register('country')}
                     >
                         {
                             countries 
                             && countries.sort(sortFunction).map((country: ObjectGenericProps<ObjectGenericProps<string>>) => (
-                                <option key={country.name.common}>{country.name.common}</option>
+                                <option key={country?.name?.common}>{country?.name?.common}</option>
                             ))
                         }
                     </select>
                 </div>
                 <div id='lang' className='form-control'>
-                    <label htmlFor='language'>Language</label>
+                    <label htmlFor='language'>Language*</label>
                     <div>
                         <select id='language' {...register('language')}>
                             <option value='english'>English</option>
@@ -138,6 +153,39 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                         </select>
                     </div>
                 </div>
+            </div>
+            <div className='form-control'>
+                <label htmlFor='aboutMe'>About me</label>
+                <div>
+                    <textarea 
+                        id='aboutMe'
+                        style={{
+                            backgroundColor: 'none'
+                        }}
+                        className='form-control' 
+                        placeholder='A short description about me'
+                        {...register('aboutMe')}
+                    />
+                </div>
+            </div>
+            <div>
+                <label>Additional Information</label>
+                    <ul className='form-social-media'>
+                    {
+                        socialMediaLinks.map((link) => (
+                            <li key={link.platform} className='form-control form-control-social-media'>
+                                <span className='link-social'><link.icon /></span>
+                                <input 
+                                    id={`${link.platform}`}
+                                    type='text' 
+                                    className='form-control' 
+                                    placeholder={`Please enter your ${link.platform} link`}
+                                    {...register(SocialMediaType[link.platform as keyof typeof SocialMediaType])}
+                                />
+                            </li>
+                        ))
+                    }
+                </ul> 
             </div>
             {children}
             </div>

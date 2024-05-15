@@ -25,7 +25,7 @@ h4{
     font-size: 14px; 
 }
 
-label{
+label {
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 500;
@@ -86,6 +86,27 @@ select:focus{
     margin-top: 2rem;
     border-top: 1px solid #ddd;
     padding-top: 1rem;
+}
+
+.form-control-social-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 0
+}
+
+.link-social {
+    align-self: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-social-media {
+    list-style-type: none;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 @media(max-width:576px){

@@ -32,7 +32,7 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
                   </p>
               </div>
               <div className='search-result-item__view'>
-                <p>{cardCount >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>
+                <p>{cardCount as number >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>
                 <a href={`/cards-user/${id}`}>
                   View Cards
                 </a>

@@ -6,11 +6,12 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import UserForm from '../../shared/components/FormElements/UserForm'
-import { AuthInputs } from '../types/userTypes'
+import { UserBaseProps } from '../types/userTypes'
 import Button from '../../shared/components/FormElements/Button'
 import { SendRequestProps } from '../../shared/types/sharedTypes'
 import '../../shared/components/FormElements/UserForm.css'
 import Modal from '../../shared/components/UIElements/Modal'
+import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
 
 
 const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
@@ -48,21 +49,24 @@ const Settings = () => {
     setValue,
     formState,
     formState: { errors }
-  } = useForm<AuthInputs>({
+  } = useForm<UserBaseProps>({
     defaultValues: data
   })
 
   const [submittedData, setSubmittedData] = useState({})
 
-  const updateHandler:SubmitHandler<AuthInputs> = async(dataForm) => {
+  const updateHandler:SubmitHandler<UserBaseProps> = async(dataForm) => {
     try {
-      const formData = new FormData()  
-      formData.append('firstName', dataForm.firstName)
-      formData.append('lastName', dataForm.lastName)
-      formData.append('phone', dataForm.phone)
-      formData.append('country', dataForm.country)
-      formData.append('language', dataForm.language)
-      formData.append('image', dataForm.image)
+      const formData = new FormData() 
+      // Get all values of the SocialMediaType enum
+      const socialMediaValues = Object.values(SocialMediaType);
+
+      // Get all values of the UserInfoProps enum
+      const userInfoValues = Object.values(UserInfoType);
+
+      [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
+          formData.append(value, dataForm[value] as File)
+      )
 
       const response = await sendRequest(`/api/users/${auth.userId}`,
           'PATCH',
@@ -208,7 +212,7 @@ const Settings = () => {
             imageUrl={`${data.image}`}
             title='Account Settings'
             disabled={true}
-          >
+          > 
             <div className='py-3 pb-4 border-bottom'>
               <Button type='button' onClick={openConfirmHandler}>
                 Save Changes
