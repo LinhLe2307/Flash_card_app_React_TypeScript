@@ -69,7 +69,7 @@ const ImageUpload = ({ center, errorText, register, setValue, imageUrl }: ImageU
                 <Button type="button" onClick={pickImageHandler}>PICK IMAGE</Button>
             </div>
         </div>
-        { !isValid && <p>{ errorText?.image?.message }</p> }
+        { !isValid && <p>{ errorText?.image?.message as string }</p> }
     </div>
   )
 }
