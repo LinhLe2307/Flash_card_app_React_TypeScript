@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
 import { filterName } from '../../../shared/constants/global';
-import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
-import './CardDetail.css';
-import CardItemDetail from '../CardItemDetail/CardItemDetail';
 import { useHttpClient } from '../../../shared/hooks/http-hook';
-import { SendRequestProps } from '../../../shared/types/sharedTypes';
+import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/sharedTypes';
+import CardItemDetail from '../CardItemDetail/CardItemDetail';
+import './CardDetail.css';
 
-const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
+const getCardDetail = async(cardId: string, 
+  sendRequest:SendRequestProps, 
+  setCardDetail: React.Dispatch<SetStateAction<ObjectGenericProps<string | ObjectGenericProps<string>>>>
+) => {
   try {
     const response = await sendRequest(`/api/cards/${cardId}`, 
       'GET',
@@ -22,6 +24,8 @@ const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
     )
     const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
     Object.entries(response.card).filter(([key, value]) => filterName.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
+    
+    setCardDetail(response.card)
     return newLocation
   } catch(err) {
     console.log(err)
@@ -30,6 +34,7 @@ const getCardDetail = async(cardId: string, sendRequest:SendRequestProps) => {
 
 const CardDetail = () => {
     const { cardId } = useParams()
+    const [ cardDetail, setCardDetail ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>>({}) 
     const { isLoading, error, sendRequest, clearError } = useHttpClient()   
 
     if (!cardId) {
@@ -38,12 +43,11 @@ const CardDetail = () => {
 
     const {data} = useQuery({
       queryKey: ["card-detail"],
-      queryFn: () => getCardDetail(cardId, sendRequest),
+      queryFn: () => getCardDetail(cardId, sendRequest, setCardDetail),
       refetchOnWindowFocus: false
     }
     )
 
-    
     // const loading = <div className="loading">Loading flashcard content...</div>;
     
     // navigation in cards
@@ -64,9 +68,11 @@ const CardDetail = () => {
     // }
   
   return (
-    <React.Fragment>
+    <div className='card-detail-container'>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay/>}
+
+      <h2>{ cardDetail.title as string }</h2>
       {/* number of cards */}
       {data && Object.keys(data) && Object.keys(data).length > 0 ? (
         <div className="cardNumber">
@@ -103,7 +109,26 @@ const CardDetail = () => {
       : <LoadingSpinner asOverlay/>}
       {/* /render cards */}
 
-    </React.Fragment>
+      <div className='card-detail-description'>
+        <h3>Description</h3>
+        <p>{cardDetail.description as string}</p>
+      </div>
+
+      {
+        typeof cardDetail.creator === 'object' 
+        &&
+        <div className='card-detail-user'>
+          <img src={cardDetail.creator.image}/>
+          <div>
+            <div className='card-detail-user__created-by'>Created by</div>
+            <h4>{`${cardDetail.creator.firstName} ${cardDetail.creator.lastName}`}
+            </h4>
+            <p className='card-detail-user__email'>@{cardDetail.creator.email}</p>
+          </div>
+        </div>
+      }
+
+    </div>
   );
 }
 

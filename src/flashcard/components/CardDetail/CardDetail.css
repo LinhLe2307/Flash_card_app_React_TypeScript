@@ -1,8 +1,24 @@
+.card-detail-container {
+  margin: auto;
+  width: 780px;
+  margin-bottom: 5rem;
+}
+
+.card-detail-container > h2 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: normal;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
 .card-detail {
   margin: 10px auto;
   background: var(--grad-one);
-  height: 400px;
-  width: 700px;
+  height: 450px;
+  width: 780px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +64,7 @@
 
 .card-detail .back {
   height: 400px;
-  width: 700px;
+  width: 780px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -105,6 +121,44 @@
   opacity: 0.85;
   transition: all 0.25s;
   cursor: pointer;
+}
+
+.card-detail-user {
+  background-color: #fafafa;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 780px;
+  padding: 1.5rem;
+  border-radius: 15px;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.card-detail-description {
+  margin-top: 2rem;
+}
+
+.card-detail-user__created-by {
+  font-size: 11px;
+  line-height: 20px;
+  color: #999;
+}
+
+.card-detail-user > img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card-detail-user > div > h4 {
+  margin: 0;
+}
+.card-detail-user__email {
+  margin: 0;
+  color: #999;
+  font-size: 14px;
 }
 
 .nav button:hover {
