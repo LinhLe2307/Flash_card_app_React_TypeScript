@@ -11,8 +11,8 @@ const CardItemDetail = ({card}: {card: ObjectGenericProps<string>}) => {
       }
   return (
     <div>
-         <div className={`card-detail ${side ? "side" : ""}`} onClick={handleClick}>
-        <div className="front">{card.term}</div>
+        <div className={`card-detail ${side ? 'side' : ''}`} onClick={handleClick}>
+        <div className='front'>{card.term}</div>
         <div className={`back ${!card.imageUrl && 'back--center'}`}>
           <div>
             {card.definition}
