@@ -1,5 +1,6 @@
 import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
+import PublicIcon from '@mui/icons-material/Public';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 import { UserItemProps } from '../../types/userTypes';
@@ -28,6 +29,7 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
                     <span>{country}</span>
                   </p>
                   <p className='info'>
+                    <PublicIcon/>
                     <span>{language}</span>
                   </p>
               </div>

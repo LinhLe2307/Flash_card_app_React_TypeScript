@@ -118,7 +118,7 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
             spacing="1.5rem"
             columns={{ xs: 4, sm: 8, md: 12 }}
             sx={{
-              maxWidth: "1552px",
+              maxWidth: "1200px",
               fontFamily: '"Raleway", sans-serif'
             }}
           >

@@ -6,14 +6,14 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkIcon from '@mui/icons-material/Link';
 
-import { UserFormProps } from '../../../user/types/userTypes';
-import ErrorModal from '../../components/UIElements/ErrorModal';
-import LoadingSpinner from '../../components/UIElements/LoadingSpinner';
-import { useHttpClient } from '../../hooks/http-hook';
-import { ObjectGenericProps, SendRequestProps } from '../../types/sharedTypes';
-import { sortFunction } from '../../util/sortFunction';
-import { SocialMediaType } from '../../../user/types/userTypes'
-import ImageUpload from './ImageUpload';
+import { UserFormProps } from '../../types/userTypes';
+import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../../shared/hooks/http-hook';
+import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/sharedTypes';
+import { sortFunction } from '../../../shared/util/sortFunction';
+import { SocialMediaType } from '../../types/userTypes'
+import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
 
 import './UserForm.css';
 

@@ -18,7 +18,7 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
             setShowErrorModal(true)
             return;
         }
-        setTags(prev => prev.concat(value))
+        setTags([...tags, value])
         inputHandler([...tags, value], true, 'tags', 'tags')
         target.value = ''
     }
