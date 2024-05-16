@@ -6,7 +6,7 @@ import {
     UseFormRegister,
     UseFormSetValue
   } from "react-hook-form";
-import { AuthInputs } from "../../user/types/userTypes";
+import { UserBaseProps } from "../../user/types/userTypes";
 
 export enum ImageInputValueProps {
     OPEN_UNSPLASH = 'OPEN_UNSPLASH',
@@ -87,8 +87,8 @@ export interface ImageListProps {
 
 export interface ImageUploadProps {
     center: boolean
-    errorText: FieldErrors<AuthInputs>
-    register: UseFormRegister<AuthInputs>;
-    setValue: UseFormSetValue<AuthInputs>
+    errorText: FieldErrors<UserBaseProps>
+    register: UseFormRegister<UserBaseProps>;
+    setValue: UseFormSetValue<UserBaseProps>
     imageUrl: string
 }
