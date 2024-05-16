@@ -6,9 +6,10 @@ import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import UserForm from '../../shared/components/FormElements/UserForm'
-import { AuthInputs } from '../types/userTypes'
+import { UserBaseProps } from '../types/userTypes'
 import '../../shared/components/FormElements/UserForm.css'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
 
 
 const Auth = () => {
@@ -21,9 +22,9 @@ const Auth = () => {
         handleSubmit,
         setValue,
         formState: {errors}
-    } = useForm<AuthInputs>()
+    } = useForm<UserBaseProps>()
 
-    const authSubmitHandler:SubmitHandler<AuthInputs> = async(data) => {
+    const authSubmitHandler:SubmitHandler<UserBaseProps> = async(data) => {
         if (isLoginMode) {
             try {
                 const body = JSON.stringify({
@@ -48,15 +49,16 @@ const Auth = () => {
             }
         } else {
             try {
-                const formData = new FormData()  
-                formData.append('email', data.email)
-                formData.append('firstName', data.firstName)
-                formData.append('lastName', data.lastName)
-                formData.append('phone', data.phone)
-                formData.append('country', data.country)
-                formData.append('language', data.language)
-                formData.append('password', data.password)
-                formData.append('image', data.image)
+                const formData = new FormData() 
+                // Get all values of the SocialMediaType enum
+                const socialMediaValues = Object.values(SocialMediaType);
+
+                // Get all values of the UserInfoProps enum
+                const userInfoValues = Object.values(UserInfoType);
+
+                [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
+                    formData.append(value, data[value] as File)
+                )
 
                 const response = await sendRequest(`/api/users/signup`,
                     'POST',
@@ -106,7 +108,7 @@ const Auth = () => {
                         disabled={false}
                     >
                         <div className={`form-control`}>
-                            <label htmlFor='password'>Password</label>
+                            <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
                                     required: 'This is required.', 
@@ -126,7 +128,7 @@ const Auth = () => {
                     </UserForm>
                     : <div className='wrapper'>
                         <div className={`form-control`}>
-                            <label htmlFor='email'>Email</label>
+                            <label htmlFor='email'>Email*</label>
                             <input 
                                 id='email' 
                                 {...register('email', { required: 'This is required.', pattern: /^\S+@\S+\.\S+$/ })}
@@ -136,7 +138,7 @@ const Auth = () => {
                             <span>{errors.email?.message}</span>
                         </div>
                         <div className={`form-control`}>
-                            <label htmlFor='password'>Password</label>
+                            <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
                                     required: 'This is required.', 

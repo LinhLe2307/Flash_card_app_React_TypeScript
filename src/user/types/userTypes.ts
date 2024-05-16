@@ -1,25 +1,36 @@
 import { ReactNode } from "react"
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
 
-interface BaseProps {
-    id: string
-    country: string
-    language: string
-    phone: string
-    firstName: string
-    lastName: string
-    email: string
+export enum SocialMediaType {
+    x='x',
+    linkedIn='linkedIn',
+    instagram='instagram',
+    github='github',
+    website='website'
 }
 
-export interface UserProps extends BaseProps {
+export enum UserInfoType {
+    country='country',
+    language='language',
+    phone='phone',
+    firstName='firstName',
+    lastName='lastName',
+    email='email',
+    aboutMe='aboutMe'
+}
+
+export interface UserItemProps {
+    [key: string]: number | string | []
+}
+export interface UserBaseProps {
+    [key: string]: SocialMediaType | UserInfoType | string | File | number | []
+}
+
+export interface UserProps extends UserBaseProps {
     cards: []
     image: string
 }
 
-export interface UserItemProps extends BaseProps {
-    cardCount: number
-    image: string
-}
 
 export interface AvatarProps {
     image: string 
@@ -35,16 +46,10 @@ export interface CardAvatarProps {
     // style: string
 }
 
-export interface AuthInputs extends BaseProps {
-    email: string
-    password: string
-    image: File
-}
-
 export type UserFormProps = {
-    register: UseFormRegister<AuthInputs>
-    errors: FieldErrors<AuthInputs>
-    setValue: UseFormSetValue<AuthInputs>
+    register: UseFormRegister<UserBaseProps>
+    errors: FieldErrors<UserBaseProps>
+    setValue: UseFormSetValue<UserBaseProps>
     imageUrl: string
     title: string
     disabled: boolean

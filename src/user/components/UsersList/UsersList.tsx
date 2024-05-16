@@ -22,15 +22,15 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
             {
                 items.map((user) => {
                     return <UserItem 
-                        key={user.id} 
-                        id={user.id}
-                        image={user.image}
-                        firstName={user.firstName}
-                        lastName={user.lastName}
-                        language={user.language}
-                        country={user.country}
-                        phone={user.phone}
-                        email={user.email}
+                        key={user.id as string} 
+                        id={user.id as string}
+                        image={user.image as string}
+                        firstName={user.firstName as string}
+                        lastName={user.lastName as string}
+                        language={user.language as string}
+                        country={user.country as string}
+                        phone={user.phone as string}
+                        email={user.email as string}
                         cardCount={user.cards.length}
                     />
                 })
