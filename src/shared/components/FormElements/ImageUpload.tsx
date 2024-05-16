@@ -3,7 +3,7 @@ import { GenericProps } from '../../types/sharedTypes'
 import Button from './Button'
 
 import './ImageUpload.css'
-import './UserForm.css'
+import '../../../user/components/UserForm/UserForm.css'
 import { ImageUploadProps } from '../../types/imageTypes';
 
 

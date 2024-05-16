@@ -6,10 +6,22 @@
     font-family: 'Raleway', sans-serif;
 }
 
+.bio-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    margin-bottom: 20px;
+    color: #0d0c22
+}
+
 .about-content {
     display: flex;
     justify-content: space-around;
     gap: 3rem;
+}
+
+.about-content-main {
+    width: 40rem
 }
 
 .content-section {
@@ -56,13 +68,21 @@
     align-items: center;
 }
 
-.social-links-list a {
+.social-links-list a, .social-links-plaintext {
     display: inline-flex;
     align-items: center;
-    color: #0d0c22;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
+    text-decoration: none;
+}
+
+.social-links-list a {
+    color: #0d0c22;
+}
+
+.social-links-plaintext {
+    color: #777
 }
 
 .section-label {

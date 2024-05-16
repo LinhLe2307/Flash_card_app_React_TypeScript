@@ -9,7 +9,7 @@ import UserDetailAbout from "./components/UserDetailAbout/UserDetailAbout";
 import UserDetailWork from "./components/UserDetailWork/UserDetailWork";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 
-const projectsTypes = ['About', 'Work']
+const projectsTypes = ['About', 'All cards']
 
 const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
   try {
@@ -55,21 +55,22 @@ const UserDetail = () => {
     >
       <ErrorModal error={error} onClear={clearError} />
       {
-        projectsTypes[value] === 'Work' && data
-        ? <UserDetailWork 
-          cards={data?.cards}
-          userId={userId as string}
-          />
-        : <UserDetailAbout 
+        projectsTypes[value] === 'About' && data
+        ? <UserDetailAbout 
           aboutMe={data?.aboutMe}
           country={data?.country}
           email={data?.email}
           phone={data?.phone}
+          language={data?.language}
           x= {data?.x}
           linkedIn= {data?.linkedIn}
           instagram= {data?.instagram}
           github= {data?.github}
           website= {data?.website}
+        />
+        : <UserDetailWork 
+        cards={data?.cards}
+        userId={userId as string}
         />
       }
     </TabPanelModal>

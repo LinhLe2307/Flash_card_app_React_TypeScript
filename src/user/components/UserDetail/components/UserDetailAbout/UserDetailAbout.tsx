@@ -5,13 +5,19 @@ import LinkIcon from '@mui/icons-material/Link';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import XIcon from '@mui/icons-material/X';
-import { UserBaseProps } from '../../../../types/userTypes'
+import LanguageIcon from '@mui/icons-material/Language';
+import PublicIcon from '@mui/icons-material/Public';
 import "./UserDetailAbout.css";
+import { ObjectGenericProps } from '../../../../../shared/types/sharedTypes';
 
 
-const UserDetailAbout = ({ aboutMe, country, email, phone, 
-  x, linkedIn, instagram, github, website }: UserBaseProps ) => {
-    
+const croppedLink = (link: string) => {
+  return link && link.replace(/^https?:\/\//, '');
+}
+
+const UserDetailAbout = ({ aboutMe, country, email, phone, language,
+  x, linkedIn, instagram, github, website }: ObjectGenericProps<string> ) => {
+
   // Array of social media platforms and their URLs
   const socialMediaLinks = [
     { platform: 'x', icon: XIcon, url: x },
@@ -26,15 +32,16 @@ const UserDetailAbout = ({ aboutMe, country, email, phone,
       <div className='about-content-main'>
         <div className='content-section'>
           <h2 className="section-label">Biography</h2>
-          <p>{ aboutMe as string }</p>
+          <p className='bio-text'>{ aboutMe as string }</p>
         </div>
       </div>
       <div className='about-content-sidebar'>
         <div className='content-section profile-info-section'>
           <ul>
-            <li className='info-item email'><EmailIcon/> {email as string}</li>
-            <li className='info-item location'><LocalPhoneIcon/>{phone as string}</li>
-            <li className='info-item country'>{country as string}</li>
+            <li className='info-item email'><EmailIcon/> {email}</li>
+            <li className='info-item location'><LocalPhoneIcon/>{phone}</li>
+            <li className='info-item language'><LanguageIcon/>{language}</li>
+            <li className='info-item country'><PublicIcon/>{country}</li>
           </ul>
         </div>
         <div className='content-section'>
@@ -42,9 +49,10 @@ const UserDetailAbout = ({ aboutMe, country, email, phone,
           <ul className='social-links-list'>
             {
               socialMediaLinks.map((link) => (
+                link.url && 
                 <li key={link.platform}>
                   <span><link.icon /></span>
-                  <a>{link.url ? link.url as string : link.platform}</a>
+                  { <a href={`${link.url}`} target="_blank">{ croppedLink(link.url)}</a>}
                 </li>
                 ))
               }
