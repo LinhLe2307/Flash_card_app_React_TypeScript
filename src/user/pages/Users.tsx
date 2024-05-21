@@ -1,64 +1,63 @@
-import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../../app/hooks'
-import ErrorModal from '../../shared/components/UIElements/ErrorModal'
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import { useHttpClient } from '../../shared/hooks/http-hook'
-import { SendRequestProps } from '../../shared/types/sharedTypes'
-import UsersList from '../components/UsersList/UsersList'
-import { UserProps } from '../types/userTypes'
+// import { useQuery } from '@tanstack/react-query'
+import { gql, useQuery } from '@apollo/client'
+import React, {useState} from 'react'
 
-const getAllUsers = async(sendRequest: SendRequestProps) => {
-  try {
-    const response = await sendRequest(`/api/users`,
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
+import { useAppSelector } from '../../app/hooks'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import UsersList from '../components/UsersList/UsersList'
+
+const ALL_USERS = gql`
+query findUserByName($searchInput: String) {
+  users(searchInput: $searchInput) {
+    id
+    firstName
+    lastName
+    aboutMe
+    country
+    email
+    phone
+    language
+    x
+    linkedIn
+    instagram
+    github
+    website
+    image
+    cards {
+      id
+      title
+      description
+      tags {
+        name
       }
-    )
-    return response.users
-  } catch(err) {
-    console.log(err)
+    }
   }
 }
+`
 
 const Users = () => {
-  const [ dataFetched, setDataFetched ] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
-  
-  const { data } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => getAllUsers(sendRequest),
-    enabled: !dataFetched
+
+  const data = useQuery(ALL_USERS, {
+    variables: { searchInput }
   })
-  const [filterList, setFilterList] = useState([])
 
-  // Check if data is being fetched for the first time
-  if (isLoading && !dataFetched) {
-    // Set dataFetched to true to disable further queries
-    setDataFetched(true);
-  }
+  console.log(data)
 
-  useEffect(() => {
-    const result = 
-      searchInput && searchInput.length !== 0 
-      ?  data.filter((user: UserProps) => 
-      `${user.firstName} ${user.lastName}`.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1)
-      : data
-    setFilterList(result)
-  }, [searchInput, data])
+  if (data.loading) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError}/>
+      {/* <ErrorModal error={error} onClear={clearError}/>
       {isLoading && (
         <div className='center'>
           <LoadingSpinner asOverlay />
         </div>
-      )}
-      {filterList && <UsersList items={filterList}/>}
+      )} */}
+      {/* {filterList && <UsersList items={filterList}/>} */}
+      {
+        !data.loading && data.data && <UsersList items={data.data.users}/>
+      }
     </React.Fragment>
   )
 }
