@@ -1,5 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
+
 import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -14,32 +16,14 @@ import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/shar
 import { sortFunction } from '../../../shared/util/sortFunction';
 import { SocialMediaType } from '../../types/userTypes'
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
+import { GET_COUNTRIES } from '../../../shared/util/queries'
 
 import './UserForm.css';
 
-const getAllCountries = async(sendRequest: SendRequestProps) => {
-    try {
-      const response = await sendRequest(`/v3.1/all?fields=name,flags`,
-        'GET',
-        null,
-        {
-          'Content-Type': 'application/json'
-        }
-      )
-      return response
-    } catch(err) {
-      console.log(err)
-    }
-  }
-
 const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, children }: UserFormProps) => {
     const [dataFetched, setDataFetched] = useState(false);
-    const { isLoading, error, sendRequest, clearError } = useHttpClient('https://restcountries.com');
-    const { data: countries } = useQuery({
-        queryKey: ['countries'],
-        queryFn: () => getAllCountries(sendRequest),
-        enabled: !dataFetched
-    });
+    const countries = useQuery(GET_COUNTRIES)
+    // const countries = data.data.getCountries
 
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
@@ -51,15 +35,16 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
     ];
     
     // Check if data is being fetched for the first time
-    if (isLoading && !dataFetched) {
+    if (countries.loading && !dataFetched) {
         // Set dataFetched to true to disable further queries
         setDataFetched(true);
     }
 
+    console.log(countries)
     return (
     <div>
-        <ErrorModal error={error} onClear={clearError}/>
-        {isLoading && (
+        {/* <ErrorModal error={error} onClear={clearError}/> */}
+        {countries.loading && (
             <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
@@ -135,12 +120,12 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <select 
                         id='country' {...register('country')}
                     >
-                        {
+                        {/* {
                             countries 
                             && countries.sort(sortFunction).map((country: ObjectGenericProps<ObjectGenericProps<string>>) => (
                                 <option key={country?.name?.common}>{country?.name?.common}</option>
                             ))
-                        }
+                        } */}
                     </select>
                 </div>
                 <div id='lang' className='form-control'>

@@ -1,20 +1,22 @@
+import { useMutation } from '@apollo/client'
 import React, { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { AuthContext } from '../../shared/context/auth-context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
+
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import UserForm from '../components/UserForm/UserForm'
-import { UserBaseProps } from '../types/userTypes'
-import '../components/UserForm/UserForm.css'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { AuthContext } from '../../shared/context/auth-context'
+import { LOGIN_USER, SIGN_UP_USER } from '../../shared/util/queries'
 import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
-
+import UserForm from '../components/UserForm/UserForm'
+import '../components/UserForm/UserForm.css'
+import { UserBaseProps } from '../types/userTypes'
 
 const Auth = () => {
     const auth = useContext(AuthContext)
-    const { isLoading, error, sendRequest } = useHttpClient()   
+    // const { isLoading, error, sendRequest } = useHttpClient()  
+    const [errorMessage, setErrorMessage] = useState('') 
     const [ isLoginMode, setIsLoginMode ] = useState(false)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
     const {
@@ -24,22 +26,35 @@ const Auth = () => {
         formState: {errors}
     } = useForm<UserBaseProps>()
 
+    const [ loginAuth, { loading, error } ] = useMutation(LOGIN_USER, {
+        // refetchQueries: [ { query: LOGIN_USER } ],
+        // onError: (error) => {
+        //     const messages = error.graphQLErrors.map(e => e.message).join('\n')
+        //     setErrorMessage(messages)
+        // }
+    })
+
+    const [ signUpAuth ] = useMutation(SIGN_UP_USER, {
+        // refetchQueries: [ { query: LOGIN_USER } ],
+        // onError: (error) => {
+        //     const messages = error.graphQLErrors.map(e => e.message).join('\n')
+        //     setErrorMessage(messages)
+        // }
+    })
+
     const authSubmitHandler:SubmitHandler<UserBaseProps> = async(data) => {
         if (isLoginMode) {
             try {
-                const body = JSON.stringify({
+                const body = {
                     email: data.email,
                     password: data.password
-                })
-                const response = await sendRequest(`/api/users/login`,
-                    'POST',
-                    body,
-                    {
-                        'Content-Type': 'application/json'
-                    }
-                )
-                if (response) {
-                    auth.login(response.userId, response.token)
+                }
+
+                const response = await loginAuth({ variables: body })
+
+                const loginUser = response.data.loginAuth
+                if (loginUser) {
+                    auth.login(loginUser.userId, loginUser.token)
                 } else {
                     setShowErrorModal(true)
                 }
@@ -49,32 +64,38 @@ const Auth = () => {
             }
         } else {
             try {
-                const formData = new FormData() 
+                // const formData = new FormData() 
+                const body: any = {}
                 // Get all values of the SocialMediaType enum
                 const socialMediaValues = Object.values(SocialMediaType);
 
                 // Get all values of the UserInfoProps enum
                 const userInfoValues = Object.values(UserInfoType);
 
-                [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
-                    formData.append(value, data[value] as File)
+                [...socialMediaValues, ...userInfoValues, 'password'].map(value => 
+                    // formData.append(value, data[value] as File)
+                    body[value] = data[value]
                 )
+                
+                body['image'] = new File(["foo"], "foo.txt", {
+                    type: "text/plain"
+                })
+                
+                // const file = new Blob([data.image as Blob], { type: "text/plain" });
+                // body['image'] = file
+                console.log(body)
+                
+                const response = await signUpAuth({ variables: body})
 
-                const response = await sendRequest(`/api/users/signup`,
-                    'POST',
-                    formData,
-                    {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                )
-                if (response) {
-                    auth.login(response.userId, response.token)
+                const registerUser = response.data.signUpAuth
+                if (registerUser) {
+                    auth.login(registerUser.userId, registerUser.token)
                 } else {
                     setShowErrorModal(true)
                 }
             } catch(err) {
                 setShowErrorModal(true)
-                console.log(error)
+                console.log(err)
             }
         }
     }
@@ -90,13 +111,15 @@ const Auth = () => {
   return (
     <React.Fragment>
         <CardAvatar className='authentication'>
-            {isLoading && <LoadingSpinner asOverlay/>}
+
+            {loading && <LoadingSpinner asOverlay/>}
             { showErrorModal && 
                 <ErrorModal
-                    error={error}
+                    error={errorMessage}
                     onClear={closeModal}
                 />
             }
+
             <form onSubmit={handleSubmit(authSubmitHandler)}>
                 {!isLoginMode ?
                     <UserForm 

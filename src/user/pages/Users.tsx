@@ -1,39 +1,12 @@
 // import { useQuery } from '@tanstack/react-query'
-import { gql, useQuery } from '@apollo/client'
-import React, {useState} from 'react'
+import { useQuery } from '@apollo/client'
+import React from 'react'
 
 import { useAppSelector } from '../../app/hooks'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import UsersList from '../components/UsersList/UsersList'
+import { ALL_USERS } from '../../shared/util/queries'
 
-const ALL_USERS = gql`
-query findUserByName($searchInput: String) {
-  users(searchInput: $searchInput) {
-    id
-    firstName
-    lastName
-    aboutMe
-    country
-    email
-    phone
-    language
-    x
-    linkedIn
-    instagram
-    github
-    website
-    image
-    cards {
-      id
-      title
-      description
-      tags {
-        name
-      }
-    }
-  }
-}
-`
 
 const Users = () => {
   const searchInput = useAppSelector(state => state.search.search_input)
@@ -48,15 +21,14 @@ const Users = () => {
 
   return (
     <React.Fragment>
-      {/* <ErrorModal error={error} onClear={clearError}/>
-      {isLoading && (
+      {/* <ErrorModal error={data.error} onClear={clearError}/> */}
+      {/*  {isLoading && (
         <div className='center'>
           <LoadingSpinner asOverlay />
         </div>
       )} */}
-      {/* {filterList && <UsersList items={filterList}/>} */}
       {
-        !data.loading && data.data && <UsersList items={data.data.users}/>
+        !data.loading && data.data && data.data.getUsers && <UsersList items={data.data.getUsers}/>
       }
     </React.Fragment>
   )

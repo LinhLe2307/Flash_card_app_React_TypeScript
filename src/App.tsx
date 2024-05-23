@@ -1,7 +1,7 @@
 // import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-
+import { createUploadLink } from 'apollo-upload-client';
 import HomePage from './shared/components/HomePage/HomePage';
 import MainPage from './shared/components/MainPage/MainPage';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
@@ -15,11 +15,19 @@ import UserDetail from './user/components/UserDetail/UserDetail';
 import Auth from './user/pages/Auth';
 import Settings from './user/pages/Settings';
 import Users from './user/pages/Users';
+import ImageUpload from './user/pages/Upload';
 
 
 function App() {
+  const uploadLink = createUploadLink({
+    uri: 'http://localhost:5068', // Apollo Server is served from port 5068
+    headers: {
+      'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
+    },
+  })
+
   const client = new ApolloClient({
-    uri: 'http://localhost:5068',
+    link: uploadLink, 
     cache: new InMemoryCache()
   })
   const { token, userId, login, logout } = useAuth()
@@ -40,6 +48,7 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage />}>
           <Route index element={<HomePage />}/>
+          {/* <Route index element={<ImageUpload />}/> */}
           <Route path='/card/new' element={<NewCard/>}/>
           <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
           {commonRoutes}
@@ -52,6 +61,7 @@ function App() {
     routes = (
       <Routes>
         <Route path='/' element={<MainPage />}>
+        {/* <Route index element={<ImageUpload />}/> */}
           <Route index element={<HomePage />}/>
           <Route path='/auth' element={<Auth/>}/>
           {commonRoutes}
