@@ -15,7 +15,6 @@ import { UserBaseProps } from '../types/userTypes'
 
 const Auth = () => {
     const auth = useContext(AuthContext)
-    // const { isLoading, error, sendRequest } = useHttpClient()  
     const [errorMessage, setErrorMessage] = useState('') 
     const [ isLoginMode, setIsLoginMode ] = useState(false)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
@@ -26,21 +25,9 @@ const Auth = () => {
         formState: {errors}
     } = useForm<UserBaseProps>()
 
-    const [ loginAuth, { loading, error } ] = useMutation(LOGIN_USER, {
-        // refetchQueries: [ { query: LOGIN_USER } ],
-        // onError: (error) => {
-        //     const messages = error.graphQLErrors.map(e => e.message).join('\n')
-        //     setErrorMessage(messages)
-        // }
-    })
+    const [ loginAuth, { loading, error } ] = useMutation(LOGIN_USER)
 
-    const [ signUpAuth ] = useMutation(SIGN_UP_USER, {
-        // refetchQueries: [ { query: LOGIN_USER } ],
-        // onError: (error) => {
-        //     const messages = error.graphQLErrors.map(e => e.message).join('\n')
-        //     setErrorMessage(messages)
-        // }
-    })
+    const [ signUpAuth ] = useMutation(SIGN_UP_USER)
 
     const authSubmitHandler:SubmitHandler<UserBaseProps> = async(data) => {
         if (isLoginMode) {
@@ -64,7 +51,6 @@ const Auth = () => {
             }
         } else {
             try {
-                // const formData = new FormData() 
                 const body: any = {}
                 // Get all values of the SocialMediaType enum
                 const socialMediaValues = Object.values(SocialMediaType);
@@ -72,18 +58,9 @@ const Auth = () => {
                 // Get all values of the UserInfoProps enum
                 const userInfoValues = Object.values(UserInfoType);
 
-                [...socialMediaValues, ...userInfoValues, 'password'].map(value => 
-                    // formData.append(value, data[value] as File)
+                [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
                     body[value] = data[value]
                 )
-                
-                body['image'] = new File(["foo"], "foo.txt", {
-                    type: "text/plain"
-                })
-                
-                // const file = new Blob([data.image as Blob], { type: "text/plain" });
-                // body['image'] = file
-                console.log(body)
                 
                 const response = await signUpAuth({ variables: body})
 
