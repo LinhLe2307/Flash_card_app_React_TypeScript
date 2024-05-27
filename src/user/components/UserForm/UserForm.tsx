@@ -108,15 +108,17 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                 </div>
             </div>
             <div className='row'>
-                <div className='form-control'>
+                <div className='form-control'> 
                     <label htmlFor='country'>Country*</label>
                     <select 
-                        id='country' {...register('country')}
+                        id='country' 
+                        {...register('country')}
                     >
+                        <option selected disabled hidden value=''>-- Choose a country --</option>
                         {
                             countries 
                             && countries.getCountries.map((country: string) => (
-                                <option key={country}>{country}</option>
+                                <option key={country} value={country}>{country}</option>
                             ))
                         }
                     </select>

@@ -99,7 +99,7 @@ const Auth = () => {
 
     useEffect(() => {
         if (errorSignUp && errorSignUp.message.length > 0) {
-            setErrorMessage(errorSignUp.message)
+            setErrorSignUpMessage(errorSignUp.message)
         }
     }, [errorSignUp])
 

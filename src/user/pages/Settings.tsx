@@ -123,8 +123,8 @@ const Settings = () => {
   }
 
   useEffect(() => {
-    reset(userDetail)
-  }, [loading])
+    reset(userDetail);
+  }, [userDetail, reset, loading])
 
   return (
     <React.Fragment>

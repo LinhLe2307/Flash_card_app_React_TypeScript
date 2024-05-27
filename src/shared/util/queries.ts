@@ -119,7 +119,7 @@ mutation deleteUserMutation ($userId: ID!){
 
 export const UPDATE_USER = gql`
   mutation updateUserMutation(
-    $userId: String!
+    $userId: ID!
     $firstName: String!
     $lastName: String!
     $aboutMe: String
