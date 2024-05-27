@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '../../shared/components/FormElements/Button'
@@ -16,8 +16,10 @@ import { UserBaseProps } from '../types/userTypes'
 const Auth = () => {
     const auth = useContext(AuthContext)
     const [errorMessage, setErrorMessage] = useState('') 
+    const [errorSignUpMessage, setErrorSignUpMessage] = useState('') 
     const [ isLoginMode, setIsLoginMode ] = useState(false)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
+    const [ showErrorSignUpModal, setShowErrorSignUpModal ] = useState(false)
     const {
         register,
         handleSubmit,
@@ -27,7 +29,7 @@ const Auth = () => {
 
     const [ loginAuth, { loading, error } ] = useMutation(LOGIN_USER)
 
-    const [ signUpAuth ] = useMutation(SIGN_UP_USER)
+    const [ signUpAuth, { loading: loadingSignUp, error: errorSignUp } ] = useMutation(SIGN_UP_USER)
 
     const authSubmitHandler:SubmitHandler<UserBaseProps> = async(data) => {
         if (isLoginMode) {
@@ -68,10 +70,10 @@ const Auth = () => {
                 if (registerUser) {
                     auth.login(registerUser.userId, registerUser.token)
                 } else {
-                    setShowErrorModal(true)
+                    setShowErrorSignUpModal(true)
                 }
             } catch(err) {
-                setShowErrorModal(true)
+                setShowErrorSignUpModal(true)
                 console.log(err)
             }
         }
@@ -85,15 +87,39 @@ const Auth = () => {
         setShowErrorModal(false)
     }
 
+    const closeSignUpErrorModal = () => {
+        setShowErrorSignUpModal(false)
+    }
+
+    useEffect(() => {
+        if (error && error.message.length > 0) {
+            setErrorMessage(error.message)
+        }
+    }, [error])
+
+    useEffect(() => {
+        if (errorSignUp && errorSignUp.message.length > 0) {
+            setErrorMessage(errorSignUp.message)
+        }
+    }, [errorSignUp])
+
   return (
     <React.Fragment>
         <CardAvatar className='authentication'>
 
             {loading && <LoadingSpinner asOverlay/>}
+            {loadingSignUp && <LoadingSpinner asOverlay/>}
+
             { showErrorModal && 
                 <ErrorModal
                     error={errorMessage}
                     onClear={closeModal}
+                />
+            }
+            { showErrorSignUpModal && 
+                <ErrorModal
+                    error={errorSignUpMessage}
+                    onClear={closeSignUpErrorModal}
                 />
             }
 

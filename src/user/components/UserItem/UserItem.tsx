@@ -14,7 +14,7 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
       </a>
       <div className='search-result-item__body'>
           <div className='search-result-row'>
-              <div>
+              <div className='search-result-info'>
                   <h1 className='search-result-item__heading'>{firstName} {lastName}</h1>
                   <p className='info'>
                     <EmailIcon/>

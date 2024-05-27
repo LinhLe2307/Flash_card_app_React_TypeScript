@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const ALL_USERS = gql`
-  query findUsersByName($searchInput: String) {
-    getUsers(searchInput: $searchInput) {
+  query {
+    getUsers {
       id
       firstName
       lastName
@@ -26,8 +26,8 @@ export const ALL_USERS = gql`
           name
         }
       }
-    }
   }
+}
 `
 export const SINGLE_USER = gql`
   query findUserById($userId: ID!) {
