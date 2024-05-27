@@ -1,30 +1,21 @@
-// import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@apollo/client';
 import { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
 
-import XIcon from '@mui/icons-material/X';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkIcon from '@mui/icons-material/Link';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import XIcon from '@mui/icons-material/X';
 
-import { UserFormProps } from '../../types/userTypes';
-import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
-import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
-import { useHttpClient } from '../../../shared/hooks/http-hook';
-import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/sharedTypes';
-import { sortFunction } from '../../../shared/util/sortFunction';
-import { SocialMediaType } from '../../types/userTypes'
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
-import { GET_COUNTRIES } from '../../../shared/util/queries'
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
+import { GET_COUNTRIES } from '../../../shared/util/queries';
+import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
+import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 
 import './UserForm.css';
 
 const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, children }: UserFormProps) => {
-    const [dataFetched, setDataFetched] = useState(false);
-    const countries = useQuery(GET_COUNTRIES)
-    // const countries = data.data.getCountries
-
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
         { platform: 'x', icon: XIcon, url: '' },
@@ -33,23 +24,28 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         { platform: 'github', icon: GitHubIcon, url: '' },
         { platform: 'website', icon: LinkIcon, url: '' }
     ];
-    
-    // Check if data is being fetched for the first time
-    if (countries.loading && !dataFetched) {
-        // Set dataFetched to true to disable further queries
-        setDataFetched(true);
-    }
 
-    console.log(countries)
+    const { data: countries, loading, error } = useQuery(GET_COUNTRIES)
+    const [errorMessage, setError] = useState(error?.message);
+    
+    const clearError = () => {
+        setError(undefined);
+    };
+
     return (
     <div>
-        {/* <ErrorModal error={error} onClear={clearError}/> */}
-        {countries.loading && (
-            <div className='center'>
+
+        <div className='wrapper'>
+        {
+            loading && <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
-        )}
-        <div className='wrapper'>
+        }
+
+        {
+            errorMessage && <ErrorModal error={errorMessage} onClear={clearError}/>
+        }
+
         <h4>{title}</h4>
             <div>
                 <ImageUpload 
@@ -120,12 +116,12 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <select 
                         id='country' {...register('country')}
                     >
-                        {/* {
+                        {
                             countries 
-                            && countries.sort(sortFunction).map((country: ObjectGenericProps<ObjectGenericProps<string>>) => (
-                                <option key={country?.name?.common}>{country?.name?.common}</option>
+                            && countries.getCountries.map((country: string) => (
+                                <option key={country}>{country}</option>
                             ))
-                        } */}
+                        }
                     </select>
                 </div>
                 <div id='lang' className='form-control'>

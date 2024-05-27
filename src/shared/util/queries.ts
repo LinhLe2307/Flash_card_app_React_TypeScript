@@ -172,7 +172,7 @@ export const UPDATE_USER = gql`
 `
 export const GET_CARDS_BY_USER_ID = gql`
   query findCardsByUserId(
-    $userId: String!
+    $userId: ID!
     $searchInput: String
   ) {
     getCardsByUserId(
@@ -210,5 +210,17 @@ mutation createCardMutation ($input: JSON!){
 export const UPDATE_CARD = gql`
 mutation updateCardMutation ($input: JSON!){
   updateCard(input: $input)
+}
+`
+
+export const DELETE_CARD = gql`
+mutation deleteCardMutation (
+  $cardId: ID!
+  $userId: ID!
+){
+  deleteCard(
+    cardId: $cardId
+    userId: $userId
+  )
 }
 `
