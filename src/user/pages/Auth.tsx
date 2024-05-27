@@ -1,22 +1,25 @@
-import React, { useContext, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import React, { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { AuthContext } from '../../shared/context/auth-context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
+
 import Button from '../../shared/components/FormElements/Button'
 import CardAvatar from '../../shared/components/UIElements/CardAvatar'
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import UserForm from '../components/UserForm/UserForm'
-import { UserBaseProps } from '../types/userTypes'
-import '../components/UserForm/UserForm.css'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { AuthContext } from '../../shared/context/auth-context'
+import { LOGIN_USER, SIGN_UP_USER } from '../../shared/util/queries'
 import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
-
+import UserForm from '../components/UserForm/UserForm'
+import '../components/UserForm/UserForm.css'
+import { UserBaseProps } from '../types/userTypes'
 
 const Auth = () => {
     const auth = useContext(AuthContext)
-    const { isLoading, error, sendRequest } = useHttpClient()   
+    const [errorMessage, setErrorMessage] = useState('') 
+    const [errorSignUpMessage, setErrorSignUpMessage] = useState('') 
     const [ isLoginMode, setIsLoginMode ] = useState(false)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
+    const [ showErrorSignUpModal, setShowErrorSignUpModal ] = useState(false)
     const {
         register,
         handleSubmit,
@@ -24,22 +27,23 @@ const Auth = () => {
         formState: {errors}
     } = useForm<UserBaseProps>()
 
+    const [ loginAuth, { loading, error } ] = useMutation(LOGIN_USER)
+
+    const [ signUpAuth, { loading: loadingSignUp, error: errorSignUp } ] = useMutation(SIGN_UP_USER)
+
     const authSubmitHandler:SubmitHandler<UserBaseProps> = async(data) => {
         if (isLoginMode) {
             try {
-                const body = JSON.stringify({
+                const body = {
                     email: data.email,
                     password: data.password
-                })
-                const response = await sendRequest(`/api/users/login`,
-                    'POST',
-                    body,
-                    {
-                        'Content-Type': 'application/json'
-                    }
-                )
-                if (response) {
-                    auth.login(response.userId, response.token)
+                }
+
+                const response = await loginAuth({ variables: body })
+
+                const loginUser = response.data.loginAuth
+                if (loginUser) {
+                    auth.login(loginUser.userId, loginUser.token)
                 } else {
                     setShowErrorModal(true)
                 }
@@ -49,7 +53,7 @@ const Auth = () => {
             }
         } else {
             try {
-                const formData = new FormData() 
+                const body: any = {}
                 // Get all values of the SocialMediaType enum
                 const socialMediaValues = Object.values(SocialMediaType);
 
@@ -57,24 +61,20 @@ const Auth = () => {
                 const userInfoValues = Object.values(UserInfoType);
 
                 [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
-                    formData.append(value, data[value] as File)
+                    body[value] = data[value]
                 )
+                
+                const response = await signUpAuth({ variables: body})
 
-                const response = await sendRequest(`/api/users/signup`,
-                    'POST',
-                    formData,
-                    {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                )
-                if (response) {
-                    auth.login(response.userId, response.token)
+                const registerUser = response.data.signUpAuth
+                if (registerUser) {
+                    auth.login(registerUser.userId, registerUser.token)
                 } else {
-                    setShowErrorModal(true)
+                    setShowErrorSignUpModal(true)
                 }
             } catch(err) {
-                setShowErrorModal(true)
-                console.log(error)
+                setShowErrorSignUpModal(true)
+                console.log(err)
             }
         }
     }
@@ -87,16 +87,42 @@ const Auth = () => {
         setShowErrorModal(false)
     }
 
+    const closeSignUpErrorModal = () => {
+        setShowErrorSignUpModal(false)
+    }
+
+    useEffect(() => {
+        if (error && error.message.length > 0) {
+            setErrorMessage(error.message)
+        }
+    }, [error])
+
+    useEffect(() => {
+        if (errorSignUp && errorSignUp.message.length > 0) {
+            setErrorSignUpMessage(errorSignUp.message)
+        }
+    }, [errorSignUp])
+
   return (
     <React.Fragment>
         <CardAvatar className='authentication'>
-            {isLoading && <LoadingSpinner asOverlay/>}
+
+            {loading && <LoadingSpinner asOverlay/>}
+            {loadingSignUp && <LoadingSpinner asOverlay/>}
+
             { showErrorModal && 
                 <ErrorModal
-                    error={error}
+                    error={errorMessage}
                     onClear={closeModal}
                 />
             }
+            { showErrorSignUpModal && 
+                <ErrorModal
+                    error={errorSignUpMessage}
+                    onClear={closeSignUpErrorModal}
+                />
+            }
+
             <form onSubmit={handleSubmit(authSubmitHandler)}>
                 {!isLoginMode ?
                     <UserForm 
@@ -111,7 +137,7 @@ const Auth = () => {
                             <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
-                                    required: 'This is required.', 
+                                    required: 'This field is required.', 
                                     minLength: {
                                         value: 6,
                                         message: 'Min length is 6'
@@ -131,17 +157,17 @@ const Auth = () => {
                             <label htmlFor='email'>Email*</label>
                             <input 
                                 id='email' 
-                                {...register('email', { required: 'This is required.', pattern: /^\S+@\S+\.\S+$/ })}
+                                {...register('email', { required: 'This field is required.', pattern: /^\S+@\S+\.\S+$/ })}
                                 placeholder='Please enter your email'
                                 className='bg-light form-control'
                             />
-                            <span>{errors.email?.message}</span>
+                           <span>{errors.email?.message}</span> 
                         </div>
                         <div className={`form-control`}>
                             <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
-                                    required: 'This is required.', 
+                                    required: 'This field is required.', 
                                     minLength: {
                                         value: 6,
                                         message: 'Min length is 6'

@@ -38,21 +38,22 @@ const UserDetailAbout = ({ aboutMe, country, email, phone, language,
       <div className='about-content-sidebar'>
         <div className='content-section profile-info-section'>
           <ul>
-            <li className='info-item email'><EmailIcon/> {email}</li>
-            <li className='info-item location'><LocalPhoneIcon/>{phone}</li>
-            <li className='info-item language'><LanguageIcon/>{language}</li>
-            <li className='info-item country'><PublicIcon/>{country}</li>
+            { email && <li className='info-item email'><EmailIcon/> {email}</li> }
+            { phone && <li className='info-item location'><LocalPhoneIcon/>{phone}</li> }
+            { language && <li className='info-item language'><LanguageIcon/>{language}</li> }
+            { country && <li className='info-item country'><PublicIcon/>{country}</li> }
           </ul>
         </div>
         <div className='content-section'>
-          <h2 className="section-label">Social</h2>
+          <h2 className='section-label'>Social</h2>
           <ul className='social-links-list'>
             {
               socialMediaLinks.map((link) => (
-                link.url && 
                 <li key={link.platform}>
                   <span><link.icon /></span>
-                  { <a href={`${link.url}`} target="_blank">{ croppedLink(link.url)}</a>}
+                  { link.url 
+                    ? <a href={`${link.url}`} target='_blank'>{croppedLink(link.url)}</a> 
+                    : <span className='social-links-list-platform'>{link.platform}</span>}
                 </li>
                 ))
               }

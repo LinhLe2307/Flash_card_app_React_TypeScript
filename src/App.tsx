@@ -1,9 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import HomePage from './shared/components/HomePage/HomePage';
 import MainPage from './shared/components/MainPage/MainPage';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
-
 import CardDetail from './flashcard/components/CardDetail/CardDetail';
 import NewCard from './flashcard/pages/NewCard';
 import UpdateCard from './flashcard/pages/UpdateCard';
@@ -15,9 +15,18 @@ import Auth from './user/pages/Auth';
 import Settings from './user/pages/Settings';
 import Users from './user/pages/Users';
 
-
 function App() {
-  const client = new QueryClient()
+  const uploadLink = createUploadLink({
+    uri: 'https://flash-card-app-nodejs.fly.dev/',
+    headers: {
+      'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
+    },
+  })
+
+  const client = new ApolloClient({
+    link: uploadLink, 
+    cache: new InMemoryCache()
+  })
   const { token, userId, login, logout } = useAuth()
 
   const commonRoutes = (
@@ -58,16 +67,16 @@ function App() {
   }
 
   return (
-    <QueryClientProvider client={client}>
-      <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout}}>
-          <BrowserRouter>
-            <MainNavigation />
-            <main>
-              {routes}
-            </main>
-          </BrowserRouter>
-      </AuthContext.Provider>
-    </QueryClientProvider>
+    <ApolloProvider client={client}>
+        <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout}}>
+            <BrowserRouter>
+              <MainNavigation />
+              <main>
+                {routes}
+              </main>
+            </BrowserRouter>
+        </AuthContext.Provider>
+    </ApolloProvider>
   )
 }
 

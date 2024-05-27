@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { filterName } from "../../shared/constants/global"
+import _ from 'lodash';
 import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
 
 // Function to create a deep copy of an object
@@ -45,12 +46,13 @@ export const initialState: FormState = {
 const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) => {
     switch(action.type) {
         case FormActionProps.INITIAL_FORM_STATE: {
-            return {...deepCopy(initialState)}
+            return  _.cloneDeep(initialState)
         }
         case FormActionProps.INPUT_CHANGE: {
-            let newProps = {...state}
+            let newProps = _.cloneDeep(state)
             let formIsValid = true
             let subCardIsValid = true
+
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
                     continue
@@ -145,7 +147,7 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
 
         case FormActionProps.REMOVE_CARD:
             let removeFormIsValid = true
-            const removeValue = {...state}
+            const removeValue = _.cloneDeep(state)
             
             for (const inputId in state.inputs) {
                 if (!state.inputs[inputId]) {
@@ -170,11 +172,6 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
 
             removeValue.isValid = removeFormIsValid
             return removeValue
-        case FormActionProps.SET_DATA_SUCCESS:
-            return {
-                inputs: action.payload.inputs,
-                isValid: action.payload.formIsValid
-            }
         default:
             return state
     }

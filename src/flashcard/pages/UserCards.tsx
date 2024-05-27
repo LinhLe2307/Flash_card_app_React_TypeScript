@@ -1,62 +1,48 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../../app/hooks'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
-import { useHttpClient } from "../../shared/hooks/http-hook"
-import { ObjectGenericProps, SendRequestProps } from "../../shared/types/sharedTypes"
+import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 import CardItem from "../components/CardItem/CardItem"
+import { GET_CARDS_BY_USER_ID } from '../../shared/util/queries'
 
 import "./UserCards.css"
-
-const getAllUserCards = async (userId: string,
-  sendRequest: SendRequestProps
-) => {
-  try {
-    const response = await sendRequest(`/api/cards/user/${userId}`,
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    return response.cards
-  } catch(err) {
-    console.log(err)
-  }
-}
 
 const UserCards = () => {
   const userId = useParams().userId
   const tag = useParams().tag ?? ''
   const searchInput = useAppSelector(state => state.search.search_input)
-  const [ dataFetched, setDataFetched ] = useState(false);
-  const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string>[]>([])
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const { data, refetch } = useQuery({
-    queryKey: ['cards'],
-    queryFn: () => userId && getAllUserCards(userId, sendRequest),
-    enabled: !dataFetched
-  })
+  const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>[]>([])
 
-  // Check if data is being fetched for the first time
-  if (isLoading && !dataFetched) {
-    // Set dataFetched to true to disable further queries
-    setDataFetched(true);
-  }
+  const { data, loading, error, refetch } = useQuery(GET_CARDS_BY_USER_ID, {
+    variables: { userId }
+  })
+  const userCards = data?.getCardsByUserId?.cards
+
+  const [errorMessage, setError] = useState(error?.message);
 
   const cardDeleteHandler = (deletedCardId: string) => {
     const updatedState = [...fetchCards].filter(card => card.id !== deletedCardId)
     setFetchCards(updatedState)
   }
 
+  const clearError = () => {
+    setError(undefined);
+  };
+
   useEffect(() => {
-    if (data) {
-      const tags_list = tag ? data
-      .filter((card: ObjectGenericProps<string>) => card.tags.indexOf(tag) !== -1)
-      : data
+    refetch({userId})
+  }, [refetch, userId])
+
+  useEffect(() => {
+    if (userCards) {
+      const tags_list = tag ? userCards
+      .filter((card: ObjectGenericProps<string | ObjectGenericProps<string> >) => Array.isArray(card.tags) 
+        && card?.tags?.find(tagName => tagName.name === tag) !== undefined)
+      : userCards
 
       const filter_list = searchInput.length !== 0 ? tags_list
       .filter((card: ObjectGenericProps<string>) => card.title.toLowerCase().indexOf(searchInput) !== -1)
@@ -64,21 +50,17 @@ const UserCards = () => {
       setFetchCards(filter_list)
     }
   }, [searchInput, data, tag])
-  
-  useEffect(() => {
-    refetch()
-  }, [userId])
-  
-  if (error) {
+
+  if (errorMessage) {
     return <ErrorModal
-      error={error} 
+      error={errorMessage} 
       onClear={clearError}
     />
   }
 
+  if (loading) return <LoadingSpinner asOverlay/>
   return (
     <React.Fragment>
-      { isLoading && <LoadingSpinner asOverlay/> }
       {
         tag && <div>
           <h2>{tag}</h2>
@@ -87,22 +69,21 @@ const UserCards = () => {
       }
       <ul className='card-list'>
         {
-            fetchCards &&
-            <p className="search-results-count">About {fetchCards.length} results</p>
+            data && fetchCards &&
+            <p className="search-results-count">About {data && fetchCards.length} results</p>
         }
 
         {
-          fetchCards && fetchCards.map(card => <CardItem 
-            key={card.id} 
-            id={card.id}
+          data && Array.isArray(fetchCards) && fetchCards.map(card => <CardItem 
+            key={card.id as string} 
+            id={card.id as string}
             card={card}
-            creator={card.creator}
+            creator={typeof card.creator !== 'string' ? card.creator.id : ''}
             onDelete={cardDeleteHandler}
             userId={userId}
           />)
         }
 
-        
     </ul>
     </React.Fragment>
   )

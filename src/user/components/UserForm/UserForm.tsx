@@ -1,46 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@apollo/client';
 import { useState } from 'react';
-import XIcon from '@mui/icons-material/X';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkIcon from '@mui/icons-material/Link';
 
-import { UserFormProps } from '../../types/userTypes';
-import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
-import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
-import { useHttpClient } from '../../../shared/hooks/http-hook';
-import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/sharedTypes';
-import { sortFunction } from '../../../shared/util/sortFunction';
-import { SocialMediaType } from '../../types/userTypes'
+import GitHubIcon from '@mui/icons-material/GitHub';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkIcon from '@mui/icons-material/Link';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import XIcon from '@mui/icons-material/X';
+
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
+import { GET_COUNTRIES } from '../../../shared/util/queries';
+import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
+import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 
 import './UserForm.css';
 
-const getAllCountries = async(sendRequest: SendRequestProps) => {
-    try {
-      const response = await sendRequest(`/v3.1/all?fields=name,flags`,
-        'GET',
-        null,
-        {
-          'Content-Type': 'application/json'
-        }
-      )
-      return response
-    } catch(err) {
-      console.log(err)
-    }
-  }
-
 const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, children }: UserFormProps) => {
-    const [dataFetched, setDataFetched] = useState(false);
-    const { isLoading, error, sendRequest, clearError } = useHttpClient('https://restcountries.com');
-    const { data: countries } = useQuery({
-        queryKey: ['countries'],
-        queryFn: () => getAllCountries(sendRequest),
-        enabled: !dataFetched
-    });
-
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
         { platform: 'x', icon: XIcon, url: '' },
@@ -49,22 +24,25 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         { platform: 'github', icon: GitHubIcon, url: '' },
         { platform: 'website', icon: LinkIcon, url: '' }
     ];
+
+    const { data: countries, loading, error } = useQuery(GET_COUNTRIES)
+    const [errorMessage, setError] = useState(error?.message);
     
-    // Check if data is being fetched for the first time
-    if (isLoading && !dataFetched) {
-        // Set dataFetched to true to disable further queries
-        setDataFetched(true);
-    }
+    const clearError = () => {
+        setError(undefined);
+    };
 
     return (
     <div>
-        <ErrorModal error={error} onClear={clearError}/>
-        {isLoading && (
-            <div className='center'>
+        <div className='wrapper'>
+        {
+            loading && <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
-        )}
-        <div className='wrapper'>
+        }
+        {
+            errorMessage && <ErrorModal error={errorMessage} onClear={clearError}/>
+        }
         <h4>{title}</h4>
             <div>
                 <ImageUpload 
@@ -81,23 +59,27 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <label htmlFor='firstName'>First Name*</label>
                     <input 
                         id='firstName' 
-                        {...register('firstName')}
+                        {...register('firstName', {
+                            required: 'This field is required.'
+                        })}
                         placeholder='John'
                         className='bg-light form-control'
                         autoComplete='firstName'
                     />
-                    {errors.firstName?.message && <span>This field is required</span>}
+                    <span>{errors.firstName?.message}</span>
                 </div>
                 <div className='form-control'>
                     <label htmlFor='lastName'>Last Name*</label>
                     <input 
                         id='lastName' 
-                        {...register('lastName')}
+                        {...register('lastName', {
+                            required: 'This field is required.'
+                        })}
                         placeholder='Doe'
                         className='bg-light form-control'
                         autoComplete='lastName'
                     />
-                    {errors.lastName?.message && <span>This field is required</span>}
+                    <span>{errors.lastName?.message}</span>
                 </div>
             </div>
             <div className='row'>
@@ -113,8 +95,9 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                         className='form-control' 
                         placeholder='john_doe@email.com' 
                         autoComplete='email'
-                        {...register('email', {required: 'This is required.', pattern: /^\S+@\S+\.\S+$/ })}
+                        {...register('email', {required: 'This field is required.', pattern: /^\S+@\S+\.\S+$/ })}
                     />
+                    <span>{errors.email?.message}</span>
                 </div>
                 <div className='form-control'>
                     <label htmlFor='phone'>Phone Number</label>
@@ -130,15 +113,19 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                 </div>
             </div>
             <div className='row'>
-                <div className='form-control'>
+                <div className='form-control'> 
                     <label htmlFor='country'>Country*</label>
                     <select 
-                        id='country' {...register('country')}
+                        id='country' 
+                        {...register('country', {
+                            required: 'This field is required.'
+                        })}
                     >
+                        <option selected disabled hidden value=''>-- Choose a country --</option>
                         {
                             countries 
-                            && countries.sort(sortFunction).map((country: ObjectGenericProps<ObjectGenericProps<string>>) => (
-                                <option key={country?.name?.common}>{country?.name?.common}</option>
+                            && countries.getCountries.map((country: string) => (
+                                <option key={country} value={country}>{country}</option>
                             ))
                         }
                     </select>
@@ -146,7 +133,9 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                 <div id='lang' className='form-control'>
                     <label htmlFor='language'>Language*</label>
                     <div>
-                        <select id='language' {...register('language')}>
+                        <select id='language' {...register('language', {
+                            required: 'This field is required.'
+                        })}>
                             <option value='english'>English</option>
                             <option value='finnish'>Finnish</option>
                             <option value='swedish'>Swedish</option>

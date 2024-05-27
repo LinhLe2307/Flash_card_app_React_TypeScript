@@ -20,7 +20,7 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
         <div className='search-result-row'>
             <ul>
             {
-                items.map((user) => {
+                items.length > 0 && items.map((user) => {
                     return <UserItem 
                         key={user.id as string} 
                         id={user.id as string}

@@ -1,54 +1,32 @@
-import React, { SetStateAction, useState } from 'react';
-
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
 import { filterName } from '../../../shared/constants/global';
-import { useHttpClient } from '../../../shared/hooks/http-hook';
-import { ObjectGenericProps, SendRequestProps } from '../../../shared/types/sharedTypes';
 import CardItemDetail from '../CardItemDetail/CardItemDetail';
+import { GET_CARD_BY_ID } from '../../../shared/util/queries'
+import { ObjectGenericProps } from '../../../shared/types/sharedTypes'
 import './CardDetail.css';
 
-const getCardDetail = async(cardId: string, 
-  sendRequest:SendRequestProps, 
-  setCardDetail: React.Dispatch<SetStateAction<ObjectGenericProps<string | ObjectGenericProps<string>>>>
-) => {
-  try {
-    const response = await sendRequest(`/api/cards/${cardId}`, 
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    const newLocation:ObjectGenericProps<ObjectGenericProps<string>> = {}
-    Object.entries(response.card).filter(([key, value]) => filterName.indexOf(key) === -1 && (newLocation[key]=value as ObjectGenericProps<string>))
-    
-    setCardDetail(response.card)
-    return newLocation
-  } catch(err) {
-    console.log(err)
-  }
-}
-
 const CardDetail = () => {
-    const { cardId } = useParams()
-    const [ cardDetail, setCardDetail ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>>({}) 
-    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
+    const { cardId } = useParams() 
 
     if (!cardId) {
       return <h2>Cannot find card</h2>
     }
 
-    const {data} = useQuery({
-      queryKey: ["card-detail"],
-      queryFn: () => getCardDetail(cardId, sendRequest, setCardDetail),
-      refetchOnWindowFocus: false
-    }
-    )
+    const { data, loading, error, refetch } = useQuery(GET_CARD_BY_ID, {
+      variables: { cardId },
+      skip: !cardId 
+    })
 
-    // const loading = <div className="loading">Loading flashcard content...</div>;
+    const [errorMessage, setError] = useState(error?.message)
+
+    const cardData = data && data.getCardById
+    const cardDetail = cardData && Object.entries(cardData)
+    .filter(([key, ]) => filterName.indexOf(key) === -1)
     
     // navigation in cards
     const [current, setCurrent] = useState(0);
@@ -59,24 +37,37 @@ const CardDetail = () => {
       setCurrent(current + 1);
     }
 
-    const cards = data && Object.entries(data).map(([key, value]) => {
-      return <CardItemDetail card={value} key={key} />;
+    const cards = cardDetail && cardDetail.map(([key, value]: [key: string, value: ObjectGenericProps<string>]) => {
+        return <CardItemDetail card={value} key={key} />;
     });
+
+    const clearError = () => {
+      setError(undefined);
+  } ;
     
-    // if(!data) {
-    //   return <h2>Cannot fetching data</h2>
-    // }
+  
+  // Use useEffect to refetch when cardId changes
+  useEffect(() => {
+    if (cardId) {
+      refetch({ cardId });
+    }
+  }, [cardId, refetch]);
+
+  if (loading) return <LoadingSpinner asOverlay/>
   
   return (
     <div className='card-detail-container'>
-      <ErrorModal error={error} onClear={clearError} />
-      {isLoading && <LoadingSpinner asOverlay/>}
 
-      <h2>{ cardDetail.title as string }</h2>
+      {
+        errorMessage &&
+          <ErrorModal error={errorMessage} onClear={clearError} />
+      }
+
+      <h2>{ cardData && cardData.title as string }</h2>
       {/* number of cards */}
-      {data && Object.keys(data) && Object.keys(data).length > 0 ? (
+      {cardDetail && cardDetail.length > 0 ? (
         <div className="cardNumber">
-          Card {current + 1} of {Object.keys(data).length}
+          Card {current + 1} of {cardDetail.length}
         </div>
       ) : (
         ""
@@ -84,7 +75,7 @@ const CardDetail = () => {
       {/* /number of cards */}
 
       {/* render cards */}
-      {data && cards && Object.keys(data) && Object.keys(data).length > 0 ? 
+      {cardDetail && cards && cardDetail.length > 0 ? 
       <div>
         {cards[current]}
         {/* render nav buttons */}
@@ -96,7 +87,7 @@ const CardDetail = () => {
               Previous card
             </button>
           )}
-          {data && current < Object.keys(data).length - 1 ? (
+          { cardDetail && current < cardDetail.length - 1 ? (
             <button onClick={nextCard}>Next card</button>
           ) : (
             <button className="disabled" disabled>
@@ -111,19 +102,20 @@ const CardDetail = () => {
 
       <div className='card-detail-description'>
         <h3>Description</h3>
-        <p>{cardDetail.description as string}</p>
+        <p>{cardData && cardData.description as string}</p>
       </div>
 
       {
-        typeof cardDetail.creator === 'object' 
+        typeof cardData.creator === 'object' 
+        && cardData.creator
         &&
         <div className='card-detail-user'>
-          <img src={cardDetail.creator.image}/>
+          <img src={cardData.creator.image}/>
           <div>
             <div className='card-detail-user__created-by'>Created by</div>
-            <h4>{`${cardDetail.creator.firstName} ${cardDetail.creator.lastName}`}
+            <h4>{`${cardData.creator.firstName} ${cardData.creator.lastName}`}
             </h4>
-            <p className='card-detail-user__email'>@{cardDetail.creator.email}</p>
+            <p className='card-detail-user__email'>@{cardData.creator.email}</p>
           </div>
         </div>
       }

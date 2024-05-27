@@ -209,6 +209,10 @@
   width: 100%;
 }
 
+.search-result-info {
+  height: 13rem;
+}
+
 .search-result-row ul {
   /* display: flex;
   justify-content: flex-start;

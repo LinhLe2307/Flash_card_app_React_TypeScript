@@ -14,24 +14,24 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
       </a>
       <div className='search-result-item__body'>
           <div className='search-result-row'>
-              <div>
+              <div className='search-result-info'>
                   <h1 className='search-result-item__heading'>{firstName} {lastName}</h1>
                   <p className='info'>
                     <EmailIcon/>
                     <span>{email}</span>
                   </p>
-                  <p className='info'>
+                  { phone && <p className='info'>
                     <LocalPhoneIcon/>
                     <span>{phone}</span>
-                  </p>
-                  <p className='info'>
+                  </p> }
+                  { country && <p className='info'>
                     <LanguageIcon/>
                     <span>{country}</span>
-                  </p>
-                  <p className='info'>
+                  </p> }
+                  { language && <p className='info'>
                     <PublicIcon/>
                     <span>{language}</span>
-                  </p>
+                  </p> }
               </div>
               <div className='search-result-item__view'>
                 <p>{cardCount as number >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { InputHandlerProps } from '../../../shared/types/formTypes'
 
 import './CardTags.css'
@@ -35,6 +35,12 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
         setShowErrorModal(false)
     }
 
+    useEffect(() => {
+        if (initialValue.length > 0) {
+            inputHandler([...tags], true, 'tags', 'tags')
+        }
+    }, [initialValue])
+
     return (
         <>
             <label>Tags</label>
@@ -58,6 +64,7 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
                     className='tags-input' 
                     placeholder='Enter new tag'
                 />
+
             </div>
         </>
     )

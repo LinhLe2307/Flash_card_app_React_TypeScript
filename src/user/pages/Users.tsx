@@ -1,64 +1,43 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../../app/hooks'
-import ErrorModal from '../../shared/components/UIElements/ErrorModal'
-import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import { useHttpClient } from '../../shared/hooks/http-hook'
-import { SendRequestProps } from '../../shared/types/sharedTypes'
-import UsersList from '../components/UsersList/UsersList'
-import { UserProps } from '../types/userTypes'
 
-const getAllUsers = async(sendRequest: SendRequestProps) => {
-  try {
-    const response = await sendRequest(`/api/users`,
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    return response.users
-  } catch(err) {
-    console.log(err)
-  }
-}
+import { useAppSelector } from '../../app/hooks'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import UsersList from '../components/UsersList/UsersList'
+import { ALL_USERS } from '../../shared/util/queries'
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import { ObjectGenericProps } from '../../shared/types/sharedTypes'
 
 const Users = () => {
-  const [ dataFetched, setDataFetched ] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const searchInput = useAppSelector(state => state.search.search_input)
-  
-  const { data } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => getAllUsers(sendRequest),
-    enabled: !dataFetched
-  })
-  const [filterList, setFilterList] = useState([])
 
-  // Check if data is being fetched for the first time
-  if (isLoading && !dataFetched) {
-    // Set dataFetched to true to disable further queries
-    setDataFetched(true);
-  }
+  const { data, loading, error } = useQuery(ALL_USERS)
+  const [usersList, setUsersList] = useState([])
+
+  const [errorMessage, setError] = React.useState(error?.message)
+  const clearError = () => {
+    setError(undefined);
+  };
 
   useEffect(() => {
-    const result = 
-      searchInput && searchInput.length !== 0 
-      ?  data.filter((user: UserProps) => 
-      `${user.firstName} ${user.lastName}`.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1)
-      : data
-    setFilterList(result)
+    if (data) {
+      const filterList = data.getUsers.filter((user: ObjectGenericProps<string>) => `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`.includes(searchInput.toLowerCase()))
+      setUsersList(filterList)
+    }
   }, [searchInput, data])
+
+  // if (loading) return <LoadingSpinner asOverlay/>
+  if (loading && usersList.length === 0) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError}/>
-      {isLoading && (
-        <div className='center'>
-          <LoadingSpinner asOverlay />
-        </div>
-      )}
-      {filterList && <UsersList items={filterList}/>}
+      {
+        errorMessage &&
+        <ErrorModal error={errorMessage} onClear={clearError}/>
+      }
+      {
+        usersList && <UsersList items={usersList}/>
+      }
     </React.Fragment>
   )
 }

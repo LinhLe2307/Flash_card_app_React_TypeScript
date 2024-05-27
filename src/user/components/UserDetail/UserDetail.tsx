@@ -1,49 +1,31 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
+
 import { useParams } from "react-router-dom";
-import ErrorModal from "../../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import TabPanelModal from "./components/TabPanelModal/TabPanelModal";
-import { useHttpClient } from "../../../shared/hooks/http-hook";
-import { SendRequestProps } from "../../../shared/types/sharedTypes";
 import UserDetailAbout from "./components/UserDetailAbout/UserDetailAbout";
 import UserDetailWork from "./components/UserDetailWork/UserDetailWork";
-import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import { SINGLE_USER } from "../../../shared/util/queries";
+import ErrorModal from "../../../shared/components/UIElements/ErrorModal";
 
 const projectsTypes = ['About', 'All cards']
 
-const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
-  try {
-    const response = await sendRequest(`/api/users/${userId}`,
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    return response.user
-  } catch(err) {
-    console.log(err)
-  }
-}
-
 const UserDetail = () => {
   let { userId } = useParams()
-  const [ dataFetched, setDataFetched ] = useState(false);
   const [ value, setValue ] = React.useState(0);
-  const { isLoading, error, sendRequest, clearError} = useHttpClient()
-  const {data, isLoading: isLoadingQuery} = useQuery({
-    queryKey: ['single-user'],
-    queryFn: () => typeof userId === 'string' && getSingleUser(sendRequest, userId),
-    enabled: !dataFetched
+  const fetchData = useQuery(SINGLE_USER, {
+    variables: { userId }
   })
+  const [errorMessage, setError] = useState(fetchData?.error?.message)
 
-  // Check if data is being fetched for the first time
-  if (isLoadingQuery && !dataFetched) {
-    // Set dataFetched to true to disable further queries
-    setDataFetched(true);
+  const data = fetchData?.data?.getUserDetail
+
+  const clearError = () => {
+    setError(undefined)
   }
 
-  if (isLoading) return <LoadingSpinner asOverlay/>
+  if (fetchData.loading) return <LoadingSpinner asOverlay/>
 
   return (
     <TabPanelModal 
@@ -53,7 +35,10 @@ const UserDetail = () => {
       image= {data?.image}
       fullName= {data && `${data.firstName} ${data.lastName}`}
     >
-      <ErrorModal error={error} onClear={clearError} />
+      {
+        errorMessage && 
+        <ErrorModal error={errorMessage} onClear={clearError} />
+      }
       {
         projectsTypes[value] === 'About' && data
         ? <UserDetailAbout 
