@@ -53,7 +53,7 @@ const UserDetailAbout = ({ aboutMe, country, email, phone, language,
                   <span><link.icon /></span>
                   { link.url 
                     ? <a href={`${link.url}`} target='_blank'>{croppedLink(link.url)}</a> 
-                    : <span style={{ color: '#999' }}>{link.platform}</span>}
+                    : <span className='social-links-list-platform'>{link.platform}</span>}
                 </li>
                 ))
               }

@@ -68,7 +68,7 @@
     align-items: center;
 }
 
-.social-links-list a, .social-links-plaintext {
+.social-links-list a, .social-links-plaintext, .social-links-list-platform {
     display: inline-flex;
     align-items: center;
     font-size: 14px;
@@ -79,6 +79,10 @@
 
 .social-links-list a {
     color: #0d0c22;
+}
+
+.social-links-list-platform {
+    color: #999
 }
 
 .social-links-plaintext {

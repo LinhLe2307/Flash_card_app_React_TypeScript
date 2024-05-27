@@ -17,7 +17,7 @@ import Users from './user/pages/Users';
 
 function App() {
   const uploadLink = createUploadLink({
-    uri: 'http://localhost:5068', // Apollo Server is served from port 5068
+    uri: 'https://flash-card-app-nodejs.fly.dev/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
