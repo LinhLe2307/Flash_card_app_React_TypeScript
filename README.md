@@ -6,8 +6,11 @@ This is a front-end flashcard using React and Typescript with backend technologi
 
 ### Tech stack:
 - React
+- Redux Saga
 - TypeScript
 - Nodejs
+- GraphQL
+- S3 AWS
 - Unsplash API
 
 ### How to start
