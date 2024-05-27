@@ -23,6 +23,9 @@ const Settings = () => {
   const { loading, error, data } = useQuery(SINGLE_USER, {
     variables: { userId: auth && auth.userId }
   })
+
+  const [errorMessage, setError] = useState(error?.message)
+
   const userDetail = data?.getUserDetail
 
   const {
@@ -109,6 +112,10 @@ const Settings = () => {
     setShowCancelModal(false)
   }
 
+  const clearError = () => {
+    setError(undefined);
+  };
+
   // Check if data is being fetched for the first time
   if (loading && !dataFetched) {
     // Set dataFetched to true to disable further queries
@@ -123,7 +130,12 @@ const Settings = () => {
 
   return (
     <React.Fragment>
-      {/* <ErrorModal error={error} onClear={clearError} /> */}
+
+      {
+        errorMessage
+        &&
+        <ErrorModal error={errorMessage} onClear={clearError} />
+      }
       <Modal 
             show={showCancelModal} 
             onCancel={cancelModelHandle}
