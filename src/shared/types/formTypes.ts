@@ -1,4 +1,4 @@
-import { GenericProps, ObjectGenericProps, SendRequestProps } from './sharedTypes'
+import { GenericProps, ObjectGenericProps } from './sharedTypes'
 
 export enum InputValueProps {
     CHANGE = 'CHANGE',
@@ -76,19 +76,10 @@ export enum FormActionProps {
     ADD_CARD='ADD_CARD',
     RESET_FORM='RESET_FORM',
     INITIAL_FORM_STATE='INITIAL_FORM_STATE',
-
-    FETCH_UPDATE_CARD='FETCH_UPDATE_CARD',
-    SET_DATA_SUCCESS='SET_DATA_SUCCESS',
-    SET_DATA_FAILURE='SET_DATA_FAILURE'
 }
 
 export interface SetFormDataProps {
     (inputData: FormInputsProps, formValidity: boolean) : void
-}
-
-export interface FetchUpdateDataPayload {
-    cardId: string,
-    sendRequest: SendRequestProps
 }
 
 export interface InputChangeFormPayload {
@@ -103,25 +94,14 @@ export interface RemoveCardPayload {
     inputId: string
 }
 
-export interface SetDataPayload {
-    inputs: FormInputsProps,
-    formIsValid: boolean | undefined
-}
-
 export type FormAction = {
     type: FormActionProps.INPUT_CHANGE
     payload: InputChangeFormPayload
-} | {
-    type: FormActionProps.SET_DATA_SUCCESS,
-    payload: SetDataPayload
 } | {
     type: FormActionProps.REMOVE_CARD,
     payload: RemoveCardPayload
 } | {
     type: FormActionProps.ADD_CARD | FormActionProps.RESET_FORM,
-} | {
-    type: FormActionProps.FETCH_UPDATE_CARD,
-    payload: FetchUpdateDataPayload
 } | {
     type: FormActionProps.INITIAL_FORM_STATE,
     payload: {
