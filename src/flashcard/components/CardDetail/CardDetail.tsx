@@ -52,10 +52,6 @@ const CardDetail = () => {
       refetch({ cardId });
     }
   }, [cardId, refetch]);
-  
-  if(!cardDetail) {
-    return <h2>Cannot fetching data</h2>
-  }
 
   if (loading) return <LoadingSpinner asOverlay/>
   
@@ -67,7 +63,7 @@ const CardDetail = () => {
           <ErrorModal error={errorMessage} onClear={clearError} />
       }
 
-      <h2>{ cardData.title as string }</h2>
+      <h2>{ cardData && cardData.title as string }</h2>
       {/* number of cards */}
       {cardDetail && cardDetail.length > 0 ? (
         <div className="cardNumber">
@@ -91,7 +87,7 @@ const CardDetail = () => {
               Previous card
             </button>
           )}
-          {cardDetail && current < cardDetail.length - 1 ? (
+          { cardDetail && current < cardDetail.length - 1 ? (
             <button onClick={nextCard}>Next card</button>
           ) : (
             <button className="disabled" disabled>
@@ -106,11 +102,12 @@ const CardDetail = () => {
 
       <div className='card-detail-description'>
         <h3>Description</h3>
-        <p>{cardData.description as string}</p>
+        <p>{cardData && cardData.description as string}</p>
       </div>
 
       {
         typeof cardData.creator === 'object' 
+        && cardData.creator
         &&
         <div className='card-detail-user'>
           <img src={cardData.creator.image}/>

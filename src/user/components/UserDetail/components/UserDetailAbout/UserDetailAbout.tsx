@@ -45,13 +45,15 @@ const UserDetailAbout = ({ aboutMe, country, email, phone, language,
           </ul>
         </div>
         <div className='content-section'>
-          <h2 className="section-label">Social</h2>
+          <h2 className='section-label'>Social</h2>
           <ul className='social-links-list'>
             {
               socialMediaLinks.map((link) => (
                 <li key={link.platform}>
                   <span><link.icon /></span>
-                  { link.url ? <a href={`${link.url}`} target="_blank">{croppedLink(link.url)}</a> : link.platform}
+                  { link.url 
+                    ? <a href={`${link.url}`} target='_blank'>{croppedLink(link.url)}</a> 
+                    : <span style={{ color: '#999' }}>{link.platform}</span>}
                 </li>
                 ))
               }

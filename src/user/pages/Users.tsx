@@ -21,12 +21,13 @@ const Users = () => {
 
   useEffect(() => {
     if (data) {
-      const filterList = data.getUsers.filter((user: ObjectGenericProps<string>) => `${user.firstName} ${user.lastName}`.includes(searchInput))
+      const filterList = data.getUsers.filter((user: ObjectGenericProps<string>) => `${user.firstName.toLowerCase()} ${user.lastName.toLowerCase()}`.includes(searchInput.toLowerCase()))
       setUsersList(filterList)
     }
   }, [searchInput, data])
 
-  if (loading) return <LoadingSpinner asOverlay/>
+  // if (loading) return <LoadingSpinner asOverlay/>
+  if (loading && usersList.length === 0) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
