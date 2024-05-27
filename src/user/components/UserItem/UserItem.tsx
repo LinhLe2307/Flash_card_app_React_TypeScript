@@ -20,18 +20,18 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
                     <EmailIcon/>
                     <span>{email}</span>
                   </p>
-                  <p className='info'>
+                  { phone && <p className='info'>
                     <LocalPhoneIcon/>
                     <span>{phone}</span>
-                  </p>
-                  <p className='info'>
+                  </p> }
+                  { country && <p className='info'>
                     <LanguageIcon/>
                     <span>{country}</span>
-                  </p>
-                  <p className='info'>
+                  </p> }
+                  { language && <p className='info'>
                     <PublicIcon/>
                     <span>{language}</span>
-                  </p>
+                  </p> }
               </div>
               <div className='search-result-item__view'>
                 <p>{cardCount as number >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>

@@ -126,10 +126,11 @@ const Settings = () => {
     reset(userDetail)
   }, [loading])
 
-  if (loading) return <LoadingSpinner asOverlay/>
-
   return (
     <React.Fragment>
+      {
+        loading && <LoadingSpinner asOverlay/>
+      }
 
       {
         errorMessage

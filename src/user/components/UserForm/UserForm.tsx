@@ -34,18 +34,15 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
 
     return (
     <div>
-
         <div className='wrapper'>
         {
             loading && <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
         }
-
         {
             errorMessage && <ErrorModal error={errorMessage} onClear={clearError}/>
         }
-
         <h4>{title}</h4>
             <div>
                 <ImageUpload 

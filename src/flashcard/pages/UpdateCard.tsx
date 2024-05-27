@@ -16,6 +16,7 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 import TermFlashcard from './TermFlashcard'
 import CardTags from '../components/CardTags/CardTags'
 import { UPDATE_CARD, GET_CARD_BY_ID } from '../../shared/util/queries'
+import Modal from '../../shared/components/UIElements/Modal'
 import './TermFlashcard.css'
 
 const UpdateCard = () => {
@@ -32,9 +33,12 @@ const UpdateCard = () => {
         skip: !cardId
     })
 
-    const [errorMessage, setError] = useState(error?.message)
+    const [ errorMessage, setError ] = useState(error?.message)
+    
+    const [ updateCard, {loading: loadingUpdate, error: errorUpdate} ] = useMutation(UPDATE_CARD)
+    const [ errorUpdateMessage, setUpdateError ] = useState(errorUpdate?.message)
 
-    const [ updateCard ] = useMutation(UPDATE_CARD)
+    const [ showConfirmModel, setShowConfirmModal ] = useState(false)
 
     const updateCardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
@@ -69,7 +73,7 @@ const UpdateCard = () => {
               })
 
             if (response) {
-                setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
+                navigate(`/card-detail/${cardId}`)
             }
 
             
@@ -80,15 +84,23 @@ const UpdateCard = () => {
 
     const clearError = () => {
         setError(undefined);
+        setUpdateError(undefined)
     };
 
+    const openConfirmHandler = () => {
+       setShowConfirmModal(true)
+    }
+    
+    const cancelConfirmHandle = () => {
+        setShowConfirmModal(false)
+    }
+    
     // Use useEffect to refetch when cardId changes
     useEffect(() => {
         if (cardId) {
             refetch({ cardId });
         }
     }, [cardId, refetch]);
-
 
     useEffect(() => {
         if (data && data.getCardById) {
@@ -133,6 +145,7 @@ const UpdateCard = () => {
     }, [data, dispatch])
 
     if (loading) return <LoadingSpinner asOverlay/>
+    if (loadingUpdate) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
@@ -141,12 +154,34 @@ const UpdateCard = () => {
             <ErrorModal error={errorMessage} onClear={clearError} />
         }
         {
+            errorUpdateMessage &&
+            <ErrorModal error={errorUpdateMessage} onClear={clearError} />
+        }
+
+        {
             cardData 
             && typeof cardData?.title?.value === 'string' && +cardData?.title?.value.length > 0 
             && typeof cardData?.description?.value === 'string' && +cardData?.description?.value.length > 0
             && Array.isArray(cardData?.tags?.value) && +cardData?.tags?.value.length > 0
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
+                <Modal 
+                    show={showConfirmModel} 
+                    onCancel={cancelConfirmHandle}
+                    header='Confirm changes'
+                    contentClass='card-item__modal-content'
+                    footerClass='card-item__modal-actions'
+                    footer={
+                    <>
+                        <Button type='submit'>CONFIRM</Button>
+                        <Button inverse type='button' onClick={cancelConfirmHandle}>CLOSE</Button>
+                    </>
+                    }
+                >
+                    <div className='map-container'>
+                    Are you sure you want to update the card?
+                    </div>
+                </Modal>
                 { loading && <LoadingSpinner asOverlay/> }
                 <div className='flashcard-form-title'>
                     <Input 
@@ -207,7 +242,7 @@ const UpdateCard = () => {
                     <div style={{
                         float: 'right'
                     }}>
-                        <Button type='submit'>SUBMIT</Button>
+                        <Button type='button' onClick={openConfirmHandler}>SUBMIT</Button>
                     </div>
                 </div>
             </form>
