@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchUpdateCard } from '../../app/actions/form'
+import { useMutation, useQuery } from '@apollo/client'
+
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
@@ -9,12 +10,12 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { filterName } from '../../shared/constants/global'
 import { AuthContext } from '../../shared/context/auth-context'
 import { useFormHook } from '../../shared/hooks/form-hook'
-import { useHttpClient } from '../../shared/hooks/http-hook'
-import { ValueAndValidProps, BodyProps } from '../../shared/types/formTypes'
+import { ValueAndValidProps, BodyProps, FormInputsProps } from '../../shared/types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../shared/types/sharedTypes'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators'
 import TermFlashcard from './TermFlashcard'
 import CardTags from '../components/CardTags/CardTags'
+import { UPDATE_CARD, GET_CARD_BY_ID } from '../../shared/util/queries'
 import './TermFlashcard.css'
 
 const UpdateCard = () => {
@@ -23,9 +24,18 @@ const UpdateCard = () => {
     const auth = useContext(AuthContext)
 
     const cardId = useParams().cardId
-    const { isLoading, error, sendRequest, clearError } = useHttpClient()   
     const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler] = useFormHook()
-    
+    const [cardData, setCardData] = useState<FormInputsProps>({})
+
+    const { data, loading, error, refetch } = useQuery(GET_CARD_BY_ID, {
+        variables: { cardId },
+        skip: !cardId
+    })
+
+    const [errorMessage, setError] = useState(error?.message)
+
+    const [ updateCard ] = useMutation(UPDATE_CARD)
+
     const updateCardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
         event.preventDefault()
         try {
@@ -51,14 +61,12 @@ const UpdateCard = () => {
                     }
                 }
             })
-            const response = await sendRequest(`/api/cards/${cardId}`,
-                'PATCH',
-                JSON.stringify(body),
-                {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + auth.token
+
+            const response = await updateCard({
+                variables: {
+                  input: {...body, cardId: cardId, userId: auth.userId}
                 }
-            )
+              })
 
             if (response) {
                 setTimeout(()=> navigate(`/card-detail/${cardId}`), 500)
@@ -70,29 +78,76 @@ const UpdateCard = () => {
         }
     }
 
+    const clearError = () => {
+        setError(undefined);
+    };
+
+    // Use useEffect to refetch when cardId changes
     useEffect(() => {
         if (cardId) {
-            dispatch(
-                fetchUpdateCard({
-                    cardId: cardId,
-                    sendRequest: sendRequest
-                }))
-            }
-        }, [dispatch])
+            refetch({ cardId });
+        }
+    }, [cardId, refetch]);
+
+
+    useEffect(() => {
+        if (data && data.getCardById) {
+            const formCard: FormInputsProps = {}
+            Object.entries(data.getCardById).forEach(([key, value]) => {
+                if (['title', 'description'].includes(key)) {
+                    formCard[key] = {
+                        value: value as string,
+                        isValid : true
+                    }
+                } else if (['tags'].includes(key)) {
+                    const tagsList =  Array.isArray(value) ? value.map((tag: ObjectGenericProps<string> )=> tag.name) : []
+                    formCard[key] = {
+                        value: tagsList,
+                        isValid : true
+                    }
+                }
+                else if (!filterName.includes(key)) {
+                    if (typeof value === 'object' && value !== null) {
+                        const typedValue = value as ObjectGenericProps<string>
+                        formCard[key] = {
+                            value: {
+                                term: {
+                                    value: typedValue.term,
+                                    isValid: true
+                                }, definition:  {
+                                    value: typedValue.definition,
+                                    isValid: true
+                                }, imageUrl:  {
+                                    value: typedValue.imageUrl ? typedValue.imageUrl : '',
+                                    isValid: true
+                                }
+                            },
+                            isValid: true
+                        }
+                    }
+                }
+            })
+            setCardData(formCard)
+
+        }
+    }, [data, dispatch])
+
+    if (loading) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
-        <ErrorModal error={error} onClear={clearError} />
-        { !formState.inputs && <LoadingSpinner asOverlay/> }
-        
         {
-            formState 
-            && typeof formState.inputs?.title?.value === 'string' && +formState.inputs?.title?.value.length > 0 
-            && typeof formState.inputs?.description?.value === 'string' && +formState.inputs?.description?.value.length > 0
-            && Array.isArray(formState.inputs?.tags?.value) && +formState.inputs?.tags?.value.length > 0
+            errorMessage &&
+            <ErrorModal error={errorMessage} onClear={clearError} />
+        }
+        {
+            cardData 
+            && typeof cardData?.title?.value === 'string' && +cardData?.title?.value.length > 0 
+            && typeof cardData?.description?.value === 'string' && +cardData?.description?.value.length > 0
+            && Array.isArray(cardData?.tags?.value) && +cardData?.tags?.value.length > 0
             &&
             <form className='card-form' onSubmit={updateCardSubmitHandler}>
-                { isLoading && <LoadingSpinner asOverlay/> }
+                { loading && <LoadingSpinner asOverlay/> }
                 <div className='flashcard-form-title'>
                     <Input 
                         nameId='title'
@@ -107,7 +162,7 @@ const UpdateCard = () => {
                         }
                         errorText='Please enter a valid text'
                         onInput={inputHandler}
-                        initialValue={formState?.inputs?.title?.value ?? ''}
+                        initialValue={cardData.title.value ?? ''}
                         initialIsValid={true}
                         />
                     <Input 
@@ -119,18 +174,18 @@ const UpdateCard = () => {
                         validators={[VALIDATOR_MINLENGTH(5)]}
                         errorText='Please enter a valid definition (min. 5 characters).'
                         onInput={inputHandler}
-                        initialValue={formState?.inputs?.description?.value ?? ''}
+                        initialValue={cardData.description.value ?? ''}
                         initialIsValid={true}
                         />
                     <CardTags 
                         inputHandler={inputHandler}
-                        initialValue={formState.inputs.tags.value ?? []}
+                        initialValue={cardData.tags.value}
                     />
                 </div>
                 <div>
                 {
                     
-                    Object.entries(formState.inputs).map(([key, value]) => {
+                    Object.entries(cardData).map(([key, value]) => {
                         if (filterName.indexOf(key) === -1) {
                             if (typeof value !== null) {
                                 return <TermFlashcard 
@@ -152,7 +207,7 @@ const UpdateCard = () => {
                     <div style={{
                         float: 'right'
                     }}>
-                        <Button type='submit' disabled={!formState.isValid}>SUBMIT</Button>
+                        <Button type='submit'>SUBMIT</Button>
                     </div>
                 </div>
             </form>
