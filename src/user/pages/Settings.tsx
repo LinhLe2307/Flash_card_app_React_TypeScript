@@ -1,84 +1,66 @@
-import { useQuery } from '@tanstack/react-query'
 import React, { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useMutation, useQuery } from '@apollo/client'
+
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
 import UserForm from '../components/UserForm/UserForm'
 import { UserBaseProps } from '../types/userTypes'
 import Button from '../../shared/components/FormElements/Button'
-import { SendRequestProps } from '../../shared/types/sharedTypes'
 import '../components/UserForm/UserForm.css'
 import Modal from '../../shared/components/UIElements/Modal'
 import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
-
-
-const getSingleUser = async(sendRequest: SendRequestProps, userId: string) => {
-  try {
-    const response = await sendRequest(`/api/users/${userId}`,
-      'GET',
-      null,
-      {
-        'Content-Type': 'application/json'
-      }
-    )
-    return response.user
-  } catch(err) {
-    console.log(err)
-  }
-}
+import { UPDATE_USER, SINGLE_USER, DELETE_USER } from '../../shared/util/queries'
 
 const Settings = () => {
   const auth = useContext(AuthContext)
   const [ dataFetched, setDataFetched ] = useState(false);
-  const { isLoading, error, sendRequest, clearError} = useHttpClient()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
 
-  const {data, isLoading: isLoadingQuery} = useQuery({
-    queryKey: ['single-user'],
-    queryFn: () => typeof auth.userId === 'string' && getSingleUser(sendRequest, auth.userId),
-    enabled: !dataFetched
+  const { loading, error, data } = useQuery(SINGLE_USER, {
+    variables: { userId: auth && auth.userId }
   })
+  const userDetail = data?.getUserDetail
+
   const {
     register,
     handleSubmit,
     reset,
     setValue,
-    formState,
     formState: { errors }
   } = useForm<UserBaseProps>({
-    defaultValues: data
+    defaultValues: userDetail
   })
 
-  const [submittedData, setSubmittedData] = useState({})
+  const [ updateUser ] = useMutation(UPDATE_USER )
+  const [ deleteUser ] = useMutation(DELETE_USER )
 
   const updateHandler:SubmitHandler<UserBaseProps> = async(dataForm) => {
     try {
-      const formData = new FormData() 
+      const body: any = {}
       // Get all values of the SocialMediaType enum
       const socialMediaValues = Object.values(SocialMediaType);
 
       // Get all values of the UserInfoProps enum
       const userInfoValues = Object.values(UserInfoType);
 
-      [...socialMediaValues, ...userInfoValues, 'password', 'image'].map(value => 
-          formData.append(value, dataForm[value] as File)
+      [...socialMediaValues, ...userInfoValues].map(value => 
+          body[value] = dataForm[value]
       )
-
-      const response = await sendRequest(`/api/users/${auth.userId}`,
-          'PATCH',
-          formData,
-          {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + auth.token
-          }
-      )
-      if (response) {
-        setSubmittedData(response.user)
+      body['userId'] = auth.userId
+      if (typeof dataForm['image'] === 'string') {
+        body['image'] = {
+          url: dataForm['image']
+        }
+      } else {
+        body['image'] = {
+          file: dataForm['image']
+        }
       }
+      await updateUser({ variables: body }) 
       
     } catch(err) {
         console.log(err)
@@ -110,15 +92,11 @@ const Settings = () => {
 
   const deleteAccountHandler = async() => {
     try {
-      const response = await sendRequest(`/api/users/${auth.userId}`,
-          'DELETE',
-          null,
-          {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + auth.token
-          }
-      )
-      if (response) {
+      const response = await deleteUser({
+        variables: {
+          userId: auth.userId
+      }})
+      if (response && response.data && response.data.deleteUser) {
         auth.logout()
       }
     } catch(err) {
@@ -132,24 +110,20 @@ const Settings = () => {
   }
 
   // Check if data is being fetched for the first time
-  if (isLoadingQuery && !dataFetched) {
+  if (loading && !dataFetched) {
     // Set dataFetched to true to disable further queries
     setDataFetched(true);
   }
 
   useEffect(() => {
-    reset(data)
-  }, [isLoading])
+    reset(userDetail)
+  }, [loading])
 
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset(submittedData)
-    }
-  }, [formState, submittedData, reset])
+  if (loading) return <LoadingSpinner asOverlay/>
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
+      {/* <ErrorModal error={error} onClear={clearError} /> */}
       <Modal 
             show={showCancelModal} 
             onCancel={cancelModelHandle}
@@ -184,9 +158,8 @@ const Settings = () => {
                Are you sure you want to delete this profile?
             </div>
         </Modal>
-      { isLoadingQuery && <LoadingSpinner asOverlay/> }
       {
-        data && 
+        userDetail && 
         <form onSubmit={handleSubmit(updateHandler)}>
           <Modal 
             show={showConfirmModal} 
@@ -209,7 +182,7 @@ const Settings = () => {
             register={register}
             setValue={setValue}
             errors={errors}
-            imageUrl={`${data.image}`}
+            imageUrl={`${userDetail?.image}`}
             title='Account Settings'
             disabled={true}
           > 
