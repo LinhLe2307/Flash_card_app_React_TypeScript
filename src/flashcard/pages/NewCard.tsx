@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@apollo/client'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
@@ -15,9 +16,9 @@ import TermFlashcard from './TermFlashcard'
 import { initialImageState } from '../../app/actions/image'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import { useHttpClient } from '../../shared/hooks/http-hook'
 import { initialState, deepCopy } from '../../app/reducers/formReducer'
 import CardTags from '../components/CardTags/CardTags'
+import { CREATE_CARD } from '../../shared/util/queries'
 import './TermFlashcard.css'
 
 
@@ -26,7 +27,9 @@ const NewCard = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setInitialStateForm] = useFormHook()
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  
+  const [createCard, { loading, error }] = useMutation(CREATE_CARD)
+  const [errorMessage, setError] = useState(error?.message);
 
   const cardSubmitHandler:GenericProps<React.FormEvent<HTMLFormElement>> = async(event) => {
     event.preventDefault()
@@ -52,20 +55,28 @@ const NewCard = () => {
           }
         }
       })
-      
-      const response = await sendRequest('/api/cards', 'POST', JSON.stringify(body), {
-        'Authorization': 'Bearer ' + auth.token,
-        'Content-Type': 'application/json'
+
+      body['userId'] = auth && auth.userId as string
+
+      const response = await createCard({
+        variables: {
+          input: body
+        }
       })
-      if (response.card.id) {
+
+      if (response.data.createCard._id) {
         setTimeout(()=> 
-          navigate(`/card-detail/${response.card.id}`), 500)
+          navigate(`/card-detail/${response.data.createCard._id}`), 500)
       }
 
     } catch(err) {
       console.log(err)
     }
   }
+
+  const clearError = () => {
+    setError(undefined);
+  };
 
   useEffect(() => {
     dispatch(
@@ -76,9 +87,12 @@ const NewCard = () => {
 
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
+      {
+        errorMessage && 
+        <ErrorModal error={errorMessage} onClear={clearError} />
+      }
       <form className='card-form' onSubmit={cardSubmitHandler}>
-        { isLoading && <LoadingSpinner asOverlay/> }
+        { loading && <LoadingSpinner asOverlay/> }
         <div className='flashcard-form-title'>
           <Input 
             id='title'
