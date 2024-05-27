@@ -45,18 +45,19 @@ const CardDetail = () => {
       setError(undefined);
   } ;
     
-    if(!cardDetail) {
-      return <h2>Cannot fetching data</h2>
+  
+  // Use useEffect to refetch when cardId changes
+  useEffect(() => {
+    if (cardId) {
+      refetch({ cardId });
     }
+  }, [cardId, refetch]);
+  
+  if(!cardDetail) {
+    return <h2>Cannot fetching data</h2>
+  }
 
-    // Use useEffect to refetch when cardId changes
-    useEffect(() => {
-      if (cardId) {
-          refetch({ cardId });
-      }
-    }, [cardId, refetch]);
-
-    if (loading) return <LoadingSpinner asOverlay/>
+  if (loading) return <LoadingSpinner asOverlay/>
   
   return (
     <div className='card-detail-container'>

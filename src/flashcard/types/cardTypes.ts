@@ -4,7 +4,7 @@ import { GenericProps, ObjectGenericProps } from "../../shared/types/sharedTypes
 export interface CardItemProps{
     creator: string
     id: string
-    card: ObjectGenericProps<string | ObjectGenericProps<string>[]>
+    card: ObjectGenericProps<string | ObjectGenericProps<string> | ObjectGenericProps<string>[]>
     onDelete: (deletedCardId: string) => void
     userId?:string
 }

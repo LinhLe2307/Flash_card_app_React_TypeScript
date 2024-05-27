@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import Button from '../../../shared/components/FormElements/Button'
 import CardAvatar from '../../../shared/components/UIElements/CardAvatar'
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal'
@@ -66,7 +67,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                     <p>{ typeof card.description === 'string' && card.description }</p>
                     {
                         <div className='card-item__tags'>
-                            { typeof card.tags === 'object'
+                            { Array.isArray(card.tags)
                                 && card.tags.map((tag) => <span 
                                     key={tag.name}
                                     className='card-item__tag'
@@ -81,7 +82,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                     {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
                         auth.isLoggedIn && auth.userId === creator && <>
-                            <Button to={`/card-update/${id}`} state={card}>EDIT</Button>
+                            <Button to={`/card-update/${id}`}>EDIT</Button>
                             <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
                         </>
                     }    

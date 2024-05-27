@@ -22,14 +22,13 @@ export const ALL_USERS = gql`
         title
         description
         tags {
+          id
           name
         }
       }
     }
   }
 `
-
-
 export const SINGLE_USER = gql`
   query findUserById($userId: ID!) {
     getUserDetail(userId: $userId) {
@@ -52,6 +51,7 @@ export const SINGLE_USER = gql`
         title
         description
         tags {
+          id
           name
         }
       }
@@ -105,7 +105,6 @@ export const SIGN_UP_USER = gql`
   }
 }
 `
-
 export const GET_COUNTRIES = gql`
   query {
     getCountries {
@@ -116,10 +115,100 @@ export const GET_COUNTRIES = gql`
   }
 `
 
-export const UPLOAD_IMAGE = gql`
-mutation UploadImage($file: Upload!, $description: String!) {
-  uploadImage(file: $file, description: $description) {
-    url
-  }
+export const DELETE_USER = gql`
+mutation deleteUserMutation ($userId: ID!){
+  deleteUser(userId: $userId)
 }
-`;
+`
+
+export const UPDATE_USER = gql`
+  mutation updateUserMutation(
+    $userId: String!
+    $firstName: String!
+    $lastName: String!
+    $aboutMe: String
+    $country: String!
+    $email: String!
+    $image: ImageInput!
+    $phone: String
+    $language: String
+    $x: String
+    $linkedIn: String
+    $instagram: String
+    $github: String
+    $website: String
+  ) {
+    updateUser(
+      userId: $userId
+      firstName: $firstName
+      lastName: $lastName
+      aboutMe: $aboutMe
+      country: $country
+      email: $email
+      phone: $phone
+      language: $language
+      image: $image
+      x: $x
+      linkedIn: $linkedIn
+      instagram: $instagram
+      github: $github
+      website: $website) {
+        id
+        firstName
+        lastName
+        aboutMe
+        country
+        email
+        phone
+        language
+        x
+        linkedIn
+        instagram
+        github
+        website
+        image
+  }
+  }
+`
+export const GET_CARDS_BY_USER_ID = gql`
+  query findCardsByUserId(
+    $userId: String!
+    $searchInput: String
+  ) {
+    getCardsByUserId(
+      userId: $userId
+      searchInput: $searchInput
+    ) {
+      cards {
+        id
+        title
+        description
+        creator {
+          id
+        }
+        tags {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+export const GET_CARD_BY_ID = gql`
+  query findCardById($cardId: ID!) {
+    getCardById(cardId: $cardId)
+  }
+`
+
+export const CREATE_CARD = gql`
+mutation createCardMutation ($input: JSON!){
+  createCard(input: $input)
+}
+`
+
+export const UPDATE_CARD = gql`
+mutation updateCardMutation ($input: JSON!){
+  updateCard(input: $input)
+}
+`
