@@ -18,7 +18,7 @@ const UserCards = () => {
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>[]>([])
 
   const { data, loading, error, refetch } = useQuery(GET_CARDS_BY_USER_ID, {
-    variables: { userId, searchInput }
+    variables: { userId }
   })
   const userCards = data?.getCardsByUserId?.cards
 

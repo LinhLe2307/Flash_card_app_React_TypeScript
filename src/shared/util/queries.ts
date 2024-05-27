@@ -169,11 +169,9 @@ export const UPDATE_USER = gql`
 export const GET_CARDS_BY_USER_ID = gql`
   query findCardsByUserId(
     $userId: ID!
-    $searchInput: String
   ) {
     getCardsByUserId(
       userId: $userId
-      searchInput: $searchInput
     ) {
       cards {
         id
