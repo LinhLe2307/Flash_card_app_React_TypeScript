@@ -59,23 +59,27 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <label htmlFor='firstName'>First Name*</label>
                     <input 
                         id='firstName' 
-                        {...register('firstName')}
+                        {...register('firstName', {
+                            required: 'This field is required.'
+                        })}
                         placeholder='John'
                         className='bg-light form-control'
                         autoComplete='firstName'
                     />
-                    {errors.firstName?.message && <span>This field is required</span>}
+                    <span>{errors.firstName?.message}</span>
                 </div>
                 <div className='form-control'>
                     <label htmlFor='lastName'>Last Name*</label>
                     <input 
                         id='lastName' 
-                        {...register('lastName')}
+                        {...register('lastName', {
+                            required: 'This field is required.'
+                        })}
                         placeholder='Doe'
                         className='bg-light form-control'
                         autoComplete='lastName'
                     />
-                    {errors.lastName?.message && <span>This field is required</span>}
+                    <span>{errors.lastName?.message}</span>
                 </div>
             </div>
             <div className='row'>
@@ -91,8 +95,9 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                         className='form-control' 
                         placeholder='john_doe@email.com' 
                         autoComplete='email'
-                        {...register('email', {required: 'This is required.', pattern: /^\S+@\S+\.\S+$/ })}
+                        {...register('email', {required: 'This field is required.', pattern: /^\S+@\S+\.\S+$/ })}
                     />
+                    <span>{errors.email?.message}</span>
                 </div>
                 <div className='form-control'>
                     <label htmlFor='phone'>Phone Number</label>
@@ -112,7 +117,9 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                     <label htmlFor='country'>Country*</label>
                     <select 
                         id='country' 
-                        {...register('country')}
+                        {...register('country', {
+                            required: 'This field is required.'
+                        })}
                     >
                         <option selected disabled hidden value=''>-- Choose a country --</option>
                         {
@@ -126,7 +133,9 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                 <div id='lang' className='form-control'>
                     <label htmlFor='language'>Language*</label>
                     <div>
-                        <select id='language' {...register('language')}>
+                        <select id='language' {...register('language', {
+                            required: 'This field is required.'
+                        })}>
                             <option value='english'>English</option>
                             <option value='finnish'>Finnish</option>
                             <option value='swedish'>Swedish</option>

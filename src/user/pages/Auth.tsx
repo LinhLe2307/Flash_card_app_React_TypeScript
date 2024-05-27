@@ -137,7 +137,7 @@ const Auth = () => {
                             <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
-                                    required: 'This is required.', 
+                                    required: 'This field is required.', 
                                     minLength: {
                                         value: 6,
                                         message: 'Min length is 6'
@@ -157,17 +157,17 @@ const Auth = () => {
                             <label htmlFor='email'>Email*</label>
                             <input 
                                 id='email' 
-                                {...register('email', { required: 'This is required.', pattern: /^\S+@\S+\.\S+$/ })}
+                                {...register('email', { required: 'This field is required.', pattern: /^\S+@\S+\.\S+$/ })}
                                 placeholder='Please enter your email'
                                 className='bg-light form-control'
                             />
-                            <span>{errors.email?.message}</span>
+                           <span>{errors.email?.message}</span> 
                         </div>
                         <div className={`form-control`}>
                             <label htmlFor='password'>Password*</label>
                             <input type='password' id='password' 
                                 {...register('password', { 
-                                    required: 'This is required.', 
+                                    required: 'This field is required.', 
                                     minLength: {
                                         value: 6,
                                         message: 'Min length is 6'
