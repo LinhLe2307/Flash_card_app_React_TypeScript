@@ -19,6 +19,7 @@ const Settings = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false)
 
   const { loading, error, data } = useQuery(SINGLE_USER, {
     variables: { userId: auth && auth.userId }
@@ -63,7 +64,10 @@ const Settings = () => {
           file: dataForm['image']
         }
       }
-      await updateUser({ variables: body }) 
+      const response = await updateUser({ variables: body }) 
+      if (response ) {
+        setShowUpdateSuccess(true)
+      }
       
     } catch(err) {
         console.log(err)
@@ -91,6 +95,10 @@ const Settings = () => {
 
   const cancelConfirmHandle = () => {
     setShowConfirmModal(false)
+  }
+  
+  const closeSuccessHandle = () => {
+    setShowUpdateSuccess(false)
   }
 
   const deleteAccountHandler = async() => {
@@ -137,6 +145,22 @@ const Settings = () => {
         &&
         <ErrorModal error={errorMessage} onClear={clearError} />
       }
+      <Modal 
+            show={showUpdateSuccess} 
+            onCancel={closeSuccessHandle}
+            header='Cancel changes'
+            contentClass='card-item__modal-content'
+            footerClass='card-item__modal-actions'
+            footer={
+              <>
+                <Button inverse type='button' onClick={closeSuccessHandle}>CLOSE</Button>
+              </>
+            }
+        >
+            <div className='map-container'>
+               Update Successfully
+            </div>
+        </Modal>
       <Modal 
             show={showCancelModal} 
             onCancel={cancelModelHandle}
