@@ -7,14 +7,17 @@ import ErrorModal from '../../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner'
 import Modal from '../../../shared/components/UIElements/Modal'
 import { AuthContext } from '../../../shared/context/auth-context'
-import { useHttpClient } from '../../../shared/hooks/http-hook'
 import { CardItemProps } from '../../types/cardTypes'
 import './CardItem.css'
+import { useMutation } from '@apollo/client'
+import { DELETE_CARD } from '../../../shared/util/queries'
 
 const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
     const auth = useContext(AuthContext)
-    const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [ showConfirmModal, setShowConfirmModal ] = useState(false)
+
+    const [deleteCard, { loading, error }] = useMutation(DELETE_CARD)
+    const [errorMessage, setError] = useState(error?.message)
 
     const showDeleteWarningHandler = () => {
         setShowConfirmModal(true)
@@ -25,22 +28,28 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
     const confirmDeleteHandler = async (deletedCardId: string) => {
         setShowConfirmModal(false)
         try {
-            await sendRequest(`/api/cards/${id}`,
-                'DELETE',
-                null,
-                {
-                    Authorization: 'Bearer ' + auth.token
+            await deleteCard({
+                variables: {
+                    cardId: deletedCardId,
+                    userId: auth.userId
                 }
-            )
+            })
             onDelete(deletedCardId)
         } catch(err) {
             console.log(err)
         }
     }
 
+    const clearError = () => {
+        setError(undefined)
+    }
+
+    if (errorMessage) {
+        <ErrorModal error={errorMessage} onClear={clearError}/>
+    }
+
   return (
     <React.Fragment>
-        <ErrorModal error={error} onClear={clearError}/>
         <Modal
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
@@ -61,7 +70,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                 {/* <div className='card-item__image'>
                     <img src={image} alt={term}/>
                 </div> */}
-                {isLoading && <LoadingSpinner asOverlay />}
+                {loading && <LoadingSpinner asOverlay />}
                 <div className='card-item__info'>
                     <h2><Link to={`/card-detail/${card.id}`} state={{ card }}>{ typeof card.title === 'string' && card.title }</Link></h2>
                     <p>{ typeof card.description === 'string' && card.description }</p>

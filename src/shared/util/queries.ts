@@ -107,11 +107,7 @@ export const SIGN_UP_USER = gql`
 `
 export const GET_COUNTRIES = gql`
   query {
-    getCountries {
-      name {
-        common
-      }
-    }
+    getCountries 
   }
 `
 
