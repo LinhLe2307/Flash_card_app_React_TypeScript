@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -9,11 +9,11 @@ import XIcon from '@mui/icons-material/X';
 
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
-import { GET_COUNTRIES } from '../../../shared/util/queries';
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 
 import './UserForm.css';
+import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 
 const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, children }: UserFormProps) => {
     // Array of social media platforms and their URLs
@@ -25,24 +25,39 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         { platform: 'website', icon: LinkIcon, url: '' }
     ];
 
-    const { data: countries, loading, error } = useQuery(GET_COUNTRIES)
-    const [errorMessage, setError] = useState(error?.message);
+    const [countries, setCountries] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setError] = useState<undefined | string>(undefined);
     
     const clearError = () => {
         setError(undefined);
     };
 
+    useEffect(() => {
+        setIsLoading(true)
+        const getCountries = async() => {
+            const response = await axios.get(`https://countriesnow.space/api/v0.1/countries`)
+            if (response) {
+                setCountries(response.data.data.map((country: ObjectGenericProps<string>) => country.country))
+            } else {
+                setError('Failed to get countries')
+            }
+            setIsLoading(false)
+        }
+        getCountries()
+    }, [])
+
     return (
     <div>
         <div className='wrapper'>
         {
-            loading && <div className='center'>
+            isLoading && <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
         }
         {
             errorMessage && <ErrorModal error={errorMessage} onClear={clearError}/>
-        }
+        } 
         <h4>{title}</h4>
             <div>
                 <ImageUpload 
@@ -121,10 +136,10 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                             required: 'This field is required.'
                         })}
                     >
-                        <option selected disabled hidden value=''>-- Choose a country --</option>
+                        <option defaultValue='' disabled hidden>-- Choose a country --</option>
                         {
                             countries 
-                            && countries.getCountries.map((country: string) => (
+                            && countries.map((country: string) => (
                                 <option key={country} value={country}>{country}</option>
                             ))
                         }
