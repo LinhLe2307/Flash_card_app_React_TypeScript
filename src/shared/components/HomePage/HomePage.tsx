@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/auth-hook";
 import Button from '../FormElements/Button';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { token } = useAuth()
+  const userDataStorage = localStorage.getItem('userData')
 
   const handleClick = () => {
     navigate('/auth')
@@ -24,7 +23,7 @@ const HomePage = () => {
             </p>
             
             {
-              !token && 
+              !userDataStorage && 
               <Button type='button' onClick={handleClick}>Sign Up Now</Button>
             }
           </div>

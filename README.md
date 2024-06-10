@@ -11,7 +11,7 @@ This is a front-end flashcard using React and Typescript with backend technologi
 - Unsplash API
 
 ### How to start
-- Run `npm install`
+- Run `npm install --legacy-peer-deps`
 - Run `npm run dev`
 - Create an Unsplash client in [Unsplash page](https://unsplash.com/login?referrer=%2F).
   - After that, go to [Unsplash API](https://unsplash.com/oauth/applications) and create `New Application`

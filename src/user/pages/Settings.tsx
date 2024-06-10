@@ -222,6 +222,8 @@ const Settings = () => {
             imageUrl={`${userDetail?.image}`}
             title='Account Settings'
             disabled={true}
+            userDetail={userDetail}
+            reset={reset}
           > 
             <div className='py-3 pb-4 border-bottom'>
               <Button type='button' onClick={openConfirmHandler}>

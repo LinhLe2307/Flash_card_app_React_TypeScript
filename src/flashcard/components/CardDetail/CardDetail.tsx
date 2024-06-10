@@ -104,6 +104,16 @@ const CardDetail = () => {
         <h3>Description</h3>
         <p>{cardData && cardData.description as string}</p>
       </div>
+      
+      <div className='card-item__tags'>
+        {
+          cardData && 
+            cardData.tags.map((tag: ObjectGenericProps<string>) => <span
+              key={tag._id}
+              className='card-item__tag'
+            >{tag.name}</span>)
+        }
+      </div>
 
       {
         typeof cardData.creator === 'object' 

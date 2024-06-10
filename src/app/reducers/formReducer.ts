@@ -125,7 +125,7 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
         }
        
         case FormActionProps.ADD_CARD:
-            const newAddState = {...state.inputs}
+            const newAddState = _.cloneDeep(state.inputs)
             newAddState[uuidv4()] = {
                 value: {
                     term: {
