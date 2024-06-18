@@ -115,7 +115,7 @@ select:focus{
 
 .wrapper div:last-child > span:hover {
     cursor: pointer;
-    text-decoration: underline;
+    color: #e20404;
 }
 
 @media(max-width:576px){
