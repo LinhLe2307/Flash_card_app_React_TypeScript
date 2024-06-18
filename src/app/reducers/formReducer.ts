@@ -40,13 +40,14 @@ export const initialState: FormState = {
             isValid: false
         }
     },
-    isValid: false
+    isValid: false,
+    isNotFetching: false
   }
 
 const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) => {
     switch(action.type) {
         case FormActionProps.INITIAL_FORM_STATE: {
-            return  _.cloneDeep(initialState)
+            return _.cloneDeep(initialState)
         }
         case FormActionProps.INPUT_CHANGE: {
             let newProps = _.cloneDeep(state)
@@ -172,6 +173,12 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
 
             removeValue.isValid = removeFormIsValid
             return removeValue
+        case FormActionProps.SET_DATA_SUCCESS:
+            return {
+                inputs: action.payload.inputs,
+                isValid: action.payload.formIsValid,
+                isNotFetching: true
+            }         
         default:
             return state
     }

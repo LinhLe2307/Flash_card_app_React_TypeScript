@@ -6,7 +6,6 @@ import './Input.css';
 
 const inputReducer = (state:InputState, action: InputAction) => {
     const { type, val, validators, nameId } = action;
-
     switch(type) {
         case InputValueProps.CHANGE: 
             return {
@@ -30,17 +29,13 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
 
     const { value, isValid } = inputState
     
-    useEffect(() => {
-        onInput(inputState.value, inputState.isValid, id, nameId)
-    }, [id, value, isValid, nameId])
-
     const changeHandler: GenericProps<React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>> = (event) => {
         dispatch({
             type: InputValueProps.CHANGE,
             val: event.target.value,
             validators: validators,
             nameId: event.target.name
-        })
+            })
     }
 
     const touchHandler: GenericProps<React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>> = (event) => {
@@ -77,6 +72,21 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             onBlur={touchHandler}
             value={String(value)}
         />
+    
+    useEffect(() => {
+        onInput(inputState.value, inputState.isValid, id, nameId)
+    }, [id, value, isValid, nameId])
+
+    useEffect(() => {           
+        if (initialValue && initialIsValid) {
+            dispatch({
+                type: InputValueProps.CHANGE,
+                val: initialValue,
+                validators: validators,
+                nameId: nameId
+            })
+        }
+    }, [initialValue, dispatch, onInput])
         
   return (
     <div className={
