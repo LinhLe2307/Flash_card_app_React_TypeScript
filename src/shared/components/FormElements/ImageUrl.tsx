@@ -33,11 +33,11 @@ const ImageUrl = ({cardId, inputHandler, flashcard}: TermFlashcardProps) => {
               onClick={() => openUnsplashHandler(cardId)}
             />
             : 
-            typeof flashcard !== 'string' && !Array.isArray(flashcard) && flashcard?.imageUrl.value 
+            typeof flashcard !== 'string' && !Array.isArray(flashcard) && flashcard?.imageUrl?.value 
             ? <div>
                 <img
                   className='unsplash-img'
-                  src={flashcard.imageUrl.value}
+                  src={flashcard?.imageUrl?.value}
                   width='200px'
                   onClick={() => openUnsplashHandler(cardId)}
                 />

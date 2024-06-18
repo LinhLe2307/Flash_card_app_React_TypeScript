@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
+import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 
 export enum SocialMediaType {
     x='x',
@@ -35,15 +36,11 @@ export interface UserProps extends UserBaseProps {
 export interface AvatarProps {
     image: string 
     alt: string 
-    // className: string | undefined 
-    // style: string | undefined
-    // width: string | undefined
 }
 
 export interface CardAvatarProps {
     children: ReactNode
     className?: string
-    // style: string
 }
 
 export type UserFormProps = {
@@ -53,5 +50,7 @@ export type UserFormProps = {
     imageUrl: string
     title: string
     disabled: boolean
+    reset?: ({ country } : { country: string}) => void
+    userDetail?: ObjectGenericProps<string>
     children: React.ReactNode
 }

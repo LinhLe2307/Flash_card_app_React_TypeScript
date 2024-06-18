@@ -15,7 +15,7 @@ import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 import './UserForm.css';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 
-const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, children }: UserFormProps) => {
+const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, children }: UserFormProps) => {
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
         { platform: 'x', icon: XIcon, url: '' },
@@ -38,7 +38,11 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
         const getCountries = async() => {
             const response = await axios.get(`https://countriesnow.space/api/v0.1/countries`)
             if (response) {
-                setCountries(response.data.data.map((country: ObjectGenericProps<string>) => country.country))
+                const countryList = response.data.data.map((country: ObjectGenericProps<string>) => country.country)
+                setCountries(countryList)
+                if (typeof userDetail !== 'undefined' && typeof(reset) !== 'undefined' ) {
+                    reset({ country: userDetail.country, ...userDetail })
+                }
             } else {
                 setError('Failed to get countries')
             }
@@ -136,7 +140,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, child
                             required: 'This field is required.'
                         })}
                     >
-                        <option defaultValue='' disabled hidden>-- Choose a country --</option>
+                        <option defaultValue='' disabled>-- Choose a country --</option>
                         {
                             countries 
                             && countries.map((country: string) => (

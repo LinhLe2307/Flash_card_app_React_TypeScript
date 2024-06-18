@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCardForm, initialStateForm, inputChangeForm, removeCardForm } from '../../app/actions/form';
+import { initialImageState } from '../../app/actions/image';
 import { useAppSelector } from '../../app/hooks';
 import { filterName } from '../constants/global';
-import { FormState, InputHandlerProps, UserFormHandler } from '../types/formTypes';
+import { InputHandlerProps, UserFormHandler } from '../types/formTypes';
 import { GenericProps } from '../types/sharedTypes';
 
 
@@ -25,9 +26,9 @@ export const useFormHook:UserFormHandler = function() {
           if (!Array.isArray(value)) {
             const form = {
               value: {
-                  [nameId]: {
-                    value: value,
-                    isValid: isValid
+                [nameId]: {
+                  value: value,
+                  isValid: isValid
                   }
                 },
                 isValid: isValid,
@@ -52,10 +53,9 @@ export const useFormHook:UserFormHandler = function() {
       dispatch(addCardForm())
     }, [dispatch])
 
-    const setInitialStateForm = useCallback((initialState: FormState) => {
-      dispatch(initialStateForm({
-        initialState: initialState
-      }))
+    const setInitialStateForm = useCallback(() => {
+      dispatch(initialStateForm())
+      dispatch(initialImageState())
     },  [dispatch])
 
     return [formState, removeSubCardHandler, inputHandler, addMoreCardHandler, setInitialStateForm];

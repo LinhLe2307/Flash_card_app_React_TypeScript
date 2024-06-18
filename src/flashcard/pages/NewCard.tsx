@@ -16,7 +16,6 @@ import TermFlashcard from './TermFlashcard'
 import { initialImageState } from '../../app/actions/image'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
-import { initialState, deepCopy } from '../../app/reducers/formReducer'
 import CardTags from '../components/CardTags/CardTags'
 import { CREATE_CARD } from '../../shared/util/queries'
 import './TermFlashcard.css'
@@ -82,7 +81,7 @@ const NewCard = () => {
     dispatch(
       initialImageState()
     )
-    setInitialStateForm({...deepCopy(initialState)})
+    setInitialStateForm()
   }, [])
 
   return (
