@@ -147,9 +147,12 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <Button type='submit'>
-                            SIGN UP
-                        </Button>
+                        <div>
+                            <Button type='submit'>
+                                SIGN UP
+                            </Button>
+                            <span onClick={switchModeHandler}>Already have an account? Login</span>
+                        </div>
                     </UserForm>
                     : <div className='card wrapper'>
                         <div className={`form-control`}>
@@ -177,17 +180,20 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <Button type='submit'>
-                            LOGIN
-                        </Button>
+                        <div>
+                            <Button type='submit'>
+                                LOGIN
+                            </Button>
+                            <span onClick={switchModeHandler}>Want to register?</span>
+                        </div>
                     </div>
                     
                 }
                 
             </form>
-            <Button inverse onClick={switchModeHandler}>
+            {/* <Button inverse onClick={switchModeHandler}>
                 SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
-            </Button>
+            </Button> */}
         </div>
 
     </React.Fragment>

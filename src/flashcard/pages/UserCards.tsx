@@ -61,17 +61,17 @@ const UserCards = () => {
   if (loading) return <LoadingSpinner asOverlay/>
   return (
     <React.Fragment>
-      {
-        tag && <div>
-          <h2>{tag}</h2>
-          {/* <Button>Reset Tag</Button> */}
-        </div>
-      }
       <ul className='card-list'>
         {
-            data && fetchCards &&
-            <p className="search-results-count">About {data && fetchCards.length} {data && fetchCards.length >= 2 ? 'results' : 'result'}</p>
-        }
+          data && fetchCards &&
+          <p className="search-results-count">About {data && fetchCards.length} {data && fetchCards.length >= 2 ? 'results' : 'result'}</p>
+          }
+          {
+            tag && <div className='card-tags'>
+              <h2>{tag}</h2>
+              {/* <Button>Reset Tag</Button> */}
+            </div>
+          }
 
         {
           data && Array.isArray(fetchCards) && fetchCards.map(card => <CardItem 
