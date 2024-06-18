@@ -7,6 +7,7 @@
   --grad-two: #6a6a6a;
   /* --grad-two: linear-gradient(#3f5efb, #fc466b); */
   --layout-width: 350px;
+  background-color: #0a092d;
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
 
@@ -32,7 +33,7 @@ body {
   /* max-width: 1500px; */
   /* margin: 0;
   background: #4d4d4d; */
-  background-color: #eee;
+  /* background-color: #eee; */
   margin-top:20px;
 }
 

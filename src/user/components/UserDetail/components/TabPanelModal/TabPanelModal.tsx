@@ -70,13 +70,12 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
           textAlign: "center",
           marginBottom: "1rem",
         }}
-      >
-       {fullName} 
+      > 
+       {fullName}
       </Typography>
       <Box
         sx={{
-          borderBottom: 1,
-          borderColor: "divider"
+          borderBottom: '1px solid #282e3e'
         }}
       >
         <Tabs
@@ -96,6 +95,7 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
                 fontFamily: '"Raleway", sans-serif',
                 textTransform: "none",
                 fontSize: "1rem",
+                color: "white"
               }}
             />
           ))}

@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '../../shared/components/FormElements/Button'
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
@@ -105,7 +104,7 @@ const Auth = () => {
 
   return (
     <React.Fragment>
-        <CardAvatar className='authentication'>
+        <div className='authentication'>
 
             {loading && <LoadingSpinner asOverlay/>}
             {loadingSignUp && <LoadingSpinner asOverlay/>}
@@ -149,10 +148,10 @@ const Auth = () => {
                             <span>{errors.password?.message}</span>
                         </div>
                         <Button type='submit'>
-                            SIGNUP
+                            SIGN UP
                         </Button>
                     </UserForm>
-                    : <div className='wrapper'>
+                    : <div className='card wrapper'>
                         <div className={`form-control`}>
                             <label htmlFor='email'>Email*</label>
                             <input 
@@ -189,7 +188,7 @@ const Auth = () => {
             <Button inverse onClick={switchModeHandler}>
                 SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
             </Button>
-        </CardAvatar>
+        </div>
 
     </React.Fragment>
   )

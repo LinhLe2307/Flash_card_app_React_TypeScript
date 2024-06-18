@@ -109,6 +109,10 @@ select:focus{
     padding-top: 0;
 }
 
+.wrapper button:last-child {
+    margin-top: 1rem;
+}
+
 @media(max-width:576px){
     .wrapper{
         padding: 25px 20px;

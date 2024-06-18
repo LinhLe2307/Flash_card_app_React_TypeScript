@@ -70,7 +70,7 @@ const UserCards = () => {
       <ul className='card-list'>
         {
             data && fetchCards &&
-            <p className="search-results-count">About {data && fetchCards.length} results</p>
+            <p className="search-results-count">About {data && fetchCards.length} {data && fetchCards.length >= 2 ? 'results' : 'result'}</p>
         }
 
         {

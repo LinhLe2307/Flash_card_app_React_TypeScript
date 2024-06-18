@@ -154,12 +154,14 @@
 }
 
 .search-results-count {
-  margin-top: 10px
+  margin-top: 10px;
+  color: white;
+  text-align: center;
 }
 
 .search-result-item {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 15px;
   min-width: 20rem;
   display: flex;
   flex-direction: column;
@@ -171,8 +173,8 @@
   background-image: url('https://images.unsplash.com/photo-1429704658776-3d38c9990511?q=80&w=3479&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   height: 7.5rem;
   width: 100%;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   background-size: cover
 }
 
