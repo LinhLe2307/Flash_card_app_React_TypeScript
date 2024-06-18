@@ -210,7 +210,11 @@ const UpdateCard = () => {
                     <div style={{
                         float: 'right'
                     }}>
-                        <Button type='button' onClick={openConfirmHandler}>SUBMIT</Button>
+                    <Button 
+                        type='button' onClick={openConfirmHandler}
+                    >
+                        SUBMIT
+                    </Button>
                     </div>
                 </div>
             </form>

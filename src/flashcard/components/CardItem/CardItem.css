@@ -1,6 +1,10 @@
 .card-item {
   margin: 0.5rem auto;
-  width: 45rem;
+  width: 40rem;
+}
+
+.card.card-item__content:first-child {
+  margin-top: 2rem;
 }
 
 .card-item__tags {
@@ -19,6 +23,12 @@
 
 .card-item__info a {
   text-decoration: none;
+}
+
+.card-item__info > p, .card-item__info > h2 {
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow: ellipsis;
 }
 
 .card-item__actions {

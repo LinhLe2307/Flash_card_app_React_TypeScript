@@ -2,6 +2,7 @@
   margin: auto;
   width: 780px;
   margin-bottom: 5rem;
+  color: white
 }
 
 .card-detail-container > h2 {
@@ -133,6 +134,7 @@
   border-radius: 15px;
   gap: 1rem;
   margin-top: 3rem;
+  color: #0d0c22
 }
 
 .card-detail-description {

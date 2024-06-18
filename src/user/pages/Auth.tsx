@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '../../shared/components/FormElements/Button'
-import CardAvatar from '../../shared/components/UIElements/CardAvatar'
 import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { AuthContext } from '../../shared/context/auth-context'
@@ -105,7 +104,7 @@ const Auth = () => {
 
   return (
     <React.Fragment>
-        <CardAvatar className='authentication'>
+        <div className='authentication'>
 
             {loading && <LoadingSpinner asOverlay/>}
             {loadingSignUp && <LoadingSpinner asOverlay/>}
@@ -148,11 +147,14 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <Button type='submit'>
-                            SIGNUP
-                        </Button>
+                        <div>
+                            <Button type='submit'>
+                                SIGN UP
+                            </Button>
+                            <span onClick={switchModeHandler}>Already have an account? Login</span>
+                        </div>
                     </UserForm>
-                    : <div className='wrapper'>
+                    : <div className='card wrapper'>
                         <div className={`form-control`}>
                             <label htmlFor='email'>Email*</label>
                             <input 
@@ -178,18 +180,21 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <Button type='submit'>
-                            LOGIN
-                        </Button>
+                        <div>
+                            <Button type='submit'>
+                                LOGIN
+                            </Button>
+                            <span onClick={switchModeHandler}>Want to register?</span>
+                        </div>
                     </div>
                     
                 }
                 
             </form>
-            <Button inverse onClick={switchModeHandler}>
+            {/* <Button inverse onClick={switchModeHandler}>
                 SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
-            </Button>
-        </CardAvatar>
+            </Button> */}
+        </div>
 
     </React.Fragment>
   )

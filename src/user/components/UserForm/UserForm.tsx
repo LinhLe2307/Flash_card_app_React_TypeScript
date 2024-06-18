@@ -53,7 +53,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
 
     return (
     <div>
-        <div className='wrapper'>
+        <div className='card wrapper'>
         {
             isLoading && <div className='center'>
                 <LoadingSpinner asOverlay />

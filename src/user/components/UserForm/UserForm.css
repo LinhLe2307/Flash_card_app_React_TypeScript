@@ -109,6 +109,15 @@ select:focus{
     padding-top: 0;
 }
 
+.wrapper div:last-child {
+    margin-top: 1rem;
+}
+
+.wrapper div:last-child > span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 @media(max-width:576px){
     .wrapper{
         padding: 25px 20px;

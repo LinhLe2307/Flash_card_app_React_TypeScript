@@ -16,7 +16,7 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
 
   return (
     <div className='search-result-container'>
-        <p className='search-results-count'>About {items.length >= 2 ? `${items.length} results` : `${items.length} result`}</p>
+        <p className='search-results-count'>About {items.length} {items.length >= 2 ? 'results' : 'result'}</p>
         <div className='search-result-row'>
             <ul>
             {
