@@ -2,6 +2,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
 import PublicIcon from '@mui/icons-material/Public';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import { Link } from 'react-router-dom';
 
 import { UserItemProps } from '../../types/userTypes';
 import './UserItem.css';
@@ -35,14 +36,16 @@ const UserItem = ({id, image, firstName, lastName, language, cardCount, country,
               </div>
               <div className='search-result-item__view'>
                 <p>{cardCount as number >= 1 ? cardCount : 0} {cardCount === 1 ? 'CARD' : 'CARDS'}</p>
-                <a href={`/cards-user/${id}`}>
+                <Link to={`/user-detail/${id}`} state={{ initialValue: 1 }}>
                   View Cards
-                </a>
+                </Link>
               </div>
           </div>
       </div>
       <div className='search-result-item__view-profile'>
-        <a href={`/user-detail/${id}`}>VIEW PROFILE</a>
+        <Link to={`/user-detail/${id}`} state={{ initialValue: 0 }}>
+          VIEW PROFILE
+        </Link>
       </div>
   </section>
 

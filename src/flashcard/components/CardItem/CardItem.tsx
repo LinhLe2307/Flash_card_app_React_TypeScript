@@ -81,7 +81,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                                     key={tag.name}
                                     className='card-item__tag'
                                 >
-                                    <a href={`/cards-user/${userId}/${tag.name}`}>{tag.name}</a>
+                                    <Link to={`/user-detail/${userId}`} state={{ initialValue: 1, tag: tag.name }}>{tag.name}</Link>
                                 </span>)
                             }
                         </div>

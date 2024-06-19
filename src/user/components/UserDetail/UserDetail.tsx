@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import TabPanelModal from "./components/TabPanelModal/TabPanelModal";
 import UserDetailAbout from "./components/UserDetailAbout/UserDetailAbout";
@@ -13,7 +13,8 @@ const projectsTypes = ['About', 'All cards']
 
 const UserDetail = () => {
   let { userId } = useParams()
-  const [ value, setValue ] = React.useState(0);
+  const { initialValue } = useLocation().state
+  const [ value, setValue ] = React.useState(initialValue);
   const fetchData = useQuery(SINGLE_USER, {
     variables: { userId }
   })
@@ -53,9 +54,8 @@ const UserDetail = () => {
           github= {data?.github}
           website= {data?.website}
         />
-        : <UserDetailWork 
-        cards={data?.cards}
-        userId={userId as string}
+        : <UserDetailWork
+          userId={userId as string}
         />
       }
     </TabPanelModal>
