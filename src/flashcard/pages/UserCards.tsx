@@ -14,7 +14,7 @@ import './UserCards.css'
 
 const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
   const userId = typeof userIdProps === 'string' && userIdProps ? userIdProps : useParams().userId
-  const tagParam = useLocation().state.tag ?? ''
+  const tagParam = useLocation().state?.tag ?? ''
   const searchInput = useAppSelector(state => state.search.search_input)
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>[]>([])
   const [tag, setTag] = useState(tagParam)
@@ -48,7 +48,7 @@ const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
   }, [refetch, userId])
 
   useEffect(() => {
-    if (userCards) {
+    if (userCards && tag) {
       const tags_list = tag ? userCards
       .filter((card: ObjectGenericProps<string | ObjectGenericProps<string> >) => Array.isArray(card.tags) 
         && card?.tags?.find(tagName => tagName.name === tag) !== undefined)
