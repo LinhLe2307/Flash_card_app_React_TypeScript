@@ -1,21 +1,23 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from "react"
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import { useAppSelector } from '../../app/hooks'
-import ErrorModal from "../../shared/components/UIElements/ErrorModal"
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner"
-import { ObjectGenericProps } from "../../shared/types/sharedTypes"
-import CardItem from "../components/CardItem/CardItem"
+import ErrorModal from '../../shared/components/UIElements/ErrorModal'
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
+import { ObjectGenericProps } from '../../shared/types/sharedTypes'
+import CardItem from '../components/CardItem/CardItem'
 import { GET_CARDS_BY_USER_ID } from '../../shared/util/queries'
 
-import "./UserCards.css"
+import './UserCards.css'
 
-const UserCards = () => {
-  const userId = useParams().userId
-  const tag = useParams().tag ?? ''
+const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
+  const userId = typeof userIdProps === 'string' && userIdProps ? userIdProps : useParams().userId
+  const tagParam = useLocation().state.tag ?? ''
   const searchInput = useAppSelector(state => state.search.search_input)
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>[]>([])
+  const [tag, setTag] = useState(tagParam)
 
   const { data, loading, error, refetch } = useQuery(GET_CARDS_BY_USER_ID, {
     variables: { userId }
@@ -32,6 +34,14 @@ const UserCards = () => {
   const clearError = () => {
     setError(undefined);
   };
+
+  const clearTags = () => {
+    setTag('')
+  }
+
+  useEffect(() => {
+    setTag(tagParam)
+  }, [tagParam])
 
   useEffect(() => {
     refetch({userId})
@@ -68,7 +78,7 @@ const UserCards = () => {
           }
           {
             tag && <div className='card-tags'>
-              <h2>{tag}</h2>
+              <h2>{tag} <span onClick={clearTags}><CancelIcon /></span></h2>
               {/* <Button>Reset Tag</Button> */}
             </div>
           }

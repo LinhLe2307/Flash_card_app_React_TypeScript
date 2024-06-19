@@ -33,8 +33,8 @@ function App() {
   const commonRoutes = (
     <Route>
       <Route path='/all-users' element={<Users/>}/>
-      <Route path='/cards-user/:userId/:tag' element={<UserCards />}/>
-      <Route path='/cards-user/:userId' element={<UserCards />}/>
+      {/* <Route path='/cards-user/:userId/:tag' element={<UserCards />}/> */}
+      <Route path='/cards-user/:userId' element={<UserCards/>}/>
       <Route path='/user-detail/:userId' element={<UserDetail />}/>
       <Route path='/card-detail/:cardId' element={<CardDetail />}/>
     </Route>

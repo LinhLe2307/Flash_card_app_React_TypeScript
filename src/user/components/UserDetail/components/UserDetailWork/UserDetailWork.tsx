@@ -1,20 +1,9 @@
-import CardItem from "../../../../../flashcard/components/CardItem/CardItem"
-import { ObjectGenericProps } from "../../../../../shared/types/sharedTypes"
+import UserCards from "../../../../../flashcard/pages/UserCards"
 
-interface UserDetailWorkProps {
-    cards: ObjectGenericProps<string>[]
-    userId: string
-}
-
-const UserDetailWork = ({ cards, userId }: UserDetailWorkProps) => {
-    const cardDeleteHandler = () => {}
+const UserDetailWork = ({ userId }: { userId: string }) => {
   return (
     <div style={{ listStyleType: "none", marginTop: "2.5rem" }}>
-        {
-            cards &&
-            <p className="search-results-count">About {cards.length} results</p>
-        }
-        {
+        {/* {
             cards && cards.map(card => <CardItem
                 key={card.id}
                 id={card.id}
@@ -23,6 +12,9 @@ const UserDetailWork = ({ cards, userId }: UserDetailWorkProps) => {
                 onDelete={cardDeleteHandler}
                 userId={userId}
             />)
+        } */}
+        {
+            <UserCards userIdProps = {userId}/>
         }
     </div>
     
