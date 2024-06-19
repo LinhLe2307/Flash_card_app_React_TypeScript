@@ -62,7 +62,7 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
         {
             errorMessage && <ErrorModal error={errorMessage} onClear={clearError}/>
         } 
-        <h4>{title}</h4>
+        <h3>{title}</h3>
             <div>
                 <ImageUpload 
                     register={register} 

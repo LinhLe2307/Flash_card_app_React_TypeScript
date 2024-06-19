@@ -7,9 +7,10 @@
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     border-radius: 8px;
-  }
-  
+    }
+    
   .modal__header {
+    border-radius: 8px 8px 0px 0px;
     width: 100%;
     padding: 1rem 0.5rem;
     /* background: #2a006e; */

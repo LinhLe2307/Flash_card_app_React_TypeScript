@@ -69,6 +69,7 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
           fontFamily: '"Raleway", sans-serif',
           textAlign: "center",
           marginBottom: "1rem",
+          color: "white"
         }}
       > 
        {fullName}
