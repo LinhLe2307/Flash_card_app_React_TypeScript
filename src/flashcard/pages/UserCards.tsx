@@ -48,7 +48,7 @@ const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
   }, [refetch, userId])
 
   useEffect(() => {
-    if (userCards && tag) {
+    if (userCards) {
       const tags_list = tag ? userCards
       .filter((card: ObjectGenericProps<string | ObjectGenericProps<string> >) => Array.isArray(card.tags) 
         && card?.tags?.find(tagName => tagName.name === tag) !== undefined)
