@@ -16,20 +16,21 @@ const Footer = () => {
         <div className='social-icons'>
           {
             socialMediaLinks.map(link => (
-              <a href={`${link.url}`} key={link.platform}><i><link.icon /></i></a>
+              <a href={`${link.url}`} key={link.platform} target='_blank'><i><link.icon /></i></a>
             ))
           }
         </div>
         <div className='footer-nav'>
             <ul><li><a href='/'>Home</a></li>
-                <li><a href='/'>About</a></li>
-                <li><a href='/'>Contact Me</a></li>
+                <li><a href='https://linh-my-le.netlify.app/' target='_blank'>About</a></li>
+                <li><a href='https://linh-my-le.netlify.app/' target='_blank'>Contact Me</a></li>
             </ul>
         </div>
           
-      </div>
       <div className='footer-bottom'>
           <p>Copyright &copy;{new Date().getFullYear()}</p>
+          <p id='copyrights'> All the images are under Unplash license.</p>
+      </div>
       </div>
     </footer>
   )
