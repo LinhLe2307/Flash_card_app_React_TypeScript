@@ -54,6 +54,11 @@ export const SINGLE_USER = gql`
           id
           name
         }
+        subcards {
+          id
+          term
+          definition
+        }
       }
     }
   }
@@ -166,28 +171,33 @@ export const UPDATE_USER = gql`
   }
   }
 `
-export const GET_CARDS_BY_USER_ID = gql`
-  query findCardsByUserId(
-    $userId: ID!
-  ) {
-    getCardsByUserId(
-      userId: $userId
-    ) {
-      cards {
-        id
-        title
-        description
-        creator {
-          id
-        }
-        tags {
-          id
-          name
-        }
-      }
-    }
-  }
-`
+// export const GET_CARDS_BY_USER_ID = gql`
+//   query findCardsByUserId(
+//     $userId: ID!
+//   ) {
+//     getCardsByUserId(
+//       userId: $userId
+//     ) {
+//       cards {
+//         id
+//         title
+//         description
+//         creator {
+//           id
+//         }
+//         tags {
+//           id
+//           name
+//         }
+//         subcards {
+//           id
+//           term
+//           definition
+//         }
+//       }
+//     }
+//   }
+// `
 
 export const GET_CARD_BY_ID = gql`
   query findCardById($cardId: ID!) {

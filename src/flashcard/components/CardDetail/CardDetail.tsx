@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
-import { filterName } from '../../../shared/constants/global';
+import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
+import { GET_CARD_BY_ID } from '../../../shared/util/queries';
 import CardItemDetail from '../CardItemDetail/CardItemDetail';
-import { GET_CARD_BY_ID } from '../../../shared/util/queries'
-import { ObjectGenericProps } from '../../../shared/types/sharedTypes'
 import './CardDetail.css';
 
 const CardDetail = () => {
@@ -21,13 +20,12 @@ const CardDetail = () => {
       variables: { cardId },
       skip: !cardId 
     })
-
-    const [errorMessage, setError] = useState(error?.message)
-
-    const cardData = data && data.getCardById
-    const cardDetail = cardData && Object.entries(cardData)
-    .filter(([key, ]) => filterName.indexOf(key) === -1)
     
+    const [errorMessage, setError] = useState(error?.message)
+    
+    const cardCreator = data && data.getCardById.creator[0]
+    const cardData = data && data.getCardById.subcards
+
     // navigation in cards
     const [current, setCurrent] = useState(0);
     function previousCard() {
@@ -37,8 +35,8 @@ const CardDetail = () => {
       setCurrent(current + 1);
     }
 
-    const cards = cardDetail && cardDetail.map(([key, value]: [key: string, value: ObjectGenericProps<string>]) => {
-        return <CardItemDetail card={value} key={key} />;
+    const cards = cardData && cardData.map((subcard: (ObjectGenericProps<string>)) => {
+        return <CardItemDetail card={subcard} key={subcard.id} />;
     });
 
     const clearError = () => {
@@ -65,9 +63,9 @@ const CardDetail = () => {
 
       <h2>{ cardData && cardData.title as string }</h2>
       {/* number of cards */}
-      {cardDetail && cardDetail.length > 0 ? (
+      {cardData && cardData.length > 0 ? (
         <div className="cardNumber">
-          Card {current + 1} of {cardDetail.length}
+          Card {current + 1} of {cardData.length}
         </div>
       ) : (
         ""
@@ -75,7 +73,7 @@ const CardDetail = () => {
       {/* /number of cards */}
 
       {/* render cards */}
-      {cardDetail && cards && cardDetail.length > 0 ? 
+      {cardData && cards && cardData.length > 0 ? 
       <div>
         {cards[current]}
         {/* render nav buttons */}
@@ -87,7 +85,7 @@ const CardDetail = () => {
               Previous card
             </button>
           )}
-          { cardDetail && current < cardDetail.length - 1 ? (
+          { cardData && current < cardData.length - 1 ? (
             <button onClick={nextCard}>Next card</button>
           ) : (
             <button className="disabled" disabled>
@@ -107,25 +105,25 @@ const CardDetail = () => {
       
       <div className='card-item__tags'>
         {
-          cardData && 
-            cardData.tags.map((tag: ObjectGenericProps<string>) => <span
-              key={tag._id}
+          data.getCardById && 
+          data.getCardById.tags.map((tag: ObjectGenericProps<string>) => <span
+              key={tag.id}
               className='card-item__tag'
             >{tag.name}</span>)
         }
       </div>
 
       {
-        typeof cardData.creator === 'object' 
-        && cardData.creator
+        typeof cardCreator === 'object' 
+        && cardCreator
         &&
         <div className='card-detail-user'>
-          <img src={cardData.creator.image}/>
+          <img src={cardCreator.image}/>
           <div>
             <div className='card-detail-user__created-by'>Created by</div>
-            <h4>{`${cardData.creator.firstName} ${cardData.creator.lastName}`}
+            <h4>{`${cardCreator.firstName} ${cardCreator.lastName}`}
             </h4>
-            <p className='card-detail-user__email'>@{cardData.creator.email}</p>
+            <p className='card-detail-user__email'>@{cardCreator.email}</p>
           </div>
         </div>
       }
