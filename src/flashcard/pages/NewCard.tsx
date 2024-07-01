@@ -63,9 +63,9 @@ const NewCard = () => {
         }
       })
 
-      if (response.data.createCard._id) {
+      if (response.data.createCard.id) {
         setTimeout(()=> 
-          navigate(`/card-detail/${response.data.createCard._id}`), 500)
+          navigate(`/card-detail/${response.data.createCard.id}`), 500)
       }
 
     } catch(err) {
