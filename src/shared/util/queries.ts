@@ -110,9 +110,18 @@ export const SIGN_UP_USER = gql`
   }
 }
 `
-export const GET_COUNTRIES = gql`
+export const GET_COUNTRIES_AND_LANGUAGES = gql`
   query {
-    getCountries 
+    getCountriesAndLanguages {
+      countries {
+        id
+        country
+      }
+      languages {
+        id
+        name
+      }
+    }
   }
 `
 

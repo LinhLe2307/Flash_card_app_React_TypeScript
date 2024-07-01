@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useQuery } from '@apollo/client';
+import { useState, useEffect } from 'react';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -8,10 +8,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import XIcon from '@mui/icons-material/X';
 
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
-import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
 import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 
+import { GET_COUNTRIES_AND_LANGUAGES } from '../../../shared/util/queries';
 import './UserForm.css';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 
@@ -25,37 +26,33 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
         { platform: 'website', icon: LinkIcon, url: '' }
     ];
 
-    const [countries, setCountries] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [errorMessage, setError] = useState<undefined | string>(undefined);
+    const { loading, error, data } = useQuery(GET_COUNTRIES_AND_LANGUAGES)
+    const [errorMessage, setError] = useState<undefined | string>(error?.message);
+    let countries = data?.getCountriesAndLanguages.countries
+    let languages = data?.getCountriesAndLanguages.languages
     
     const clearError = () => {
         setError(undefined);
     };
 
     useEffect(() => {
-        setIsLoading(true)
-        const getCountries = async() => {
-            const response = await axios.get(`https://countriesnow.space/api/v0.1/countries`)
-            if (response) {
-                const countryList = response.data.data.map((country: ObjectGenericProps<string>) => country.country)
-                setCountries(countryList)
-                if (typeof userDetail !== 'undefined' && typeof(reset) !== 'undefined' ) {
-                    reset({ country: userDetail.country, ...userDetail })
-                }
-            } else {
-                setError('Failed to get countries')
-            }
-            setIsLoading(false)
+        if (data && userDetail && reset) {
+            const newValues = {...userDetail}
+            let newCountry = countries.find((country: ObjectGenericProps<string> ) => country.country === userDetail['country']) 
+                && countries.find((country: ObjectGenericProps<string> ) => country.country === userDetail['country'])?.id
+            let newLanguage = languages.find((language: ObjectGenericProps<string> ) => language.name === userDetail['language']) 
+                && languages.find((language: ObjectGenericProps<string> ) => language.name === userDetail['language'])?.id
+            newValues['language'] = newLanguage
+            newValues['country'] = newCountry
+            reset(newValues)
         }
-        getCountries()
-    }, [])
+    }, [userDetail, data, reset])
 
     return (
     <div>
         <div className='card wrapper'>
         {
-            isLoading && <div className='center'>
+            loading && <div className='center'>
                 <LoadingSpinner asOverlay />
             </div>
         }
@@ -143,8 +140,8 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
                         <option defaultValue='' disabled>-- Choose a country --</option>
                         {
                             countries 
-                            && countries.map((country: string) => (
-                                <option key={country} value={country}>{country}</option>
+                            && countries.map((country: ObjectGenericProps<string>) => (
+                                <option key={country?.id} value={country?.id}>{country?.country}</option>
                             ))
                         }
                     </select>
@@ -155,9 +152,12 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
                         <select id='language' {...register('language', {
                             required: 'This field is required.'
                         })}>
-                            <option value='english'>English</option>
-                            <option value='finnish'>Finnish</option>
-                            <option value='swedish'>Swedish</option>
+                            {
+                            languages 
+                            && languages.map((language: ObjectGenericProps<string>) => (
+                                <option key={language?.id} value={language?.id}>{language?.name}</option>
+                            ))
+                        }
                         </select>
                     </div>
                 </div>

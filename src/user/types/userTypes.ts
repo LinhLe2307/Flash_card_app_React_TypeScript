@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
-import { ObjectGenericProps } from "../../shared/types/sharedTypes"
 
 export enum SocialMediaType {
     x='x',
@@ -51,6 +50,6 @@ export type UserFormProps = {
     title: string
     disabled: boolean
     reset?: ({ country } : { country: string}) => void
-    userDetail?: ObjectGenericProps<string>
+    userDetail?: { country: string, language: string }
     children: React.ReactNode
 }
