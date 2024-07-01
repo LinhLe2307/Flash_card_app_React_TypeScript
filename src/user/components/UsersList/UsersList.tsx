@@ -31,7 +31,7 @@ const UsersList = ({items}: ListResponse<UserProps>) => {
                         country={user.country as string}
                         phone={user.phone as string}
                         email={user.email as string}
-                        cardCount={user.cards.length}
+                        cardCount={user?.cards?.length}
                     />
                 })
             }
