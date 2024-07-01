@@ -54,6 +54,11 @@ export const SINGLE_USER = gql`
           id
           name
         }
+        subcards {
+          id
+          term
+          definition
+        }
       }
     }
   }
@@ -105,9 +110,18 @@ export const SIGN_UP_USER = gql`
   }
 }
 `
-export const GET_COUNTRIES = gql`
+export const GET_COUNTRIES_AND_LANGUAGES = gql`
   query {
-    getCountries 
+    getCountriesAndLanguages {
+      countries {
+        id
+        country
+      }
+      languages {
+        id
+        name
+      }
+    }
   }
 `
 
@@ -164,28 +178,6 @@ export const UPDATE_USER = gql`
         website
         image
   }
-  }
-`
-export const GET_CARDS_BY_USER_ID = gql`
-  query findCardsByUserId(
-    $userId: ID!
-  ) {
-    getCardsByUserId(
-      userId: $userId
-    ) {
-      cards {
-        id
-        title
-        description
-        creator {
-          id
-        }
-        tags {
-          id
-          name
-        }
-      }
-    }
   }
 `
 

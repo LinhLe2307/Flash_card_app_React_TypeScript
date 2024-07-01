@@ -21,7 +21,6 @@ const UserDetail = () => {
   const [errorMessage, setError] = useState(fetchData?.error?.message)
 
   const data = fetchData?.data?.getUserDetail
-
   const clearError = () => {
     setError(undefined)
   }

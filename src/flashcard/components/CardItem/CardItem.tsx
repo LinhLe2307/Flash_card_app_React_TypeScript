@@ -78,10 +78,10 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                         <div className='card-item__tags'>
                             { Array.isArray(card.tags)
                                 && card.tags.map((tag) => <span 
-                                    key={tag.name}
+                                    key={tag?.name}
                                     className='card-item__tag'
                                 >
-                                    <Link to={`/user-detail/${userId}`} state={{ initialValue: 1, tag: tag.name }}>{tag.name}</Link>
+                                    <Link to={`/user-detail/${userId}`} state={{ initialValue: 1, tag: tag?.name }}>{tag?.name}</Link>
                                 </span>)
                             }
                         </div>

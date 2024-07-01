@@ -8,7 +8,7 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { ObjectGenericProps } from '../../shared/types/sharedTypes'
 import CardItem from '../components/CardItem/CardItem'
-import { GET_CARDS_BY_USER_ID } from '../../shared/util/queries'
+import { SINGLE_USER } from '../../shared/util/queries'
 
 import './UserCards.css'
 
@@ -19,11 +19,10 @@ const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
   const [ fetchCards, setFetchCards ] = useState<ObjectGenericProps<string | ObjectGenericProps<string>>[]>([])
   const [tag, setTag] = useState(tagParam)
 
-  const { data, loading, error, refetch } = useQuery(GET_CARDS_BY_USER_ID, {
+  const { data, loading, error, refetch } = useQuery(SINGLE_USER, {
     variables: { userId }
   })
-  const userCards = data?.getCardsByUserId?.cards
-
+  const userCards = data?.getUserDetail?.cards
   const [errorMessage, setError] = useState(error?.message);
 
   const cardDeleteHandler = (deletedCardId: string) => {
@@ -84,11 +83,12 @@ const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
           }
 
         {
-          data && Array.isArray(fetchCards) && fetchCards.map(card => <CardItem 
+          data && typeof userId === 'string' 
+          && Array.isArray(fetchCards) && fetchCards.map(card => <CardItem 
             key={card.id as string} 
             id={card.id as string}
             card={card}
-            creator={typeof card.creator !== 'string' ? card.creator.id : ''}
+            creator={userId}
             onDelete={cardDeleteHandler}
             userId={userId}
           />)

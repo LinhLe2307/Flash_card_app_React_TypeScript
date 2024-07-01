@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQuery } from '@apollo/client'
 
@@ -129,10 +129,6 @@ const Settings = () => {
     // Set dataFetched to true to disable further queries
     setDataFetched(true);
   }
-
-  useEffect(() => {
-    reset(userDetail);
-  }, [userDetail, reset, loading])
 
   return (
     <React.Fragment>

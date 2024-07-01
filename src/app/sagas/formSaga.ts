@@ -1,6 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import {  put, takeLatest } from 'redux-saga/effects'
-import { filterName } from '../../shared/constants/global'
 import { FetchUpdateDataPayload, FormInputsProps } from '../../shared/types/formTypes'
 import { ObjectGenericProps } from '../../shared/types/sharedTypes'
 import { setDataFormFailure, setDataFormSucess } from '../actions/form'
@@ -21,24 +20,25 @@ function* getUpdateCard(action: PayloadAction<FetchUpdateDataPayload>) {
                         isValid : true
                     }
                 }
-            } else if (filterName.indexOf(key) === -1) {
-                if (typeof value === 'object' && value !== null) {
-                    const typedValue = value as ObjectGenericProps<string>
-                    newData[key] = {
+            } else if (key === 'subcards') {
+                if (typeof value === 'object' && Array.isArray(value) && value !== null) {
+                    (value as ObjectGenericProps<string>[]).forEach((subcard: ObjectGenericProps<string>) => {
+                        newData[subcard.id] = {
                             value: {
-                            term: {
-                                value: typedValue.term,
-                                isValid: true
-                            }, definition:  {
-                                value: typedValue.definition,
-                                isValid: true
-                            }, imageUrl:  {
-                                value: typedValue.imageUrl ? typedValue.imageUrl : '',
-                                isValid: true
-                            }
-                        },
-                        isValid: true
-                    }
+                                term: {
+                                    value: subcard.term,
+                                    isValid: true
+                                }, definition:  {
+                                    value: subcard.definition,
+                                    isValid: true
+                                }, imageUrl:  {
+                                    value: subcard.imageUrl ? subcard.imageUrl : '',
+                                    isValid: true
+                                }
+                            },
+                            isValid: true
+                        }
+                    })
                 }
             }
         })
