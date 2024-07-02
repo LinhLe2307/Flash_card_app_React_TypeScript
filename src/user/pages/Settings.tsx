@@ -148,9 +148,9 @@ const Settings = () => {
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
-              <>
+              <div className='group-buttons'>
                 <Button inverse type='button' onClick={closeSuccessHandle}>CLOSE</Button>
-              </>
+              </div>
             }
         >
             <div className='map-container'>
@@ -164,10 +164,10 @@ const Settings = () => {
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
-              <>
+              <div className='group-buttons'>
                 <Button type='button' onClick={cancelChangesHandler}>CONFIRM</Button>
                 <Button inverse type='button' onClick={cancelModelHandle}>CLOSE</Button>
-              </>
+              </div>
             }
         >
             <div className='map-container'>
@@ -181,10 +181,10 @@ const Settings = () => {
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
-              <>
+              <div className='group-buttons'>
                 <Button type='button' onClick={deleteAccountHandler}>CONFIRM</Button>
                 <Button inverse type='button' onClick={cancelDeleteHandle}>CLOSE</Button>
-              </>
+              </div>
             }
         >
             <div className='map-container'>
@@ -201,10 +201,10 @@ const Settings = () => {
             contentClass='card-item__modal-content'
             footerClass='card-item__modal-actions'
             footer={
-              <>
+              <div className='group-buttons'>
                 <Button type='submit' onClick={cancelConfirmHandle}>CONFIRM</Button>
                 <Button inverse type='button' onClick={cancelConfirmHandle}>CLOSE</Button>
-              </>
+              </div>
             }
           >
               <div className='map-container'>
@@ -221,7 +221,7 @@ const Settings = () => {
             userDetail={userDetail}
             reset={reset}
           > 
-            <div className='py-3 pb-4 border-bottom'>
+            <div className='py-3 pb-4 border-bottom group-buttons'>
               <Button type='button' onClick={openConfirmHandler}>
                 Save Changes
               </Button>
@@ -234,7 +234,7 @@ const Settings = () => {
                 <div>
                     <b>Delete your account</b>
                 </div>
-                <div >
+                <div className='group-buttons'>
                     <Button danger type='button' onClick={openDeleteHandle}>Delete</Button>
                 </div>
             </div>

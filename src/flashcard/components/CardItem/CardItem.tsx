@@ -87,7 +87,7 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                         </div>
                     }
                 </div>
-                <div className='card-item__actions'>
+                <div className='card-item__actions group-buttons'>
                     {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
                         auth.isLoggedIn && auth.userId === creator && <>
