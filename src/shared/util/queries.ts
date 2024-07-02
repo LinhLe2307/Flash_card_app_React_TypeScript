@@ -69,6 +69,7 @@ export const LOGIN_USER = gql`
       userId
       token
       email
+      image
   }
 }
 `

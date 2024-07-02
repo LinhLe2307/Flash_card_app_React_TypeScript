@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from '../FormElements/Button';
 import './HomePage.css';
+import Users from "../../../user/pages/Users";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Users />
     </>
   )
 }

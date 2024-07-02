@@ -42,7 +42,7 @@ const Auth = () => {
 
                 const loginUser = response.data.loginAuth
                 if (loginUser) {
-                    auth.login(loginUser.userId, loginUser.token)
+                    auth.login(loginUser.image, loginUser.userId, loginUser.token)
                 } else {
                     setShowErrorModal(true)
                 }
@@ -67,7 +67,7 @@ const Auth = () => {
 
                 const registerUser = response.data.signUpAuth
                 if (registerUser) {
-                    auth.login(registerUser.userId, registerUser.token)
+                    auth.login(registerUser.image, registerUser.userId, registerUser.token)
                 } else {
                     setShowErrorSignUpModal(true)
                 }

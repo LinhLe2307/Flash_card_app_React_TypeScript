@@ -49,6 +49,22 @@
     background: #292929;
     color: white;
   }
+
+  .nav-links__container {
+    position: relative;
+  }
+
+  .nav-links__modal {
+    position: absolute;
+    top: 4rem;
+    right: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #292929;
+    padding: 1rem;
+    gap: 10px
+  }
   
   @media (min-width: 768px) {
     .nav-links {

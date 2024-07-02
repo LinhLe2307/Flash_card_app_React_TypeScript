@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
 export interface LoginProps {
-    (uid: string, token: string, expirationDate?: Date) : void, 
+    (avatarImage:string, uid: string, token: string, expirationDate?: Date) : void, 
 }
 
 interface AuthContextProps {
@@ -9,7 +9,8 @@ interface AuthContextProps {
     userId: null | string,
     token: null | string,
     login: LoginProps,
-    logout:()=> void
+    logout:()=> void,
+    image: string
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -17,5 +18,6 @@ export const AuthContext = createContext<AuthContextProps>({
     userId: null,
     token: null,
     login: () => {}, 
-    logout:()=> {}
+    logout:()=> {},
+    image: ''
 })
