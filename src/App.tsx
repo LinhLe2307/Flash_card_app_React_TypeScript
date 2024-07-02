@@ -19,6 +19,7 @@ import Footer from './shared/components/Footer/Footer';
 function App() {
   const uploadLink = createUploadLink({
     uri: 'https://flash-card-app-nodejs.fly.dev/',
+    // uri: 'http://localhost:5068/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
@@ -28,7 +29,7 @@ function App() {
     link: uploadLink, 
     cache: new InMemoryCache()
   })
-  const { token, userId, login, logout } = useAuth()
+  const { token, userId, login, logout, image } = useAuth()
 
   const commonRoutes = (
     <Route>
@@ -69,7 +70,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-        <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout}}>
+        <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout, image: image}}>
             <BrowserRouter>
               <MainNavigation />
               <main>
