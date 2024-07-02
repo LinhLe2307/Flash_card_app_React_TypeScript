@@ -6,6 +6,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkIcon from '@mui/icons-material/Link';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import XIcon from '@mui/icons-material/X';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 
 import ImageUpload from '../../../shared/components/FormElements/ImageUpload';
 import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
@@ -16,7 +18,8 @@ import { GET_COUNTRIES_AND_LANGUAGES } from '../../../shared/util/queries';
 import './UserForm.css';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 
-const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, children }: UserFormProps) => {
+const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, isSignUp, children }: UserFormProps) => {
+    const [isToggle, setIsToggle] = useState(!isSignUp)
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
         { platform: 'x', icon: XIcon, url: '' },
@@ -34,6 +37,10 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
     const clearError = () => {
         setError(undefined);
     };
+
+    const handleShowMedia = () => {
+        setIsToggle((prevState) => !prevState)
+    }
 
     useEffect(() => {
         if (data && userDetail && reset) {
@@ -176,24 +183,48 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
                     />
                 </div>
             </div>
+            {
+                isSignUp && 
+                <div className={`form-control`}>
+                    <label htmlFor='password'>Password*</label>
+                    <input type='password' id='password' 
+                        {...register('password', { 
+                            required: 'This field is required.', 
+                            minLength: {
+                                value: 6,
+                                message: 'Min length is 6'
+                            } 
+                        })}
+                            placeholder='Please enter your password'
+                            className='bg-light form-control'
+                        />
+                        <span>{errors.password?.message}</span>
+                 </div>
+            }
             <div>
-                <label>Additional Information</label>
-                    <ul className='form-social-media'>
+                <div className='add-info'>
+                    <span onClick={handleShowMedia}>{isToggle ? <KeyboardDoubleArrowDownIcon /> : <KeyboardDoubleArrowUpIcon />}</span>
+                    <p>Additional Information</p>
+                </div>
                     {
-                        socialMediaLinks.map((link) => (
-                            <li key={link.platform} className='form-control form-control-social-media'>
-                                <span className='link-social'><link.icon /></span>
-                                <input 
-                                    id={`${link.platform}`}
-                                    type='text' 
-                                    className='form-control' 
-                                    placeholder={`Please enter your ${link.platform} link`}
-                                    {...register(SocialMediaType[link.platform as keyof typeof SocialMediaType])}
-                                />
-                            </li>
-                        ))
+                        isToggle && 
+                        <ul className='form-social-media'>
+                        {
+                            socialMediaLinks.map((link) => (
+                                <li key={link.platform} className='form-control form-control-social-media'>
+                                    <span className='link-social'><link.icon /></span>
+                                    <input 
+                                        id={`${link.platform}`}
+                                        type='text' 
+                                        className='form-control' 
+                                        placeholder={`Please enter your ${link.platform} link`}
+                                        {...register(SocialMediaType[link.platform as keyof typeof SocialMediaType])}
+                                    />
+                                </li>
+                            ))
+                        }
+                    </ul> 
                     }
-                </ul> 
             </div>
             {children}
             </div>

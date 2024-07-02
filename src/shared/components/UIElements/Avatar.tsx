@@ -1,7 +1,8 @@
-import { AvatarProps } from '../../../user/types/userTypes';
+import { useAuth } from '../../hooks/auth-hook';
 import './Avatar.css';
 
-const Avatar = ({image, alt}: AvatarProps) => {
+const Avatar = () => {
+  const auth = useAuth()
   return (
     <div 
     className={`avatar`}
@@ -9,9 +10,9 @@ const Avatar = ({image, alt}: AvatarProps) => {
     // style={style}
     >
       <img
-        src={image}
-        alt={alt}
-        // style={{ width: width, height: width }}
+        src={auth.image}
+        alt='Avatar image'
+        style={{ width: '3rem', height: '3rem' }}
       />
     </div>
   );

@@ -219,6 +219,7 @@ const Settings = () => {
             title='Account Settings'
             disabled={true}
             userDetail={userDetail}
+            isSignUp={false}
             reset={reset}
           > 
             <div className='py-3 pb-4 border-bottom group-buttons'>

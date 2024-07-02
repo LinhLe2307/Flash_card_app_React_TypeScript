@@ -6,18 +6,21 @@ export const useAuth = () => {
     const [token, setToken] = useState<null | string>(null)
     const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>()
     const [userId, setUserId] = useState('')
-    
+    const [image, setImage] = useState('')
 
-    const login: LoginProps = useCallback((uid, token, expirationDate) => {
+    const login: LoginProps = useCallback((avatarImage, uid, token, expirationDate) => {
         setToken(token)
+        setImage(avatarImage)
 
         // check if the token is expired after 1 hour
         const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60)
         setTokenExpirationDate(tokenExpirationDate)
+
         localStorage.setItem('userData', JSON.stringify({
             userId: uid, 
             token: token, 
-            expiration: tokenExpirationDate.toISOString() // Expected output: "2023-10-35T13:13:00.000Z"
+            expiration: tokenExpirationDate.toISOString(), // Expected output: "2023-10-35T13:13:00.000Z"
+            image: avatarImage
         }))
         setUserId(uid)
     }, [])
@@ -26,6 +29,7 @@ export const useAuth = () => {
         setToken(null)
         setTokenExpirationDate(null)
         setUserId('')
+        setImage('')
         localStorage.removeItem('userData')
     }, [])
 
@@ -44,9 +48,9 @@ export const useAuth = () => {
         const storedData = userDataStorage && JSON.parse(userDataStorage)
         if (storedData && storedData.token && new Date(storedData.expiration) > new Date()) {
             // if new Date(storedData.expiration) > new Date() => the expiration is still valid in the future
-            login(storedData.userId, storedData.token, new Date(storedData.expiration))
+            login(storedData.image, storedData.userId, storedData.token, new Date(storedData.expiration))
         }
     }, [login])
 
-  return { token, userId, login, logout }
+  return { token, userId, login, logout, image }
 }

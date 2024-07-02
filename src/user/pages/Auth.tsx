@@ -42,7 +42,7 @@ const Auth = () => {
 
                 const loginUser = response.data.loginAuth
                 if (loginUser) {
-                    auth.login(loginUser.userId, loginUser.token)
+                    auth.login(loginUser.image, loginUser.userId, loginUser.token)
                 } else {
                     setShowErrorModal(true)
                 }
@@ -67,7 +67,7 @@ const Auth = () => {
 
                 const registerUser = response.data.signUpAuth
                 if (registerUser) {
-                    auth.login(registerUser.userId, registerUser.token)
+                    auth.login(registerUser.image, registerUser.userId, registerUser.token)
                 } else {
                     setShowErrorSignUpModal(true)
                 }
@@ -130,23 +130,9 @@ const Auth = () => {
                         setValue={setValue}
                         imageUrl='https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg'
                         title='Sign Up'
+                        isSignUp={true}
                         disabled={false}
                     >
-                        <div className={`form-control`}>
-                            <label htmlFor='password'>Password*</label>
-                            <input type='password' id='password' 
-                                {...register('password', { 
-                                    required: 'This field is required.', 
-                                    minLength: {
-                                        value: 6,
-                                        message: 'Min length is 6'
-                                    } 
-                                })}
-                                placeholder='Please enter your password'
-                                className='bg-light form-control'
-                            />
-                            <span>{errors.password?.message}</span>
-                        </div>
                         <div className='login-signup-container'>
                             <Button type='submit'>
                                 SIGN UP
