@@ -15,6 +15,7 @@ import Auth from './user/pages/Auth';
 import Settings from './user/pages/Settings';
 import Users from './user/pages/Users';
 import Footer from './shared/components/Footer/Footer';
+import UpTopButton from './shared/components/UIElements/UpTopButton';
 
 function App() {
   const uploadLink = createUploadLink({
@@ -77,6 +78,7 @@ function App() {
                 {routes}
               </main>
               <Footer />
+              <UpTopButton />
             </BrowserRouter>
         </AuthContext.Provider>
     </ApolloProvider>
