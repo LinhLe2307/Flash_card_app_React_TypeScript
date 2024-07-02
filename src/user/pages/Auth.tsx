@@ -147,11 +147,11 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <div>
+                        <div className='login-signup-container'>
                             <Button type='submit'>
                                 SIGN UP
                             </Button>
-                            <span onClick={switchModeHandler}>Already have an account? Login</span>
+                            <span className='login-signup' onClick={switchModeHandler}>Already have an account? Login</span>
                         </div>
                     </UserForm>
                     : <div className='card wrapper'>
@@ -180,11 +180,11 @@ const Auth = () => {
                             />
                             <span>{errors.password?.message}</span>
                         </div>
-                        <div>
+                        <div className='login-signup-container'>
                             <Button type='submit'>
                                 LOGIN
                             </Button>
-                            <span onClick={switchModeHandler}>Want to register?</span>
+                            <span className='login-signup' onClick={switchModeHandler}>Want to register?</span>
                         </div>
                     </div>
                     

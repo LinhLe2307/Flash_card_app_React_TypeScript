@@ -65,8 +65,8 @@ body {
   align-items: center;
 }
 
-select {
-  font-family: inherit;
+select, select option {
+  font-family: 'Raleway', sans-serif;
 }
 
 @media (prefers-color-scheme: light) {

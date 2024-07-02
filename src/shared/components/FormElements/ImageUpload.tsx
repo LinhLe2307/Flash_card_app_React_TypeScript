@@ -65,7 +65,8 @@ const ImageUpload = ({ center, errorText, register, setValue, imageUrl }: ImageU
             </div>
             <div className="pl-sm-4 pl-2" id="img-section">
                 <b>Profile Photo</b>
-                <p>Accepted file type .jpg, .png, .jpeg. Less than 1MB</p> 
+                <p>Accepted file type .jpg, .png, .jpeg.</p> 
+                <p>Less than 1MB</p> 
                 <Button type="button" onClick={pickImageHandler}>PICK IMAGE</Button>
             </div>
         </div>

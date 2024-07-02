@@ -6,7 +6,6 @@
     background: #ff0055;
     color: white;
     cursor: pointer;
-    margin-right: 1rem;
     text-decoration: none;
     display: inline-block;
   }
@@ -66,4 +65,8 @@
   
   .button--big {
     font-size: 1.5rem;
+  }
+
+  .group-buttons > button, .group-buttons > a {
+    margin-right: 1rem;
   }

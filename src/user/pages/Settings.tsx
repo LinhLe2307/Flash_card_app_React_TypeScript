@@ -221,7 +221,7 @@ const Settings = () => {
             userDetail={userDetail}
             reset={reset}
           > 
-            <div className='py-3 pb-4 border-bottom'>
+            <div className='py-3 pb-4 border-bottom group-buttons'>
               <Button type='button' onClick={openConfirmHandler}>
                 Save Changes
               </Button>

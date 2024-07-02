@@ -109,13 +109,21 @@ select:focus{
     padding-top: 0;
 }
 
-.wrapper div:last-child {
+/* .wrapper div:last-child {
     margin-top: 1rem;
-}
+} */
 
 .wrapper div:last-child > span:hover {
     cursor: pointer;
     color: #e20404;
+}
+
+.login-signup {
+    margin-left: 1rem;
+}
+
+.login-signup-container {
+    margin-top: 2rem;
 }
 
 @media(max-width:576px){
