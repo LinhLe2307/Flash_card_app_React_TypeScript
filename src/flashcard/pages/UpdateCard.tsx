@@ -140,10 +140,10 @@ const UpdateCard = () => {
                     contentClass='card-item__modal-content'
                     footerClass='card-item__modal-actions'
                     footer={
-                    <>
+                    <div className='group-buttons'>
                         <Button type='submit'>CONFIRM</Button>
                         <Button inverse type='button' onClick={cancelConfirmHandle}>CLOSE</Button>
-                    </>
+                    </div>
                     }
                 >
                     <div className='map-container'>
