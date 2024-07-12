@@ -108,6 +108,7 @@ export const SIGN_UP_USER = gql`
       userId
       token
       email
+      image
   }
 }
 `
