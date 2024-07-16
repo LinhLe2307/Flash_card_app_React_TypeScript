@@ -2,15 +2,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    /* flex-direction: column; */
-    /* gap: 2rem */
     padding: 1rem 0
   }
   
   .image-upload__preview {
     width: 13rem;
     height: 13rem;
-    border: 1px solid #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,9 +19,3 @@
     height: 100%;
     object-fit: cover;
   }
-/* #img-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-} */

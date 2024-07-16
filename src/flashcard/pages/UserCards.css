@@ -7,5 +7,5 @@
   }
 
 .card-tags {
-  color: white;
+  color: var(--color-black)
 }

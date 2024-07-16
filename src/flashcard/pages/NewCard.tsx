@@ -90,7 +90,7 @@ const NewCard = () => {
         errorMessage && 
         <ErrorModal error={errorMessage} onClear={clearError} />
       }
-      <form className='card-form' onSubmit={cardSubmitHandler}>
+      <form className='card-form user-form-bg' onSubmit={cardSubmitHandler}>
         { loading && <LoadingSpinner asOverlay/> }
         <div className='flashcard-form-title'>
           <Input 

@@ -1,6 +1,19 @@
 .card-item {
   margin: 0.5rem auto;
   width: 40rem;
+  color: var(--thd-color-violet-80)
+}
+
+.card-item__content {
+  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 
+                0 4px 8px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-item__content:hover {
+  transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 
+                0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card.card-item__content:first-child {
@@ -14,9 +27,9 @@
 }
 
 .card-item__tag {
-  border: 1px solid #ccc;
+  border: var(--light-border);
   margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   padding: 0.5rem;
   border-radius: 15px;
 }

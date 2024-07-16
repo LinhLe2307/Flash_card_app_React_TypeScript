@@ -66,17 +66,17 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
         sx={{
           flexGrow: 1,
           display: { sm: "block" },
-          fontFamily: '"Raleway", sans-serif',
+          fontFamily: 'var(--font-family)',
           textAlign: "center",
-          marginBottom: "1rem",
-          color: "white"
+          marginBottom: "1rem"
         }}
       > 
        {fullName}
       </Typography>
       <Box
         sx={{
-          borderBottom: '1px solid #282e3e'
+          borderBottom: 'var(--light-border)',
+          color: "var(--thd-color-violet-80)"
         }}
       >
         <Tabs
@@ -93,10 +93,10 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
               {...a11yProps(index)}
               key={index}
               sx={{
-                fontFamily: '"Raleway", sans-serif',
+                fontFamily: 'var(--font-family)',
                 textTransform: "none",
                 fontSize: "1rem",
-                color: "white"
+                color: "black"
               }}
             />
           ))}
@@ -120,7 +120,7 @@ const TabPanelModal = ({ projectsTypes, value, setValue, fullName, image, childr
             columns={{ xs: 4, sm: 8, md: 12 }}
             sx={{
               maxWidth: "1200px",
-              fontFamily: '"Raleway", sans-serif'
+              fontFamily: 'var(--font-family)'
             }}
           >
             {

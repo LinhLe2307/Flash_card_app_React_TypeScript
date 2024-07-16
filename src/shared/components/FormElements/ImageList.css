@@ -17,8 +17,8 @@
 } */
 .card {
     height: 200px;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
+    /* background-color: rgba(0, 0, 0, 0.4); */
+    color: var(--thd-color-violet-10);
     font-size: 40px;
     margin: 10px;
     flex: 200px 0 0;

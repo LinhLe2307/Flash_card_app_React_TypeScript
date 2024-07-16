@@ -61,7 +61,7 @@ const CardDetail = () => {
           <ErrorModal error={errorMessage} onClear={clearError} />
       }
 
-      <h2>{ cardData && cardData.title as string }</h2>
+      <h2>{ data.getCardById && data.getCardById.title as string }</h2>
       {/* number of cards */}
       {cardData && cardData.length > 0 ? (
         <div className="cardNumber">
@@ -100,7 +100,7 @@ const CardDetail = () => {
 
       <div className='card-detail-description'>
         <h3>Description</h3>
-        <p>{cardData && cardData.description as string}</p>
+        <p>{data.getCardById && data.getCardById.description as string}</p>
       </div>
       
       <div className='card-item__tags'>

@@ -12,10 +12,11 @@
   align-items: center;
   flex-direction: column;
   border-radius: 20px;
+  padding: 20px
 }
 
 .search-result-container h2 {
-  color: white
+  color: var(--color-black)
 }
 
 .search-result-container a {
@@ -44,26 +45,27 @@
 
 .search-results-count {
   margin-top: 10px;
-  color: white;
+  color: var(--color-black);
   text-align: center;
 }
 
 .search-result-item {
-  background-color: #fff;
-  border-radius: 15px;
+  background-color: var(--thd-color-violet-10);
   min-width: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
 }
 
 .search-result__background {
   background-image: url('https://images.unsplash.com/photo-1429704658776-3d38c9990511?q=80&w=3479&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   height: 7.5rem;
   width: 100%;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   background-size: cover
 }
 
@@ -86,8 +88,8 @@
   display: block;
   overflow: hidden;
   border-radius: 50%;
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
   margin: 0 auto;
   object-fit: cover;
 }
@@ -101,7 +103,9 @@
 }
 
 .search-result-info {
-  height: 13rem;
+  height: 11rem;
+  width: fit-content;
+  margin: 0 auto
 }
 
 .search-result-row ul {
@@ -119,6 +123,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .search-result-item__body {
@@ -130,15 +135,18 @@
 .search-result-item .image-link {
     display: inline-block;
     margin-top: -45px;
-    margin-bottom: -20px
+    margin-bottom: -20px;
+    border: 5px solid white;
+    border-radius: 50%;
 }
 
 .search-result-item .info {
-  margin-top: 2px;
+  margin-top: 5px;
   font-size: 16px;
   color: #999;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  gap: 0.5rem
 }
 
 .search-result-item__heading {
