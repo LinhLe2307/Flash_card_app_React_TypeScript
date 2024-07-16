@@ -3,8 +3,7 @@
     padding-right: 72px;
     padding-left: 72px;
     width: 100%;
-    font-family: 'Raleway', sans-serif;
-    color: white
+    font-family: var(--font-family);
 }
 
 .bio-text {
@@ -12,7 +11,10 @@
     font-weight: 400;
     line-height: 28px;
     margin-bottom: 20px;
-    color: white
+}
+
+.container-small, .bio-text {
+    color: var(--text-black)
 }
 
 .about-content {
@@ -28,6 +30,7 @@
 .content-section {
     position: relative;
     margin-bottom: 40px;
+    color: var(--thd-color-violet-90)
 }
 
 .about-content-sidebar {
@@ -40,13 +43,14 @@
     margin-bottom: 16px;
     font-size: 14px;
     line-height: 20px;
+    gap: 0.5rem
 }
 
 .profile-info-section {
     padding: 24px;
     border-radius: 8px;
-    background: #fafafa;
-    color: #0d0c22
+    background: var(--thd-color-violet-90);
+    color: var(--thd-color-violet-10)
 }
 
 .social-links-list {
@@ -79,11 +83,6 @@
     text-decoration: none;
 }
 
-.social-links-list a {
-    /* color: #0d0c22; */
-    color: white
-}
-
 .social-links-list-platform {
     color: #999
 }
@@ -101,8 +100,3 @@
 .nav button {
     background-color: #586380
 }
-
-/* .social-links-list a .label {
-    display: inline-block;
-    margin-left: 12px;
-} */

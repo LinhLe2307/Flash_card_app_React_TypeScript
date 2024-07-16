@@ -3,10 +3,14 @@
     margin: 1rem auto;
     padding: 1rem;
     max-width: 65rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    box-shadow: var(--box-shadow);
     border-radius: 15px;
-    background: white;
+    background: var(--thd-color-violet-10);
   }
+
+.user-form-bg {
+    background-color: var(--light-purple);
+}
 
 .flashcard {
     /* border: 1px solid black; */

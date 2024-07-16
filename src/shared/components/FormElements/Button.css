@@ -1,10 +1,10 @@
 .button {
     font: inherit;
     padding: 0.5rem 1.5rem;
-    border: 1px solid #ff0055;
+    border: 0;
     border-radius: 4px;
-    background: #ff0055;
-    color: white;
+    background: var(--button-color-bg);
+    color: var(--thd-color-violet-10);
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
@@ -16,19 +16,21 @@
   
   .button:hover,
   .button:active {
-    background: #ff4382;
-    border-color: #ff4382;
+    background-color: var(--thd-color-violet-50);
+    box-shadow: var(--box-shadow);
+    transform: scale(1.1);
   }
   
   .button--inverse {
     background: transparent;
     color: #ff0055;
+    border: 1px solid
   }
   
   .button--inverse:hover,
   .button--inverse:active {
-    color: white;
-    background: #ff0055;
+    color: var(--thd-color-violet-10);
+    background: var(--danger-button-hover);;
   }
   
   .button--danger {
@@ -38,8 +40,8 @@
   
   .button--danger:hover,
   .button--danger:active {
-    background: #f34343;
-    border-color: #f34343;
+    background: var(--danger-button-hover);
+    border-color: var(--danger-button-hover);
   }
   
   .button:disabled,
@@ -60,11 +62,15 @@
   .button--small:hover {
     background-color: white;
     color: #ff4382;
-    border: 1px solid white;
+    /* border: 1px solid white; */
   }
   
   .button--big {
     font-size: 1.5rem;
+  }
+
+  .group-buttons {
+    margin-top: 1rem;
   }
 
   .group-buttons > button, .group-buttons > a {

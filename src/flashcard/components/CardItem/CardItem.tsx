@@ -58,8 +58,10 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
             footerClass='place-item__modal-actions'
             footer={
                 <React.Fragment>
-                    <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
-                    <Button danger onClick={() => confirmDeleteHandler(id)}>DELETE</Button>
+                    <div className='group-buttons'>
+                        <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
+                        <Button danger onClick={() => confirmDeleteHandler(id)}>DELETE</Button>
+                    </div>
                 </React.Fragment>
             }
         >
@@ -88,7 +90,6 @@ const CardItem = ({id, card, onDelete, creator, userId}: CardItemProps) => {
                     }
                 </div>
                 <div className='card-item__actions group-buttons'>
-                    {/* <Button inverse onClick={openPreviewHandler}>PREVIEW</Button> */}
                     {
                         auth.isLoggedIn && auth.userId === creator && <>
                             <Button to={`/card-update/${id}`}>EDIT</Button>

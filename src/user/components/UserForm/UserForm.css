@@ -6,7 +6,7 @@
 
 .wrapper{
     padding: 30px 50px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 15px;
     margin: 10px auto;
     max-width: 600px;
@@ -43,7 +43,7 @@ label {
 }
 
 .add-info, label {
-    color: #777;
+    color: var(--label-color);
 }
 
 .form-control{
@@ -72,32 +72,24 @@ select{
 select:focus{
     outline: none;
 }
-/* .button{
-    background-color: #fff;
-    color: #0779e4;
-} */
-.button:hover{
-    background-color: #0779e4;
-    color: #fff;
-}
+
 .btn-primary{
     background-color: #0779e4;
 }
+
 .danger{
-    background-color: #fff;
+    background-color: var(--thd-color-violet-10);;
     color: #e20404;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
 }
-.danger:hover{
-    background-color: #e20404;
-    color: #fff;
+.danger:hover, .button:hover {
+    color: var(--thd-color-violet-10);
 }
 
 #delete {
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
-    border-top: 1px solid #ddd;
     padding-top: 1rem;
 }
 
@@ -121,10 +113,6 @@ select:focus{
     margin-top: 0;
     padding-top: 0;
 }
-
-/* .wrapper div:last-child {
-    margin-top: 1rem;
-} */
 
 .wrapper div:last-child > span:hover {
     cursor: pointer;

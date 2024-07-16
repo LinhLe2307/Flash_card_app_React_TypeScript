@@ -3,38 +3,50 @@
   line-height: 1.5;
   --border-radius: 20px;
   /* --grad-one: linear-gradient(#94bbe9, #eeaeca); */
-  --grad-one: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  --grad-one: radial-gradient(circle, #dbb3ee 0%, #b2b3f1 100%);
+  /* --grad-one: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); */
   --grad-two: #6a6a6a;
   /* --grad-two: linear-gradient(#3f5efb, #fc466b); */
   --layout-width: 350px;
-  background-color: #0a092d;
-  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%; */
+  --font-family: 'Raleway', sans-serif;
+  background-color: white;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  --light-purple: #d1d1f7;
+  --light-border: 1px solid #ccc;
+  --button-color-bg: var(--thd-color-violet-60);
+  --button-color-ol: var(--thd-color-button-ol);
+  --box-shadow-width-in: 0 0 0 var(--border-width);
+  --box-shadow-width-hv: 0 0.125em 1.25em;
+  --border-width: 0.285em;
+  --color-black: black;
+  --danger-button-hover: #f34343;
+  --label-color: var(--thd-color-violet-90);
+  --thd-color-violet-10: #eff0ff;
+  --thd-color-violet-30: #b2b3f1;
+  --thd-color-violet-40: #9f92ec;
+  --thd-color-violet-50: #7e75e6;
+  --thd-color-violet-60: #565add;
+  --thd-color-violet-80: #3d2e7c;
+  --thd-color-violet-90: #2b1c50;
+  --thd-color-magenta-10: #f8edfb;
+  --thd-color-button-ol: rgba(85,89,221,.4);
+  --thd-color-blue-10: #e3f3ff;
 }
 
 * {
   box-sizing: border-box;
-  max-width: 2000px;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-family);
 }
 
 body {
-  /* max-width: 1500px; */
-  /* margin: 0;
-  background: #4d4d4d; */
-  /* background-color: #eee; */
+  /* max-width: 1600px; */
   margin-top:20px;
+  color: var(--thd-color-violet-90) !important
 }
 
 .slide-in-left-enter {
@@ -63,10 +75,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
 }
 
 select, select option {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-family);
 }
 
 @media (prefers-color-scheme: light) {
@@ -76,7 +89,7 @@ select, select option {
   a:hover {
     color: #747bff;
   }
-  button {
+  /* button {
     background-color: #f9f9f9;
-  }
+  } */
 }

@@ -132,7 +132,7 @@ const UpdateCard = () => {
             && typeof formState.inputs.title.value === 'string'
             && typeof formState.inputs.description.value === 'string'
             &&
-            <form className='card-form' onSubmit={updateCardSubmitHandler}>
+            <form className='card-form user-form-bg' onSubmit={updateCardSubmitHandler}>
                 <Modal 
                     show={showConfirmModel} 
                     onCancel={cancelConfirmHandle}
