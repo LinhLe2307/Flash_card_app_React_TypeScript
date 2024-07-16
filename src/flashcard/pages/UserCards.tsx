@@ -26,8 +26,10 @@ const UserCards = ({ userIdProps }: { userIdProps?: string }) => {
   const [errorMessage, setError] = useState(error?.message);
 
   const cardDeleteHandler = (deletedCardId: string) => {
-    const updatedState = [...fetchCards].filter(card => card.id !== deletedCardId)
-    setFetchCards(updatedState)
+    setFetchCards(prevState => prevState.filter(card => card.id !== deletedCardId))
+    setTimeout(() => {
+      refetch({userId})
+    }, 500)
   }
 
   const clearError = () => {
