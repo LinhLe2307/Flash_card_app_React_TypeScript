@@ -19,8 +19,8 @@ import UpTopButton from './shared/components/UIElements/UpTopButton';
 
 function App() {
   const uploadLink = createUploadLink({
-    // uri: 'https://flash-card-app-nodejs.fly.dev/',
-    uri: 'http://localhost:5068/',
+    uri: 'https://flash-card-app-nodejs.fly.dev/',
+    // uri: 'http://localhost:5068/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
