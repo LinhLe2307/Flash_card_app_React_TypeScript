@@ -19,14 +19,15 @@ const Password = ({
   return (
     <div className={`form-control`}>
         <label htmlFor={`${name}`}>{label}*</label>
-            <input type={`${name}`} id={`${name}`} 
+            <input type='password' id={`${name}`} 
                 {...register(`${name}`, { 
-                required: 'This field is required.', 
-                minLength: {
-                value: 6,
-                message: 'Min length is 6'
-                } 
-            })}
+                    required: 'This field is required.', 
+                    minLength: {
+                        value: 6,
+                        message: 'Min length is 6'
+                    } 
+                }
+            )}
             placeholder={`${placeholder}`}
             className='bg-light form-control'
         />

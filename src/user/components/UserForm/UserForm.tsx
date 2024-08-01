@@ -17,6 +17,7 @@ import { SocialMediaType, UserFormProps } from '../../types/userTypes';
 import { GET_COUNTRIES_AND_LANGUAGES } from '../../../shared/util/queries';
 import './UserForm.css';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
+import Password from '../Password/Password';
 
 const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, isSignUp, children }: UserFormProps) => {
     const [isToggle, setIsToggle] = useState(!isSignUp)
@@ -185,21 +186,13 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
             </div>
             {
                 isSignUp && 
-                <div className={`form-control`}>
-                    <label htmlFor='password'>Password*</label>
-                    <input type='password' id='password' 
-                        {...register('password', { 
-                            required: 'This field is required.', 
-                            minLength: {
-                                value: 6,
-                                message: 'Min length is 6'
-                            } 
-                        })}
-                            placeholder='Please enter your password'
-                            className='bg-light form-control'
-                        />
-                        <span>{errors.password?.message}</span>
-                 </div>
+                <Password 
+                    label='Password'
+                    name='Password'
+                    placeholder='Please enter a new password'
+                    register= {register}
+                    errors = {errors}
+                />
             }
             <div>
                 <div className='add-info'>
