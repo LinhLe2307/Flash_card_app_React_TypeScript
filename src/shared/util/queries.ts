@@ -212,3 +212,22 @@ mutation deleteCardMutation (
   )
 }
 `
+
+export const GET_SINGLE_USER_BY_EMAIL = gql`
+  mutation getSingleUserByEmail($email: String!) {
+    getSingleUserByEmail(email: $email) 
+  }
+` 
+
+export const FORGOT_PASSWORD = gql`
+  mutation forgotPassword(
+    $password: String!
+    $userId: ID!
+  ) {
+    forgotPassword(
+      password: $password
+      userId: $userId
+    ) 
+
+  }
+`

@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import Button from '../../shared/components/FormElements/Button'
@@ -11,12 +12,13 @@ import { SocialMediaType, UserInfoType } from '../../user/types/userTypes'
 import UserForm from '../components/UserForm/UserForm'
 import '../components/UserForm/UserForm.css'
 import { UserBaseProps } from '../types/userTypes'
+import Password from '../components/Password/Password'
 
 const Auth = () => {
     const auth = useContext(AuthContext)
     const [errorMessage, setErrorMessage] = useState('') 
     const [errorSignUpMessage, setErrorSignUpMessage] = useState('') 
-    const [ isLoginMode, setIsLoginMode ] = useState(false)
+    const [ isLoginMode, setIsLoginMode ] = useState(true)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
     const [ showErrorSignUpModal, setShowErrorSignUpModal ] = useState(false)
     const {
@@ -48,7 +50,6 @@ const Auth = () => {
                 }
             } catch(err) {
                 setShowErrorModal(true)
-                console.log(err)
             }
         } else {
             try {
@@ -73,7 +74,6 @@ const Auth = () => {
                 }
             } catch(err) {
                 setShowErrorSignUpModal(true)
-                console.log(err)
             }
         }
     }
@@ -151,35 +151,24 @@ const Auth = () => {
                             />
                            <span>{errors.email?.message}</span> 
                         </div>
-                        <div className={`form-control`}>
-                            <label htmlFor='password'>Password*</label>
-                            <input type='password' id='password' 
-                                {...register('password', { 
-                                    required: 'This field is required.', 
-                                    minLength: {
-                                        value: 6,
-                                        message: 'Min length is 6'
-                                    } 
-                                })}
-                                placeholder='Please enter your password'
-                                className='bg-light form-control'
-                            />
-                            <span>{errors.password?.message}</span>
-                        </div>
+                        <Password 
+                            label='Password'
+                            name='password'
+                            placeholder='Please enter a new password'
+                            register= {register}
+                            errors = {errors}
+                        />
                         <div className='login-signup-container'>
                             <Button type='submit'>
                                 LOGIN
                             </Button>
                             <span className='login-signup' onClick={switchModeHandler}>Want to register?</span>
+                            <span><Link to="/forgot-password">Forgot Password</Link></span>
                         </div>
                     </div>
-                    
                 }
                 
             </form>
-            {/* <Button inverse onClick={switchModeHandler}>
-                SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
-            </Button> */}
         </div>
 
     </React.Fragment>
