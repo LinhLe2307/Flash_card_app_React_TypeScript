@@ -30,6 +30,7 @@ const Password = ({
             )}
             placeholder={`${placeholder}`}
             className='bg-light form-control'
+            autoComplete='current-password'
         />
         <span>{errors.password?.message}</span>
     </div>

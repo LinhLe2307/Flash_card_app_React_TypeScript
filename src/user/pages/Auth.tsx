@@ -18,7 +18,7 @@ const Auth = () => {
     const auth = useContext(AuthContext)
     const [errorMessage, setErrorMessage] = useState('') 
     const [errorSignUpMessage, setErrorSignUpMessage] = useState('') 
-    const [ isLoginMode, setIsLoginMode ] = useState(false)
+    const [ isLoginMode, setIsLoginMode ] = useState(true)
     const [ showErrorModal, setShowErrorModal ] = useState(false)
     const [ showErrorSignUpModal, setShowErrorSignUpModal ] = useState(false)
     const {
@@ -50,7 +50,6 @@ const Auth = () => {
                 }
             } catch(err) {
                 setShowErrorModal(true)
-                console.log(err)
             }
         } else {
             try {
@@ -75,7 +74,6 @@ const Auth = () => {
                 }
             } catch(err) {
                 setShowErrorSignUpModal(true)
-                console.log(err)
             }
         }
     }
@@ -171,9 +169,6 @@ const Auth = () => {
                 }
                 
             </form>
-            {/* <Button inverse onClick={switchModeHandler}>
-                SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
-            </Button> */}
         </div>
 
     </React.Fragment>

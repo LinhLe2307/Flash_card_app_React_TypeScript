@@ -16,6 +16,9 @@ import Settings from './user/pages/Settings';
 import Users from './user/pages/Users';
 import Footer from './shared/components/Footer/Footer';
 import UpTopButton from './shared/components/UIElements/UpTopButton';
+import ForgotPassword from './user/components/ForgotPassword/ForgotPassword';
+import ForgotPasswordEmail from './user/components/ForgotPassword/ForgotPasswordEmail';
+import { ForgotPasswordProvider } from './shared/context/password-context';
 
 function App() {
   const uploadLink = createUploadLink({
@@ -45,27 +48,31 @@ function App() {
   let routes;
   if (token) {
     routes = (
-      <Routes>
-        <Route path='/' element={<MainPage />}>
-          <Route index element={<HomePage />}/>
-          <Route path='/card/new' element={<NewCard/>}/>
-          <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
-          {commonRoutes}
-          <Route path='/settings' element={<Settings />}/>
-          <Route path='*' element={ <Navigate to='/' /> } />
-        </Route>
-      </Routes>
+        <Routes>
+          <Route path='/' element={<MainPage />}>
+            <Route index element={<HomePage />}/>
+            <Route path='/card/new' element={<NewCard/>}/>
+            <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
+            {commonRoutes}
+            <Route path='/settings' element={<Settings />}/>
+            <Route path='*' element={ <Navigate to='/' /> } />
+          </Route>
+        </Routes>
     )
   } else {
     routes = (
-      <Routes>
-        <Route path='/' element={<MainPage />}>
-          <Route index element={<HomePage />}/>
-          <Route path='/auth' element={<Auth/>}/>
-          {commonRoutes}
-          <Route path='*' element={ <Navigate to='/auth' /> } />
-        </Route>
-      </Routes>
+      <ForgotPasswordProvider>
+        <Routes>
+          <Route path='/' element={<MainPage />}>
+            <Route index element={<HomePage />}/>
+            <Route path='/auth' element={<Auth/>}/>
+            <Route path='/forgot-password' element={<ForgotPasswordEmail />}/>
+            <Route path='/forgot-password/:id' element={<ForgotPassword />}/>
+            {commonRoutes}
+            <Route path='*' element={ <Navigate to='/auth' /> } />
+          </Route>
+        </Routes>
+      </ForgotPasswordProvider>
     )
   }
 

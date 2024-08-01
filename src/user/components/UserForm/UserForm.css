@@ -114,17 +114,24 @@ select:focus{
     padding-top: 0;
 }
 
-.wrapper div:last-child > span:hover {
-    cursor: pointer;
-    color: #e20404;
-}
-
 .login-signup {
     margin-left: 1rem;
 }
 
 .login-signup-container {
     margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-signup-container  a {
+    text-decoration: none;
+}
+
+.login-signup-container  a:hover, .wrapper div:last-child > span:hover {
+    cursor: pointer;
+    color: #e20404;
 }
 
 @media(max-width:576px){
