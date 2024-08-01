@@ -32,10 +32,6 @@ const ForgotPassword = () => {
 
      // Watch the password value
     const password = watch('password', '');
-    const confirmPassword = watch('confirmPassword', '');
-
-    console.log(password)
-    console.log(confirmPassword)
 
     return (
     <div className='card wrapper'>
@@ -47,14 +43,6 @@ const ForgotPassword = () => {
                 register= {register}
                 errors = {errors}
             />
-            {/* <Password 
-                label='New Password Again'
-                name='newPasswordAgain'
-                placeholder='Please enter the password again'
-                register= {register}
-                errors = {errors}
-            /> */}
-
             <div className={`form-control`}>
                 <label htmlFor={`confirmPassword`}>Confirm Password*</label>
                     <input type={`password`} id={`confirmPassword`} 
