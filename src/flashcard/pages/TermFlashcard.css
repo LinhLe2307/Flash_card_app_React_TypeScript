@@ -18,7 +18,7 @@
 }
 
 #wrapper {
-    overflow:auto;
+    /* overflow:auto; */
     height: 2.5rem
 }
 
