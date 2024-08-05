@@ -54,15 +54,15 @@
   }
   
   .button--small {
-    border: 1px solid white;
+    border: 1px solid var(--thd-color-violet-10);
     color: black;
     padding: 0rem;
   }
   
   .button--small:hover {
-    background-color: white;
-    color: #ff4382;
-    /* border: 1px solid white; */
+    /* background-color: white; */
+    color: var(--danger-button-hover);
+    border: 1px solid var(--danger-button-hover);
   }
   
   .button--big {
