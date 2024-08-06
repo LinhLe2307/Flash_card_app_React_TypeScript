@@ -217,17 +217,26 @@ export const GET_SINGLE_USER_BY_EMAIL = gql`
   mutation getSingleUserByEmail($email: String!) {
     getSingleUserByEmail(email: $email) 
   }
-` 
+`
 
 export const FORGOT_PASSWORD = gql`
   mutation forgotPassword(
-    $password: String!
-    $userId: ID!
+    $email: String!
   ) {
     forgotPassword(
-      password: $password
-      userId: $userId
-    ) 
+      email: $email
+    )
+  }
+`
 
+export const RESET_PASSWORD = gql`
+  mutation resetPassword(
+    $token: String!
+    $password: String!
+  ) {
+    resetPassword(
+      token: $token
+      password: $password
+    ) 
   }
 `
