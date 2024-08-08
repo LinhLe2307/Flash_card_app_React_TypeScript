@@ -37,12 +37,12 @@
   
   .form-control--invalid label,
   .form-control--invalid p {
-    color: red;
+    color: var(--danger-button-hover);
   }
   
   .form-control--invalid input,
   .form-control--invalid textarea {
-    border-color: red;
+    border-color: var(--danger-button-hover);
     background: #ffd1d1;
   }
 
