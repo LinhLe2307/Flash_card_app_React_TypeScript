@@ -51,6 +51,7 @@ export type UserFormProps = {
     disabled: boolean
     reset?: ({ country } : { country: string}) => void
     userDetail?: { country: string, language: string }
+    password?: string | number | [] | File
     isSignUp: boolean
     children: React.ReactNode
 }

@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { useState, useEffect } from 'react';
+import { FieldError } from 'react-hook-form';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -19,7 +20,7 @@ import './UserForm.css';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 import Password from '../Password/Password';
 
-const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, isSignUp, children }: UserFormProps) => {
+const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset, userDetail, isSignUp, password, children }: UserFormProps) => {
     const [isToggle, setIsToggle] = useState(!isSignUp)
     // Array of social media platforms and their URLs
     const socialMediaLinks = [
@@ -185,14 +186,32 @@ const UserForm = ({ register, errors, setValue, imageUrl, title, disabled, reset
                 </div>
             </div>
             {
-                isSignUp && 
-                <Password 
-                    label='Password'
-                    name='Password'
-                    placeholder='Please enter a new password'
-                    register= {register}
-                    errors = {errors}
-                />
+                isSignUp && <>
+                    <Password 
+                        label='Password'
+                        name='Password'
+                        placeholder='Please enter a new password'
+                        register= {register}
+                        errors = {errors}
+                    />
+                    <div className={`form-control`}>
+                            <label htmlFor={`confirmPassword`}>Confirm Password*</label>
+                            <input type={`password`} id={`confirmPassword`}
+                                {...register(`confirmPassword`, {
+                                    required: 'This field is required.',
+                                    validate: value => value === password || 'Passwords do not match',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Min length is 6'
+                                    }
+                                })}
+                                placeholder={`Please confirm your password`}
+                                className='bg-light form-control'
+                            />
+                            {errors.confirmPassword
+                                && <span className='invalid-input'>{(errors.confirmPassword as FieldError)?.message}</span>}
+                        </div>
+                </>
             }
             <div>
                 <div className='add-info'>

@@ -25,6 +25,7 @@ const Auth = () => {
         register,
         handleSubmit,
         setValue,
+        watch,
         formState: {errors}
     } = useForm<UserBaseProps>()
 
@@ -90,6 +91,9 @@ const Auth = () => {
         setShowErrorSignUpModal(false)
     }
 
+    // Watch the password value
+    const password = watch('password', '');
+
     useEffect(() => {
         if (error && error.message.length > 0) {
             setErrorMessage(error.message)
@@ -132,6 +136,7 @@ const Auth = () => {
                         title='Sign Up'
                         isSignUp={true}
                         disabled={false}
+                        password={password}
                     >
                         <div className='login-signup-container'>
                             <Button type='submit'>

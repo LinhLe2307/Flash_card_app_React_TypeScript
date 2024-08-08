@@ -82,6 +82,10 @@ select, select option {
   font-family: var(--font-family);
 }
 
+.invalid-input {
+  color: var(--danger-button-hover)
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -67,7 +67,7 @@ function App() {
             <Route index element={<HomePage />}/>
             <Route path='/auth' element={<Auth/>}/>
             <Route path='/forgot-password' element={<ForgotPasswordEmail />}/>
-            <Route path='/forgot-password/:id' element={<ForgotPassword />}/>
+            <Route path='/reset-password/:token' element={<ForgotPassword />}/>
             {commonRoutes}
             <Route path='*' element={ <Navigate to='/auth' /> } />
           </Route>
