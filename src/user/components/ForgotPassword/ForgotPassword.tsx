@@ -8,7 +8,8 @@ import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import { ObjectGenericProps } from "../../../shared/types/sharedTypes";
 import { RESET_PASSWORD } from '../../../shared/util/queries';
-import Password from '../Password/Password';
+import Password from '../../../shared/components/FormElements/Password';
+import FormBase from "../FormBase/FormBase";
 
 const ForgotPassword = () => {
     const { token } = useParams()
@@ -34,7 +35,7 @@ const ForgotPassword = () => {
             })
 
             if (response) {
-                navigate("/login")
+                navigate("/sign-in")
             } else {
                 setShowErrorModal(true)
             }
@@ -58,47 +59,34 @@ const ForgotPassword = () => {
     const password = watch('password', '');
 
     return (
-        <div className='card wrapper'>
-            {loading && <LoadingSpinner asOverlay />}
-            {showErrorModal &&
-                <ErrorModal
-                    error={errorMessage}
-                    onClear={closeModal}
-                />
-            }
-
-            <form onSubmit={handleSubmit(handleSubmitPassword)}>
-                <Password
-                    label='New Password'
-                    name='password'
-                    placeholder='Please enter a new password'
-                    register={register}
-                    errors={errors}
-                />
-                <div className={`form-control`}>
-                    <label htmlFor={`confirmPassword`}>Confirm Password*</label>
-                    <input type={`password`} id={`confirmPassword`}
-                        {...register(`confirmPassword`, {
-                            required: 'This field is required.',
-                            validate: value => value === password || 'Passwords do not match',
-                            minLength: {
-                                value: 6,
-                                message: 'Min length is 6'
-                            }
-                        })}
-                        placeholder={`Please confirm your password`}
-                        className='bg-light form-control'
-                    />
-                    {errors.confirmPassword
-                        && <span className='invalid-input'>{(errors.confirmPassword as FieldError)?.message}</span>}
+        <>
+            <FormBase
+                title='Reset Password'
+            >
+                <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+                    <form onSubmit={handleSubmit(handleSubmitPassword)} className='space-y-6'>
+                        <Password
+                            label='Password'
+                            name='password'
+                            placeholder='Please enter a new password'
+                            register={register}
+                            />
+                        <Password 
+                            label='Confirm Password'
+                            name='confirmPassword'
+                            placeholder='Please confirm your password'
+                            register={register}
+                            validate={(value) => value === password || 'Passwords do not match'}
+                        />
+                        <div className='login-signup-container'>
+                            <Button type='submit' default={true}>
+                                Submit
+                            </Button>
+                        </div>
+                    </form>
                 </div>
-                <div className='login-signup-container'>
-                    <Button type='submit'>
-                        Submit
-                    </Button>
-                </div>
-            </form>
-        </div>
+            </FormBase>
+        </>
     )
 }
 

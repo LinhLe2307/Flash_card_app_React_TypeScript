@@ -8,6 +8,8 @@ import ErrorModal from '../../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../../shared/components/UIElements/LoadingSpinner';
 import { ObjectGenericProps } from '../../../shared/types/sharedTypes';
 import Modal from '../../../shared/components/UIElements/Modal';
+import FormBase from '../FormBase/FormBase';
+import Email from '../../../shared/components/FormElements/Email';
 
 const ForgotPasswordEmail = () => {
     const [ showErrorModal, setShowErrorModal ] = useState(false)
@@ -55,7 +57,7 @@ const ForgotPasswordEmail = () => {
     }, [error])
 
   return (
-    <div className='card wrapper'>
+    <>
         {loading && <LoadingSpinner asOverlay/>}
         { showErrorModal && 
             <ErrorModal
@@ -80,24 +82,24 @@ const ForgotPasswordEmail = () => {
         >
             <p>Please check your email and reset your password!</p>
         </Modal>
+
+        <FormBase
+            title='Forgot Password'
+        >
+            <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+                <form onSubmit={ handleSubmit(handleSubmitEmail) } className='space-y-6'>
+                    <Email register={register}/>
+                    <Button 
+                        type='submit' 
+                        default={true}
+                    > 
+                        Continue
+                    </Button>
+                </form>
+            </div>
+        </FormBase>
         
-        <form onSubmit={ handleSubmit(handleSubmitEmail) }>
-            <div className={`form-control`}>
-                <label htmlFor='email'>Email*</label>
-                <input 
-                    id='email'
-                    {...register('email', { required: 'This field is required.', pattern: /^\S+@\S+\.\S+$/ })}
-                    placeholder='Please enter your email'
-                    className='bg-light form-control'
-                />
-            </div>
-            <div className='login-signup-container'>
-                <Button type='submit' > 
-                    Continue
-                </Button>
-            </div>
-        </form>
-    </div>
+    </>
   )
 }
 
