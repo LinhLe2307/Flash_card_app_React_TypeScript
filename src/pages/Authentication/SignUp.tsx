@@ -7,7 +7,8 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import Email from '../../components/Forms/FormElements/Email';
 import FormInput from '../../components/Forms/FormElements/FormInput';
 import Password from '../../components/Forms/FormElements/Password';
-import Select from '../../components/Forms/FormElements/Select';
+import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
+
 import { AuthContext } from '../../context/authContext';
 import EmailSvg from '../../images/svg/EmailSvg';
 import { GET_COUNTRIES_AND_LANGUAGES, SIGN_UP_USER } from '../../queries/queries';
@@ -78,101 +79,112 @@ const SignUp: React.FC = () => {
                 />
               }
               <form onSubmit={handleSubmit(authSubmitHandler)}>
-                <FormInput
-                  title="First Name*"
-                  name="firstName"
-                  placeholder='Enter Name'
-                  type="text"
-                  isRequired={true}
-                  errors={errors}
-                  register={register}
-                >
-                  <UserSvg className="absolute right-4 top-4"/>
-                </FormInput>
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                  <FormInput
+                    title="First Name*"
+                    name="firstName"
+                    placeholder='Enter Name'
+                    type="text"
+                    isRequired={true}
+                    isEdit={false}
+                    errors={errors}
+                    className="w-full sm:w-1/2"
+                    register={register}
+                    >
+                    <UserSvg className="absolute right-4 top-4"/>
+                  </FormInput>
 
-                <FormInput
-                  title="Last Name*"
-                  name="lastName"
-                  placeholder='Enter Last Name'
-                  type="text"
-                  isRequired={true}
-                  errors={errors}
-                  register={register}
-                >
-                  <UserSvg className="absolute right-4 top-4"/>
-                </FormInput>
-
-                <Email 
-                  errors={errors}
-                  isEdit={false}
-                  register={register}
-                >
-                  <EmailSvg className={"absolute right-4 top-4"}/>
-                </Email>
-
-                <FormInput
-                  title="Mobile no.*"
-                  name="phone"
-                  placeholder='Enter Mobile Phone'
-                  type="tel"
-                  isRequired={true}
-                  errors={errors}
-                  register={register}
-                >
-                  <MobileSvg className="absolute right-4 top-4"/>
-                </FormInput>
+                  <FormInput
+                    title="Last Name*"
+                    name="lastName"
+                    placeholder='Enter Last Name'
+                    type="text"
+                    isRequired={true}
+                    isEdit={false}
+                    errors={errors}
+                    className="w-full sm:w-1/2"
+                    register={register}
+                  >
+                    <UserSvg className="absolute right-4 top-4"/>
+                  </FormInput>
+                </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <Select 
-                    className="w-full sm:w-1/2"
-                    title='Language*'
-                    name='language'
-                    defaultOption='-- Choose a language --'
+                  <Email 
+                    errors={errors}
+                    isEdit={false}
                     register={register}
+                    className="w-full sm:w-1/2"
                   >
-                    {
-                    languages 
-                      && languages.map((language: ObjectGenericProps<string>) => (
-                        <option key={language?.id} value={language?.id}>{language?.name}</option>
-                      ))
-                    }
-                  </Select>
+                    <EmailSvg className={"absolute right-4 top-4"}/>
+                  </Email>
 
-                  <Select 
-                    title='Country*'
-                    name='country'
-                    defaultOption='-- Choose a country --'
+                  <FormInput
+                    title="Mobile no.*"
+                    name="phone"
+                    placeholder='Enter Mobile Phone'
+                    type="tel"
+                    isEdit={false}
+                    isRequired={true}
                     className="w-full sm:w-1/2"
+                    errors={errors}
                     register={register}
                   >
-                    {
-                      countries 
-                      && countries.map((country: ObjectGenericProps<string>) => (
-                        <option key={country?.id} value={country?.id}>{country?.country}</option>
-                      ))
-                  }
-                  </Select>
+                    <MobileSvg className="absolute right-4 top-4"/>
+                  </FormInput>
                 </div>
 
 
-                <Password
-                  label='Password'
-                  name='password'
-                  isEdit={false}
-                  errors={errors}
-                  placeholder='Please enter a new password'
-                  register={register}
-                />
-                
-                <Password 
-                  label='Confirm Password'
-                  name='confirmPassword'
-                  isEdit={false}
-                  placeholder='Please confirm your password'
-                  register={register}
-                  errors={errors}
-                  validate={(value) => value === password || 'Passwords do not match'}
-                />
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                    <SelectGroupTwo 
+                            isEdit={true}
+                            label="Select language*"
+                        >
+                        {
+                        languages 
+                            && languages.map((language: ObjectGenericProps<string>) => (
+                            <option 
+                                className="text-body dark:text-bodydark"
+                                key={language?.id} 
+                                value={language?.id}>{language?.name}</option>
+                            ))
+                        }
+                        </SelectGroupTwo>
+                        <SelectGroupTwo 
+                            isEdit={true}
+                            label="Select country*"
+                        >
+                        {
+                            countries 
+                            && countries.map((country: ObjectGenericProps<string>) => (
+                            <option 
+                                className="text-body dark:text-bodydark"
+                                key={country?.id} value={country?.id}>{country?.country}</option>
+                            ))
+                        }
+                        </SelectGroupTwo>
+                </div>
+
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                  <Password
+                    label='Password'
+                    name='password'
+                    isEdit={false}
+                    errors={errors}
+                    placeholder='Please enter a new password'
+                    register={register}
+                  />
+                  
+                  <Password 
+                    label='Confirm Password'
+                    name='confirmPassword'
+                    isEdit={false}
+                    placeholder='Please confirm your password'
+                    register={register}
+                    errors={errors}
+                    validate={(value) => value === password || 'Passwords do not match'}
+                  />
+                </div>  
 
                 <div className="mb-5">
                   <input

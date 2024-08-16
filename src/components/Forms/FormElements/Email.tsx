@@ -4,17 +4,23 @@ import { ErrorMessage } from '@hookform/error-message'
 
 interface EmailProps {
   register: UseFormRegister<FieldValues>
+  className?: string
   isEdit: boolean
   errors: FieldErrors
   children: React.ReactNode
 }
 
 
-const Email = ({ register, isEdit, errors, children }: EmailProps) => {
+const Email = ({ register, isEdit, className, errors, children }: EmailProps) => {
   return (
-    <div className={isEdit ? "w-full sm:w-1/2" : "mb-4"}>
+    <div className={className ? className : "mb-4"}>
       <label htmlFor='email'
-        className="mb-2.5 block font-medium text-black dark:text-white">
+        className={
+          isEdit 
+          ? "mb-3 text-sm block font-medium text-black dark:text-white"
+          : "mb-2.5 block font-medium text-black dark:text-white"
+        }
+      >
         Email
       </label>
       <div className="relative">

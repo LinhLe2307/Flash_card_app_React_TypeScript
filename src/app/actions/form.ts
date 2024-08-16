@@ -1,4 +1,4 @@
-import { FormActionProps, InputChangeFormPayload, RemoveCardPayload, FetchUpdateDataPayload, SetDataPayload} from "../../shared/types/formTypes"
+import { FormActionProps, InputChangeFormPayload, RemoveCardPayload, FetchUpdateDataPayload, SetDataPayload} from "../../types/formTypes"
 
 export const inputChangeForm = (form: InputChangeFormPayload) => {
     return {

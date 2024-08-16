@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { filterName } from "../../shared/constants/global"
+import { filterName } from "../../constants/global"
 import _ from 'lodash';
-import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../shared/types/formTypes"
+import { FormAction, FormActionProps, FormState, ObjectGenericInitial, VALUE_CARD } from "../../types/formTypes"
 
 // Function to create a deep copy of an object
 export const deepCopy = (obj: any): any => {

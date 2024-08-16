@@ -1,4 +1,4 @@
-import { SearchInputValueProps, SearchListFunc } from "../../shared/types/searchTypes"
+import { SearchInputValueProps, SearchListFunc } from "../../types/searchTypes"
 
 export const searchInputList: SearchListFunc = (payload) => {
     return {

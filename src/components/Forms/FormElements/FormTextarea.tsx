@@ -8,18 +8,23 @@ interface FormTextareaProps {
     placeholder: string
     className: string
     register: UseFormRegister<FieldValues>
+    isEdit: boolean
     errors: FieldErrors
     children: React.ReactNode
 }
 
 const FormTextarea = ({
-    title, name, 
+    title, name, isEdit,
     placeholder, register, className, errors, children
 }: FormTextareaProps) => {
   return (
     <div className={className}>
         <label
-            className="mb-3 block text-sm font-medium text-black dark:text-white"
+            className={
+                isEdit 
+                ? "mb-3 text-sm block font-medium text-black dark:text-white"
+                : "mb-2.5 block font-medium text-black dark:text-white"
+            }
             htmlFor="aboutMe"
         >
             {title}

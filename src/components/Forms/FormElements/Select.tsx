@@ -6,15 +6,21 @@ interface SelectProps {
     name: string
     defaultOption: string
     className: string
+    isEdit: boolean
     register: UseFormRegister<FieldValues>
     children: React.ReactNode
 }
 
-const Select = ({title, name, defaultOption, className, register, children}: SelectProps) => {
+const Select = ({title, name, defaultOption, isEdit, className, register, children}: SelectProps) => {
   return (
     <div className={className}>
         <label htmlFor='email'
-            className="mb-3 block text-sm font-medium text-black dark:text-white">
+            className={
+                isEdit 
+                ? "mb-3 text-sm block font-medium text-black dark:text-white"
+                : "mb-2.5 block font-medium text-black dark:text-white"
+            }
+        >
             { title }
         </label>
         <div className="relative">

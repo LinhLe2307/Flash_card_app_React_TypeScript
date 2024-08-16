@@ -1,29 +1,30 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
-import HomePage from './shared/components/HomePage/HomePage';
-import MainPage from './shared/components/MainPage/MainPage';
-import MainNavigation from './shared/components/Navigation/MainNavigation';
-import CardDetail from './flashcard/components/CardDetail/CardDetail';
-import NewCard from './flashcard/pages/NewCard';
-import UpdateCard from './flashcard/pages/UpdateCard';
-import UserCards from './flashcard/pages/UserCards';
-import { AuthContext } from './shared/context/auth-context';
-import { useAuth } from './shared/hooks/auth-hook';
-import UserDetail from './user/components/UserDetail/UserDetail';
-import Auth from './user/pages/Auth';
-import Settings from './user/pages/Settings';
-import Users from './user/pages/Users';
-import Footer from './shared/components/Footer/Footer';
-import UpTopButton from './shared/components/UIElements/UpTopButton';
-import ForgotPassword from './user/components/ForgotPassword/ForgotPassword';
-import ForgotPasswordEmail from './user/components/ForgotPassword/ForgotPasswordEmail';
-import { ForgotPasswordProvider } from './shared/context/password-context';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+
+import Loader from './common/Loader';
+import { AuthContext } from './context/authContext';
+import { useAuth } from './hooks/authHook';
+import DefaultLayout from './layout/DefaultLayout';
+import MainPage from './layout/MainPage';
+import SignIn from './pages/Authentication/SignIn';
+import SignUp from './pages/Authentication/SignUp';
+import Settings from './pages/Settings';
+import ForgotPasswordEmail from './pages/ForgotPassword/ForgotPasswordEmail';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import { ForgotPasswordProvider } from './context/passwordContext';
+import Cards from './pages/Cards/Cards';
+import CardItem from './pages/Cards/CardItem';
+import NewCard from './pages/Flashcard/NewCard';
 
 function App() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const { pathname } = useLocation();
+
   const uploadLink = createUploadLink({
-    uri: 'https://flash-card-app-nodejs.fly.dev/',
-    // uri: 'http://localhost:5068/',
+    // uri: 'https://flash-card-app-nodejs.fly.dev/',
+    uri: 'http://localhost:5068/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
@@ -37,11 +38,13 @@ function App() {
 
   const commonRoutes = (
     <Route>
-      <Route path='/all-users' element={<Users/>}/>
+      {/* <Route path='/all-users' element={<Users/>}/> */}
       {/* <Route path='/cards-user/:userId/:tag' element={<UserCards />}/> */}
-      <Route path='/cards-user/:userId' element={<UserCards/>}/>
-      <Route path='/user-detail/:userId' element={<UserDetail />}/>
-      <Route path='/card-detail/:cardId' element={<CardDetail />}/>
+      <Route path='/cards-user/:userId' element={<Cards/>}/>
+      {/* <Route path='/cards-user/:userId' element={<Cards/>}/> */}
+      {/* <Route path='/user-detail/:userId' element={<UserDetail />}/> */}
+      <Route path='/card-detail/:cardId' element={<CardItem />}/>
+      <Route path='/card/new' element={<NewCard/>}/>
     </Route>
 
   )
@@ -50,10 +53,11 @@ function App() {
     routes = (
         <Routes>
           <Route path='/' element={<MainPage />}>
-            <Route index element={<HomePage />}/>
-            <Route path='/card/new' element={<NewCard/>}/>
-            <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
+            <Route index element={<Settings />}/>
             {commonRoutes}
+            {/* <Route path='/card/new' element={<NewCard/>}/>
+            <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
+            */}
             <Route path='/settings' element={<Settings />}/>
             <Route path='*' element={ <Navigate to='/' /> } />
           </Route>
@@ -64,32 +68,39 @@ function App() {
       <ForgotPasswordProvider>
         <Routes>
           <Route path='/' element={<MainPage />}>
-            <Route index element={<HomePage />}/>
-            <Route path='/auth' element={<Auth/>}/>
-            <Route path='/forgot-password' element={<ForgotPasswordEmail />}/>
-            <Route path='/reset-password/:token' element={<ForgotPassword />}/>
+            <Route index element={<Settings />}/>
+            <Route path='/auth/signin' element={<SignIn/>}/>
+            <Route path='/auth/signup' element={<SignUp/>}/>
+            <Route path='/auth/forgot-password' element={<ForgotPasswordEmail />}/>
+            <Route path='/auth/reset-password/:token' element={<ForgotPassword />}/>
             {commonRoutes}
-            <Route path='*' element={ <Navigate to='/auth' /> } />
+            {/*
+            <Route path='*' element={ <Navigate to='/auth' /> } /> */}
           </Route>
         </Routes>
       </ForgotPasswordProvider>
     )
   }
 
-  return (
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
+  }, []);
+
+  return loading ? (
+    <Loader />
+  ) : (
     <ApolloProvider client={client}>
-        <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout, image: image}}>
-            <BrowserRouter>
-              <MainNavigation />
-              <main>
-                {routes}
-              </main>
-              <Footer />
-              <UpTopButton />
-            </BrowserRouter>
-        </AuthContext.Provider>
+      <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout, image: image}}>
+          <DefaultLayout>
+              {routes}
+          </DefaultLayout>
+      </AuthContext.Provider>
     </ApolloProvider>
-  )
+  );
 }
 
-export default App
+export default App;

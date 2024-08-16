@@ -11,17 +11,18 @@ interface FormInputProps {
     isRequired: boolean
     errors: FieldErrors
     className?: string
+    isEdit: boolean
     children: React.ReactNode
 }
 
 const FormInput = ({
-    title, name, placeholder, type, className, register, isRequired, errors, children
+    title, name, placeholder, type, className, isEdit, register, isRequired, errors, children
 }: FormInputProps) => {
   return (
     <div className={className ? className : "mb-4"}>
         <label className={
-            className 
-            ? "mb-3 block font-medium text-black dark:text-white"
+            isEdit 
+            ? "mb-3 text-sm block font-medium text-black dark:text-white"
             : "mb-2.5 block font-medium text-black dark:text-white"
         }
         >
@@ -36,7 +37,7 @@ const FormInput = ({
                     required: isRequired ? 'This field is required.' : false
                 })}
                 className={
-                    className 
+                    isEdit 
                     ? "w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                     : "w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   }

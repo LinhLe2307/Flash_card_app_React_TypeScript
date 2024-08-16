@@ -52,7 +52,7 @@ const Settings = () => {
                   Your Photo
                 </h3>
               </div>
-              <ImageUpload />
+              <ImageUpload image={data && data.getUserDetail.image}/>
             </div>
 
             <UpdateSocialMedia 

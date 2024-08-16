@@ -1,4 +1,4 @@
-import { SearchListAction, SearchListState, SearchInputValueProps } from '../../shared/types/searchTypes'
+import { SearchListAction, SearchListState, SearchInputValueProps } from '../../types/searchTypes'
 
 const initialState: SearchListState = {
     search_input: ''

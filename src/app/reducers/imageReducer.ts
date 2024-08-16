@@ -1,4 +1,4 @@
-import { ImageAction, ImageInputValueProps, ImageState } from "../../shared/types/imageTypes"
+import { ImageAction, ImageInputValueProps, ImageState } from "../../types/imageTypes"
 
 const initialState: ImageState = {}
 const imageReducer = (state = initialState, action: ImageAction) => {
