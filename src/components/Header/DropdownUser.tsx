@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/user/user-01.png';
 
 const DropdownUser = () => {
+  const userDataStorage = localStorage.getItem('userData')
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [image, setImage] = useState(userDataStorage)
+
+  useEffect(() => {
+    const storedData = userDataStorage && JSON.parse(userDataStorage)
+    if (storedData && storedData.image) {
+      setImage(storedData.image)
+    }
+  }, [userDataStorage])
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,13 +24,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {/* { data && `${data.getUserDetail.firstName} ${data.getUserDetail.lastName}` } */}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          {/* <span className="block text-xs">UX Designer</span> */}
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        { image && <img src={image} alt="User" className="h-12 w-12 rounded-full"/> }
         </span>
 
         <svg

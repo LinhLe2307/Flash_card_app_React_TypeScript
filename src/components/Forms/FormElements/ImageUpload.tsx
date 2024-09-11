@@ -64,6 +64,14 @@ const ImageUpload = ({image}) => {
         })
 
         if (response) {
+          const storedUserData = localStorage.getItem('userData')
+          if (storedUserData) {
+            const userData = JSON.parse(storedUserData)
+            userData['image'] = response.data.submitImage.image
+            localStorage.setItem('userData', JSON.stringify(userData))
+          } else {
+            console.log('User data not found in local storage')
+          }
           setShowUpdateSuccess(true)
         } else {
           setShowUpdateFailed(true)
@@ -119,8 +127,8 @@ const ImageUpload = ({image}) => {
           <form onSubmit={handleSubmit(submitImageHandler)}>
                 <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
-                      { previewUrl && <img src={String(previewUrl)} alt="User"/> }
-                      { !previewUrl && <img src={image} alt="User"/> }
+                      { previewUrl && <img src={String(previewUrl)} alt="User" className="h-14 w-14 rounded-full"/> }
+                      { !previewUrl && <img src={image} alt="User" className="h-14 w-14 rounded-full"/> }
                     </div>
                     <div>
                       <span className="mb-1.5 text-black dark:text-white">
