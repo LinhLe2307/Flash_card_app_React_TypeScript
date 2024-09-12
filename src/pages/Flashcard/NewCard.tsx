@@ -11,14 +11,12 @@ import { GenericProps } from '../../types/sharedTypes'
 
 import { initialImageState } from '../../app/actions/image'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
-import { CREATE_CARD } from "../../queries/queries"
 import Input from '../../components/Forms/FormElements/Input'
-import UserSvg from '../../images/svg/userSvg'
 import Loading from '../../components/Loading'
-import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../utils/validators'
+import { CREATE_CARD } from "../../queries/queries"
+import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators'
 import TermFlashcard from './TermFlashcard'
-// import './TermFlashcard.css'
-
+import CardTags from './CardTags/CardTags'
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
@@ -89,7 +87,7 @@ const NewCard = () => {
       <div className="mt-7.5 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white">
-              Additional Information
+              Add new card
             </h3>
           </div>
         <div className="p-7">
@@ -107,7 +105,7 @@ const NewCard = () => {
                   ]
                 }
                 errorText='Please enter a valid title'
-                onInput = {inputHandler}
+                onInput={inputHandler}
                 nameId='title'
               />
               <Input 
@@ -124,12 +122,12 @@ const NewCard = () => {
                 onInput = {inputHandler}
                 nameId='description'
               />
-              {/* <CardTags 
+              <CardTags 
                 inputHandler={inputHandler}
                 initialValue={[]} 
-                /> */}
+                />
             </div>
-            <div className="space-y-4">
+            <div className="my-3">
               {
                 formState.inputs && Object.keys(formState.inputs).map(card => filterName.indexOf(card) === -1 &&  <TermFlashcard 
                   cardId={String(card)}
@@ -140,7 +138,7 @@ const NewCard = () => {
                 />)
               }
             </div>
-            <div className="flex justify-between gap-4.5">
+            <div className="flex justify-between gap-4.5 py-2">
                 <button
                   className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
                   type="button"

@@ -13,8 +13,9 @@ import { BodyProps, ValueAndValidProps } from '../../types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../types/sharedTypes'
 import { GET_CARD_BY_ID, UPDATE_CARD } from '../../queries/queries'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators'
+import CardTags from './CardTags/CardTags'
 import TermFlashcard from './TermFlashcard'
-import './TermFlashcard.css'
+import Loader from '../../common/Loader'
 
 const UpdateCard = () => {
     const navigate = useNavigate()
@@ -108,17 +109,21 @@ const UpdateCard = () => {
             }
     }, [dispatch, data])
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <div className="mx-auto max-w-270">
       <Breadcrumb pageName="New Card" />
       <div className="mt-7.5 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white">
-              Additional Information
+              Update Card
             </h3>
           </div>
         <div className="p-7">
-        {
+          {
             data && data.getCardById && formState.isNotFetching
             && Array.isArray(formState.inputs.tags.value) 
             && typeof formState.inputs.title.value === 'string'
@@ -133,9 +138,9 @@ const UpdateCard = () => {
                 type='text'
                 label='Title*'
                 validators={
-                    [
+                  [
                     VALIDATOR_REQUIRE()
-                    ]
+                  ]
                 }
                 errorText='Please enter a valid text'
                 onInput={inputHandler}
@@ -154,12 +159,12 @@ const UpdateCard = () => {
                 initialValue={formState.inputs.description.value as string}
                 initialIsValid={true}
               />
-              {/* <CardTags 
+              <CardTags 
                 inputHandler={inputHandler}
                 initialValue={[]} 
-                /> */}
+                />
             </div>
-            <div className="space-y-4">
+            <div className="my-4">
                 {
                     Object.entries(formState.inputs).map(([key, value]) => {
                         if (filterName.indexOf(key) === -1) {
