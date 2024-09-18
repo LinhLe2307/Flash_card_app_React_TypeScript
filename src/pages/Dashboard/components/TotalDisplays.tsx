@@ -1,17 +1,16 @@
-import React from 'react';
-import CardDataStats from '../../components/CardDataStats';
-import ChartOne from '../../components/Charts/ChartOne';
-import ChartThree from '../../components/Charts/ChartThree';
-import ChartTwo from '../../components/Charts/ChartTwo';
-import ChatCard from '../../components/Chat/ChatCard';
-import MapOne from '../../components/Maps/MapOne';
-import TableOne from '../../components/Tables/TableOne';
+import React from 'react'
+import { useQuery } from '@apollo/client'
 
-const ECommerce: React.FC = () => {
+import CardDataStats from '../../../components/CardDataStats'
+import { ALL_USERS } from '../../../queries/queries'
+
+const TotalDisplays = () => {
+    const { data, loading, error } = useQuery(ALL_USERS)
+
+    const allUsers = data ? data.getUsers.length : 0
   return (
-    <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <CardDataStats title="Total Views" total="$3.456K" rate="0.43%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -53,7 +52,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        <CardDataStats title="Total Cards" total="2.450" rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -72,7 +71,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
+        <CardDataStats title="Total Users" total={allUsers} rate="0.95%" levelDown>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -96,19 +95,7 @@ const ECommerce: React.FC = () => {
           </svg>
         </CardDataStats>
       </div>
+  )
+}
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <ChartOne />
-        <ChartTwo />
-        <ChartThree />
-        <MapOne />
-        <div className="col-span-12 xl:col-span-8">
-          <TableOne />
-        </div>
-        <ChatCard />
-      </div>
-    </>
-  );
-};
-
-export default ECommerce;
+export default TotalDisplays
