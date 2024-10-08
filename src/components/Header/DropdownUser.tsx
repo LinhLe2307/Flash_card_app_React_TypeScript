@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ClickOutside from '../ClickOutside';
+import { AuthContext } from '../../context/authContext';
 
 const DropdownUser = () => {
   const userDataStorage = localStorage.getItem('userData')
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [image, setImage] = useState(userDataStorage)
+  const auth = useContext(AuthContext)
+  const navigate = useNavigate()
 
+  const logoutUser = () => {
+    auth.logout()
+    setTimeout(() => navigate('/'), 500)
+  }
+ 
   useEffect(() => {
     const storedData = userDataStorage && JSON.parse(userDataStorage)
     if (storedData && storedData.image) {
@@ -128,7 +136,7 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base" onClick={logoutUser}>
             <svg
               className="fill-current"
               width="22"
