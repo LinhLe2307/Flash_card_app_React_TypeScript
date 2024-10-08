@@ -67,8 +67,8 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
                                 value: action.payload.value,
                                 isValid: action.payload.isValid
                             }
-                            formIsValid = formIsValid && action.payload.isValid && subCardIsValid
-                        
+                            // formIsValid = formIsValid && action.payload.isValid && subCardIsValid
+                            
                         } else {
                             if (typeof action.payload.value === "object" && !Array.isArray(action.payload.value)) {
                                 const inputValue = newProps.inputs[action.payload.inputId].value as ObjectGenericInitial;
@@ -84,8 +84,9 @@ const formReducer = (state = {...deepCopy(initialState)}, action: FormAction ) =
                                 
                                 }
                             }
-                            
                         }
+                        formIsValid = formIsValid && action.payload.isValid && subCardIsValid
+
                     } else {
                         if (filterName.find(card => card === action.payload.inputId) !== undefined) {
                             formIsValid = formIsValid && action.payload.isValid
