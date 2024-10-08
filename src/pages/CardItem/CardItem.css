@@ -1,0 +1,238 @@
+.card-detail-container {
+  margin: auto;
+  width: 780px;
+  margin-bottom: 5rem;
+  color: var(--color-black)
+}
+
+.card-detail-container > h2 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: normal;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.card-detail {
+  margin: 10px auto;
+  background: var(--grad-one);
+  height: 450px;
+  width: 780px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 400;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.1),
+    0px 8px 16px rgba(0, 0, 0, 0.1), 0px 16px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  /* animated interactivity */
+  transition: 250ms;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateY(var(--rotate-y, 0))
+    translateY(var(--translate-y, 0));
+}
+
+/* when card-detail is clicked adding .side class */
+.side {
+  background: var(--grad-two);
+  transform: rotateY(-180deg);
+}
+
+/* card-detail content */
+.card-detail .front,
+.card-detail .back {
+  position: absolute;
+  padding: 1rem;
+  backface-visibility: hidden;
+}
+
+.card-detail .front {
+  color: black;
+  transform: rotateY(0deg);
+}
+
+.card-detail.side .front {
+  opacity: 0;
+  display: none;
+}
+
+.card-detail .back {
+  height: 400px;
+  width: 780px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  transform: rotateY(180deg);
+}
+
+.card-detail .back img {
+  width: 200px
+}
+
+.back--center {
+  margin: 0 center
+}
+
+.card-detail small {
+  opacity: 0.7;
+  font-size: 0.7em;
+  position: absolute;
+  top: 3rem;
+}
+
+.card-detail.side small {
+  transform: rotateY(180deg);
+}
+
+.card-detail small span {
+  display: block;
+  text-align: center;
+  font-size: small;
+}
+
+.loading {
+  color: white;
+  width: 350px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.nav {
+  width: var(--layout-width);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nav button {
+  border: none;
+  background: #111122;
+  color: white;
+  font-size: 0.9em;
+  padding: 0.8em 1.2em;
+  border-radius: var(--border-radius);
+  margin: 1em 5px;
+  opacity: 0.85;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+.card-detail-user {
+  background-color: var(--thd-color-violet-80);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 780px;
+  padding: 1.5rem;
+  border-radius: 15px;
+  gap: 1rem;
+  margin-top: 3rem;
+  color: var(--thd-color-violet-10);
+  box-shadow: var(--box-shadow);
+}
+
+.card-detail-description {
+  margin-top: 2rem;
+}
+
+.card-detail-description p {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.card-detail-user__created-by {
+  font-size: 11px;
+  line-height: 20px;
+}
+
+.card-detail-user > img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card-detail-user > div > h4 {
+  margin: 0;
+}
+.card-detail-user__email {
+  margin: 0;
+  font-size: 14px;
+}
+
+.nav button:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.nav button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: translateY(0px);
+}
+
+.nav button:focus {
+  outline: none;
+}
+
+.cardNumber {
+  display: flex;
+  justify-content: center;
+}
+
+.card-item {
+  margin: 0.5rem auto;
+  width: 40rem;
+  color: var(--thd-color-violet-80)
+}
+
+.card-item__content {
+  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 
+                0 4px 8px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-item__content:hover {
+  transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 
+                0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card.card-item__content:first-child {
+  margin-top: 2rem;
+}
+
+.card-item__tags {
+  display: flex;
+  /* justify-content: flex-start; */
+  flex-wrap: wrap;
+}
+
+.card-item__tag {
+  border: var(--light-border);
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 15px;
+}
+
+.card-item__info a {
+  text-decoration: none;
+}
+
+.card-item__info > p, .card-item__info > h2 {
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow: ellipsis;
+}
+
+.card-item__actions {
+  margin-top: 1rem;
+}
