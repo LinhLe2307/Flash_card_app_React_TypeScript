@@ -51,26 +51,22 @@ const options: ApexOptions = {
     horizontalAlign: 'left',
     fontFamily: 'Satoshi',
     fontWeight: 500,
-    fontSize: '14px',
-
-    markers: {
-      radius: 99,
-    },
+    fontSize: '14px'
   },
   fill: {
     opacity: 1,
   },
 };
 
-interface ChartTwoState {
+interface StackedBarChartState {
   series: {
     name: string;
     data: number[];
   }[];
 }
 
-const ChartTwo: React.FC = () => {
-  const [state, setState] = useState<ChartTwoState>({
+const StackedBarChart: React.FC = () => {
+  const [state, setState] = useState<StackedBarChartState>({
     series: [
       {
         name: 'Sales',
@@ -146,4 +142,4 @@ const ChartTwo: React.FC = () => {
   );
 };
 
-export default ChartTwo;
+export default StackedBarChart;

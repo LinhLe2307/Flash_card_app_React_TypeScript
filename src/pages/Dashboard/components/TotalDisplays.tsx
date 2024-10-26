@@ -5,12 +5,15 @@ import CardDataStats from '../../../components/CardDataStats'
 import { ALL_USERS } from '../../../queries/queries'
 
 const TotalDisplays = () => {
-    const { data, loading, error } = useQuery(ALL_USERS)
+  const { data, loading, error } = useQuery(ALL_USERS)
 
-    const allUsers = data ? data.getUsers.length : 0
+  const allUsers = data ? data.getUsers.length : 0
+  const allCards = data ? data.getUsers.map(user => user.cards).length : 0
+
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total Views" total="$3.456K" rate="0.43%" levelUp>
+        {/* <CardDataStats title="Total Views" total="$3.456K" rate="0.43%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -51,8 +54,8 @@ const TotalDisplays = () => {
               fill=""
             />
           </svg>
-        </CardDataStats>
-        <CardDataStats title="Total Cards" total="2.450" rate="2.59%" levelUp>
+        </CardDataStats> */}
+        <CardDataStats title="Total Cards" total={allCards} rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"

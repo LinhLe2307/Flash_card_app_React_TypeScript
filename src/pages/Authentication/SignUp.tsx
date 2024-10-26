@@ -90,7 +90,7 @@ const SignUp: React.FC = () => {
                     errors={errors}
                     className="w-full sm:w-1/2"
                     register={register}
-                    >
+                  >
                     <UserSvg className="absolute right-4 top-4"/>
                   </FormInput>
 
@@ -134,35 +134,38 @@ const SignUp: React.FC = () => {
                   </FormInput>
                 </div>
 
-
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                    <SelectGroupTwo 
-                            isEdit={true}
-                            label="Select language*"
-                        >
-                        {
-                        languages 
-                            && languages.map((language: ObjectGenericProps<string>) => (
-                            <option 
-                                className="text-body dark:text-bodydark"
-                                key={language?.id} 
-                                value={language?.id}>{language?.name}</option>
-                            ))
-                        }
-                        </SelectGroupTwo>
-                        <SelectGroupTwo 
-                            isEdit={true}
-                            label="Select country*"
-                        >
-                        {
-                            countries 
-                            && countries.map((country: ObjectGenericProps<string>) => (
-                            <option 
-                                className="text-body dark:text-bodydark"
-                                key={country?.id} value={country?.id}>{country?.country}</option>
-                            ))
-                        }
-                        </SelectGroupTwo>
+                  <SelectGroupTwo 
+                    isEdit={true}
+                    register={register}
+                    label="Select language*"
+                    name="language"
+                  >
+                    {
+                      languages 
+                        && languages.map((language: ObjectGenericProps<string>) => (
+                        <option 
+                          className="text-body dark:text-bodydark"
+                          key={language?.id} 
+                          value={language?.id}>{language?.name}</option>
+                        ))
+                    }
+                  </SelectGroupTwo>
+                  <SelectGroupTwo 
+                    name="country"
+                    isEdit={true}
+                    register={register}
+                    label="Select country*"
+                  >
+                    {
+                      countries 
+                      && countries.map((country: ObjectGenericProps<string>) => (
+                        <option 
+                          className="text-body dark:text-bodydark"
+                          key={country?.id} value={country?.id}>{country?.country}</option>
+                        ))
+                    }
+                  </SelectGroupTwo>
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">

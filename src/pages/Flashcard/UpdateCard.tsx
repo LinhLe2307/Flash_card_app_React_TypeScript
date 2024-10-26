@@ -13,7 +13,7 @@ import { BodyProps, ValueAndValidProps } from '../../types/formTypes'
 import { GenericProps, ObjectGenericProps } from '../../types/sharedTypes'
 import { GET_CARD_BY_ID, UPDATE_CARD } from '../../queries/queries'
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators'
-import CardTags from './CardTags/CardTags'
+import CardTags from './components/CardTags/CardTags'
 import TermFlashcard from './TermFlashcard'
 import Loader from '../../common/Loader'
 
@@ -142,7 +142,7 @@ const UpdateCard = () => {
                     VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText='Please enter a valid text'
+                errorText='Please enter a valid text.'
                 onInput={inputHandler}
                 initialValue={formState.inputs.title.value as string}
                 initialIsValid={true}
@@ -161,7 +161,7 @@ const UpdateCard = () => {
               />
               <CardTags 
                 inputHandler={inputHandler}
-                initialValue={[]} 
+                initialValue={data.getCardById.tags.map(tag => tag.name)} 
                 />
             </div>
             <div className="my-4">

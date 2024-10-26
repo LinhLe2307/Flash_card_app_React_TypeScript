@@ -10,13 +10,14 @@ import { BodyProps } from '../../types/formTypes'
 import { GenericProps } from '../../types/sharedTypes'
 
 import { initialImageState } from '../../app/actions/image'
+import { initialStateForm } from '../../app/actions/form'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
 import Input from '../../components/Forms/FormElements/Input'
 import Loading from '../../components/Loading'
 import { CREATE_CARD } from "../../queries/queries"
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../utils/validators'
 import TermFlashcard from './TermFlashcard'
-import CardTags from './CardTags/CardTags'
+import CardTags from './components/CardTags/CardTags'
 
 const NewCard = () => {
   const auth = useContext(AuthContext)
@@ -104,7 +105,7 @@ const NewCard = () => {
                     VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText='Please enter a valid title'
+                errorText='Please enter a valid title.'
                 onInput={inputHandler}
                 nameId='title'
               />
@@ -140,7 +141,7 @@ const NewCard = () => {
             </div>
             <div className="flex justify-between gap-4.5 py-2">
                 <button
-                  className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                  className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-3 dark:border-strokedark dark:border-slate-600 dark:text-white"
                   type="button"
                   onClick={addMoreCardHandler}
                 >

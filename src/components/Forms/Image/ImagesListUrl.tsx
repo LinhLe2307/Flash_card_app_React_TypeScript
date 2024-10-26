@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
@@ -18,11 +18,11 @@ const theme = createTheme({
 });
 
 const ImageListUrl = ({photos, cardId, inputHandler, setPickedImage}: ImageListProps) => {
-    return (
+  return (
       <ThemeProvider theme={theme}>
         <Box 
           sx={{
-            width: 800, height: 550,
+            width: '100%', height: 550,
             marginTop: '1rem',
             display: 'grid',
             gridTemplateColumns: {

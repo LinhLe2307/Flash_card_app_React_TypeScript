@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import DropdownMessage from './DropdownMessage';
-import DropdownNotification from './DropdownNotification';
-import DropdownUser from './DropdownUser';
-import logo from '../../images/logo/flash-card.png'
+import logo from '../../images/logo/flash-card.png';
 import DarkModeSwitcher from './DarkModeSwitcher';
 import DropdownCard from './DropdownCard';
+import DropdownUser from './DropdownUser';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;

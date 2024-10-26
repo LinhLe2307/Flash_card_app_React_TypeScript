@@ -15,16 +15,17 @@ import ForgotPasswordEmail from './pages/ForgotPassword/ForgotPasswordEmail';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import { ForgotPasswordProvider } from './context/passwordContext';
 import Cards from './pages/Cards/Cards';
-import CardItem from './pages/Cards/CardItem';
+import CardItem from './pages/CardItem/CardItem';
 import NewCard from './pages/Flashcard/NewCard';
+import UpdateCard from './pages/Flashcard/UpdateCard';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
 
   const uploadLink = createUploadLink({
-    // uri: 'https://flash-card-app-nodejs.fly.dev/',
-    uri: 'http://localhost:5068/',
+    uri: 'https://flash-card-app-nodejs.fly.dev/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
@@ -38,11 +39,7 @@ function App() {
 
   const commonRoutes = (
     <Route>
-      {/* <Route path='/all-users' element={<Users/>}/> */}
-      {/* <Route path='/cards-user/:userId/:tag' element={<UserCards />}/> */}
       <Route path='/cards-user/:userId' element={<Cards/>}/>
-      {/* <Route path='/cards-user/:userId' element={<Cards/>}/> */}
-      {/* <Route path='/user-detail/:userId' element={<UserDetail />}/> */}
       <Route path='/card-detail/:cardId' element={<CardItem />}/>
       <Route path='/card/new' element={<NewCard/>}/>
     </Route>
@@ -53,11 +50,9 @@ function App() {
     routes = (
         <Routes>
           <Route path='/' element={<MainPage />}>
-            <Route index element={<Settings />}/>
+            <Route index element={<Dashboard />}/>
+            <Route path='/card-update/:cardId' element={<UpdateCard />}/>
             {commonRoutes}
-            {/* <Route path='/card/new' element={<NewCard/>}/>
-            <Route path='/card-update/:cardId' element={<UpdateCard/>}/>
-            */}
             <Route path='/settings' element={<Settings />}/>
             <Route path='*' element={ <Navigate to='/' /> } />
           </Route>
@@ -68,7 +63,7 @@ function App() {
       <ForgotPasswordProvider>
         <Routes>
           <Route path='/' element={<MainPage />}>
-            <Route index element={<Settings />}/>
+            <Route index element={<Dashboard />}/>
             <Route path='/auth/signin' element={<SignIn/>}/>
             <Route path='/auth/signup' element={<SignUp/>}/>
             <Route path='/auth/forgot-password' element={<ForgotPasswordEmail />}/>
@@ -93,7 +88,7 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client}> 
       <AuthContext.Provider value={{isLoggedIn: !!token, userId: userId, token: token, login:login, logout: logout, image: image}}>
           <DefaultLayout>
               {routes}

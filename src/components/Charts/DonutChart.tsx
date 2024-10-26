@@ -2,7 +2,7 @@ import { ApexOptions } from 'apexcharts';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-interface ChartThreeState {
+interface DonutChartState {
   series: number[];
 }
 
@@ -49,8 +49,8 @@ const options: ApexOptions = {
   ],
 };
 
-const ChartThree: React.FC = () => {
-  const [state, setState] = useState<ChartThreeState>({
+const DonutChart: React.FC = () => {
+  const [state, setState] = useState<DonutChartState>({
     series: [65, 34, 12, 56],
   });
 
@@ -160,4 +160,4 @@ const ChartThree: React.FC = () => {
   );
 };
 
-export default ChartThree;
+export default DonutChart;

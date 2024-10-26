@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { InputHandlerProps } from '../../../types/formTypes'
-import FailedAlert from '../../../components/Alert/FailedAlert'
+import { InputHandlerProps } from '../../../../types/formTypes'
+import FailedAlert from '../../../../components/Alert/FailedAlert'
 
 import './CardTags.css'
 
@@ -45,7 +45,7 @@ const CardTags = ({ inputHandler, initialValue=[] }: { inputHandler: InputHandle
                         <span className='close ml-2 cursor-pointer' onClick={() => removeTag(tag)}>&times;</span>
                     </div>
                 )) }
-                <input 
+                <input
                     onKeyDown={handleKeyDown} 
                     type='text' 
                     placeholder='Enter new tag'

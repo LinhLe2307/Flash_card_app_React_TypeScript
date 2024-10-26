@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 import GlobalSvg from '../../../images/svg/GlobalSvg';
 
 interface SelectGroupTwoProps {
   isEdit: boolean
   label: string
+  name: string
+  register: UseFormRegister<FieldValues> 
   children: React.ReactNode
 }
 
-const SelectGroupTwo = ({ isEdit, label, children }: SelectGroupTwoProps) => {
+const SelectGroupTwo = ({ isEdit, label, name, register, children }: SelectGroupTwoProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -31,6 +34,7 @@ const SelectGroupTwo = ({ isEdit, label, children }: SelectGroupTwoProps) => {
         <GlobalSvg />
 
         <select
+          {...register(name)}
           value={selectedOption}
           onChange={(e) => {
             setSelectedOption(e.target.value);
@@ -40,7 +44,7 @@ const SelectGroupTwo = ({ isEdit, label, children }: SelectGroupTwoProps) => {
             isOptionSelected ? 'text-black dark:text-white' : ''
           }`}
         >
-          <option value="" disabled className="text-body dark:text-bodydark">
+          <option disabled className="text-body dark:text-bodydark">
             { label }
           </option>
           { children }

@@ -53,7 +53,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
                       VALIDATOR_REQUIRE()
                     ]
                   }
-                  errorText='Please enter a valid term'
+                  errorText='Please enter a valid term.'
                   onInput = {inputHandler}
                 />
               </div>
@@ -69,7 +69,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
                       VALIDATOR_REQUIRE()
                     ]
                   }
-                  errorText='Please enter a valid definition.'
+                  errorText={`Please enter a valid definition.`}
                   onInput = {inputHandler}
                 />
             </div> 
@@ -93,7 +93,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
                     VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText='Please enter a valid term'
+                errorText='Please enter a valid term.'
                 onInput = {inputHandler}
                 initialValue={flashcard.term.value}
                 initialIsValid={true}
@@ -111,8 +111,7 @@ const TermFlashcard = ({cardId, inputHandler, removeSubCardHandler, flashcard, l
                     VALIDATOR_REQUIRE()
                   ]
                 }
-                errorText={`Please enter a valid definition {'\n'}
-                (at least 5 characters).`}
+                errorText={`Please enter a valid definition.`}
                 onInput = {inputHandler}
                 initialValue={flashcard?.definition?.value ?? ''}
                 initialIsValid={true}

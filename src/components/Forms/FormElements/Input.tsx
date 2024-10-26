@@ -56,7 +56,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             onChange={changeHandler}
             onBlur={touchHandler}
             value={String(value)}
-            className='w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
+            className='w-full rounded border border-stroke bg-gray py-3 pl-4.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary'
             /> 
         : element === 'search' 
         ? <input
@@ -66,7 +66,7 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             onChange={changeHandler}
         />
         : <textarea 
-            className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+            className="w-full rounded border border-stroke bg-gray py-3 pl-4.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
             name={nameId}
             id={id} 
             rows={rows || 3} 
@@ -89,14 +89,9 @@ const Input = ({id, label, element, type, placeholder, rows, errorText, validato
             })
         }
     }, [initialValue, dispatch, onInput])
-        
+    
   return (
     <div 
-    // className={
-    //     element === 'search'
-    //     ? ''
-    //     : `form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`
-    // }
     className='mb-5.5'
     >
         <label htmlFor={id}

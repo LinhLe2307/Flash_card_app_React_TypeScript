@@ -39,19 +39,19 @@ const UpdateUser = ({ data, userDetail }) => {
     
     const updateUserHandler:SubmitHandler<UserBaseProps> = async(dataForm) => {
         try {
-          const body: any = {}
-          // Get all values of the UserInfoProps enum
-          const userInfoValues = Object.values(UserInfoType);
-    
-          [...userInfoValues].map(value => 
-              body[value] = dataForm[value]
-          )
-          body['userId'] = auth.userId
-          const response = await updateUser({ variables: body }) 
-          if (response ) {
-            setShowUpdateSuccess(true)
-          } else {
-            setShowUpdateFailed(true)
+            const body: any = {}
+            // Get all values of the UserInfoProps enum
+            const userInfoValues = Object.values(UserInfoType);
+        
+            [...userInfoValues].map(value => 
+                body[value] = dataForm[value]
+            )
+            body['userId'] = auth.userId
+            const response = await updateUser({ variables: body }) 
+            if (response ) {
+                setShowUpdateSuccess(true)
+            } else {
+                setShowUpdateFailed(true)
         }
         
         } catch(err) {
@@ -70,7 +70,7 @@ const UpdateUser = ({ data, userDetail }) => {
             newValues['country'] = newCountry
             reset(newValues)
         }
-      }, [userDetail, data, reset])
+    }, [userDetail, data, reset])
 
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -105,7 +105,7 @@ const UpdateUser = ({ data, userDetail }) => {
                             className="w-full sm:w-1/2"
                             register={register}
                         >
-                        <UserSvg className={"absolute left-4.5 top-4"}/>
+                            <UserSvg className={"absolute left-4.5 top-4"}/>
                         </FormInput>
 
                         <FormInput 
@@ -119,7 +119,7 @@ const UpdateUser = ({ data, userDetail }) => {
                             className="w-full sm:w-1/2"
                             register={register}
                         >
-                        <UserSvg className={"absolute left-4.5 top-4"}/>
+                            <UserSvg className={"absolute left-4.5 top-4"}/>
                         </FormInput>
                     </div>
                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
@@ -133,8 +133,8 @@ const UpdateUser = ({ data, userDetail }) => {
                             isEdit={true}
                             className="w-full sm:w-1/2"
                             register={register}
-                            >
-                        <MobileSvg className={"absolute left-4.5 top-4"}/>
+                        >
+                            <MobileSvg className={"absolute left-4.5 top-4"}/>
                         </FormInput>
 
                         <Email 
@@ -143,34 +143,41 @@ const UpdateUser = ({ data, userDetail }) => {
                             isEdit={true}
                             register={register}
                         >
-                        <EmailSvg className={"absolute left-4.5 top-4"}/>
+                            <EmailSvg className={"absolute left-4.5 top-4"}/>
                         </Email>
                     </div>
                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                        <SelectGroupTwo 
+                        <SelectGroupTwo
+                            name="language" 
                             isEdit={true}
                             label="Select language*"
+                            register={register}
                         >
                         {
-                        languages 
-                            && languages.map((language: ObjectGenericProps<string>) => (
-                            <option 
-                                className="text-body dark:text-bodydark"
-                                key={language?.id} 
-                                value={language?.id}>{language?.name}</option>
+                            languages 
+                                && languages.map((language: ObjectGenericProps<string>) => (
+                                <option 
+                                    className="text-body dark:text-bodydark"
+                                    key={language?.id} 
+                                    value={language.id}
+                                > {language?.name.trim()}
+                                </option>
                             ))
                         }
                         </SelectGroupTwo>
-                        <SelectGroupTwo 
+                        <SelectGroupTwo
+                            name="country" 
                             isEdit={true}
                             label="Select country*"
+                            register={register}
                         >
                         {
                             countries 
                             && countries.map((country: ObjectGenericProps<string>) => (
                             <option 
                                 className="text-body dark:text-bodydark"
-                                key={country?.id} value={country?.id}>{country?.country}</option>
+                                key={country?.id} value={country.id}
+                            >{country?.country.trim()}</option>
                             ))
                         }
                         </SelectGroupTwo>
