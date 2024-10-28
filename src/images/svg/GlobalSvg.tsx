@@ -1,8 +1,8 @@
 import React from 'react'
 
-const GlobalSvg = () => {
+const GlobalSvg = ({className}) => {
   return (
-    <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
+    <span className={className}>
         <svg
             width="20"
             height="20"

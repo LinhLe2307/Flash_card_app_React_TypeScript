@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import LogoDark from '../images/logo/logo-dark.svg';
-import Logo from "../images/logo/logo-dark.svg"
+// import Logo from "../images/logo/logo-dark.svg"
+import Logo from "../../../images/logo/flash-card.png"
 
 const AuthBase = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,14 +10,17 @@ const AuthBase = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
-              <Link className="mb-5.5 inline-block" to="/">
-                <img className="hidden dark:block" src={Logo} alt="Logo" />
-                <img className="dark:hidden" src={LogoDark} alt="Logo" />
+              <Link className="mb-5.5 flex justify-center items-center gap-3" to="/">
+                <img className="hidden dark:block" src={Logo} alt="Logo" style={{ width: "28px", height: "28px" }}/>
+                <img className="dark:hidden border-slate-900" src={Logo} alt="Logo" style={{ width: "28px", height: "28px" }}/>
+                <h2>Card.IO</h2>
               </Link>
 
               <p className="2xl:px-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                suspendisse.
+                Give your memory a good workout!
+              </p>
+              <p className="2xl:px-20">
+                Create your own flashcards and make learning simpler and more enjoyable!
               </p>
 
               <span className="mt-15 inline-block">

@@ -2,12 +2,12 @@ import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Loading from '../../components/Loading';
-import { ObjectGenericProps } from '../../types/sharedTypes';
-import { GET_CARD_BY_ID } from "../../queries/queries"
-import CardItemDetail from './CardItemDetail';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import './CardItem.css';
+import Loading from '../../components/Loading';
+import { GET_CARD_BY_ID } from "../../queries/queries";
+import { ObjectGenericProps } from '../../types/sharedTypes';
+import './components/CardItem.css';
+import CardItemDetail from './components/CardItemDetail';
 
 const CardItem = () => {
     const { cardId } = useParams() 
@@ -54,7 +54,7 @@ const CardItem = () => {
   if (loading) return <Loading />
   return (
     <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="My Cards" />
+        <Breadcrumb pageName="Card Details" />
         <div className='card-detail-container'>
         <h2 className='text-black dark:text-white'>{ data?.getCardById && data.getCardById.title as string }</h2>
         {/* number of cards */}

@@ -11,7 +11,7 @@ import { AuthContext } from '../../context/authContext';
 import EmailSvg from '../../images/svg/EmailSvg';
 import { LOGIN_USER } from '../../queries/queries';
 import { UserBaseProps } from '../../types/userTypes';
-import AuthBase from '../AuthBase';
+import AuthBase from './components/AuthBase';
 
 const SignIn: React.FC = () => {
   const auth = useContext(AuthContext)
@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
     }
   return (
     <>
-      <Breadcrumb pageName="Sign In" />
+      <Breadcrumb pageNavigate="Authentication /" pageName="Sign In" link="/auth/signin"/>
       <AuthBase>
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">

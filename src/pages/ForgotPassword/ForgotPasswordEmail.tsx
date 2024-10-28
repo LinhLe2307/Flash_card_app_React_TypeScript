@@ -8,7 +8,7 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import Email from '../../components/Forms/FormElements/Email';
 import { FORGOT_PASSWORD } from "../../queries/queries";
 import { ObjectGenericProps } from '../../types/sharedTypes';
-import AuthBase from '../AuthBase';
+import AuthBase from '../Authentication/components/AuthBase';
 
 import EmailSvg from '../../images/svg/EmailSvg';
 

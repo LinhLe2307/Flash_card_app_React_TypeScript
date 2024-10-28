@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FailedAlert from "../../components/Alert/FailedAlert";
 import SuccessAlert from "../../components/Alert/SuccessAlert";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import AuthBase from "../AuthBase";
+import AuthBase from "../Authentication/components/AuthBase";
 import Password from "../../components/Forms/FormElements/Password";
 
 import { RESET_PASSWORD } from "../../queries/queries";

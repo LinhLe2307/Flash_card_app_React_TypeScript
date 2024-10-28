@@ -2,12 +2,12 @@ import { useMutation } from '@apollo/client';
 import React, { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import Password from '../../components/Forms/FormElements/Password';
-import { AuthContext } from '../../context/authContext';
-import { RESET_PASSWORD } from "../../queries/queries";
-import { UserBaseProps } from '../../types/userTypes';
-import SuccessAlert from '../../components/Alert/SuccessAlert';
-import FailedAlert from '../../components/Alert/FailedAlert';
+import Password from '../../../components/Forms/FormElements/Password';
+import { AuthContext } from '../../../context/authContext';
+import { RESET_PASSWORD } from "../../../queries/queries";
+import { UserBaseProps } from '../../../types/userTypes';
+import SuccessAlert from '../../../components/Alert/SuccessAlert';
+import FailedAlert from '../../../components/Alert/FailedAlert';
 
 const UpdatePassword = () => {
     const auth = useContext(AuthContext)

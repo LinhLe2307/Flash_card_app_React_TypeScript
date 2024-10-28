@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 
 import { fetchUpdateCard } from '../../app/actions/form'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
@@ -115,7 +115,7 @@ const UpdateCard = () => {
 
   return (
     <div className="mx-auto max-w-270">
-      <Breadcrumb pageName="New Card" />
+      <Breadcrumb pageName="Update Card"/>
       <div className="mt-7.5 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import GlobalSvg from '../../../images/svg/GlobalSvg';
 
-interface SelectGroupTwoProps {
+interface SelectGroupProps {
   isEdit: boolean
   label: string
   name: string
@@ -10,7 +10,7 @@ interface SelectGroupTwoProps {
   children: React.ReactNode
 }
 
-const SelectGroupTwo = ({ isEdit, label, name, register, children }: SelectGroupTwoProps) => {
+const SelectGroup = ({ isEdit, label, name, register, children }: SelectGroupProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -31,7 +31,7 @@ const SelectGroupTwo = ({ isEdit, label, name, register, children }: SelectGroup
       </label>
 
       <div className="relative z-20 bg-white dark:bg-form-input">
-        <GlobalSvg />
+        <GlobalSvg className={ `${isEdit ? "absolute top-1/2 left-4 z-30 -translate-y-1/2" : "absolute top-1/2 right-4 z-30 -translate-y-1/2"}` }/>
 
         <select
           {...register(name)}
@@ -40,7 +40,7 @@ const SelectGroupTwo = ({ isEdit, label, name, register, children }: SelectGroup
             setSelectedOption(e.target.value);
             changeTextColor();
           }}
-          className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
+          className={`${isEdit ? "px-12" : "px-6"} relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
             isOptionSelected ? 'text-black dark:text-white' : ''
           }`}
         >
@@ -73,4 +73,4 @@ const SelectGroupTwo = ({ isEdit, label, name, register, children }: SelectGroup
   );
 };
 
-export default SelectGroupTwo;
+export default SelectGroup;

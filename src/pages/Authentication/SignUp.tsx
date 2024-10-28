@@ -7,14 +7,14 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import Email from '../../components/Forms/FormElements/Email';
 import FormInput from '../../components/Forms/FormElements/FormInput';
 import Password from '../../components/Forms/FormElements/Password';
-import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
+import SelectGroup from '../../components/Forms/SelectGroup/SelectGroup';
 
 import { AuthContext } from '../../context/authContext';
 import EmailSvg from '../../images/svg/EmailSvg';
 import { GET_COUNTRIES_AND_LANGUAGES, SIGN_UP_USER } from '../../queries/queries';
 import { ObjectGenericProps } from '../../types/sharedTypes';
 import { UserBaseProps, UserInfoType } from '../../types/userTypes';
-import AuthBase from '../AuthBase';
+import AuthBase from './components/AuthBase';
 import UserSvg from '../../images/svg/userSvg';
 import MobileSvg from '../../images/svg/MobileSvg';
 
@@ -63,7 +63,7 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Sign Up" />
+      <Breadcrumb pageNavigate="Authentication /" pageName="Sign Up" link="/auth/signup" />
 
       <AuthBase>
       <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
@@ -135,8 +135,8 @@ const SignUp: React.FC = () => {
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <SelectGroupTwo 
-                    isEdit={true}
+                  <SelectGroup
+                    isEdit={false}
                     register={register}
                     label="Select language*"
                     name="language"
@@ -150,10 +150,10 @@ const SignUp: React.FC = () => {
                           value={language?.id}>{language?.name}</option>
                         ))
                     }
-                  </SelectGroupTwo>
-                  <SelectGroupTwo 
+                  </SelectGroup>
+                  <SelectGroup 
                     name="country"
-                    isEdit={true}
+                    isEdit={false}
                     register={register}
                     label="Select country*"
                   >
@@ -165,7 +165,7 @@ const SignUp: React.FC = () => {
                           key={country?.id} value={country?.id}>{country?.country}</option>
                         ))
                     }
-                  </SelectGroupTwo>
+                  </SelectGroup>
                 </div>
 
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
@@ -197,7 +197,7 @@ const SignUp: React.FC = () => {
                   />
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                {/* <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"
@@ -232,7 +232,7 @@ const SignUp: React.FC = () => {
                     </svg>
                   </span>
                   Sign up with Google
-                </button>
+                </button> */}
 
                 <div className="mt-6 text-center">
                   <p>

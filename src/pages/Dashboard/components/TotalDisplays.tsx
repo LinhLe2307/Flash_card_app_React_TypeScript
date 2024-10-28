@@ -55,7 +55,7 @@ const TotalDisplays = () => {
             />
           </svg>
         </CardDataStats> */}
-        <CardDataStats title="Total Cards" total={allCards} rate="2.59%" levelUp>
+        <CardDataStats title="Total Cards" total={allCards} rate="" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -74,7 +74,7 @@ const TotalDisplays = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total={allUsers} rate="0.95%" levelDown>
+        <CardDataStats title="Total Users" total={allUsers} rate="" levelDown>
           <svg
             className="fill-primary dark:fill-white"
             width="22"

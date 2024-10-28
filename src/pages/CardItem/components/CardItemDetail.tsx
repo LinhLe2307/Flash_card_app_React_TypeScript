@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ObjectGenericProps } from '../../types/sharedTypes';
+import { ObjectGenericProps } from '../../../types/sharedTypes';
 
 const CardItemDetail = ({card}: {card: ObjectGenericProps<string>}) => {
     const [side, setSide] = useState(false);

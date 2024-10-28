@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserSvg = ({ className }) => {
   return (
-    <span className="absolute left-4.5 top-4">
+    <span className={className}>
         <svg
             className="fill-current"
             width="20"

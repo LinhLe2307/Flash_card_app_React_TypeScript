@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useContext } from 'react';
 
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import ImageUpload from '../components/Forms/FormElements/ImageUpload';
-import { AuthContext } from "../context/authContext";
-import { DELETE_USER, SINGLE_USER } from "../queries/queries";
-import UpdateSocialMedia from './SettingsElements/UpdateSocialMedia';
-import UpdateUser from './SettingsElements/UpdateUser';
-import UpdatePassword from './SettingsElements/UpdatePassword';
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import ImageUpload from '../../components/Forms/FormElements/ImageUpload';
+import { AuthContext } from "../../context/authContext";
+import { DELETE_USER, SINGLE_USER } from "../../queries/queries";
+import UpdateSocialMedia from './components/UpdateSocialMedia';
+import UpdateUser from './components/UpdateUser';
+import UpdatePassword from './components/UpdatePassword';
 
 const Settings = () => {
   const auth = useContext(AuthContext)
@@ -35,7 +35,7 @@ const Settings = () => {
   return (
     <>
       <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Settings" />
+        <Breadcrumb pageName="Settings"/>
 
         <div className="grid grid-cols-5 gap-8">
           <div className="col-span-5 xl:col-span-3">

@@ -2,6 +2,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import '@fontsource/raleway'; // Defaults to weight 400
+import '@fontsource/raleway/700.css'; // For weight 700
 
 import Loader from './common/Loader';
 import { AuthContext } from './context/authContext';
@@ -10,11 +12,11 @@ import DefaultLayout from './layout/DefaultLayout';
 import MainPage from './layout/MainPage';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
-import Settings from './pages/Settings';
+import Settings from './pages/Settings/Settings';
 import ForgotPasswordEmail from './pages/ForgotPassword/ForgotPasswordEmail';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import { ForgotPasswordProvider } from './context/passwordContext';
-import Cards from './pages/Cards/Cards';
+import MyCards from './pages/MyCards/MyCards';
 import CardItem from './pages/CardItem/CardItem';
 import NewCard from './pages/Flashcard/NewCard';
 import UpdateCard from './pages/Flashcard/UpdateCard';
@@ -26,6 +28,7 @@ function App() {
 
   const uploadLink = createUploadLink({
     uri: 'https://flash-card-app-nodejs.fly.dev/',
+    // uri: 'http://localhost:5068/',
     headers: {
       'apollo-require-preflight': 'true', // This header helps to bypass CSRF checks
     },
@@ -39,7 +42,7 @@ function App() {
 
   const commonRoutes = (
     <Route>
-      <Route path='/cards-user/:userId' element={<Cards/>}/>
+      <Route path='/cards-user/:userId' element={<MyCards />}/>
       <Route path='/card-detail/:cardId' element={<CardItem />}/>
       <Route path='/card/new' element={<NewCard/>}/>
     </Route>

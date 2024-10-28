@@ -2,21 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { UserBaseProps } from '../../types/userTypes';
-import { AuthContext } from '../../context/authContext';
-import FormInput from '../../components/Forms/FormElements/FormInput';
-import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
-import Email from '../../components/Forms/FormElements/Email';
-import FormTextarea from '../../components/Forms/FormElements/FormTextarea';
-import { ObjectGenericProps } from '../../types/sharedTypes';
-import { UserInfoType } from '../../types/userTypes'
-import { UPDATE_USER, GET_COUNTRIES_AND_LANGUAGES } from "../../queries/queries"
-import UserSvg from '../../images/svg/userSvg';
-import EmailSvg from '../../images/svg/EmailSvg';
-import MobileSvg from '../../images/svg/MobileSvg';
-import EditSvg from '../../images/svg/EditSvg';
-import SuccessAlert from '../../components/Alert/SuccessAlert';
-import FailedAlert from '../../components/Alert/FailedAlert';
+import { UserBaseProps } from '../../../types/userTypes';
+import { AuthContext } from '../../../context/authContext';
+import FormInput from '../../../components/Forms/FormElements/FormInput';
+import SelectGroup from '../../../components/Forms/SelectGroup/SelectGroup';
+import Email from '../../../components/Forms/FormElements/Email';
+import FormTextarea from '../../../components/Forms/FormElements/FormTextarea';
+import { ObjectGenericProps } from '../../../types/sharedTypes';
+import { UserInfoType } from '../../../types/userTypes'
+import { UPDATE_USER, GET_COUNTRIES_AND_LANGUAGES } from "../../../queries/queries"
+import UserSvg from '../../../images/svg/userSvg';
+import EmailSvg from '../../../images/svg/EmailSvg';
+import MobileSvg from '../../../images/svg/MobileSvg';
+import EditSvg from '../../../images/svg/EditSvg';
+import SuccessAlert from '../../../components/Alert/SuccessAlert';
+import FailedAlert from '../../../components/Alert/FailedAlert';
 
 const UpdateUser = ({ data, userDetail }) => {
     const auth = useContext(AuthContext)
@@ -147,25 +147,25 @@ const UpdateUser = ({ data, userDetail }) => {
                         </Email>
                     </div>
                     <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                        <SelectGroupTwo
+                        <SelectGroup
                             name="language" 
                             isEdit={true}
                             label="Select language*"
                             register={register}
-                        >
+                            >
                         {
                             languages 
-                                && languages.map((language: ObjectGenericProps<string>) => (
+                            && languages.map((language: ObjectGenericProps<string>) => (
                                 <option 
-                                    className="text-body dark:text-bodydark"
-                                    key={language?.id} 
-                                    value={language.id}
+                                className="text-body dark:text-bodydark"
+                                key={language?.id} 
+                                value={language.id}
                                 > {language?.name.trim()}
                                 </option>
                             ))
                         }
-                        </SelectGroupTwo>
-                        <SelectGroupTwo
+                        </SelectGroup>
+                        <SelectGroup
                             name="country" 
                             isEdit={true}
                             label="Select country*"
@@ -180,7 +180,7 @@ const UpdateUser = ({ data, userDetail }) => {
                             >{country?.country.trim()}</option>
                             ))
                         }
-                        </SelectGroupTwo>
+                        </SelectGroup>
                     </div>
 
                     <FormTextarea 

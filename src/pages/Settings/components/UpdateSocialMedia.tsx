@@ -2,18 +2,18 @@ import { useMutation } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import FormInput from '../../components/Forms/FormElements/FormInput';
-import { AuthContext } from '../../context/authContext';
-import { UPDATE_SOCIAL_MEDIA } from '../../queries/queries';
-import { SocialMediaType, UserBaseProps } from '../../types/userTypes';
-import SuccessAlert from '../../components/Alert/SuccessAlert';
-import FailedAlert from '../../components/Alert/FailedAlert';
+import FormInput from '../../../components/Forms/FormElements/FormInput';
+import { AuthContext } from '../../../context/authContext';
+import { UPDATE_SOCIAL_MEDIA } from '../../../queries/queries';
+import { SocialMediaType, UserBaseProps } from '../../../types/userTypes';
+import SuccessAlert from '../../../components/Alert/SuccessAlert';
+import FailedAlert from '../../../components/Alert/FailedAlert';
 
-import GithubSvg from '../../images/svg/GithubSvg';
-import InstagramSvg from '../../images/svg/InstagramSvg';
-import LinkedInSvg from '../../images/svg/LinkedInSvg';
-import LinkSvg from '../../images/svg/LinkSvg';
-import XSvg from '../../images/svg/XSvg';
+import GithubSvg from '../../../images/svg/GithubSvg';
+import InstagramSvg from '../../../images/svg/InstagramSvg';
+import LinkedInSvg from '../../../images/svg/LinkedInSvg';
+import LinkSvg from '../../../images/svg/LinkSvg';
+import XSvg from '../../../images/svg/XSvg';
 
 const UpdateSocialMedia = ({ data, userDetail }) => {
     const auth = useContext(AuthContext)
