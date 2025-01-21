@@ -11,7 +11,7 @@ import FormTextarea from '../../../components/Forms/FormElements/FormTextarea';
 import { ObjectGenericProps } from '../../../types/sharedTypes';
 import { UserInfoType } from '../../../types/userTypes'
 import { UPDATE_USER, GET_COUNTRIES_AND_LANGUAGES } from "../../../queries/queries"
-import UserSvg from '../../../images/svg/userSvg';
+import UserSvg from '../../../images/svg/UserSvg';
 import EmailSvg from '../../../images/svg/EmailSvg';
 import MobileSvg from '../../../images/svg/MobileSvg';
 import EditSvg from '../../../images/svg/EditSvg';
