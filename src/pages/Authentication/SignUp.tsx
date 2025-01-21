@@ -15,7 +15,7 @@ import { GET_COUNTRIES_AND_LANGUAGES, SIGN_UP_USER } from '../../queries/queries
 import { ObjectGenericProps } from '../../types/sharedTypes';
 import { UserBaseProps, UserInfoType } from '../../types/userTypes';
 import AuthBase from './components/AuthBase';
-import UserSvg from '../../images/svg/userSvg';
+import UserSvg from '../../images/svg/UserSvg';
 import MobileSvg from '../../images/svg/MobileSvg';
 
 const SignUp: React.FC = () => {
