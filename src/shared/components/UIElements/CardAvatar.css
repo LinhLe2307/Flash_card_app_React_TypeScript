@@ -1,9 +1,0 @@
-.card {
-    position: relative;
-    margin: 0;
-    box-shadow: var(--box-shadow);
-    border-radius: 15px;
-    padding: 1rem;
-    overflow: hidden;
-    background-color: var(--thd-color-violet-10);
-  }

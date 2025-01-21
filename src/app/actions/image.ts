@@ -1,4 +1,4 @@
-import { FetchImagePayload, ImageInputValueProps, InputIdTypes, OpenUnsplashPayload, FetchSuccessPayload, SearchKeywordPayload } from "../../shared/types/imageTypes"
+import { FetchImagePayload, ImageInputValueProps, InputIdTypes, OpenUnsplashPayload, FetchSuccessPayload, SearchKeywordPayload } from "../../types/imageTypes"
 
 export const openUnsplashImage = (image: OpenUnsplashPayload) => {
     return {
